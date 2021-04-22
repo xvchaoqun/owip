@@ -9,15 +9,15 @@
         <o:Revision>2</o:Revision>
         <o:TotalTime>0</o:TotalTime>
         <o:LastPrinted>2020-12-22T03:42:00Z</o:LastPrinted>
-        <o:Created>2021-04-21T08:19:00Z</o:Created>
-        <o:LastSaved>2021-04-21T08:19:00Z</o:LastSaved>
+        <o:Created>2021-04-22T01:39:00Z</o:Created>
+        <o:LastSaved>2021-04-22T01:39:00Z</o:LastSaved>
         <o:Pages>1</o:Pages>
-        <o:Words>87</o:Words>
-        <o:Characters>498</o:Characters>
+        <o:Words>151</o:Words>
+        <o:Characters>863</o:Characters>
         <o:Company>Microsoft</o:Company>
-        <o:Lines>4</o:Lines>
-        <o:Paragraphs>1</o:Paragraphs>
-        <o:CharactersWithSpaces>584</o:CharactersWithSpaces>
+        <o:Lines>7</o:Lines>
+        <o:Paragraphs>2</o:Paragraphs>
+        <o:CharactersWithSpaces>1012</o:CharactersWithSpaces>
         <o:Version>16</o:Version>
     </o:DocumentProperties>
     <w:fonts>
@@ -27,7 +27,7 @@
             <w:charset w:val="00"/>
             <w:family w:val="Roman"/>
             <w:pitch w:val="variable"/>
-            <w:sig w:usb-0="E0002EFF" w:usb-1="C000785B" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000"/>
+            <w:sig w:usb-0="E0002AFF" w:usb-1="C0007843" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000"/>
         </w:font>
         <w:font w:name="宋体">
             <w:altName w:val="SimSun"/>
@@ -57,7 +57,7 @@
             <w:charset w:val="00"/>
             <w:family w:val="Swiss"/>
             <w:pitch w:val="variable"/>
-            <w:sig w:usb-0="E4002EFF" w:usb-1="C000247B" w:usb-2="00000009" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000"/>
+            <w:sig w:usb-0="E0002AFF" w:usb-1="4000ACFF" w:usb-2="00000001" w:usb-3="00000000" w:csb-0="000001FF" w:csb-1="00000000"/>
         </w:font>
         <w:font w:name="华文中宋">
             <w:panose-1 w:val="02010600040101010101"/>
@@ -66,7 +66,7 @@
             <w:pitch w:val="variable"/>
             <w:sig w:usb-0="00000287" w:usb-1="080F0000" w:usb-2="00000010" w:usb-3="00000000" w:csb-0="0004009F" w:csb-1="00000000"/>
         </w:font>
-        <w:font w:name="仿宋_GB2312">
+        <w:font w:name="黑体">
             <w:panose-1 w:val="02010609030101010101"/>
             <w:charset w:val="86"/>
             <w:family w:val="Modern"/>
@@ -93,7 +93,14 @@
             <w:pitch w:val="variable"/>
             <w:sig w:usb-0="00000287" w:usb-1="080F0000" w:usb-2="00000010" w:usb-3="00000000" w:csb-0="0004009F" w:csb-1="00000000"/>
         </w:font>
-        <w:font w:name="@仿宋_GB2312">
+        <w:font w:name="Wingdings 2">
+            <w:panose-1 w:val="05020102010507070707"/>
+            <w:charset w:val="02"/>
+            <w:family w:val="Roman"/>
+            <w:pitch w:val="variable"/>
+            <w:sig w:usb-0="00000000" w:usb-1="10000000" w:usb-2="00000000" w:usb-3="00000000" w:csb-0="80000000" w:csb-1="00000000"/>
+        </w:font>
+        <w:font w:name="@黑体">
             <w:charset w:val="86"/>
             <w:family w:val="Modern"/>
             <w:pitch w:val="fixed"/>
@@ -654,14 +661,14 @@
         </w:hdrShapeDefaults>
         <w:footnotePr>
             <w:footnote w:type="separator">
-                <w:p wsp:rsidR="008423E6" wsp:rsidRDefault="008423E6">
+                <w:p wsp:rsidR="001057CD" wsp:rsidRDefault="001057CD">
                     <w:r>
                         <w:separator/>
                     </w:r>
                 </w:p>
             </w:footnote>
             <w:footnote w:type="continuation-separator">
-                <w:p wsp:rsidR="008423E6" wsp:rsidRDefault="008423E6">
+                <w:p wsp:rsidR="001057CD" wsp:rsidRDefault="001057CD">
                     <w:r>
                         <w:continuationSeparator/>
                     </w:r>
@@ -670,14 +677,14 @@
         </w:footnotePr>
         <w:endnotePr>
             <w:endnote w:type="separator">
-                <w:p wsp:rsidR="008423E6" wsp:rsidRDefault="008423E6">
+                <w:p wsp:rsidR="001057CD" wsp:rsidRDefault="001057CD">
                     <w:r>
                         <w:separator/>
                     </w:r>
                 </w:p>
             </w:endnote>
             <w:endnote w:type="continuation-separator">
-                <w:p wsp:rsidR="008423E6" wsp:rsidRDefault="008423E6">
+                <w:p wsp:rsidR="001057CD" wsp:rsidRDefault="001057CD">
                     <w:r>
                         <w:continuationSeparator/>
                     </w:r>
@@ -700,10 +707,8 @@
         </w:compat>
         <wsp:rsids>
             <wsp:rsidRoot wsp:val="000531ED"/>
-            <wsp:rsid wsp:val="000042BB"/>
             <wsp:rsid wsp:val="00006222"/>
             <wsp:rsid wsp:val="00027061"/>
-            <wsp:rsid wsp:val="00031F30"/>
             <wsp:rsid wsp:val="00034958"/>
             <wsp:rsid wsp:val="000462A7"/>
             <wsp:rsid wsp:val="00050C07"/>
@@ -719,17 +724,18 @@
             <wsp:rsid wsp:val="000A39A4"/>
             <wsp:rsid wsp:val="000A4F68"/>
             <wsp:rsid wsp:val="000A599B"/>
+            <wsp:rsid wsp:val="000B1C15"/>
             <wsp:rsid wsp:val="000B61CD"/>
             <wsp:rsid wsp:val="000C1907"/>
             <wsp:rsid wsp:val="000C74CA"/>
             <wsp:rsid wsp:val="000D0899"/>
             <wsp:rsid wsp:val="000D1326"/>
             <wsp:rsid wsp:val="000E101F"/>
-            <wsp:rsid wsp:val="000E3313"/>
             <wsp:rsid wsp:val="000E3340"/>
             <wsp:rsid wsp:val="000F1E0D"/>
             <wsp:rsid wsp:val="000F4D20"/>
             <wsp:rsid wsp:val="00103945"/>
+            <wsp:rsid wsp:val="001057CD"/>
             <wsp:rsid wsp:val="00110302"/>
             <wsp:rsid wsp:val="00113C7D"/>
             <wsp:rsid wsp:val="00116BF2"/>
@@ -768,6 +774,7 @@
             <wsp:rsid wsp:val="00243897"/>
             <wsp:rsid wsp:val="002439AA"/>
             <wsp:rsid wsp:val="00245444"/>
+            <wsp:rsid wsp:val="00247F77"/>
             <wsp:rsid wsp:val="00252A9D"/>
             <wsp:rsid wsp:val="00255F08"/>
             <wsp:rsid wsp:val="00257493"/>
@@ -788,9 +795,9 @@
             <wsp:rsid wsp:val="003268B6"/>
             <wsp:rsid wsp:val="003305C2"/>
             <wsp:rsid wsp:val="003347A6"/>
+            <wsp:rsid wsp:val="00341D51"/>
             <wsp:rsid wsp:val="00353414"/>
             <wsp:rsid wsp:val="00356830"/>
-            <wsp:rsid wsp:val="0035762F"/>
             <wsp:rsid wsp:val="0036746D"/>
             <wsp:rsid wsp:val="00372A48"/>
             <wsp:rsid wsp:val="00377ECE"/>
@@ -880,8 +887,10 @@
             <wsp:rsid wsp:val="00710F8F"/>
             <wsp:rsid wsp:val="00722968"/>
             <wsp:rsid wsp:val="00724736"/>
+            <wsp:rsid wsp:val="00731773"/>
             <wsp:rsid wsp:val="00732D2D"/>
             <wsp:rsid wsp:val="00733D3C"/>
+            <wsp:rsid wsp:val="0073447D"/>
             <wsp:rsid wsp:val="00742E8C"/>
             <wsp:rsid wsp:val="00747C12"/>
             <wsp:rsid wsp:val="00752EB6"/>
@@ -902,7 +911,6 @@
             <wsp:rsid wsp:val="00822C6F"/>
             <wsp:rsid wsp:val="0082336E"/>
             <wsp:rsid wsp:val="008371A3"/>
-            <wsp:rsid wsp:val="008423E6"/>
             <wsp:rsid wsp:val="0084425B"/>
             <wsp:rsid wsp:val="00853CC2"/>
             <wsp:rsid wsp:val="0086051D"/>
@@ -916,6 +924,7 @@
             <wsp:rsid wsp:val="008B4B51"/>
             <wsp:rsid wsp:val="008B7728"/>
             <wsp:rsid wsp:val="008C2F03"/>
+            <wsp:rsid wsp:val="008C38DD"/>
             <wsp:rsid wsp:val="008C4D6D"/>
             <wsp:rsid wsp:val="008D577C"/>
             <wsp:rsid wsp:val="008F2637"/>
@@ -925,7 +934,6 @@
             <wsp:rsid wsp:val="009129BC"/>
             <wsp:rsid wsp:val="00930203"/>
             <wsp:rsid wsp:val="00933523"/>
-            <wsp:rsid wsp:val="00941B31"/>
             <wsp:rsid wsp:val="00943660"/>
             <wsp:rsid wsp:val="00951F7A"/>
             <wsp:rsid wsp:val="00967883"/>
@@ -947,7 +955,6 @@
             <wsp:rsid wsp:val="00A210BE"/>
             <wsp:rsid wsp:val="00A2516D"/>
             <wsp:rsid wsp:val="00A27DEF"/>
-            <wsp:rsid wsp:val="00A3021D"/>
             <wsp:rsid wsp:val="00A36606"/>
             <wsp:rsid wsp:val="00A371F4"/>
             <wsp:rsid wsp:val="00A50509"/>
@@ -964,7 +971,6 @@
             <wsp:rsid wsp:val="00B4088E"/>
             <wsp:rsid wsp:val="00B40A34"/>
             <wsp:rsid wsp:val="00B46AD9"/>
-            <wsp:rsid wsp:val="00B4765E"/>
             <wsp:rsid wsp:val="00B556AA"/>
             <wsp:rsid wsp:val="00B601D3"/>
             <wsp:rsid wsp:val="00B620B1"/>
@@ -976,7 +982,9 @@
             <wsp:rsid wsp:val="00B95AA6"/>
             <wsp:rsid wsp:val="00BA08C9"/>
             <wsp:rsid wsp:val="00BA15EB"/>
+            <wsp:rsid wsp:val="00BA3DB9"/>
             <wsp:rsid wsp:val="00BA3DEB"/>
+            <wsp:rsid wsp:val="00BA75AA"/>
             <wsp:rsid wsp:val="00BB3C6C"/>
             <wsp:rsid wsp:val="00BB65CA"/>
             <wsp:rsid wsp:val="00BB6DBC"/>
@@ -985,7 +993,7 @@
             <wsp:rsid wsp:val="00C12B6C"/>
             <wsp:rsid wsp:val="00C173A9"/>
             <wsp:rsid wsp:val="00C17CA3"/>
-            <wsp:rsid wsp:val="00C30A32"/>
+            <wsp:rsid wsp:val="00C17CBE"/>
             <wsp:rsid wsp:val="00C3122B"/>
             <wsp:rsid wsp:val="00C37781"/>
             <wsp:rsid wsp:val="00C42F06"/>
@@ -994,16 +1002,17 @@
             <wsp:rsid wsp:val="00C66136"/>
             <wsp:rsid wsp:val="00C705F1"/>
             <wsp:rsid wsp:val="00C76D58"/>
+            <wsp:rsid wsp:val="00C77BE8"/>
+            <wsp:rsid wsp:val="00C92A40"/>
             <wsp:rsid wsp:val="00C96996"/>
+            <wsp:rsid wsp:val="00CA21FA"/>
             <wsp:rsid wsp:val="00CB67B9"/>
             <wsp:rsid wsp:val="00CB688E"/>
-            <wsp:rsid wsp:val="00CC107A"/>
             <wsp:rsid wsp:val="00CC1A00"/>
             <wsp:rsid wsp:val="00CC3B6F"/>
             <wsp:rsid wsp:val="00CD7BC4"/>
             <wsp:rsid wsp:val="00D01FA9"/>
             <wsp:rsid wsp:val="00D021A9"/>
-            <wsp:rsid wsp:val="00D0279A"/>
             <wsp:rsid wsp:val="00D035B9"/>
             <wsp:rsid wsp:val="00D038F3"/>
             <wsp:rsid wsp:val="00D06ADB"/>
@@ -1049,7 +1058,6 @@
             <wsp:rsid wsp:val="00F01DA0"/>
             <wsp:rsid wsp:val="00F0570F"/>
             <wsp:rsid wsp:val="00F07667"/>
-            <wsp:rsid wsp:val="00F17E86"/>
             <wsp:rsid wsp:val="00F2386C"/>
             <wsp:rsid wsp:val="00F24E41"/>
             <wsp:rsid wsp:val="00F270BB"/>
@@ -1061,6 +1069,7 @@
             <wsp:rsid wsp:val="00F97DA6"/>
             <wsp:rsid wsp:val="00FA5551"/>
             <wsp:rsid wsp:val="00FA5935"/>
+            <wsp:rsid wsp:val="00FA6A9E"/>
             <wsp:rsid wsp:val="00FB43D6"/>
             <wsp:rsid wsp:val="00FB7B8C"/>
             <wsp:rsid wsp:val="00FC5298"/>
@@ -1074,8 +1083,9 @@
     </w:docPr>
     <w:body>
         <wx:sect>
-            <w:p wsp:rsidR="000531ED" wsp:rsidRPr="00733D3C" wsp:rsidRDefault="000531ED" wsp:rsidP="00031F30">
+            <w:p wsp:rsidR="000531ED" wsp:rsidRPr="00733D3C" wsp:rsidRDefault="000531ED" wsp:rsidP="000531ED">
                 <w:pPr>
+                    <w:jc w:val="center"/>
                     <w:rPr>
                         <w:rFonts w:ascii="Times New Roman" w:fareast="华文中宋" w:h-ansi="Times New Roman"/>
                         <wx:font wx:val="Times New Roman"/>
@@ -1083,6 +1093,15 @@
                         <w:sz-cs w:val="36"/>
                     </w:rPr>
                 </w:pPr>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="华文中宋" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="华文中宋"/>
+                        <w:sz w:val="40"/>
+                        <w:sz-cs w:val="36"/>
+                    </w:rPr>
+                    <w:t>${schoolName!}中层领导人员兼职审批表</w:t>
+                </w:r>
             </w:p>
             <w:tbl>
                 <w:tblPr>
@@ -1099,40 +1118,43 @@
                     <w:tblLook w:val="04A0"/>
                 </w:tblPr>
                 <w:tblGrid>
-                    <w:gridCol w:w="1129"/>
-                    <w:gridCol w:w="1560"/>
+                    <w:gridCol w:w="1053"/>
+                    <w:gridCol w:w="1904"/>
+                    <w:gridCol w:w="284"/>
+                    <w:gridCol w:w="421"/>
+                    <w:gridCol w:w="986"/>
                     <w:gridCol w:w="567"/>
-                    <w:gridCol w:w="567"/>
-                    <w:gridCol w:w="283"/>
-                    <w:gridCol w:w="567"/>
-                    <w:gridCol w:w="567"/>
-                    <w:gridCol w:w="847"/>
-                    <w:gridCol w:w="996"/>
-                    <w:gridCol w:w="2268"/>
+                    <w:gridCol w:w="301"/>
+                    <w:gridCol w:w="594"/>
+                    <w:gridCol w:w="846"/>
+                    <w:gridCol w:w="141"/>
+                    <w:gridCol w:w="704"/>
+                    <w:gridCol w:w="702"/>
+                    <w:gridCol w:w="848"/>
                 </w:tblGrid>
-                <w:tr wsp:rsidR="008423E6" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
                     </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
+                            <w:tcW w:w="1055" w:type="dxa"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="001F55FF" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
@@ -1142,96 +1164,98 @@
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1560" w:type="dxa"/>
+                            <w:tcW w:w="1915" w:type="dxa"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="006A48D2" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="006A48D2" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${username!}</w:t>
+                                <w:t></w:t>
                             </w:r>
+                            <w:r wsp:rsidR="00CA21FA" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${userName!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1134" w:type="dxa"/>
+                            <w:tcW w:w="709" w:type="dxa"/>
                             <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="001F55FF" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>工</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00031F30" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>作证</w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>号</w:t>
+                                <w:t>工号</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1417" w:type="dxa"/>
-                            <w:gridSpan w:val="3"/>
+                            <w:tcW w:w="1561" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -1239,7 +1263,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -1252,317 +1276,233 @@
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="847" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>性别</w:t>
+                                <w:t>单位</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="3264" w:type="dxa"/>
-                            <w:gridSpan w:val="2"/>
+                            <w:gridSpan w:val="5"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${sex!}</w:t>
+                                <w:t>${unitName!}</w:t>
                             </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
                         </w:p>
                     </w:tc>
                 </w:tr>
-                <w:tr wsp:rsidR="008423E6" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
                     </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
+                            <w:tcW w:w="1055" w:type="dxa"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:spacing w:line="240" w:line-rule="exact"/>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>身份证号</w:t>
+                                <w:t>职务及职称</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="2977" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
+                            <w:tcW w:w="6028" w:type="dxa"/>
+                            <w:gridSpan w:val="9"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00C77BE8" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${idCard!}</w:t>
+                                <w:t>${unitPost!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="2977" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>联系电话</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
                             <w:tcW w:w="2268" w:type="dxa"/>
+                            <w:gridSpan w:val="3"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00733D3C" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+
+                            <#if post == true>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            </#if>
+                            <#if post == false>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t></w:t>
+                                <w:t>正职</w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>  </w:t>
+                            </w:r>
+                            <#if post == false>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            </#if>
+
+                            <#if post == true>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${phone!}</w:t>
+                                <w:t>副职</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                 </w:tr>
-
-                <w:tr wsp:rsidR="008423E6" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
                     </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:spacing w:line="240" w:line-rule="exact"/>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>工作单位及职务</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2977" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${title!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2977" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>行政级别</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2268" w:type="dxa"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${level!}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-
-
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
+                            <w:tcW w:w="1055" w:type="dxa"/>
                             <w:vmerge w:val="restart"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
@@ -1571,16 +1511,16 @@
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>申报</w:t>
+                                <w:t>已有</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
@@ -1589,7 +1529,7 @@
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
@@ -1598,7 +1538,7 @@
                                 <w:t>兼职</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
@@ -1607,7 +1547,1136 @@
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>情况</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>( ${total}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="gramStart"/>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>个</w:t>
+                            </w:r>
+                            <w:proofErr w:type="gramEnd"/>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>)</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="3618" w:type="dxa"/>
+                            <w:gridSpan w:val="4"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>兼职单位及职务</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1414" w:type="dxa"/>
+                            <w:gridSpan w:val="3"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>审批单位</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2413" w:type="dxa"/>
+                            <w:gridSpan w:val="4"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>兼职起止年月</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="851" w:type="dxa"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00733D3C" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>是否</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>取酬</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                </w:tr>
+
+                <#list cadreParttimes as cadreParttime>
+                    <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
+                        <w:trPr>
+                            <w:trHeight w:val="454"/>
+                            <w:jc w:val="center"/>
+                        </w:trPr>
+                        <w:tc>
+                            <w:tcPr>
+                                <w:tcW w:w="1055" w:type="dxa"/>
+                                <w:vmerge/>
+                                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                                <w:vAlign w:val="center"/>
+                            </w:tcPr>
+                            <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                                <w:pPr>
+                                    <w:jc w:val="center"/>
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                </w:pPr>
+                            </w:p>
+                        </w:tc>
+                        <w:tc>
+                            <w:tcPr>
+                                <w:tcW w:w="3618" w:type="dxa"/>
+                                <w:gridSpan w:val="4"/>
+                                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                                <w:vAlign w:val="center"/>
+                            </w:tcPr>
+                            <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
+                                <w:pPr>
+                                    <w:jc w:val="center"/>
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                </w:pPr>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>${cadreParttime.post}</w:t>
+                                </w:r>
+                            </w:p>
+                        </w:tc>
+                        <w:tc>
+                            <w:tcPr>
+                                <w:tcW w:w="1414" w:type="dxa"/>
+                                <w:gridSpan w:val="3"/>
+                                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                                <w:vAlign w:val="center"/>
+                            </w:tcPr>
+                            <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
+                                <w:pPr>
+                                    <w:jc w:val="center"/>
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                </w:pPr>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t></w:t>
+                                </w:r>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>${cadreParttime.approvalUnit}</w:t>
+                                </w:r>
+                            </w:p>
+                        </w:tc>
+                        <w:tc>
+                            <w:tcPr>
+                                <w:tcW w:w="2413" w:type="dxa"/>
+                                <w:gridSpan w:val="4"/>
+                                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                                <w:vAlign w:val="center"/>
+                            </w:tcPr>
+                            <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
+                                <w:pPr>
+                                    <w:jc w:val="center"/>
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                </w:pPr>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t><#if cadreParttime.startTime ??>${cadreParttime.startTime?string('yyyy-MM-dd')}</#if>至<#if cadreParttime.finishTime ??>${cadreParttime.finishTime}</#if> </w:t>
+                                </w:r>
+                            </w:p>
+                        </w:tc>
+                        <w:tc>
+                            <w:tcPr>
+                                <w:tcW w:w="851" w:type="dxa"/>
+                                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                                <w:vAlign w:val="center"/>
+                            </w:tcPr>
+                            <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">
+                                <w:pPr>
+                                    <w:jc w:val="center"/>
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                </w:pPr>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                        <wx:font wx:val="Times New Roman"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t><#if cadreParttime.hasPay??><#if cadreParttime.hasPay == true>是<#else>否</#if></#if></w:t>
+                                </w:r>
+                            </w:p>
+                        </w:tc>
+                    </w:tr>
+                </#list>
+                <#--                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">-->
+                <#--                    <w:trPr>-->
+                <#--                        <w:trHeight w:val="454"/>-->
+                <#--                        <w:jc w:val="center"/>-->
+                <#--                    </w:trPr>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1055" w:type="dxa"/>-->
+                <#--                            <w:vmerge/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="004D5EB2" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="3618" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>arttime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>2</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1414" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="3"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>a</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>pproverUnit</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>2</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="2413" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>T</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>2</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="851" w:type="dxa"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ay</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>2</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                </w:tr>-->
+                <#--                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">-->
+                <#--                    <w:trPr>-->
+                <#--                        <w:trHeight w:val="454"/>-->
+                <#--                        <w:jc w:val="center"/>-->
+                <#--                    </w:trPr>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1055" w:type="dxa"/>-->
+                <#--                            <w:vmerge/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="004D5EB2" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="3618" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>arttime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>3</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1414" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="3"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>a</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>pproverUnit</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>3</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="2413" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>T</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>3</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="851" w:type="dxa"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ay</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>3</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                </w:tr>-->
+                <#--                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">-->
+                <#--                    <w:trPr>-->
+                <#--                        <w:trHeight w:val="454"/>-->
+                <#--                        <w:jc w:val="center"/>-->
+                <#--                    </w:trPr>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1055" w:type="dxa"/>-->
+                <#--                            <w:vmerge/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="004D5EB2" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="3618" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>arttime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>4</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1414" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="3"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>a</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>pproverUnit</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>4</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="2413" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>T</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>4</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="851" w:type="dxa"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ay</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>4</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                </w:tr>-->
+                <#--                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">-->
+                <#--                    <w:trPr>-->
+                <#--                        <w:trHeight w:val="454"/>-->
+                <#--                        <w:jc w:val="center"/>-->
+                <#--                    </w:trPr>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1055" w:type="dxa"/>-->
+                <#--                            <w:vmerge/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="004D5EB2" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="3618" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>arttime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>5</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="1414" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="3"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>a</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>pproverUnit</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>5</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="2413" w:type="dxa"/>-->
+                <#--                            <w:gridSpan w:val="4"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>T</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ime</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>5</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                    <w:tc>-->
+                <#--                        <w:tcPr>-->
+                <#--                            <w:tcW w:w="851" w:type="dxa"/>-->
+                <#--                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>-->
+                <#--                            <w:vAlign w:val="center"/>-->
+                <#--                        </w:tcPr>-->
+                <#--                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="0073447D" wsp:rsidP="008C38DD">-->
+                <#--                            <w:pPr>-->
+                <#--                                <w:jc w:val="center"/>-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                            </w:pPr>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>p</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>ay</w:t>-->
+                <#--                            </w:r>-->
+                <#--                            <w:r wsp:rsidRPr="008C38DD">-->
+                <#--                                <w:rPr>-->
+                <#--                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>-->
+                <#--                                    <wx:font wx:val="Times New Roman"/>-->
+                <#--                                    <w:sz-cs w:val="21"/>-->
+                <#--                                </w:rPr>-->
+                <#--                                <w:t>5</w:t>-->
+                <#--                            </w:r>-->
+                <#--                        </w:p>-->
+                <#--                    </w:tc>-->
+                <#--                </w:tr>-->
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
+                    <w:trPr>
+                        <w:trHeight w:val="454"/>
+                        <w:jc w:val="center"/>
+                    </w:trPr>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1055" w:type="dxa"/>
+                            <w:vmerge w:val="restart"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>申报</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="004D5EB2" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>兼职</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
@@ -1619,84 +2688,245 @@
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
+                            <w:tcW w:w="2201" w:type="dxa"/>
                             <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="001F55FF" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>是否首次</w:t>
+                                <w:t>兼职</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00EE4AB1" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>单位</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>类别</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
+                            <w:gridSpan w:val="10"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00733D3C" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <#if type == 0>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t></w:t>
+                                <w:t>社会团体</w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>  </w:t>
+                            </w:r>
+                            <#if type == 1>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>${isFirst!}</w:t>
+                                <w:t>基金会</w:t>
                             </w:r>
-                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>  </w:t>
+                            </w:r>
+                            <#if type == 2>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>民办非企业单位</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>  </w:t>
+                            </w:r>
+                            <#if type == 3>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="001F55FF" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>企业</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t> </w:t>
+                            </w:r>
+                            <#--                            <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">-->
+                            <#--                                <w:rPr>-->
+                            <#--                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>-->
+                            <#--                                    <wx:font wx:val="黑体"/>-->
+                            <#--                                    <w:sz w:val="24"/>-->
+                            <#--                                    <w:sz-cs w:val="24"/>-->
+                            <#--                                </w:rPr>-->
+                            <#--                                <w:sym w:font="Wingdings 2" w:char="F052"/>-->
+                            <#--                            </w:r>-->
+                            <#--                            <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">-->
+                            <#--                                <w:rPr>-->
+                            <#--                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>-->
+                            <#--                                    <wx:font wx:val="黑体"/>-->
+                            <#--                                    <w:sz w:val="24"/>-->
+                            <#--                                    <w:sz-cs w:val="24"/>-->
+                            <#--                                </w:rPr>-->
+                            <#--                                <w:t>测试</w:t>-->
+                            <#--                            </w:r>-->
                         </w:p>
                     </w:tc>
                 </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
                     </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
+                            <w:tcW w:w="1055" w:type="dxa"/>
                             <w:vmerge/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
@@ -1705,23 +2935,290 @@
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
+                            <w:tcW w:w="2201" w:type="dxa"/>
                             <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>兼职单位及职务</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="6095" w:type="dxa"/>
+                            <w:gridSpan w:val="10"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00C77BE8" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${title!}</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                </w:tr>
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
+                    <w:trPr>
+                        <w:trHeight w:val="454"/>
+                        <w:jc w:val="center"/>
+                    </w:trPr>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1055" w:type="dxa"/>
+                            <w:vmerge/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2201" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>兼职起止年月</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="6095" w:type="dxa"/>
+                            <w:gridSpan w:val="10"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="00C77BE8" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00C77BE8" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${startTime!}</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00EE4AB1" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>—</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00C77BE8" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${endTime!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00733D3C" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>（</w:t>
+                            </w:r>
+                            <#if isFirst == true>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00733D3C" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>首次</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00733D3C" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t> / </w:t>
+                            </w:r>
+                            <#if isFirst == false>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00733D3C" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>连任）</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                </w:tr>
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
+                    <w:trPr>
+                        <w:trHeight w:val="454"/>
+                        <w:jc w:val="center"/>
+                    </w:trPr>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1055" w:type="dxa"/>
+                            <w:vmerge/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="2201" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
@@ -1731,202 +3228,289 @@
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${background!}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                                    <wx:font wx:val="Times New Roman"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
+                            <w:tcW w:w="1417" w:type="dxa"/>
                             <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00733D3C" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>是否取酬</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${hasPay!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="586"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
+
+                            <#if background == true>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>是</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t> </w:t>
+                            </w:r>
+                            <#if background == false>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>否</w:t>
+                            </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
+                            <w:tcW w:w="851" w:type="dxa"/>
                             <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>取酬金额</w:t>
+                                <w:t>是否</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>取酬</w:t>
                             </w:r>
                         </w:p>
                     </w:tc>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
+                            <w:tcW w:w="1417" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                             <w:vAlign w:val="center"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00733D3C" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="center"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <#if hasPay == true>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>是</w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t> </w:t>
+                            </w:r>
+                            <#if hasPay == false>
+                                <w:r wsp:rsidR="00BA75AA" wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz w:val="24"/>
+                                        <w:sz-cs w:val="24"/>
+                                    </w:rPr>
+                                    <w:sym w:font="Wingdings 2" w:char="F052"/>
+                                </w:r>
+                            <#else>
+                                <w:r wsp:rsidRPr="008C38DD">
+                                    <w:rPr>
+                                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                        <wx:font wx:val="黑体"/>
+                                        <w:sz-cs w:val="21"/>
+                                    </w:rPr>
+                                    <w:t>□</w:t>
+                                </w:r>
+                            </#if>
+                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>否</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="851" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>取酬</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="240" w:line-rule="exact"/>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>金额</w:t>
+                            </w:r>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="1559" w:type="dxa"/>
+                            <w:gridSpan w:val="2"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                            <w:vAlign w:val="center"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00FE388A" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="center"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t>${balance!}</w:t>
@@ -1934,401 +3518,57 @@
                         </w:p>
                     </w:tc>
                 </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                                    <wx:font wx:val="Times New Roman"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
-                            <w:gridSpan w:val="2"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>申请理由</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${reson!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                                    <wx:font wx:val="Times New Roman"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
-                            <w:gridSpan w:val="2"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>备注</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${remark!}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                                    <wx:font wx:val="Times New Roman"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
-                            <w:gridSpan w:val="2"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>其他说明材料</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${files!}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00031F30" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
-                    <w:trPr>
-                        <w:trHeight w:val="454"/>
-                        <w:jc w:val="center"/>
-                    </w:trPr>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="1129" w:type="dxa"/>
-                            <w:vmerge/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
-                                    <wx:font wx:val="Times New Roman"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="2127" w:type="dxa"/>
-                            <w:gridSpan w:val="2"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>申请人签字</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                    <w:tc>
-                        <w:tcPr>
-                            <w:tcW w:w="6095" w:type="dxa"/>
-                            <w:gridSpan w:val="7"/>
-                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                            <w:vAlign w:val="center"/>
-                        </w:tcPr>
-                        <w:p wsp:rsidR="00031F30" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="center"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t></w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${username!}        </w:t>
-                            </w:r>
 
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>申请日期：${applyDate!}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:tc>
-                </w:tr>
-                <w:tr wsp:rsidR="00722968" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+
+                <w:tr wsp:rsidR="00722968" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
                     </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="4673" w:type="dxa"/>
-                            <w:gridSpan w:val="6"/>
+                            <w:tcW w:w="9351" w:type="dxa"/>
+                            <w:gridSpan w:val="13"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>组织部初审意见</w:t>
+                                <w:t>组织部门初审意见</w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00EE4AB1" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
+                                <w:spacing w:line="320" w:line-rule="exact"/>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -2336,7 +3576,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2346,113 +3586,34 @@
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:jc w:val="left"/>
+                                <w:spacing w:line="320" w:line-rule="exact"/>
+                                <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                        </w:p>
-                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="008371A3" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                                <w:t>负责人签字：</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>审批</w:t>
+                                <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>结果：     </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${approvalFirstResult!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>            </w:t>
-                            </w:r>
-                        </w:p>
-
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>负责</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>人签字：   </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2461,28 +3622,43 @@
                                 <w:t>${approvalFirstUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>            </w:t>
+                                <w:t>   </w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>                </w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:spacing w:line="320" w:line-rule="exact"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2493,31 +3669,54 @@
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
                     </w:tc>
+                </w:tr>
+
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
+                    <w:trPr>
+                        <w:trHeight w:val="454"/>
+                        <w:jc w:val="center"/>
+                    </w:trPr>
                     <w:tc>
                         <w:tcPr>
-                            <w:tcW w:w="4678" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
+                            <w:tcW w:w="4673" w:type="dxa"/>
+                            <w:gridSpan w:val="5"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>院级党组织意见：</w:t>
+                                <w:t>申请理由</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00341D51" wsp:rsidP="00B96CA0">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2527,7 +3726,7 @@
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -2535,7 +3734,223 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${reason!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="008371A3" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:jc w:val="right"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>申请人签字：</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${userName!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>     </w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>         </w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00341D51" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="right"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>${applyDate!}</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellEnd"/>
+                        </w:p>
+                    </w:tc>
+                    <w:tc>
+                        <w:tcPr>
+                            <w:tcW w:w="4678" w:type="dxa"/>
+                            <w:gridSpan w:val="8"/>
+                            <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                        </w:tcPr>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>院级</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>/</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>党组织意见</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>：</w:t>
+                            </w:r>
+                        </w:p>
+                        <w:p wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00341D51" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2545,102 +3960,76 @@
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="008371A3" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="008371A3" wsp:rsidP="00B96CA0">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00722968" wsp:rsidP="00B96CA0">
+                            <w:pPr>
                                 <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
+                                <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>审批</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>结果：     </w:t>
+                                <w:t>负责人签字：</w:t>
                             </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${approvalOrganzeResult!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>            </w:t>
-                            </w:r>
-                        </w:p>
-
-                        <w:p wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>负责人签字：   </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -2648,7 +4037,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2657,28 +4046,26 @@
                                 <w:t>${approvalOrganzeUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidRPr="00B96CA0">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>              </w:t>
+                            </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00B96CA0" wsp:rsidRDefault="00341D51" wsp:rsidP="00B96CA0">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>  </w:t>
-                            </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="00B96CA0">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2690,7 +4077,7 @@
                         </w:p>
                     </w:tc>
                 </w:tr>
-                <w:tr wsp:rsidR="00722968" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="001057CD" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
@@ -2698,36 +4085,44 @@
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="4673" w:type="dxa"/>
-                            <w:gridSpan w:val="6"/>
+                            <w:gridSpan w:val="5"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t>外事部门意见</w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2737,7 +4132,7 @@
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -2745,7 +4140,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2753,114 +4148,88 @@
                                 </w:rPr>
                                 <w:t>${approvalForign!}</w:t>
                             </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                        </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="008371A3" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                        </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>审批</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>结果：     </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${approvalForignResult!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>            </w:t>
-                            </w:r>
-                        </w:p>
 
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+
+                            <w:proofErr w:type="spellEnd"/>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
+                                <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="008371A3" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:spacing w:line="300" w:line-rule="auto"/>
+                                <w:jc w:val="right"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>负责人签字：</w:t>
+                            </w:r>
+                            <w:proofErr w:type="spellStart"/>
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>负责</w:t>
+                                <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>人签字：   </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2869,28 +4238,42 @@
                                 <w:t>${approvalForignUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>            </w:t>
+                                <w:t>     </w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>         </w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="000042BB" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2904,28 +4287,60 @@
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="4678" w:type="dxa"/>
-                            <w:gridSpan w:val="4"/>
+                            <w:gridSpan w:val="8"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>分管/联系校领导意见：</w:t>
+                                <w:t>分管</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>/</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>联系校领导意见</w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t></w:t>
+                            </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="黑体"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
@@ -2935,7 +4350,7 @@
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -2943,7 +4358,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -2953,102 +4368,76 @@
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="008371A3" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00031F30" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="008371A3" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
+                                <w:jc w:val="left"/>
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                            </w:pPr>
+                        </w:p>
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
+                            <w:pPr>
                                 <w:spacing w:line="300" w:line-rule="auto"/>
-                                <w:ind w:right="420"/>
+                                <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>审批</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>结果：     </w:t>
+                                <w:t>负责人签字：</w:t>
                             </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="000042BB" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>${approvalLeaderResult!}</w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidR="00722968" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>            </w:t>
-                            </w:r>
-                        </w:p>
-
-                        <w:p wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
-                            <w:pPr>
-                                <w:jc w:val="left"/>
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                            </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>负责人签字：   </w:t>
-                            </w:r>
-                            <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -3056,7 +4445,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3065,28 +4454,26 @@
                                 <w:t>${approvalLeaderUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>              </w:t>
+                            </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
-                                <w:wordWrap w:val="off"/>
-                                <w:spacing w:line="300" w:line-rule="auto"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>  </w:t>
-                            </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3098,7 +4485,7 @@
                         </w:p>
                     </w:tc>
                 </w:tr>
-                <w:tr wsp:rsidR="00722968" wsp:rsidRPr="00733D3C" wsp:rsidTr="00941B31">
+                <w:tr wsp:rsidR="00722968" wsp:rsidRPr="00733D3C" wsp:rsidTr="008C38DD">
                     <w:trPr>
                         <w:trHeight w:val="454"/>
                         <w:jc w:val="center"/>
@@ -3106,63 +4493,47 @@
                     <w:tc>
                         <w:tcPr>
                             <w:tcW w:w="9351" w:type="dxa"/>
-                            <w:gridSpan w:val="10"/>
+                            <w:gridSpan w:val="13"/>
                             <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
                         </w:tcPr>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>组织部门</w:t>
+                                <w:t>组织部门终审意见</w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00031F30" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00EE4AB1" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>终审</w:t>
-                            </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
-                                    <w:sz-cs w:val="21"/>
-                                </w:rPr>
-                                <w:t>意见</w:t>
-                            </w:r>
-                            <w:r wsp:rsidR="00EE4AB1" wsp:rsidRPr="00941B31">
-                                <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                                 <w:t>：</w:t>
                             </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="008371A3" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:spacing w:line="320" w:line-rule="exact"/>
                                 <w:jc w:val="left"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -3170,7 +4541,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3180,26 +4551,26 @@
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00722968" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00722968" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:spacing w:line="320" w:line-rule="exact"/>
-                                <w:jc w:val="left"/>
+                                <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                                     <wx:font wx:val="黑体"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
-                                <w:t>负责人签字：       </w:t>
+                                <w:t>负责人签字：</w:t>
                             </w:r>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -3207,7 +4578,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidR="00B4765E" wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3216,7 +4587,7 @@
                                 <w:t>${approvalEndUser!}</w:t>
                             </w:r>
                             <w:proofErr w:type="spellEnd"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidR="00341D51" wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3224,19 +4595,27 @@
                                 </w:rPr>
                                 <w:t>   </w:t>
                             </w:r>
+                            <w:r wsp:rsidRPr="008C38DD">
+                                <w:rPr>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
+                                    <w:sz-cs w:val="21"/>
+                                </w:rPr>
+                                <w:t>                </w:t>
+                            </w:r>
                         </w:p>
-                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="00941B31" wsp:rsidRDefault="00B4765E" wsp:rsidP="00941B31">
+                        <w:p wsp:rsidR="00722968" wsp:rsidRPr="008C38DD" wsp:rsidRDefault="00341D51" wsp:rsidP="008C38DD">
                             <w:pPr>
                                 <w:spacing w:line="320" w:line-rule="exact"/>
                                 <w:jc w:val="right"/>
                                 <w:rPr>
-                                    <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
-                                    <wx:font wx:val="黑体"/>
+                                    <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                                    <wx:font wx:val="Times New Roman"/>
                                     <w:sz-cs w:val="21"/>
                                 </w:rPr>
                             </w:pPr>
                             <w:proofErr w:type="spellStart"/>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体" w:hint="fareast"/>
                                     <wx:font wx:val="黑体"/>
@@ -3244,7 +4623,7 @@
                                 </w:rPr>
                                 <w:t></w:t>
                             </w:r>
-                            <w:r wsp:rsidRPr="00941B31">
+                            <w:r wsp:rsidRPr="008C38DD">
                                 <w:rPr>
                                     <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
                                     <wx:font wx:val="黑体"/>
@@ -3257,19 +4636,330 @@
                     </w:tc>
                 </w:tr>
             </w:tbl>
-            <w:p wsp:rsidR="000A599B" wsp:rsidRPr="00733D3C" wsp:rsidRDefault="000A599B" wsp:rsidP="00D2417B">
+            <w:p wsp:rsidR="00D2417B" wsp:rsidRDefault="00EE4AB1" wsp:rsidP="00733D3C">
+                <w:pPr>
+                    <w:widowControl/>
+                    <w:spacing w:line="300" w:line-rule="exact"/>
+                    <w:ind w:left-chars="-200" w:right-chars="-200" w:right="-420" w:hanging-chars="200" w:hanging="420"/>
+                    <w:jc w:val="left"/>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="Times New Roman"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                </w:pPr>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>注：</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="Times New Roman"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>1.</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>申请</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>社会团体</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>兼职的，需同时报送社会团体</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>章程</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>法人登记证书副本</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>复印件（或成立批文）、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>上一届理事会名单</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>和本次兼职</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>邀请函</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>等</w:t>
+                </w:r>
+                <w:r wsp:rsidR="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>；</w:t>
+                </w:r>
+            </w:p>
+            <w:p wsp:rsidR="000A599B" wsp:rsidRPr="00733D3C" wsp:rsidRDefault="00733D3C" wsp:rsidP="00D2417B">
                 <w:pPr>
                     <w:widowControl/>
                     <w:spacing w:line="300" w:line-rule="exact"/>
                     <w:ind w:right-chars="-200" w:right="-420"/>
                     <w:jc w:val="left"/>
                     <w:rPr>
-                        <w:rFonts w:ascii="Times New Roman" w:fareast="仿宋_GB2312" w:h-ansi="Times New Roman"/>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
                         <wx:font wx:val="Times New Roman"/>
                         <w:kern w:val="0"/>
                         <w:sz-cs w:val="21"/>
                     </w:rPr>
                 </w:pPr>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="Times New Roman"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>2.</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>申请</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>企业兼职</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>的，需同时报送</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>营业执照副本</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>的复印件和</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>邀请函</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>，并附表说明</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>企业法人</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>注册资本及个人出资（持股）比例</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>企业成立日期</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>注册地</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>、</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00D2417B">
+                    <w:rPr>
+                        <w:rFonts w:ascii="黑体" w:fareast="黑体" w:h-ansi="黑体"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>经营状态</w:t>
+                </w:r>
+                <w:r wsp:rsidRPr="00733D3C">
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>等</w:t>
+                </w:r>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:fareast="黑体" w:h-ansi="Times New Roman" w:hint="fareast"/>
+                        <wx:font wx:val="黑体"/>
+                        <w:kern w:val="0"/>
+                        <w:sz-cs w:val="21"/>
+                    </w:rPr>
+                    <w:t>。</w:t>
+                </w:r>
             </w:p>
             <w:sectPr wsp:rsidR="000A599B" wsp:rsidRPr="00733D3C" wsp:rsidSect="00D2417B">
                 <w:pgSz w:w="11906" w:h="16838"/>

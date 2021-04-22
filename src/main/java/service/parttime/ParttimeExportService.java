@@ -1,38 +1,28 @@
 package service.parttime;
 
-import domain.cadre.CadreView;
-import domain.member.MemberView;
+import domain.cadre.*;
 import domain.parttime.*;
-import domain.pm.PmMeeting;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.sys.SysUserService;
 import sys.constants.ParttimeConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
-
 import java.io.Writer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static sys.constants.PmConstants.PARTY_MEETING_BRANCH_ACTIVITY;
 
 @Service
 public class ParttimeExportService extends ParttimeBaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private MetaTypeService metaTypeService;
-    @Autowired
-    private ParttimeApplyService parttimeApplyService;
     @Autowired
     private ParttimeApproverTypeService parttimeApproverTypeService;
     @Autowired
@@ -46,9 +36,6 @@ public class ParttimeExportService extends ParttimeBaseMapper {
         String path="parttime/parttime_export.ftl";
         ParttimeApply parttimeApply = parttimeApplyMapper.selectByPrimaryKey(id);
         CadreView cadreView = parttimeApply.getCadre();
-        ParttimeApplyFileExample fileExample = new ParttimeApplyFileExample();
-        fileExample.createCriteria().andApplyIdEqualTo(parttimeApply.getId());
-        List<ParttimeApplyFile> list = parttimeApplyFileMapper.selectByExample(fileExample);
 
         ParttimeApprovalLogExample parttimeApprovalLogExample = new ParttimeApprovalLogExample();
         parttimeApprovalLogExample.setOrderByClause("create_time desc");
@@ -56,27 +43,41 @@ public class ParttimeExportService extends ParttimeBaseMapper {
         List<ParttimeApprovalLog> list2 = parttimeApprovalLogMapper.selectByExample(parttimeApprovalLogExample);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         dataMap.put("applyDate", simpleDateFormat.format(parttimeApply.getApplyTime()));
+        dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
+        dataMap.put("unitName", cadreView.getUnitName());
+        dataMap.put("type", parttimeApply.getType());
+        dataMap.put("startTime", simpleDateFormat.format(parttimeApply.getStartTime()));
+        dataMap.put("endTime", simpleDateFormat.format(parttimeApply.getEndTime()));
+
         if (cadreView != null) {
+            CadreCompanyExample cadreCompanyExample = new CadreCompanyExample();
+            cadreCompanyExample.setOrderByClause("start_time desc");
+            cadreCompanyExample.createCriteria().andCadreIdEqualTo(cadreView.getId());
+            List<CadreCompany> cadreCompanys = cadreCompanyMapper.selectByExample(cadreCompanyExample);
+            List<CadreCompany> data = new ArrayList<>();
+            if (cadreCompanys.size() > 0) {
+                for (CadreCompany cadreCompany: cadreCompanys) {
+                    cadreCompany.setPost((cadreCompany.getUnit() == null ? "" : cadreCompany.getUnit()) + (cadreCompany.getPost() == null ? "" : cadreCompany.getPost()));
+                    data.add(cadreCompany);
+                }
+            }
+            dataMap.put("total", data.size());
+            dataMap.put("cadreParttimes", data);
+            dataMap.put("unitPost", cadreView.getTitle());
+            dataMap.put("post", cadreView.getIsPrincipal());
             SysUserView sysUserView = cadreView.getUser();
             String userName = sysUserView.getRealname();
-            dataMap.put("username", userName);
+            dataMap.put("userName", userName);
             String code = sysUserView.getCode();
             dataMap.put("code", code);
-            dataMap.put("sex", sysUserView.getGender() == 1 ? "男" : "女");
-            dataMap.put("idCard", sysUserView.getIdcard());
             dataMap.put("phone", cadreView.getMobile());
-            dataMap.put("isFirst", parttimeApply.getIsFirst() ? "是" : "否");
-            dataMap.put("background", parttimeApply.getBackground() ? "是" : "否");
-            dataMap.put("hasPay", parttimeApply.getHasPay() ? "是": "否");
+            dataMap.put("isFirst", parttimeApply.getIsFirst());
+            dataMap.put("background", parttimeApply.getBackground());
+            dataMap.put("hasPay", parttimeApply.getHasPay());
             dataMap.put("balance", parttimeApply.getBalance());
             dataMap.put("reason", parttimeApply.getReason());
             dataMap.put("remark", parttimeApply.getRemark());
-            if (list.size() > 0) {
-                dataMap.put("files", list.get(0).getFileName());
-            }
-            dataMap.put("username", userName);
-            dataMap.put("title", cadreView.getTitle());
-            dataMap.put("level", CmTag.getMetaType(cadreView.getAdminLevel()).getName());
+            dataMap.put("title", parttimeApply.getTitle());
         }
 
         Map<Integer, ParttimeApproverType> map = parttimeApproverTypeService.findAll();
