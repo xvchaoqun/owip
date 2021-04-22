@@ -497,7 +497,7 @@ public class PartyController extends BaseController {
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"编号|200","名称|350|left","简称|250|left","党总支类别|100",
                 "是否已设立现任委员会|80", "任命时间|100","应换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
-                "组织类别|100","关联单位|250|left","单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
+                "组织类别|100",/*"关联单位|250|left",*/"单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
         if (type != 1){
             titles.add(4, "支部数量");
             titles.add(5, "党员总数");
@@ -524,7 +524,7 @@ public class PartyController extends BaseController {
                     BooleanUtils.isTrue(record.getIsSeparate()) ? "是" : "否",
 
                     metaTypeService.getName(record.getTypeId()),
-                    record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
+                    /*record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),*/
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
                     record.getAddress(),

@@ -15,6 +15,7 @@ ALTER TABLE `sys_user_info`
 ALTER TABLE `ow_party`
 	ADD COLUMN `unit_ids` VARCHAR(300) NULL DEFAULT NULL COMMENT '关联单位2' AFTER `unit_id`;
 -- 更新 sys_user_view
+update ow_party set unit_ids = unit_id;
 
 ALTER TABLE `ow_party`
 	ADD COLUMN `abolish_time` DATE NULL DEFAULT NULL COMMENT '撤销时间，撤销后is_deleted=1' AFTER `found_time`,
