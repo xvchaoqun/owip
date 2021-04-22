@@ -424,8 +424,8 @@ pageEncoding="UTF-8" %>
                     return str;
                 }},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
-            { label:'关联单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
-            { label: '关联单位<br/>属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},
+            /*{ label:'关联单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},*/
+            { label: '单位属性', name: 'unitTypeId' , formatter: $.jgrid.formatter.MetaType},
             { label: '是否<br/>大中型', name: 'isEnterpriseBig', width: 60, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否<br/>国有独资', name: 'isEnterpriseNationalized', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否<br/>独立法人', name: 'isSeparate', width: 70, formatter:$.jgrid.formatter.TRUEFALSE},

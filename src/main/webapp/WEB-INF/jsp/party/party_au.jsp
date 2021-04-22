@@ -188,7 +188,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-6 control-label">所在单位是否独立法人</label>
+                    <label class="col-xs-6 control-label">是否独立法人</label>
                     <div class="col-xs-6">
                         <input name="isSeparate" ${party.isSeparate?"checked":""} type="checkbox"/>
                     </div>
@@ -268,6 +268,7 @@
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
     });
 
+    $("#modal input[name=isSeparate]").bootstrapSwitch();
     $("#modal input[name=isBg]").bootstrapSwitch();
     $("#modal input[name=isPycj]").bootstrapSwitch();
     $("#modal input[name=isEnterpriseNationalized]").bootstrapSwitch();
