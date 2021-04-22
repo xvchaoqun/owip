@@ -7,6 +7,11 @@ update sys_user_info set nation=null where nation is not null and nation not in(
 select bmt.name from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id
 );
 
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
+('adForm1_family_birth', '北京任免表显示家庭成员出生日期', '1', 2, 101, '1：显示出生日期， 2：显示年龄');
+
+
+
 20210419
 -- 哈工大
 ALTER TABLE `ow_member_apply`

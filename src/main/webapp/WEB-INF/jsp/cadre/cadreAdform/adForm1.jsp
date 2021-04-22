@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<c:set value="${_pMap['adForm1_family_birth']}" var="_p_adForm1_family_birth"/>
 <style type="text/css">.b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.5395833in 0.39375in 0.39375in;}
 .s1{font-weight:bold;}
@@ -360,7 +360,15 @@ td.bolder{font-weight: bolder}
         <span>姓  名</span>
       </td>
       <td class="td2 center bolder">
-        <span>年龄</span>
+        <c:if test="${_p_adForm1_family_birth==1}">
+        <span>出  生</span>
+        <div>
+        <span>年  月</span>
+        </div>
+        </c:if>
+        <c:if test="${_p_adForm1_family_birth!=1}">
+        <span>年  龄</span>
+        </c:if>
       </td>
       <td class="td2 center bolder" colspan="2">
         <span>政  治</span>
@@ -383,7 +391,12 @@ td.bolder{font-weight: bolder}
         </td>
         <td class="td14 center">
           <c:if test="${f.birthday!=null && !f.withGod}">
+            <c:if test="${_p_adForm1_family_birth==1}">
+            ${cm:formatDate(f.birthday, "yyyy.MM")}
+            </c:if>
+            <c:if test="${_p_adForm1_family_birth!=1}">
             ${cm:intervalYearsUntilNow(cm:getFirstDayOfMonth(f.birthday))}
+            </c:if>
           </c:if>
         </td>
         <td class="td2 center" colspan="2">
