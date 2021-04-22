@@ -2329,6 +2329,76 @@ public class SysUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUnitCodeIsNull() {
+            addCriterion("unit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNotNull() {
+            addCriterion("unit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeEqualTo(String value) {
+            addCriterion("unit_code =", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotEqualTo(String value) {
+            addCriterion("unit_code <>", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThan(String value) {
+            addCriterion("unit_code >", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_code >=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThan(String value) {
+            addCriterion("unit_code <", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThanOrEqualTo(String value) {
+            addCriterion("unit_code <=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLike(String value) {
+            addCriterion("unit_code like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotLike(String value) {
+            addCriterion("unit_code not like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIn(List<String> values) {
+            addCriterion("unit_code in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotIn(List<String> values) {
+            addCriterion("unit_code not in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeBetween(String value1, String value2) {
+            addCriterion("unit_code between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotBetween(String value1, String value2) {
+            addCriterion("unit_code not between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
         public Criteria andPhoneIsNull() {
             addCriterion("phone is null");
             return (Criteria) this;

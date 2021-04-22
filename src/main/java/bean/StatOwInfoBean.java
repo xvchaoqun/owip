@@ -6,7 +6,7 @@ public class StatOwInfoBean {
 
     private Integer branchId;
     private Integer partyId;
-    private String name;//党支部名称
+    private String branchName;//党支部名称
     private Integer types;//党支部类型
     private String realName;//支部书记
     private byte gender;//性别  1：男 2：女
@@ -40,12 +40,12 @@ public class StatOwInfoBean {
         this.partyId = partyId;
     }
 
-    public String getName() {
-        return name;
+    public String getBranchName() {
+        return branchName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
     public Integer getTypes() {

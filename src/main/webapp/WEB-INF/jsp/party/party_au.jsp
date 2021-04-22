@@ -99,7 +99,7 @@
             </div>
             <div class="col-xs-6">
 
-                <div class="form-group">
+                <%-- <div class="form-group">
                     <label class="col-xs-4 control-label"> 关联单位</label>
                     <div class="col-xs-8">
                         <c:set var="unit" value="${cm:getUnitById(party.unitId)}"/>
@@ -108,9 +108,32 @@
                             <option value="${unit.id}" delete="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                         </select>
                     </div>
+                </div>--%>
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">关联单位</label>
+                    <div class="col-xs-8">
+                        <div class="input-group">
+                            <select class="multiselect" multiple="" name="unitIds">
+                                <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
+                                    <c:set var="unitList" value="${unitListMap.get(unitType.value.id)}"/>
+                                    <c:if test="${fn:length(unitList)>0}">
+                                        <optgroup label="${unitType.value.name}">
+                                            <c:forEach
+                                                    items="${unitList}"
+                                                    var="unitId">
+                                                <c:set var="unit"
+                                                       value="${unitMap.get(unitId)}"></c:set>
+                                                <option value="${unit.id}">${unit.name}</option>
+                                            </c:forEach>
+                                        </optgroup>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-4 control-label"><span class="star">*</span>关联单位属性</label>
+                    <label class="col-xs-4 control-label"><span class="star">*</span>单位属性</label>
                     <div class="col-xs-8">
                         <select required class="form-control" name="unitTypeId" data-rel="select2"
                                 data-placeholder="请选择">
@@ -239,7 +262,15 @@
 	</shiro:hasPermission>
 </style>
 <script>
-    $("#modal :checkbox").bootstrapSwitch();
+    var unitIds = '${party.unitIds}';
+    $.register.multiselect($('#modalForm select[name=unitIds]'), unitIds.split(","), {
+        enableClickableOptGroups: true,
+        enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
+    });
+
+    $("#modal input[name=isBg]").bootstrapSwitch();
+    $("#modal input[name=isPycj]").bootstrapSwitch();
+    $("#modal input[name=isEnterpriseNationalized]").bootstrapSwitch();
     $.register.date($('.input-group.date'));
     $("#submitBtn").click(function () {
         <shiro:hasPermission name="${PERMISSION_PARTYVIEWALL}">

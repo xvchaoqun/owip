@@ -2224,7 +2224,7 @@ public class StatOwInfoService extends BaseMapper {
                 //二级党组织名称
                 dataMap.put("partyName",party.getShortName() == null ? "" :party.getShortName());
                 //党支部名称
-                String branchName = statOwInfoBean.getName() == null ? "" :statOwInfoBean.getName();
+                String branchName = statOwInfoBean.getBranchName() == null ? "" :statOwInfoBean.getBranchName();
                 dataMap.put("branchName",branchName);
                 //支部类型
                 Integer branchType = statOwInfoBean.getTypes();
@@ -2344,7 +2344,7 @@ public class StatOwInfoService extends BaseMapper {
             rowNum++;
             dataMap.put("rowNum",rowNum);
 
-            String name = statOwInfoBean.getName();
+            String name = statOwInfoBean.getBranchName();
             dataMap.put("partyName",name);
 
             //支部类型

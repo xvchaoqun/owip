@@ -412,7 +412,7 @@ pageEncoding="UTF-8" %>
                     var str = $.jgrid.formatter.MetaType(cellvalue);
                     //console.log($.jgrid.formatter.MetaType(rowObject.branchType))
                     if (_classId==cellvalue){
-                        str += '&nbsp;<span class="prompt" style="cursor: default!important;" data-title="直属党支部类型" data-width="252"' +
+                        str += '&nbsp;<label><span class="prompt" style="cursor: default!important;" data-title="直属党支部类型" data-width="252"' +
                             'data-prompt="<ul>' +
                             '<li>' + $.jgrid.formatter.MetaType(rowObject.branchType) + '</li>' +
                             '</ul>"><i class="fa fa-info-circle"></i></span>' +

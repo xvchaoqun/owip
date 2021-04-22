@@ -31,6 +31,8 @@ public class Party implements Serializable {
 
     private Integer unitId;
 
+    private String unitIds;
+
     private Integer classId;
 
     private Integer typeId;
@@ -132,6 +134,14 @@ public class Party implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
     public Integer getClassId() {

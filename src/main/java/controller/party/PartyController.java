@@ -30,6 +30,7 @@ import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -327,6 +328,30 @@ public class PartyController extends BaseController {
             Party party = partyMapper.selectByPrimaryKey(id);
             modelMap.put("party", party);
         }
+
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
 
         return "party/party_au";
     }
