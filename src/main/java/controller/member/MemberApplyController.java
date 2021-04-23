@@ -181,7 +181,7 @@ public class MemberApplyController extends MemberBaseController {
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setActiveTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
 
-            if (CmTag.getBoolProperty("ignore_plan_and_draw")) {
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
                 if (needCandidateTrain) {
                     record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
                     record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
@@ -191,7 +191,7 @@ public class MemberApplyController extends MemberBaseController {
             record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
 
-            if (CmTag.getBoolProperty("ignore_plan_and_draw")) {
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
                 if (needCandidateTrain) {
                     record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
                     record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
