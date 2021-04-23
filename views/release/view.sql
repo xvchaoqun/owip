@@ -655,6 +655,11 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 , op.id as group_party_id
 , op.unit_id
 , op.sort_order as party_sort_order
+, ob.types as branchTypes
+, ob.unit_type_id
+, ob.is_staff
+, ob.is_prefessional
+, ob.is_base_team
 , ob.sort_order as branch_sort_order
 ,`t`.`post_class` AS `post_class`
 ,`t`.`sub_post_class` AS `sub_post_class`

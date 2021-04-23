@@ -1,5 +1,8 @@
 
--- 20214.22 ly
+-- 2021.4.23 ly
+-- 更新ow_branch_member_view
+
+-- 2021.4.22 ly
 ALTER TABLE `sys_user_info`
 	ADD COLUMN `unit_code` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位code' AFTER `unit`;
 ALTER TABLE `ow_party`

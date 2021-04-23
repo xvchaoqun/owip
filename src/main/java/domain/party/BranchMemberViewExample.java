@@ -4,10 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class BranchMemberViewExample {
     protected String orderByClause;
@@ -1903,6 +1900,327 @@ public class BranchMemberViewExample {
 
         public Criteria andPartySortOrderNotBetween(Integer value1, Integer value2) {
             addCriterion("party_sort_order not between", value1, value2, "partySortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesIsNull() {
+            addCriterion("branchTypes is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesIsNotNull() {
+            addCriterion("branchTypes is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesEqualTo(String value) {
+            addCriterion("branchTypes =", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesNotEqualTo(String value) {
+            addCriterion("branchTypes <>", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesGreaterThan(String value) {
+            addCriterion("branchTypes >", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesGreaterThanOrEqualTo(String value) {
+            addCriterion("branchTypes >=", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesLessThan(String value) {
+            addCriterion("branchTypes <", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesLessThanOrEqualTo(String value) {
+            addCriterion("branchTypes <=", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesLike(String value) {
+            addCriterion("branchTypes like", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesNotLike(String value) {
+            addCriterion("branchTypes not like", value, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesIn(List<String> values) {
+            addCriterion("branchTypes in", values, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesNotIn(List<String> values) {
+            addCriterion("branchTypes not in", values, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesBetween(String value1, String value2) {
+            addCriterion("branchTypes between", value1, value2, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchtypesNotBetween(String value1, String value2) {
+            addCriterion("branchTypes not between", value1, value2, "branchtypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIsNull() {
+            addCriterion("unit_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIsNotNull() {
+            addCriterion("unit_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdEqualTo(Integer value) {
+            addCriterion("unit_type_id =", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotEqualTo(Integer value) {
+            addCriterion("unit_type_id <>", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdGreaterThan(Integer value) {
+            addCriterion("unit_type_id >", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_type_id >=", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdLessThan(Integer value) {
+            addCriterion("unit_type_id <", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_type_id <=", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIn(List<Integer> values) {
+            addCriterion("unit_type_id in", values, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotIn(List<Integer> values) {
+            addCriterion("unit_type_id not in", values, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_type_id between", value1, value2, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_type_id not between", value1, value2, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffIsNull() {
+            addCriterion("is_staff is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffIsNotNull() {
+            addCriterion("is_staff is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffEqualTo(Boolean value) {
+            addCriterion("is_staff =", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotEqualTo(Boolean value) {
+            addCriterion("is_staff <>", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffGreaterThan(Boolean value) {
+            addCriterion("is_staff >", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_staff >=", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffLessThan(Boolean value) {
+            addCriterion("is_staff <", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_staff <=", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffIn(List<Boolean> values) {
+            addCriterion("is_staff in", values, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotIn(List<Boolean> values) {
+            addCriterion("is_staff not in", values, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_staff between", value1, value2, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_staff not between", value1, value2, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIsNull() {
+            addCriterion("is_prefessional is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIsNotNull() {
+            addCriterion("is_prefessional is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalEqualTo(Boolean value) {
+            addCriterion("is_prefessional =", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotEqualTo(Boolean value) {
+            addCriterion("is_prefessional <>", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalGreaterThan(Boolean value) {
+            addCriterion("is_prefessional >", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_prefessional >=", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalLessThan(Boolean value) {
+            addCriterion("is_prefessional <", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_prefessional <=", value, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalIn(List<Boolean> values) {
+            addCriterion("is_prefessional in", values, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotIn(List<Boolean> values) {
+            addCriterion("is_prefessional not in", values, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_prefessional between", value1, value2, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPrefessionalNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_prefessional not between", value1, value2, "isPrefessional");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIsNull() {
+            addCriterion("is_base_team is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIsNotNull() {
+            addCriterion("is_base_team is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamEqualTo(Boolean value) {
+            addCriterion("is_base_team =", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotEqualTo(Boolean value) {
+            addCriterion("is_base_team <>", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamGreaterThan(Boolean value) {
+            addCriterion("is_base_team >", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_base_team >=", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamLessThan(Boolean value) {
+            addCriterion("is_base_team <", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_base_team <=", value, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamIn(List<Boolean> values) {
+            addCriterion("is_base_team in", values, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotIn(List<Boolean> values) {
+            addCriterion("is_base_team not in", values, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_base_team between", value1, value2, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBaseTeamNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_base_team not between", value1, value2, "isBaseTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypesContain(Set<Integer> typeIds) {
+
+            List<String> typeIdList = new ArrayList<>();
+            for (Integer typeId : typeIds) {
+                typeIdList.add("find_in_set("+typeId+", types)");
+            }
+            addCriterion("(" + StringUtils.join(typeIdList, " or ") + ")");
+
             return (Criteria) this;
         }
 

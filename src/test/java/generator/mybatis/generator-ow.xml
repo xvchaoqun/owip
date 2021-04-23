@@ -133,7 +133,7 @@
        <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--<table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
+        <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -141,7 +141,7 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
                 mapperName="party.OrganizerMapper">
@@ -164,7 +164,7 @@
        <!-- <table tableName="ow_party_public_user" domainObjectName="party.PartyPublicUser">
         </table>-->
 
-        <table tableName="ow_party" domainObjectName="party.Party">
+        <!--<table tableName="ow_party" domainObjectName="party.Party">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <ignoreColumn column="update_time"/>
          </table>
@@ -180,7 +180,7 @@
                <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>
+         </table>-->
          <!--   <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            </table>
