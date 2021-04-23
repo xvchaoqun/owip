@@ -45,8 +45,9 @@ public class SysMsgService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         SysMsgExample example = new SysMsgExample();
-        SysMsgExample.Criteria criteria=example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)){
+        SysMsgExample.Criteria criteria=example.createCriteria()
+                .andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.SYS_MSG_STATUS_UNCONFIRM);
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)){
             criteria.andSendUserIdEqualTo(ShiroHelper.getCurrentUserId());
         }
 

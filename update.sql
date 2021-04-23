@@ -1,10 +1,10 @@
 
-
+20210423
+-- 吉大
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'
 	    COMMENT '显示为双学位，仅对全日制教育有效' AFTER `adform_display_as_fulltime`;
-20210423
--- 吉大XXX
+
 -- 更新 ow_branch_member_view
 
 20210422

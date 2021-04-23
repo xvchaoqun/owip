@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
                             <c:if test="${cls==2&&page==1}">
                                 <div class="jqgrid-vertical-offset buttons">
                                     <shiro:hasPermission name="sysMsg:list">
-                                        <button class="jqBatchBtn btn btn-success btn-sm"  data-title="批量确认" data-msg="确认已完成这{0}条提醒？"
+                                        <button class="jqBatchBtn btn btn-success btn-sm"  data-title="批量确认" data-msg="确认已已阅读这{0}条提醒？"
                                         data-url="${ctx}/sys/sysMsg_confirm"><i class="fa fa-check"></i> 批量确认</button>
                                     </shiro:hasPermission>
                                 </div>
@@ -41,7 +41,7 @@ pageEncoding="UTF-8" %>
                                     <shiro:hasPermission name="sysMsg:list">
                                         <button data-url="${ctx}/sys/sysMsg_batchDel"
                                                 data-title="删除"
-                                                data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
+                                                data-msg="确定删除这{0}条数据？<br/>（仅可删除未确认的提醒，删除后无法恢复，请谨慎操作！！）"
                                                 data-grid-id="#jqGrid"
                                                 class="jqBatchBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i>
                                             删除</button>
@@ -157,7 +157,7 @@ pageEncoding="UTF-8" %>
             <c:if test="${page==1&&cls==2}">
                 { label: '确认',name: '_confirm',width:70,formatter:function (cellvalue, options, rowObject){
                     if (rowObject.status == ${SYS_MSG_STATUS_CONFIRM}) return '--';
-                    return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="确认" data-msg="确定已完成该提醒？" '+
+                    return ('<button class="jqBatchBtn btn btn-success btn-xs" data-title="确认" data-msg="确定已阅读该提醒？" '+
                         'data-url="${ctx}/sys/sysMsg_confirm?ids={0}"><i class="fa fa-hand-paper-o"></i> 确认</button>')
                         .format(rowObject.id);
                 }},
