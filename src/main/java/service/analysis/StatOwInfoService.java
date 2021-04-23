@@ -2227,7 +2227,7 @@ public class StatOwInfoService extends BaseMapper {
                 String branchName = statOwInfoBean.getBranchName() == null ? "" :statOwInfoBean.getBranchName();
                 dataMap.put("branchName",branchName);
                 //支部类型
-                Integer branchType = statOwInfoBean.getTypes();
+                Integer branchType = Integer.valueOf(statOwInfoBean.getTypes());
                 String branchTypeStr = "";
                 if (branchType != null) {
                     if (branchType.equals(mtUndergraduateId)) {
@@ -2348,7 +2348,7 @@ public class StatOwInfoService extends BaseMapper {
             dataMap.put("partyName",name);
 
             //支部类型
-            Integer branchType = statOwInfoBean.getTypes();
+            Integer branchType = Integer.valueOf(statOwInfoBean.getTypes());
             String branchTypeStr = "";
             if (branchType != null) {
                 if (branchType.equals(mtUndergraduateId)) {
