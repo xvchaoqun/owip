@@ -463,7 +463,7 @@
 
     <c:if test="${stage==0}">
     #jqGridPager_right {
-        width: 150px;
+        width: 200px;
     }
 
     </c:if>
