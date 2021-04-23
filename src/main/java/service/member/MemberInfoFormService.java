@@ -437,7 +437,7 @@ public class MemberInfoFormService extends BaseMapper {
 
         for (PartyPost partyPost : partyPosts){
             CadreResume resume = new CadreResume();
-            resume.setIsWork(partyPost.getEndDate() == null);
+            resume.setType(CadreResume.TYPE_WORK);
             resume.setStartDate(partyPost.getStartDate());
             resume.setEndDate(partyPost.getEndDate());
             resume.setDetail(String.format("%s(%s)",partyPost.getDetail(),partyPost.getRemark()));

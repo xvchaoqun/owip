@@ -104,6 +104,8 @@ public class CadreEdu implements Serializable {
 
     private Boolean adformDisplayAsFulltime;
 
+    private Boolean adformDisplayAsDouble;
+
     private String remark;
 
     private Integer sortOrder;
@@ -366,6 +368,14 @@ public class CadreEdu implements Serializable {
 
     public void setAdformDisplayAsFulltime(Boolean adformDisplayAsFulltime) {
         this.adformDisplayAsFulltime = adformDisplayAsFulltime;
+    }
+
+    public Boolean getAdformDisplayAsDouble() {
+        return adformDisplayAsDouble;
+    }
+
+    public void setAdformDisplayAsDouble(Boolean adformDisplayAsDouble) {
+        this.adformDisplayAsDouble = adformDisplayAsDouble;
     }
 
     public String getRemark() {
