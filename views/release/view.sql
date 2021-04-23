@@ -655,7 +655,7 @@ CREATE ALGORITHM = UNDEFINED VIEW `ow_branch_member_view` AS select obm.*,
 , op.id as group_party_id
 , op.unit_id
 , op.sort_order as party_sort_order
-, ob.types as branchTypes
+, ob.types as branch_types
 , ob.unit_type_id
 , ob.is_staff
 , ob.is_prefessional

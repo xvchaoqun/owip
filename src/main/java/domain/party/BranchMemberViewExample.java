@@ -1903,73 +1903,84 @@ public class BranchMemberViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesIsNull() {
-            addCriterion("branchTypes is null");
+        public Criteria andBranchTypesIsNull() {
+            addCriterion("branch_types is null");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesIsNotNull() {
-            addCriterion("branchTypes is not null");
+        public Criteria andBranchTypesIsNotNull() {
+            addCriterion("branch_types is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesEqualTo(String value) {
-            addCriterion("branchTypes =", value, "branchtypes");
+        public Criteria andBranchTypesEqualTo(String value) {
+            addCriterion("branch_types =", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesNotEqualTo(String value) {
-            addCriterion("branchTypes <>", value, "branchtypes");
+        public Criteria andBranchTypesNotEqualTo(String value) {
+            addCriterion("branch_types <>", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesGreaterThan(String value) {
-            addCriterion("branchTypes >", value, "branchtypes");
+        public Criteria andBranchTypesGreaterThan(String value) {
+            addCriterion("branch_types >", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesGreaterThanOrEqualTo(String value) {
-            addCriterion("branchTypes >=", value, "branchtypes");
+        public Criteria andBranchTypesGreaterThanOrEqualTo(String value) {
+            addCriterion("branch_types >=", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesLessThan(String value) {
-            addCriterion("branchTypes <", value, "branchtypes");
+        public Criteria andBranchTypesLessThan(String value) {
+            addCriterion("branch_types <", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesLessThanOrEqualTo(String value) {
-            addCriterion("branchTypes <=", value, "branchtypes");
+        public Criteria andBranchTypesLessThanOrEqualTo(String value) {
+            addCriterion("branch_types <=", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesLike(String value) {
-            addCriterion("branchTypes like", value, "branchtypes");
+        public Criteria andBranchTypesLike(String value) {
+            addCriterion("branch_types like", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesNotLike(String value) {
-            addCriterion("branchTypes not like", value, "branchtypes");
+        public Criteria andBranchTypesNotLike(String value) {
+            addCriterion("branch_types not like", value, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesIn(List<String> values) {
-            addCriterion("branchTypes in", values, "branchtypes");
+        public Criteria andBranchTypesIn(List<String> values) {
+            addCriterion("branch_types in", values, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesNotIn(List<String> values) {
-            addCriterion("branchTypes not in", values, "branchtypes");
+        public Criteria andBranchTypesNotIn(List<String> values) {
+            addCriterion("branch_types not in", values, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesBetween(String value1, String value2) {
-            addCriterion("branchTypes between", value1, value2, "branchtypes");
+        public Criteria andBranchTypesBetween(String value1, String value2) {
+            addCriterion("branch_types between", value1, value2, "branchTypes");
             return (Criteria) this;
         }
 
-        public Criteria andBranchtypesNotBetween(String value1, String value2) {
-            addCriterion("branchTypes not between", value1, value2, "branchtypes");
+        public Criteria andBranchTypesNotBetween(String value1, String value2) {
+            addCriterion("branch_types not between", value1, value2, "branchTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchTypesContain(Set<Integer> typeIds) {
+
+            List<String> typeIdList = new ArrayList<>();
+            for (Integer typeId : typeIds) {
+                typeIdList.add("find_in_set("+typeId+", branch_types)");
+            }
+            addCriterion("(" + StringUtils.join(typeIdList, " or ") + ")");
+
             return (Criteria) this;
         }
 
@@ -2210,17 +2221,6 @@ public class BranchMemberViewExample {
 
         public Criteria andIsBaseTeamNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_base_team not between", value1, value2, "isBaseTeam");
-            return (Criteria) this;
-        }
-
-        public Criteria andBranchTypesContain(Set<Integer> typeIds) {
-
-            List<String> typeIdList = new ArrayList<>();
-            for (Integer typeId : typeIds) {
-                typeIdList.add("find_in_set("+typeId+", types)");
-            }
-            addCriterion("(" + StringUtils.join(typeIdList, " or ") + ")");
-
             return (Criteria) this;
         }
 

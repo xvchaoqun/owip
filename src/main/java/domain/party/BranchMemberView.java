@@ -73,7 +73,7 @@ public class BranchMemberView implements Serializable {
 
     private Integer partySortOrder;
 
-    private String branchtypes;
+    private String branchTypes;
 
     private Integer unitTypeId;
 
@@ -345,12 +345,12 @@ public class BranchMemberView implements Serializable {
         this.partySortOrder = partySortOrder;
     }
 
-    public String getBranchtypes() {
-        return branchtypes;
+    public String getBranchTypes() {
+        return branchTypes;
     }
 
-    public void setBranchtypes(String branchtypes) {
-        this.branchtypes = branchtypes == null ? null : branchtypes.trim();
+    public void setBranchTypes(String branchTypes) {
+        this.branchTypes = branchTypes == null ? null : branchTypes.trim();
     }
 
     public Integer getUnitTypeId() {

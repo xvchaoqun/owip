@@ -30,7 +30,7 @@
     <result column="group_party_id" jdbcType="INTEGER" property="groupPartyId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="party_sort_order" jdbcType="INTEGER" property="partySortOrder" />
-    <result column="branchTypes" jdbcType="VARCHAR" property="branchtypes" />
+    <result column="branch_types" jdbcType="VARCHAR" property="branchTypes" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
     <result column="is_staff" jdbcType="BIT" property="isStaff" />
     <result column="is_prefessional" jdbcType="BIT" property="isPrefessional" />
@@ -87,7 +87,7 @@
     id, group_id, user_id, types, is_double_leader, assign_date, dismiss_date, office_phone, 
     mobile, is_admin, is_history, sort_order, msg_title, email, realname, gender, nation, 
     native_place, idcard, birth, party_id, branch_id, member_status, group_branch_id, 
-    is_deleted, group_party_id, unit_id, party_sort_order, branchTypes, unit_type_id, 
+    is_deleted, group_party_id, unit_id, party_sort_order, branch_types, unit_type_id, 
     is_staff, is_prefessional, is_base_team, branch_sort_order, post_class, sub_post_class, 
     main_post_level, pro_post_time, pro_post_level, pro_post_level_time, pro_post, manage_level, 
     manage_level_time, arrive_time, ow_id, is_ow, ow_grow_time, ow_positive_time, ow_remark, 
