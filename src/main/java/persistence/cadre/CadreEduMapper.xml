@@ -34,6 +34,7 @@
     <result column="adform_edu_exclude" jdbcType="BIT" property="adformEduExclude" />
     <result column="adform_resume_exclude" jdbcType="BIT" property="adformResumeExclude" />
     <result column="adform_display_as_fulltime" jdbcType="BIT" property="adformDisplayAsFulltime" />
+    <result column="adform_display_as_double" jdbcType="BIT" property="adformDisplayAsDouble" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -101,8 +102,8 @@
     first_subject, major, school_type, enrol_time, finish_time, learn_style, has_degree, 
     degree_type, degree, is_high_degree, is_second_degree, degree_country, degree_unit, 
     degree_time, tutor_name, tutor_title, certificate, note, note_brackets_exclude, resume, 
-    adform_edu_exclude, adform_resume_exclude, adform_display_as_fulltime, remark, sort_order, 
-    status
+    adform_edu_exclude, adform_resume_exclude, adform_display_as_fulltime, adform_display_as_double, 
+    remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreEduExample" resultMap="BaseResultMap">
     select
@@ -148,8 +149,9 @@
       degree_time, tutor_name, tutor_title, 
       certificate, note, note_brackets_exclude, 
       resume, adform_edu_exclude, adform_resume_exclude, 
-      adform_display_as_fulltime, remark, sort_order, 
-      status)
+      adform_display_as_fulltime, adform_display_as_double, 
+      remark, sort_order, status
+      )
     values (#{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{eduId,jdbcType=INTEGER}, 
       #{isGraduated,jdbcType=BIT}, #{isHighEdu,jdbcType=BIT}, #{school,jdbcType=VARCHAR}, 
       #{dep,jdbcType=VARCHAR}, #{subject,jdbcType=INTEGER}, #{firstSubject,jdbcType=INTEGER}, 
@@ -160,8 +162,9 @@
       #{degreeTime,jdbcType=DATE}, #{tutorName,jdbcType=VARCHAR}, #{tutorTitle,jdbcType=VARCHAR}, 
       #{certificate,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{noteBracketsExclude,jdbcType=BIT}, 
       #{resume,jdbcType=VARCHAR}, #{adformEduExclude,jdbcType=BIT}, #{adformResumeExclude,jdbcType=BIT}, 
-      #{adformDisplayAsFulltime,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+      #{adformDisplayAsFulltime,jdbcType=BIT}, #{adformDisplayAsDouble,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreEdu">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -261,6 +264,9 @@
       </if>
       <if test="adformDisplayAsFulltime != null">
         adform_display_as_fulltime,
+      </if>
+      <if test="adformDisplayAsDouble != null">
+        adform_display_as_double,
       </if>
       <if test="remark != null">
         remark,
@@ -365,6 +371,9 @@
       </if>
       <if test="adformDisplayAsFulltime != null">
         #{adformDisplayAsFulltime,jdbcType=BIT},
+      </if>
+      <if test="adformDisplayAsDouble != null">
+        #{adformDisplayAsDouble,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -482,6 +491,9 @@
       <if test="record.adformDisplayAsFulltime != null">
         adform_display_as_fulltime = #{record.adformDisplayAsFulltime,jdbcType=BIT},
       </if>
+      <if test="record.adformDisplayAsDouble != null">
+        adform_display_as_double = #{record.adformDisplayAsDouble,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -530,6 +542,7 @@
       adform_edu_exclude = #{record.adformEduExclude,jdbcType=BIT},
       adform_resume_exclude = #{record.adformResumeExclude,jdbcType=BIT},
       adform_display_as_fulltime = #{record.adformDisplayAsFulltime,jdbcType=BIT},
+      adform_display_as_double = #{record.adformDisplayAsDouble,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
@@ -633,6 +646,9 @@
       <if test="adformDisplayAsFulltime != null">
         adform_display_as_fulltime = #{adformDisplayAsFulltime,jdbcType=BIT},
       </if>
+      <if test="adformDisplayAsDouble != null">
+        adform_display_as_double = #{adformDisplayAsDouble,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -678,6 +694,7 @@
       adform_edu_exclude = #{adformEduExclude,jdbcType=BIT},
       adform_resume_exclude = #{adformResumeExclude,jdbcType=BIT},
       adform_display_as_fulltime = #{adformDisplayAsFulltime,jdbcType=BIT},
+      adform_display_as_double = #{adformDisplayAsDouble,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}

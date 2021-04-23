@@ -71,7 +71,7 @@ public class PartyPostService extends BaseMapper {
         for (PartyPost record : partyPosts) {
 
             CadreResume resume = new CadreResume();
-            resume.setIsWork(true);
+            resume.setType(CadreResume.TYPE_WORK);
             resume.setStartDate(record.getStartDate());
             resume.setEndDate(record.getEndDate());
             resume.setDetail(record.getDetail());
