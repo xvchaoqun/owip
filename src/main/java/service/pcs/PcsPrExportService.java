@@ -246,7 +246,7 @@ public class PcsPrExportService extends PcsBaseMapper {
                 .replace("stage", stageStr);
         cell.setCellValue(str);
 
-        PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+        PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.statPcsPrAllocate(configId);
         PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, null, null);
         renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
 
@@ -647,7 +647,7 @@ public class PcsPrExportService extends PcsBaseMapper {
             cell.setCellValue(str);
 
             // 全校汇总
-            PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+            PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.statPcsPrAllocate(configId);
             PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, stage, null, isChosen);
             renderParty(sheet, startRow, 4, pcsPrAllocate, realPcsPrAllocate);
 
@@ -1347,7 +1347,7 @@ public class PcsPrExportService extends PcsBaseMapper {
         cell.setCellValue(str);
 
 
-        PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+        PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.statPcsPrAllocate(configId);
         PcsPrAllocate realPcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId,
                 PcsConstants.PCS_STAGE_SECOND, null, true);
 

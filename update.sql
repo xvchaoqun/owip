@@ -1,4 +1,6 @@
 
+20210422
+-- 北师大、南航
 
 -- 删除民族 “其他”
 delete bmt.* from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id and bmt.name='其他';
@@ -39,6 +41,7 @@ ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `sponsor_user_ids` `sponsor_user_ids` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人，1##userId,0##张三，1：校内 0：校外 ' COLLATE 'utf8_general_ci' AFTER `candidate_status`;
 ALTER TABLE `ow_member_apply`
 	CHANGE COLUMN `grow_contact_users` `grow_contact_users` VARCHAR(50) NULL DEFAULT NULL COMMENT '培养联系人，0##userId,1##张三，0：校内 1：校外 ' COLLATE 'utf8_general_ci' AFTER `grow_contact_user_ids`;
+
 /**
     update ow_member_apply set sponsor_user_ids = concat('1##', replace(sponsor_user_ids, ',', ',1##')) where length(sponsor_user_ids)>1;
     update ow_member_apply set sponsor_user_ids = concat('0##', replace(sponsor_users, ',', ',0##')) where (sponsor_user_ids is null or length(sponsor_user_ids)=0) and length(sponsor_users)>1;
@@ -62,7 +65,7 @@ INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_at
 ALTER TABLE `ow_member_out`
 	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL COMMENT '转入单位抬头' COLLATE 'utf8_general_ci' AFTER `type`,
 	CHANGE COLUMN `to_unit` `to_unit` VARCHAR(100) NULL COMMENT '转入单位' COLLATE 'utf8_general_ci' AFTER `to_title`,
-	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位，默认为中共北京师范大学+分党委名称' COLLATE 'utf8_general_ci' AFTER `to_unit`,
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位，默认为xxx大学+分党委名称' COLLATE 'utf8_general_ci' AFTER `to_unit`,
 	CHANGE COLUMN `from_address` `from_address` VARCHAR(100) NULL COMMENT '转出单位地址，默认同上' COLLATE 'utf8_general_ci' AFTER `from_unit`,
 	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(100) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `from_address`,
 	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(100) NULL COMMENT '转出单位邮编，默认为100875' COLLATE 'utf8_general_ci' AFTER `from_fax`,

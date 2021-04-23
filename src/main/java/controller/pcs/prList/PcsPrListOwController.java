@@ -183,7 +183,7 @@ public class PcsPrListOwController extends PcsBaseController {
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         } else {
             // 全校
-            PcsPrAllocate pcsPrAllocate = pcsPrCandidateService.statRealPcsPrAllocate(configId, null, null, null);
+            PcsPrAllocate pcsPrAllocate = pcsPrAllocateService.statPcsPrAllocate(configId);
             modelMap.put("pcsPrAllocate", pcsPrAllocate);
         }
 

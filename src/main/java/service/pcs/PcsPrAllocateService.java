@@ -1,5 +1,6 @@
 package service.pcs;
 
+import com.alibaba.fastjson.JSONObject;
 import controller.global.OpException;
 import domain.pcs.PcsPrAllocate;
 import domain.pcs.PcsPrAllocateExample;
@@ -9,10 +10,48 @@ import org.springframework.util.Assert;
 import sys.utils.NumberUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PcsPrAllocateService extends PcsBaseMapper {
+
+    public PcsPrAllocate statPcsPrAllocate(int configId){
+
+        Map<Integer, Integer> totalPrCountMap = new HashMap<>();
+        int femaleCount = 0;
+        int minorityCount = 0;
+        int underFiftyCount = 0;
+
+        PcsPrAllocateExample example = new PcsPrAllocateExample();
+        example.createCriteria().andConfigIdEqualTo(configId);
+        List<PcsPrAllocate> pcsPrAllocates = pcsPrAllocateMapper.selectByExample(example);
+
+        for (PcsPrAllocate pcsPrAllocate : pcsPrAllocates) {
+
+            Map<Integer, Integer> prCountMap = pcsPrAllocate.getPrCountMap();
+            for (Map.Entry<Integer, Integer> entry : prCountMap.entrySet()) {
+                int type = entry.getKey();
+                int count = entry.getValue();
+                if(!totalPrCountMap.containsKey(type)){
+                    totalPrCountMap.put(type, 0);
+                }
+                totalPrCountMap.put(type, totalPrCountMap.get(type)+count);
+            }
+
+            femaleCount += pcsPrAllocate.getFemaleCount();
+            minorityCount += pcsPrAllocate.getMinorityCount();
+            underFiftyCount += pcsPrAllocate.getUnderFiftyCount();
+        }
+        PcsPrAllocate pcsPrAllocate = new PcsPrAllocate();
+        pcsPrAllocate.setPrCount(JSONObject.toJSONString(totalPrCountMap));
+        pcsPrAllocate.setFemaleCount(femaleCount);
+        pcsPrAllocate.setMinorityCount(minorityCount);
+        pcsPrAllocate.setUnderFiftyCount(underFiftyCount);
+
+        return pcsPrAllocate;
+    }
 
     // 读取某个分党委的代表最大推荐数量（投票阶段）
     public int getPrMaxCount(int configId, int partyId) {
