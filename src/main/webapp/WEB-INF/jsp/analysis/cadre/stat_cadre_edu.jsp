@@ -28,22 +28,25 @@
         var cadreEduChart = echarts.init($displayDiv);
         cadreEduChart.showLoading({text: '正在加载数据'});
 
-        $.get("${ctx}/stat_cadreEdu_count_data", {cadreCategory:cadreCategory}, function (cadreEduMap) {
+        $.get("${ctx}/stat_cadreEdu_count_data", {cadreCategory:cadreCategory}, function (map) {
 
             var legendData = [];
             var seriesData1 = [];
             var seriesData2 = [];
+            var cadreEduMap = map.cadreEduMap;
 
             $.each(cadreEduMap, function (key, value) {
                 var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
 
@@ -99,6 +102,21 @@
 
              cadreEduChart.setOption(option, true);
              cadreEduChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadreEduChart.on('click', function (params) {
+                    var status = ${param.cadreCategory == 1 ? 1 : 8};
+                    var name = params.data._type;
+                    var url = "";
+                    if (name == '其他') {
+                        url = "#${ctx}/cadre?maxEdus={0}&status={1}".format($.trim(-1), status);
+                    } else {
+                        var classId = map[name];
+                        url = "#${ctx}/cadre?maxEdus={0}&status={1}".format($.trim(classId), status);
+                    }
+                    window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
 
         })
     })($div[0], ${param.cadreCategory});

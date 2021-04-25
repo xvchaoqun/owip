@@ -29,21 +29,21 @@
         var cadreDpChart = echarts.init($displayDiv);
         cadreDpChart.showLoading({text: '正在加载数据'});
         $.get("${ctx}/stat_cadreDp_count_data", {cadreCategory:cadreCategory}, function (cadreDpMap) {
-
             var legendData = [];
             var seriesData1 = [];
             var seriesData2 = [];
-
             $.each(cadreDpMap, function (key, value) {
                 var item=key+'('+value+')';
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: key,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
 
@@ -96,6 +96,39 @@
 
             cadreDpChart.setOption(option, true);
             cadreDpChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadreDpChart.on('click', function (params) {
+                var status = ${param.cadreCategory == 1 ? 1 : 8};
+                var url = "";
+                var type = params.data._type;
+                var ids = [];
+                var isPer = (type == '群众');
+                if (type == '民主党派' || isPer) {
+                    var map = ${cm:toJSONObject(cm:getMetaTypes("mc_democratic_party"))};
+                    for (var i in map) {
+                        if (!isPer) {
+                            if (map[i].name == '群众') {
+                                continue;
+                            }
+                            ids.push(map[i].id);
+                        } else {
+                            if (map[i].name == '群众') {
+                                ids.push(map[i].id);
+                            }
+                        }
+                    }
+                } else if (type == '中共党员') {
+                    ids.push(0);
+                } else {
+                    ids.push(-1);
+                }
+                url = "#${ctx}/cadre?dpTypes=" + ids + "&status=" + status;
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
+
+
         })
     })($div[0], ${param.cadreCategory});
 </script>

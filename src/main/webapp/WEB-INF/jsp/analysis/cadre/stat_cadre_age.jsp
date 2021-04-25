@@ -28,8 +28,8 @@
         var cadreAgeChart = echarts.init($displayDiv);
         cadreAgeChart.showLoading({text: '正在加载数据'});
 
-        $.get("${ctx}/stat_cadre_age_data", {cadreCategory:cadreCategory}, function (cadreAgeMap) {
-
+        $.get("${ctx}/stat_cadre_age_data", {cadreCategory:cadreCategory}, function (map) {
+            var cadreAgeMap = map.cadreAgeMap;
             var legendData = [];
             var seriesData1= [];
             var seriesData2 = [];
@@ -38,11 +38,13 @@
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: key,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
             var option = {
@@ -94,6 +96,32 @@
 
             cadreAgeChart.setOption(option, true);
             cadreAgeChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadreAgeChart.on('click', function (params) {
+                var status = ${param.cadreCategory == 1 ? 1 : 8};
+                var ages = map[params.data._type];
+                var startAge = 0;
+                var endAge = 0;
+                if (ages != undefined) {
+                    if (ages[0] != undefined) {
+                        startAge = ages[0];
+                    }
+                    if (ages[1] != undefined) {
+                        endAge = ages[1];
+                    }
+                }
+                var url = ""
+                if (startAge == 55) {
+                    url = "#${ctx}/cadre?startAge=" + startAge + "&status=" + status;
+                } else if (startAge == 0 && endAge == 0){
+                    url = "#${ctx}/cadre?otherAge=1" + "&_type=其他" + "&status=" + status;
+                } else {
+                    url = "#${ctx}/cadre?startAge=" + startAge + "&endAge=" + endAge + "&_type=其他" + "&status=" + status;
+                }
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
 
         })
     })($div[0], ${param.cadreCategory});

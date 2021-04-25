@@ -123,3 +123,6 @@
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_CADRE%>" var="CES_RESULT_TYPE_CADRE"/>
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_UNIT%>" var="CES_RESULT_TYPE_UNIT"/>
 <c:set value="点击此搜索条的任意位置可展开/收起搜索框" var="note_searchbar"/>
+<c:set value="<%=SystemConstants.DEGREE_TYPE_MAP%>" var="DEGREE_TYPE_MAP"/>
+
+

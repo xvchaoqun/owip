@@ -419,4 +419,88 @@
         update tmp_sort_cadre set sort_order = (#{count}+1)-id;
         update cadre c, tmp_sort_cadre t set c.sort_order=t.sort_order where c.user_id=t.user_id;
     </update>
+
+    <select id="selectCadreByOthers" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map">
+        SELECT * from cadre_view WHERE ( STATUS = #{status}
+        <if test="adminLevels != null">
+            AND (admin_level in
+            <foreach collection="adminLevels" item="adminLevel" separator="," open="(" close=")">
+                #{adminLevel}
+            </foreach>
+            OR admin_level IS NULL)
+        </if>
+        <if test="genders != null">
+            and gender not in
+            <foreach collection="genders" item="gender" separator="," open="(" close=")">
+                #{gender}
+            </foreach>
+            OR (gender IS NULL AND STATUS = #{status})
+        </if>
+        <if test="isOtherAge == true">
+            AND birth IS null
+        </if>
+        <if test="nation != null">
+            and nation IN
+            <foreach collection="nation" item="n" separator="," open="(" close=")">
+                #{n}
+            </foreach>
+        </if>
+        <if test="proPostLevels != null">
+            <if test="proPostLevels[0] == '其他'">
+                and pro_post_level is null
+            </if>
+        </if>
+        <if test="startAge == 55">
+            AND (year(CURDATE())-year(birth) + if(month(birth)>month(CURDATE()), -1, 0))>#{startAge}
+        </if>
+        )
+    </select>
+
+    <select id="countCadreByOthers" parameterType="map" resultType="java.lang.Integer">
+        SELECT IFNULL(count(*),0) as total from cadre_view WHERE ( STATUS = #{status}
+        <if test="adminLevels != null">
+            AND (admin_level in
+            <foreach collection="adminLevels" item="adminLevel" separator="," open="(" close=")">
+                #{adminLevel}
+            </foreach>
+            OR admin_level IS NULL)
+        </if>
+        <if test="genders != null">
+            and gender not in
+            <foreach collection="genders" item="gender" separator="," open="(" close=")">
+                #{gender}
+            </foreach>
+            OR (gender IS NULL AND STATUS = #{status})
+        </if>
+        <if test="isOtherAge == true">
+            AND birth IS null
+        </if>
+        <if test="nation != null">
+            and nation IN
+            <foreach collection="nation" item="n" separator="," open="(" close=")">
+                #{n}
+            </foreach>
+        </if>
+        <if test="proPostLevels != null">
+            <if test="proPostLevels[0] == '其他'">
+                and pro_post_level is null
+            </if>
+        </if>
+        <if test="startAge == 55">
+            AND (year(CURDATE())-year(birth) + if(month(birth)>month(CURDATE()), -1, 0))>#{startAge}
+        </if>
+        )
+    </select>
+
+    <select id="countCadreAgeRange" parameterType="map" resultType="java.lang.Integer">
+        SELECT count(*) FROM (
+        SELECT (year(CURDATE())-year(birth) + if(month(birth)>month(CURDATE()), -1, 0)) as age,status FROM cadre_view) f
+        WHERE STATUS = #{status} AND age &gt;= #{startAge} AND age &lt;= #{endAge}
+    </select>
+
+    <select id="selectCadreAgeRange" resultMap="persistence.cadre.CadreViewMapper.BaseResultMap" parameterType="map" resultType="java.lang.Integer">
+        SELECT * FROM (
+        SELECT (year(CURDATE())-year(birth) + if(month(birth)>month(CURDATE()), -1, 0)) as age,cv.* FROM cadre_view cv) f
+        WHERE STATUS = #{status} AND age &gt;= #{startAge} AND age &lt; #{endAge}
+    </select>
 </mapper>
