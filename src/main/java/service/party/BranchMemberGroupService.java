@@ -186,11 +186,11 @@ public class BranchMemberGroupService extends BaseMapper {
 
             if (!isDeleted) { // 恢复支部委员会
                 if (branch.getIsDeleted())
-                    throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已删除", branch.getName()));
+                    throw new OpException(String.format("恢复支部委员会失败，支部委员会所属的支部【%s】已撤销", branch.getName()));
                 else {
                     Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                     if (party.getIsDeleted())
-                        throw new OpException(String.format("恢复支部委员会失败，支部委员会所在党组织【%s】已删除", party.getName()));
+                        throw new OpException(String.format("恢复支部委员会失败，支部委员会所在党组织【%s】已撤销", party.getName()));
                 }
 
                 BranchMemberGroup presentGroup = getPresentGroup(branchId);

@@ -56,7 +56,7 @@
     </select>
     <!-- 统计党员发展各阶段情况-->
     <select id="memberApply_groupByStage" resultType="bean.StatByteBean" parameterType="map">
-        select count(*) as num, stage as groupBy from ow_member_apply_view where member_status=0 and stage>-1 and is_remove=0
+        select count(*) as num, stage as groupBy from ow_member_apply_view where stage>-1 and is_remove=0
         <if test="stage!=null">
             and stage =#{stage}
         </if>

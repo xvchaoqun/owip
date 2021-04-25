@@ -52,7 +52,7 @@ public class CadreWorkService extends BaseMapper {
         CadreWorkExample.Criteria criteria = example.createCriteria()
                 .andCadreIdEqualTo(cadreId)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-        ;
+
         criteria.andStartTimeEqualTo(startTime);
         if (endTime != null) {
             criteria.andEndTimeEqualTo(endTime);
@@ -75,7 +75,7 @@ public class CadreWorkService extends BaseMapper {
             if(cadreWork.getStartTime()==null) continue; // 忽略起始时间为空的记录
 
             CadreResume resume = new CadreResume();
-            resume.setIsWork(true);
+            resume.setType(CadreResume.TYPE_WORK);
             resume.setStartDate(cadreWork.getStartTime());
             resume.setEndDate(cadreWork.getEndTime());
             resume.setDetail(String.format("%s%s", cadreWork.getDetail() , StringUtils.isNotBlank(cadreWork.getNote()) ? String.format("（%s）", cadreWork.getNote()) : ""));
@@ -87,7 +87,7 @@ public class CadreWorkService extends BaseMapper {
                 for (CadreWork subCadreWork : subCadreWorks) {
 
                     CadreResume r = new CadreResume();
-                    r.setIsWork(true);
+                    r.setType(CadreResume.TYPE_WORK);
                     r.setStartDate(subCadreWork.getStartTime());
                     r.setEndDate(subCadreWork.getEndTime());
                     r.setDetail(subCadreWork.getDetail());
@@ -118,7 +118,11 @@ public class CadreWorkService extends BaseMapper {
                 if (learnStyle == null) continue; // 学习方式为空时不计入简历预览
 
                 CadreResume eduResume = new CadreResume();
-                eduResume.setIsWork(false);
+                if(BooleanUtils.isTrue(cadreEdu.getAdformDisplayAsDouble())){
+                    eduResume.setType(CadreResume.TYPE_EDU_DOUBLE);
+                }else {
+                    eduResume.setType(CadreResume.TYPE_EDU);
+                }
                 eduResume.setStartDate(cadreEdu.getEnrolTime());
                 eduResume.setEndDate(cadreEdu.getFinishTime());
 
@@ -127,17 +131,18 @@ public class CadreWorkService extends BaseMapper {
 
                 if(BooleanUtils.isTrue(cadreEdu.getAdformResumeExclude())) continue; // 不计入简历
 
-                if (learnStyle.intValue() == fulltimeType.getId()
-                        || BooleanUtils.isTrue(cadreEdu.getAdformDisplayAsFulltime())) {
+                if (BooleanUtils.isNotTrue(cadreEdu.getAdformDisplayAsDouble())
+                        && (learnStyle.intValue() == fulltimeType.getId()
+                        || BooleanUtils.isTrue(cadreEdu.getAdformDisplayAsFulltime()))) {
 
-                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu, false));
+                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu));
 
                     // 全日制学习经历： 根据入学时间当成主要工作经历插入
                     int insertPos = 0;
                     for (int i = 0; i < resumes.size(); i++) {
 
                         CadreResume resume = resumes.get(i);
-                        if (resume.isWork()) {
+                        if (resume.getType() == CadreResume.TYPE_WORK) {
                             String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
                             if (enrolTime.compareTo(startDate) <= 0) {
                                 insertPos = i;
@@ -154,7 +159,7 @@ public class CadreWorkService extends BaseMapper {
                         for (CadreWork subCadreWork : subCadreWorks) {
 
                             CadreResume r = new CadreResume();
-                            r.setIsWork(true);
+                            r.setType(CadreResume.TYPE_WORK);
                             r.setStartDate(subCadreWork.getStartTime());
                             r.setEndDate(subCadreWork.getEndTime());
                             r.setDetail(subCadreWork.getDetail());
@@ -171,12 +176,13 @@ public class CadreWorkService extends BaseMapper {
 
                     resumes.add(insertPos, eduResume);
 
-                } else if (learnStyle.intValue() == onjobType.getId()) {
+                } else if (learnStyle.intValue() == onjobType.getId()
+                        || BooleanUtils.isTrue(cadreEdu.getAdformDisplayAsDouble()) ) {
 
-                    // 非全日制学习经历：当成其间工作经历插入
-                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu, true));
+                    // 非全日制学习经历/双学位：当成其间工作经历插入
+                    eduResume.setDetail(extCommonService.getResumeOfCadreEdu(cadreEdu));
 
-                    // 非全日制学习经历： 根据开始时间和结束时间将学习经历插入到某条工作经历的其间之内。
+                    // 根据开始时间和结束时间将学习经历插入到某条工作经历的其间之内。
                     // 第一步： 看结束时间，某条学习经历的结束时间在哪条工作经历之内， 那么这条学习经历就要在这条工作经历的其间。
                     insertSubResume(eduResume, resumes);
                 }
@@ -196,7 +202,8 @@ public class CadreWorkService extends BaseMapper {
 
             String detail = String.format("挂职任%s", post);
             CadreResume crpResume = new CadreResume();
-            crpResume.setIsWork(false);
+            //crpResume.setIsWork(false);
+            crpResume.setType(CadreResume.TYPE_WORK);
             crpResume.setStartDate(record.getStartDate());
             crpResume.setEndDate(record.getRealEndDate());
             crpResume.setDetail(detail);
@@ -225,7 +232,8 @@ public class CadreWorkService extends BaseMapper {
         for (int i = 0; i < resumes.size(); i++) {
 
             CadreResume resume = resumes.get(i);
-            if (resume.isWork()) {
+            if (resume.getType() == CadreResume.TYPE_WORK
+                ||resume.getType() == CadreResume.TYPE_EDU) {
                 String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
                 String endDate = DateUtils.formatDate(resume.getEndDate(), DateUtils.YYYYMM);
 

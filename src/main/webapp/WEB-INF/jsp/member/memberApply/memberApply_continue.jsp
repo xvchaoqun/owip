@@ -225,7 +225,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '提交书面申请书时间', name: 'applyTime', width: 180, formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.user.birth, 0);
@@ -240,7 +240,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '确定为入党积极分子时间',
                 name: 'activeTime',
@@ -258,7 +258,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '确定为发展对象时间',
                 name: 'candidateTime',
@@ -273,7 +273,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.candidateTime, 4);
@@ -291,14 +291,14 @@
             },
             </shiro:hasPermission>
             </c:if>
-            <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '领取志愿书时间', name: 'drawTime', width: 160, formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.planTime, 5, rowObject.growPublic);
                 }
             },
             </c:if>
-            <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_REMOVE}">
             {label: '志愿书编码', name: 'applySn', width: 150},
             {
                 label: '发展时间', name: 'growTime', formatter: function (cellvalue, options, rowObject) {
@@ -306,7 +306,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_REMOVE}">
             <shiro:hasPermission name="partyPublic:list">
             {
                 label: '转正公示日期',

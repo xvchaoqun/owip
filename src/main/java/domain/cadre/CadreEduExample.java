@@ -2162,6 +2162,66 @@ public class CadreEduExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdformDisplayAsDoubleIsNull() {
+            addCriterion("adform_display_as_double is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleIsNotNull() {
+            addCriterion("adform_display_as_double is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleEqualTo(Boolean value) {
+            addCriterion("adform_display_as_double =", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleNotEqualTo(Boolean value) {
+            addCriterion("adform_display_as_double <>", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleGreaterThan(Boolean value) {
+            addCriterion("adform_display_as_double >", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("adform_display_as_double >=", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleLessThan(Boolean value) {
+            addCriterion("adform_display_as_double <", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleLessThanOrEqualTo(Boolean value) {
+            addCriterion("adform_display_as_double <=", value, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleIn(List<Boolean> values) {
+            addCriterion("adform_display_as_double in", values, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleNotIn(List<Boolean> values) {
+            addCriterion("adform_display_as_double not in", values, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_display_as_double between", value1, value2, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformDisplayAsDoubleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("adform_display_as_double not between", value1, value2, "adformDisplayAsDouble");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

@@ -1,4 +1,14 @@
 
+-- 2021.4.23 ly
+-- 更新ow_branch_member_view
+
+-- 2021.4.22 ly
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `unit_code` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位code' AFTER `unit`;
+ALTER TABLE `ow_party`
+	ADD COLUMN `unit_ids` VARCHAR(300) NULL DEFAULT NULL COMMENT '关联单位2' AFTER `unit_id`;
+-- 更新sys_user_view、ow_party_view
+
 --2021.03.04 hwd
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4008, 0, '申请人-中组部', '', 'url', '', '/stat/statCod?cls=1', 4006, '0/1/105/4006/', 1, 'statCodAppply:list', NULL, NULL, NULL, 1, 1000);
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (4007, 0, '党员-中组部', '', 'url', '', '/stat/statCod?cls=2', 4006, '0/1/105/4006/', 1, 'statCodMember:list', NULL, NULL, NULL, 1, 900);

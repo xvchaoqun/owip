@@ -98,7 +98,7 @@
     </select>
 
     <select id="selectMemberApplyCount" parameterType="map" resultType="persistence.member.common.MemberApplyCount">
-        select if(user_type in(1,5), 1, 2) as type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0 and m.is_remove=0
+        select if(user_type in(1,5), 1, 2) as type, stage , count(*) as num from ow_member_apply_view m where m.is_remove=0
         <include refid="member_selects_permits"/>
         group by type, stage
     </select>

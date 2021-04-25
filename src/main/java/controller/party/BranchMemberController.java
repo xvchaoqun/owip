@@ -75,7 +75,7 @@ public class BranchMemberController extends BaseController {
                                   Boolean isHistory,
                                   Boolean isDoubleLeader,
 
-                                  //党支部中的字段
+                                  // 查询对应党支部中的字段
                                   Integer[] branchTypes,
                                   Integer unitTypeId,
                                   Boolean isStaff,
@@ -126,31 +126,20 @@ public class BranchMemberController extends BaseController {
         if (isDoubleLeader != null) {
             criteria.andIsDoubleLeaderEqualTo(isDoubleLeader);
         }
-        BranchViewExample branchViewExample = new BranchViewExample();
-        BranchViewExample.Criteria branchCriteria = branchViewExample.createCriteria();
         if (branchTypes != null) {
-            branchCriteria.andTypesContain(new HashSet<>(Arrays.asList(branchTypes)));
+            criteria.andBranchTypesContain(new HashSet<>(Arrays.asList(branchTypes)));
         }
         if (unitTypeId != null) {
-            branchCriteria.andUnitTypeIdEqualTo(unitTypeId);
+            criteria.andUnitTypeIdEqualTo(unitTypeId);
         }
         if (isStaff != null) {
-            branchCriteria.andIsStaffEqualTo(isStaff);
+            criteria.andIsStaffEqualTo(isStaff);
         }
         if (isPrefessional != null) {
-            branchCriteria.andIsPrefessionalEqualTo(isPrefessional);
+            criteria.andIsPrefessionalEqualTo(isPrefessional);
         }
         if (isBaseTeam != null) {
-            branchCriteria.andIsBaseTeamEqualTo(isBaseTeam);
-        }
-        List<BranchView> branchViewList = branchViewMapper.selectByExample(branchViewExample);
-        if (branchViewList != null && branchViewList.size() > 0){
-            List<Integer> branchIdList = branchViewList.stream().map(BranchView::getId).collect(Collectors.toList());
-            criteria.andGroupBranchIdIn(branchIdList);
-        }
-        if ((branchTypes != null || unitTypeId != null || isStaff != null || isPrefessional != null || isBaseTeam != null)
-                && branchViewList != null && branchViewList.size() == 0){
-            criteria.andGroupBranchIdIsNull();//根据委员会对应的的branchId
+            criteria.andIsBaseTeamEqualTo(isBaseTeam);
         }
 
         if (export == 1) {

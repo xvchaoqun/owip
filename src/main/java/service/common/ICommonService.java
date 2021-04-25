@@ -239,7 +239,12 @@ public abstract class ICommonService {
     }
 
     // 任免审批表学习经历表述
-    public String getResumeOfCadreEdu(CadreEdu cadreEdu, boolean isOnjob) {
+    public String getResumeOfCadreEdu(CadreEdu cadreEdu) {
+
+        if(cadreEdu.getLearnStyle()==null) return "";
+
+        MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
+        boolean isOnjob = cadreEdu.getLearnStyle().intValue() == onjobType.getId();
 
         String detail = cadreEdu.getResume();
         String major = StringUtils.trimToNull(cadreEdu.getMajor());

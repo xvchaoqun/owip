@@ -4,9 +4,9 @@
 <%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 
 <c:set var="_query" value="${not empty param.userId
-            ||not empty param.partyId ||not empty param.branchId ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
+            ||not empty param.partyId ||not empty param.branchId ||not empty param.applyStatus  ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${stage>OW_APPLY_STAGE_OUT }">
+    <c:if test="${stage>OW_APPLY_STAGE_REMOVE }">
         <button class="jqEditBtn btn btn-primary btn-sm"
                 data-url="${ctx}/memberApply_au"
                 data-open-by="page"
@@ -273,7 +273,7 @@
                 <i class="fa fa-reply-all"></i> 退回申请（批量）
             </button>
         </c:if>
-        <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<OW_APPLY_STAGE_GROW}">
+        <c:if test="${stage>=OW_APPLY_STAGE_INIT && stage<=OW_APPLY_STAGE_GROW}">
             <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                     data-url="${ctx}/memberApply_remove"
                     data-querystr="stage=${stage}&isRemove=1">
@@ -362,6 +362,25 @@
                     $.register.party_branch_select($("#searchForm"), "branchDiv",
                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                 </script>
+                <c:if test="${stage==OW_APPLY_STAGE_INIT}">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <div class="input-group">
+                            <select name="applyStatus"
+                                    data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="0">待支部审核</option>
+                                <option value="1">
+                                    申请通过，待支部确定为入党积极分子
+                                </option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=applyStatus]").val("${param.applyStatus}");
+                            </script>
+                        </div>
+                    </div>
+                </c:if>
                 <c:if test="${stage==OW_APPLY_STAGE_DRAW}">
                     <div class="form-group">
                         <label>状态</label>
@@ -444,7 +463,7 @@
 
     <c:if test="${stage==0}">
     #jqGridPager_right {
-        width: 150px;
+        width: 200px;
     }
 
     </c:if>
@@ -499,7 +518,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_INIT || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '入党申请时间', name: 'joinApplyTime', width:160,formatter: function (cellvalue, options, rowObject) {
                     return $.memberApplyTime(${_memberApply_timeLimit}, cellvalue, rowObject.joinApplyTime, 0);
@@ -523,7 +542,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_ACTIVE || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '确定为入党积极分子时间',
                 name: 'activeTime',
@@ -569,7 +588,7 @@
             },
             </c:if>
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE || stage<=OW_APPLY_STAGE_REMOVE}">
             {
                 label: '确定为发展对象时间',
                 name: 'candidateTime',
@@ -593,7 +612,7 @@
                 },
             </c:if>
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_REMOVE}">
                 <c:if test="${!_ignore_plan_and_draw}">
                     {
                         label: '列入发展计划时间', name: 'planTime', width: 180, formatter: function (cellvalue, options, rowObject) {
@@ -615,7 +634,7 @@
                 </c:if>
             </shiro:hasPermission>
             </c:if>
-            <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage>=OW_APPLY_STAGE_PLAN || stage<=OW_APPLY_STAGE_REMOVE}">
                 <c:if test="${!_ignore_plan_and_draw}">
                     {
                         label: '领取志愿书时间', name: 'drawTime', width: 160, formatter: function (cellvalue, options, rowObject) {
@@ -624,7 +643,7 @@
                     },
                 </c:if>
             </c:if>
-            <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage>=OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_REMOVE}">
             <shiro:hasPermission name="applySnRange:list">
                 <c:if test="${!_ignore_plan_and_draw}">
                     {label: '志愿书编码', name: 'applySn', width: 150},
@@ -636,7 +655,7 @@
                 }
             },
             </c:if>
-            <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
+            <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_REMOVE}">
             <shiro:hasPermission name="partyPublic:list">
             {
                 label: '转正公示日期',

@@ -29,6 +29,8 @@ public class PartyView implements Serializable {
 
     private Integer unitId;
 
+    private String unitIds;
+
     private Integer classId;
 
     private Integer typeId;
@@ -54,6 +56,8 @@ public class PartyView implements Serializable {
     private String mailbox;
 
     private Date foundTime;
+
+    private Date abolishTime;
 
     private Integer sortOrder;
 
@@ -151,6 +155,14 @@ public class PartyView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
     public Integer getClassId() {
@@ -255,6 +267,14 @@ public class PartyView implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Date getAbolishTime() {
+        return abolishTime;
+    }
+
+    public void setAbolishTime(Date abolishTime) {
+        this.abolishTime = abolishTime;
     }
 
     public Integer getSortOrder() {

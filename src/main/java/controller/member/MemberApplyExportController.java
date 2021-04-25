@@ -43,6 +43,8 @@ public class MemberApplyExportController extends MemberBaseController {
                                     // 2：发展党员人员信息（即预备党员阶段） 3: 领取志愿书人员信息 4: 预备党员转正信息
                                     @RequestParam(defaultValue = "0")Byte exportType,
                                     @RequestDateRange DateRange _applyTime,
+                                    @RequestDateRange DateRange _activeTime,
+                                    @RequestDateRange DateRange _candidateTime,
                                     @RequestDateRange DateRange _growTime,
                                     @RequestDateRange DateRange _drawTime,
                                     @RequestDateRange DateRange _positiveTime,
@@ -58,8 +60,6 @@ public class MemberApplyExportController extends MemberBaseController {
         MemberApplyViewExample example = new MemberApplyViewExample();
         MemberApplyViewExample.Criteria criteria = example.createCriteria()
                 .andIsRemoveEqualTo(false);
-
-        criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
 
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         example.setOrderByClause("create_time desc");
@@ -99,6 +99,20 @@ public class MemberApplyExportController extends MemberBaseController {
             }
             if (_applyTime.getEnd()!=null) {
                 criteria.andApplyTimeLessThanOrEqualTo(_applyTime.getEnd());
+            }
+
+            if (_activeTime.getStart()!=null) {
+                criteria.andActiveTimeGreaterThanOrEqualTo(_activeTime.getStart());
+            }
+            if (_activeTime.getEnd()!=null) {
+                criteria.andActiveTimeLessThanOrEqualTo(_activeTime.getEnd());
+            }
+
+            if (_candidateTime.getStart()!=null) {
+                criteria.andCandidateTimeGreaterThanOrEqualTo(_candidateTime.getStart());
+            }
+            if (_candidateTime.getEnd()!=null) {
+                criteria.andCandidateTimeLessThanOrEqualTo(_candidateTime.getEnd());
             }
 
             if(type==MemberConstants.MEMBER_TYPE_STUDENT) {

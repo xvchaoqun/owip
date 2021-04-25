@@ -24,6 +24,7 @@
     <result column="not_send_msg" jdbcType="BIT" property="notSendMsg" />
     <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -97,8 +98,9 @@
   <sql id="Base_Column_List">
     user_id, realname, user_status, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
-    msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
-    msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, m_res_ids_minus
+    msg_mobile, not_send_msg, file_number, unit, unit_code, phone, home_phone, email, 
+    mailing_address, msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, 
+    m_res_ids_minus
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -138,11 +140,11 @@
       homeplace, household, specialty, 
       health, sign, mobile, 
       msg_mobile, not_send_msg, file_number, 
-      unit, phone, home_phone, 
-      email, mailing_address, msg_title, 
-      resume, sync, res_ids_add, 
-      m_res_ids_add, res_ids_minus, m_res_ids_minus
-      )
+      unit, unit_code, phone, 
+      home_phone, email, mailing_address, 
+      msg_title, resume, sync, 
+      res_ids_add, m_res_ids_add, res_ids_minus, 
+      m_res_ids_minus)
     values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
       #{birth,jdbcType=DATE}, #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, 
@@ -150,11 +152,11 @@
       #{homeplace,jdbcType=VARCHAR}, #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
       #{health,jdbcType=INTEGER}, #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{msgMobile,jdbcType=VARCHAR}, #{notSendMsg,jdbcType=BIT}, #{fileNumber,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, 
-      #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER}, #{resIdsAdd,jdbcType=VARCHAR}, 
-      #{mResIdsAdd,jdbcType=VARCHAR}, #{resIdsMinus,jdbcType=VARCHAR}, #{mResIdsMinus,jdbcType=VARCHAR}
-      )
+      #{unit,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailingAddress,jdbcType=VARCHAR}, 
+      #{msgTitle,jdbcType=VARCHAR}, #{resume,jdbcType=VARCHAR}, #{sync,jdbcType=INTEGER}, 
+      #{resIdsAdd,jdbcType=VARCHAR}, #{mResIdsAdd,jdbcType=VARCHAR}, #{resIdsMinus,jdbcType=VARCHAR}, 
+      #{mResIdsMinus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -224,6 +226,9 @@
       </if>
       <if test="unit != null">
         unit,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
       </if>
       <if test="phone != null">
         phone,
@@ -325,6 +330,9 @@
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
@@ -436,6 +444,9 @@
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -498,6 +509,7 @@
       not_send_msg = #{record.notSendMsg,jdbcType=BIT},
       file_number = #{record.fileNumber,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
@@ -579,6 +591,9 @@
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
@@ -638,6 +653,7 @@
       not_send_msg = #{notSendMsg,jdbcType=BIT},
       file_number = #{fileNumber,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

@@ -35,6 +35,7 @@
     <result column="not_send_msg" jdbcType="BIT" property="notSendMsg" />
     <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -80,8 +81,9 @@
     id, username, passwd, salt, role_ids, code, type, create_time, source, locked, timeout, 
     user_id, realname, user_status, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
-    msg_mobile, not_send_msg, file_number, unit, phone, home_phone, email, mailing_address, 
-    msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, m_res_ids_minus
+    msg_mobile, not_send_msg, file_number, unit, unit_code, phone, home_phone, email, 
+    mailing_address, msg_title, resume, sync, res_ids_add, m_res_ids_add, res_ids_minus, 
+    m_res_ids_minus
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserViewExample" resultMap="BaseResultMap">
     select

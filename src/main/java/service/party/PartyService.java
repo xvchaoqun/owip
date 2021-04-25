@@ -176,7 +176,7 @@ public class PartyService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "Party:ALL", allEntries = true)
-    public void batchDel(Integer[] ids, boolean isDeleted) {
+    public void batchDel(Integer[] ids, boolean isDeleted, Date abolishTime) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -186,6 +186,7 @@ public class PartyService extends BaseMapper {
             Party record = new Party();
             record.setId(id);
             record.setIsDeleted(isDeleted);
+            record.setAbolishTime(abolishTime);
             if (isDeleted) {
                 // 删除所有的领导班子
                 {
@@ -210,7 +211,7 @@ public class PartyService extends BaseMapper {
                         for (Branch branch : branchs) {
                             branchIds.add(branch.getId());
                         }
-                        branchService.batchDel(branchIds.toArray(new Integer[]{}), true);
+                        branchService.batchDel(branchIds.toArray(new Integer[]{}), true, abolishTime);
                     }
                 }
 

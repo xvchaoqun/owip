@@ -39,6 +39,8 @@ public class Branch implements Serializable {
 
     private Date foundTime;
 
+    private Date abolishTime;
+
     private Integer transferCount;
 
     private Integer sortOrder;
@@ -185,6 +187,14 @@ public class Branch implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Date getAbolishTime() {
+        return abolishTime;
+    }
+
+    public void setAbolishTime(Date abolishTime) {
+        this.abolishTime = abolishTime;
     }
 
     public Integer getTransferCount() {

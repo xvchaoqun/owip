@@ -820,7 +820,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
-            if(stage>=OwConstants.OW_APPLY_STAGE_GROW ){
+            if(stage>OwConstants.OW_APPLY_STAGE_GROW ){
                 throw new OpException("已是党员，不可移除。");
             }
 
