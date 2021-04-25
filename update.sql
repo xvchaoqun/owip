@@ -1,6 +1,14 @@
 
+20210425
+-- 北师大
+-- 哈工大需要单独处理（他们需要把暂留党员单独入库，其他学校不需要）！
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('hasMemberStayStatus', '暂留党员是否单独入库', 'false', 3, 102, '暂留党员是否单独入库');
+update ow_member set status=1 where status=5;
+-- 哈工大需要单独处理！
+
 20210423
--- 吉大
+-- 吉大、大工
 ALTER TABLE `cadre_edu`
 	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'
 	    COMMENT '显示为双学位，仅对全日制教育有效' AFTER `adform_display_as_fulltime`;

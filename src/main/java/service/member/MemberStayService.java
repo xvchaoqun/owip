@@ -20,6 +20,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -287,11 +288,13 @@ public class MemberStayService extends MemberBaseMapper {
         record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
-        // 转移至暂留党员库
-        Member member = new Member();
-        member.setUserId(userId);
-        member.setStatus(MemberConstants.MEMBER_STATUS_STAY);
-        memberMapper.updateByPrimaryKeySelective(member);
+        if(CmTag.getBoolProperty("hasMemberStayStatus")) {
+            // 转移至暂留党员库
+            Member member = new Member();
+            member.setUserId(userId);
+            member.setStatus(MemberConstants.MEMBER_STATUS_STAY);
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
     }
 
     @Transactional
