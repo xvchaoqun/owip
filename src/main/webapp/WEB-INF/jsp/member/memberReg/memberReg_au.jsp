@@ -80,15 +80,15 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">手机号码</label>
 				<div class="col-xs-6">
                         <input class="form-control mobile" type="text" name="phone" value="${memberReg.phone}">
-						<span class="help-block">手机号码用于账号本人进行密码找回操作，请正确填写</span>
+						<%--<span class="help-block">手机号码用于账号本人进行密码找回操作，请正确填写</span>--%>
 				</div>
 			</div>
     </form>
 </div>
 <div class="modal-footer">
-	<c:if test="${empty memberReg}">
+	<%--<c:if test="${empty memberReg}">
 		<div class="note">注：添加成功后，将保存至“审批通过”列表。</div>
-	</c:if>
+	</c:if>--%>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" type="button" class="btn btn-primary"
 		   data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-check"></i> 确定</button>
