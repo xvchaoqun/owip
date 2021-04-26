@@ -222,6 +222,7 @@ public class SyncService extends BaseMapper {
         SysUser record = new SysUser();
         record.setUsername(code);
         record.setCode(code);
+        record.setType(SystemConstants.USER_TYPE_JZG);
         record.setSource(SystemConstants.USER_SOURCE_JZG);
         record.setLocked(false);
 
@@ -236,9 +237,6 @@ public class SyncService extends BaseMapper {
         }
         try {
             if (sysUser == null) {
-
-                // 为空时才设定类别
-                record.setType(SystemConstants.USER_TYPE_JZG);
 
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
                 record.setSalt(encrypt.getSalt());

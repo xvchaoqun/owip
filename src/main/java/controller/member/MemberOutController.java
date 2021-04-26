@@ -703,7 +703,7 @@ public class MemberOutController extends MemberBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", userId + "");
                 option.put("text", record.getRealname());
-                option.put("code", record.getCode());
+                option.put("code", record.getUserCode());
                 option.put("unit", extService.getUnit(userId));
 
                 MemberView mv = iMemberMapper.getMemberView(userId);

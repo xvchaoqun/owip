@@ -121,30 +121,37 @@ public class SyncController extends BaseController {
 
         SysUserView sysUser = sysUserService.findById(userId);
         String code = sysUser.getCode();
-        if (sysUser.isTeacher()) {
+
+        // 按 本科生、研究生、教职工的顺序更新，可判断该学工号到底是哪类账号
+        {
+            extBksImport.byCode(code);
+
+            ExtBksExample example = new ExtBksExample();
+            example.createCriteria().andXhEqualTo(code);
+            List<ExtBks> extBkses = extBksMapper.selectByExample(example);
+            if(extBkses.size()==1) syncService.syncExtBks(extBkses.get(0));
+        }
+
+        {
+            extYjsImport.byCode(code);
+
+            ExtYjsExample example = new ExtYjsExample();
+            example.createCriteria().andXhEqualTo(code);
+            List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
+            if(extYjses.size()==1) syncService.sysExtYjs(extYjses.get(0));
+        }
+
+        {
             extJzgImport.byCode(code);
 
             ExtJzgExample example = new ExtJzgExample();
             example.createCriteria().andZghEqualTo(code);
             List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
-            if(extJzges.size()==1) syncService.syncExtJzg(extJzges.get(0));
-        }else {
-            if (sysUser.isYJS()) {
-                extYjsImport.byCode(code);
-
-                ExtYjsExample example = new ExtYjsExample();
-                example.createCriteria().andXhEqualTo(code);
-                List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
-                if(extYjses.size()==1) syncService.sysExtYjs(extYjses.get(0));
-            }else {
-
-                extBksImport.byCode(code);
-                ExtBksExample example = new ExtBksExample();
-                example.createCriteria().andXhEqualTo(code);
-                List<ExtBks> extBkses = extBksMapper.selectByExample(example);
-                if(extBkses.size()==1) syncService.syncExtBks(extBkses.get(0));
+            if (extJzges.size() == 1) {
+                syncService.syncExtJzg(extJzges.get(0));
             }
         }
+
         return success(FormUtils.SUCCESS);
     }
 
