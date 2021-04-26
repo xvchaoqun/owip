@@ -162,8 +162,8 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'<span class="star">*</span>':''} 转正时间</label>
                 <div class="col-xs-8">
-                    <div ${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_positiveTime" type="text"
+                    <div class="input-group" style="width: 150px">
+                        <input ${member_needGrowTime&&member.politicalStatus==MEMBER_POLITICAL_STATUS_POSITIVE?'required':''} class="form-control date-picker" name="_positiveTime" type="text"
                                data-date-format="yyyy-mm-dd"
                                value="${cm:formatDate(member.positiveTime,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
