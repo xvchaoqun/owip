@@ -198,6 +198,8 @@ public abstract class ICommonService {
     // 人事库中的民族转换成标准格式
     public static String formatNation(String mz){
 
+        if(mz==null) return null;
+
         mz = StringUtils.trim(mz);
 
         // 处理加备注的民族，比如：回族（区内）
