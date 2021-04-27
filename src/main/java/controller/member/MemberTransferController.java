@@ -323,14 +323,23 @@ public class MemberTransferController extends MemberBaseController {
                                     Boolean reapply,
                                     HttpServletRequest request) {
 
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
+        Integer partyId = null;
+        Integer branchId = null;
+        if(record.getId()==null) {
 
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
+            Integer userId = record.getUserId();
+            Member member = memberService.get(userId);
+            partyId = member.getPartyId();
+            branchId = member.getBranchId();
+            record.setPartyId(partyId);
+            record.setBranchId(branchId);
+        }else{
 
-        Integer partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
+            MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(record.getId());
+            partyId = memberTransfer.getPartyId();
+            branchId = memberTransfer.getBranchId();
+        }
+
         //===========权限
         Integer loginUserId = loginUser.getId();
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {

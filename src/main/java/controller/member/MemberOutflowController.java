@@ -344,13 +344,21 @@ public class MemberOutflowController extends MemberBaseController {
             record.setFlowTime(DateUtils.parseDate(_flowTime, DateUtils.YYYY_MM_DD));
         }
 
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
+        Integer partyId = null;
+        Integer branchId = null;
+        if(id==null) {
+            Integer userId = record.getUserId();
+            Member member = memberService.get(userId);
+            partyId = member.getPartyId();
+            branchId = member.getBranchId();
+            record.setPartyId(partyId);
+            record.setBranchId(branchId);
+        }else {
+            MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
+            partyId = memberOutflow.getPartyId();
+            branchId = memberOutflow.getBranchId();
+        }
 
-        Integer partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
         //===========权限
         Integer loginUserId = loginUser.getId();
         if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
