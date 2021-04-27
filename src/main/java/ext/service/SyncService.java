@@ -222,7 +222,7 @@ public class SyncService extends BaseMapper {
         SysUser record = new SysUser();
         record.setUsername(code);
         record.setCode(code);
-        record.setType(SystemConstants.USER_TYPE_JZG);
+
         record.setSource(SystemConstants.USER_SOURCE_JZG);
         record.setLocked(false);
 
@@ -238,6 +238,8 @@ public class SyncService extends BaseMapper {
         try {
             if (sysUser == null) {
 
+                record.setType(SystemConstants.USER_TYPE_JZG);
+
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
                 record.setSalt(encrypt.getSalt());
                 record.setPasswd(encrypt.getPassword());
@@ -247,6 +249,11 @@ public class SyncService extends BaseMapper {
                 sysUser = sysUserService.dbFindByCode(code); // 下面同步时要用
                 ret = 1;
             } else {
+
+                if(!sysUser.isRetire()){ // 如果已经变为离退休了，则不能修改为教职工
+                    record.setType(SystemConstants.USER_TYPE_JZG);
+                }
+
                 record.setId(sysUser.getId());
                 sysUserService.updateByPrimaryKeySelective(record);
                 ret = 0;

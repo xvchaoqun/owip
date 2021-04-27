@@ -1,9 +1,6 @@
 package controller.member;
 
-import domain.member.Member;
-import domain.member.MemberAbroad;
-import domain.member.MemberAbroadView;
-import domain.member.MemberAbroadViewExample;
+import domain.member.*;
 import domain.member.MemberAbroadViewExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
@@ -146,8 +143,23 @@ public class MemberAbroadController extends MemberBaseController {
                                   String _actualReturnTime,
                                   HttpServletRequest request) {
 
-        Integer partyId = record.getPartyId();
-        Integer branchId = record.getBranchId();
+        Integer partyId = null;
+        Integer branchId = null;
+        if(record.getId()==null) {
+
+            Integer userId = record.getUserId();
+            Member member = memberService.get(userId);
+            partyId = member.getPartyId();
+            branchId = member.getBranchId();
+            record.setPartyId(partyId);
+            record.setBranchId(branchId);
+        }else{
+
+            MemberAbroad memberAbroad = memberAbroadMapper.selectByPrimaryKey(record.getId());
+            partyId = memberAbroad.getPartyId();
+            branchId = memberAbroad.getBranchId();
+        }
+
         //===========权限
         Integer loginUserId = loginUser.getId();
         if (!PartyHelper.hasBranchAuth(loginUserId, partyId, branchId))
@@ -160,12 +172,8 @@ public class MemberAbroadController extends MemberBaseController {
         if (StringUtils.isNotBlank(_actualReturnTime))
             record.setActualReturnTime(DateUtils.parseDate(_actualReturnTime, DateUtils.YYYY_MM_DD));
 
-        Integer userId = record.getUserId();
-        Member member = memberService.get(userId);
-        record.setPartyId(member.getPartyId());
-        record.setBranchId(member.getBranchId());
-
         if (record.getId() == null) {
+
             memberAbroadService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_MEMBER, "添加党员出国境信息：%s", record.getUserId()));
         } else {

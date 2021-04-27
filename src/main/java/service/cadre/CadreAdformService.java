@@ -603,6 +603,13 @@ public class CadreAdformService extends BaseMapper {
 
         dataMap.put("health", bean.getHealth());
         dataMap.put("proPost", bean.getProPost());
+        dataMap.put("adFormShowProPostTime", CmTag.getBoolProperty("adFormShowProPostTime"));
+        if(CmTag.getBoolProperty("proPostTimeToDay")){
+            dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMMDD_DOT));
+        }else{
+            dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM));
+        }
+
         dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("edu", bean.getEdu());
@@ -1420,7 +1427,18 @@ public class CadreAdformService extends BaseMapper {
 
         setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(bean.getWorkTime(), "yyyyMM"));
         setNodeText(doc, "JianKangZhuangKuang", bean.getHealth());
-        setNodeText(doc, "ZhuanYeJiShuZhiWu", bean.getProPost());
+
+        String proPost = StringUtils.trimToEmpty(bean.getProPost());
+        if(CmTag.getBoolProperty("adFormShowProPostTime") && bean.getProPostTime()!=null) {
+            if (CmTag.getBoolProperty("proPostTimeToDay")) {
+                proPost += "（" + DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMMDD_DOT) + "）";
+            } else {
+                proPost += "（" + DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM) + "）";
+            }
+        }
+        
+        setNodeText(doc, "ZhuanYeJiShuZhiWu", proPost);
+
         setNodeText(doc, "ShuXiZhuanYeYouHeZhuanChang", bean.getSpecialty());
 
         setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", bean.getEdu());
