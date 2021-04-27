@@ -26,7 +26,7 @@
         <button class="openView btn btn-info btn-sm"
                 data-url="${ctx}/parttime/parttimeApply_yearLogs?id=${parttimeApply.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 10px">
-          <i class="fa fa-history"></i>  本年度请假记录</button>
+          <i class="fa fa-history"></i>  本年度申请记录</button>
 
       </div>
   </ul>
