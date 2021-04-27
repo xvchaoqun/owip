@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set value="${_pMap['adForm1_family_birth']}" var="_p_adForm1_family_birth"/>
+<c:set value="${_pMap['adFormShowProPostTime']=='true'}" var="_p_adFormShowProPostTime"/>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
 <style type="text/css">.b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.5395833in 0.39375in 0.39375in;}
 .s1{font-weight:bold;}
@@ -166,6 +168,9 @@ td.bolder{font-weight: bolder}
       </td>
       <td class="td5 center" colspan="3">
         ${bean.proPost}
+        <c:if test="${_p_adFormShowProPostTime && not empty bean.proPostTime}">
+          <div style="text-align: center">（${cm:formatDate(bean.proPostTime, _p_proPostTimeFormat)}）</div>
+        </c:if>
       </td>
       <td class="td2 center bolder" style="font-size: smaller">
         <span>熟悉专业</span>

@@ -1,4 +1,8 @@
 
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+    VALUES ('adFormShowProPostTime', '任免审批表显示职称评定时间', 'false', 3, 103, '');
+
 20210426
 -- 西工大、哈工大、测试、大工
 
