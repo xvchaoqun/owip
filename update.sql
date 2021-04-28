@@ -1,4 +1,26 @@
 
+20210428
+
+-- 更新 utils
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `branch_check_time` DATETIME NULL DEFAULT NULL COMMENT '支部审核时间' AFTER `create_time`,
+	ADD COLUMN `party_check_time` DATETIME NULL DEFAULT NULL COMMENT '分党委审核时间' AFTER `branch_check_time`;
+-- 更新 ow_member_stay_view
+
+update ow_member_stay oms,
+(select oms.id, oms.party_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='分党委审核' and log1.status=1 group by oms.id) tmp
+set oms.party_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.branch_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='支部审核' and log1.status=1 group by oms.id) tmp
+set oms.branch_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='组织部审核' and log1.status=1 group by oms.id) tmp
+set oms.check_time=tmp.create_time where oms.id=tmp.id;
+
 20210427
 -- 南航
 

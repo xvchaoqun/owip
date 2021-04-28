@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="member_stay_abroad" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="10749bac-8b05-4a5e-b555-2357c68192e5">
+	<property name="ireport.zoom" value="0.5644739300537784"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1330"/>
+	<style name="zh_CN" isDefault="true" hAlign="Left" vAlign="Middle" fontName="宋体" fontSize="60" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+	<field name="realname" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="nation" class="java.lang.String"/>
+	<field name="avatar" class="java.lang.String"/>
+	<field name="birth" class="java.lang.String"/>
+	<field name="growTime" class="java.lang.String"/>
+	<field name="nativePlace" class="java.lang.String"/>
+	<field name="idcard" class="java.lang.String"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
+	<field name="phone" class="java.lang.String"/>
+	<field name="qq" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="weixin" class="java.lang.String"/>
+	<field name="inAddress" class="java.lang.String"/>
+	<field name="outAddress" class="java.lang.String"/>
+	<field name="name1" class="java.lang.String"/>
+	<field name="unit1" class="java.lang.String"/>
+	<field name="post1" class="java.lang.String"/>
+	<field name="phone1" class="java.lang.String"/>
+	<field name="mobile1" class="java.lang.String"/>
+	<field name="email1" class="java.lang.String"/>
+	<field name="name2" class="java.lang.String"/>
+	<field name="unit2" class="java.lang.String"/>
+	<field name="post2" class="java.lang.String"/>
+	<field name="phone2" class="java.lang.String"/>
+	<field name="mobile2" class="java.lang.String"/>
+	<field name="email2" class="java.lang.String"/>
+	<field name="country" class="java.lang.String"/>
+	<field name="school" class="java.lang.String"/>
+	<field name="startTime" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="overDate" class="java.lang.String"/>
+	<field name="party" class="java.lang.String"/>
+	<field name="branch" class="java.lang.String"/>
+	<field name="branchAdmin" class="java.lang.String"/>
+	<field name="branchAdminPhone" class="java.lang.String"/>
+	<field name="saveStartTime" class="java.lang.String"/>
+	<field name="payTime" class="java.lang.String"/>
+	<field name="year" class="java.lang.String"/>
+	<field name="toBranch" class="java.lang.String"/>
+	<field name="userCode" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="day" class="java.lang.String"/>
+	<field name="transferTime" class="java.lang.String"/>
+	<field name="check1" class="java.lang.String"/>
+	<field name="check2" class="java.lang.String"/>
+	<field name="typeCheck1" class="java.lang.String"/>
+	<field name="typeCheck2" class="java.lang.String"/>
+	<field name="letter" class="java.lang.String"/>
+	<field name="bg1" class="java.lang.String"/>
+	<field name="bg2" class="java.lang.String"/>
+	<field name="selfOpinion" class="java.lang.String"/>
+	<field name="selfYear" class="java.lang.String"/>
+	<field name="selfMonth" class="java.lang.String"/>
+	<field name="selfDay" class="java.lang.String"/>
+	<field name="branchOpinion" class="java.lang.String"/>
+	<field name="branchYear" class="java.lang.String"/>
+	<field name="branchMonth" class="java.lang.String"/>
+	<field name="branchDay" class="java.lang.String"/>
+	<field name="partyOpinion" class="java.lang.String"/>
+	<field name="partyYear" class="java.lang.String"/>
+	<field name="partyMonth" class="java.lang.String"/>
+	<field name="partyDay" class="java.lang.String"/>
+	<field name="owOpinion" class="java.lang.String"/>
+	<field name="owYear" class="java.lang.String"/>
+	<field name="owMonth" class="java.lang.String"/>
+	<field name="owDay" class="java.lang.String"/>
+	<detail>
+		<band height="3508" splitType="Stretch">
+			<image>
+				<reportElement style="zh_CN" x="0" y="0" width="2480" height="3508" uuid="7904a2a6-5bb9-4f43-a446-72fbfd7745dc"/>
+				<imageExpression><![CDATA[$F{bg1}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="zh_CN" x="498" y="548" width="306" height="129" uuid="f2ed0356-f8f5-4dd9-b878-f118a4ce30dd"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1026" y="558" width="299" height="119" uuid="774d7c9b-f72b-4b25-92df-8961d67878ec"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1572" y="526" width="292" height="168" uuid="9d40a638-709d-47c2-b491-3d94aacfcab6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="498" y="731" width="289" height="105" uuid="06da37d2-33c8-47aa-9245-3f358c94232d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birth}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1026" y="728" width="305" height="105" uuid="f997178c-7aa9-44ab-94f5-e33f63e4ea97"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{growTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1571" y="705" width="306" height="161" uuid="75a3ada1-0de2-43a4-89e0-05e42d853521"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nativePlace}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="814" y="878" width="935" height="161" uuid="6f58992e-caa4-4e40-b42f-d9bb15578f91"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idcard}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="498" y="1024" width="306" height="161" uuid="2ff2c343-71c1-4011-bb72-ae0639ed2e82"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1032" y="1052" width="364" height="107" uuid="55119999-d3b5-455e-9349-254e2ab6bba1"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{userCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="498" y="1184" width="366" height="116" uuid="b1fbb82b-e10a-4349-b903-9b1280b442b0"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1032" y="1184" width="463" height="120" uuid="8a483878-304b-46f8-a94b-8bf149eec37b"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1590" y="1317" width="539" height="118" uuid="4fd1dc7a-2d19-4ba9-80c2-c8357dc8beb2"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="498" y="1319" width="803" height="118" uuid="91a07168-fb0f-454b-b4f7-fe069c174f19"/>
+				<textElement>
+					<font fontName="Arial" size="48" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1590" y="1178" width="599" height="126" uuid="2a6fd3ac-4891-4a3e-97c6-fb8c0a1f8aad"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weixin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="880" y="1451" width="1240" height="79" uuid="21213291-c8ef-44d5-8358-5e3a87ff074e"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="877" y="1646" width="437" height="120" uuid="128eaeda-d78e-42f7-9cd7-32034e9bf902"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1749" y="2048" width="504" height="112" uuid="54ea9b29-a3a0-4f25-9baa-dd44e497d676"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="877" y="2160" width="505" height="145" uuid="ce81db00-d97d-4e32-ba88-c06652f62140"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{post2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1749" y="1791" width="440" height="115" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phone1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="880" y="2311" width="468" height="115" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1751" y="1917" width="652" height="102" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="Arial" size="48" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="876" y="2045" width="438" height="114" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1749" y="1648" width="594" height="109" uuid="54ea9b29-a3a0-4f25-9baa-dd44e497d676"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="877" y="1767" width="519" height="139" uuid="ce81db00-d97d-4e32-ba88-c06652f62140"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{post1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1749" y="2176" width="543" height="116" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phone2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="877" y="1917" width="390" height="102" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1750" y="2312" width="632" height="115" uuid="d3ff93ce-0094-4ab9-9dd4-6331d52a4487"/>
+				<textElement>
+					<font fontName="Arial" size="48" isBold="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="876" y="2549" width="457" height="111" uuid="fd1d40b7-99f8-4fa6-a977-3d75c95b49f3"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{country}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1749" y="2532" width="655" height="140" uuid="3094b28c-e453-4c21-98ee-34cc720908b2"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{school}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="865" y="2660" width="517" height="143" uuid="4309e8ba-1c89-4b56-8b74-dd9a70b5d9aa"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{startTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1751" y="2681" width="635" height="112" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{overDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1734" y="2803" width="687" height="138" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{party}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1734" y="2911" width="538" height="172" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchAdmin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="935" y="3074" width="709" height="104" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1726" y="407" width="176" height="114" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement textAlignment="Right">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="877" y="2924" width="494" height="150" uuid="46b4107a-0f91-4dff-8677-23dad3f49f5b"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{toBranch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1749" y="1038" width="78" height="139" uuid="dbc896a7-48a3-438c-9b38-b3d7a0ff867a"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="88" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{check1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1944" y="1040" width="78" height="138" uuid="5d63406b-f00c-4e5f-950c-1459731b28ef"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="88" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{check2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="1939" y="407" width="103" height="114" uuid="182578b1-0b61-47d9-b95f-89b09bca0913"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="2074" y="409" width="100" height="114" uuid="651aafeb-c340-446f-a768-96a0cf1b5c7b"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{day}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="387" y="424" width="334" height="97" uuid="72e8416a-2ffc-40ee-a539-45959133883d"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="874" y="2798" width="78" height="139" uuid="0abd6768-b5ff-4d3f-80a2-5e05eec4acac"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="88" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{typeCheck1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1001" y="2799" width="78" height="139" uuid="1673ae61-d78a-489e-9076-701787788213"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="88" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{typeCheck2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="881" y="2435" width="1207" height="95" uuid="149c1cb0-0890-48f7-86ab-f685b362acd8"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{letter}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="zh_CN" x="882" y="1540" width="1489" height="116" uuid="7566e5cc-a1da-4ec8-93fe-75ffa0b57353"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outAddress}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="3508">
+			<image>
+				<reportElement x="0" y="0" width="2480" height="3508" uuid="c6fd1eb8-4322-48fe-8950-ead330114679"/>
+				<imageExpression><![CDATA[$F{bg2}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="zh_CN" x="1257" y="2878" width="645" height="105" uuid="0551de3f-d235-4513-83e6-d78fd243882d"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{transferTime}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="750" y="767" width="620" height="150" uuid="c7587a39-9cdc-4f30-84ce-b220b9217400"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{selfOpinion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1771" y="1198" width="113" height="69" uuid="6b635d79-5d85-4c0c-aaa4-f49ea072a7fb"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{selfYear}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1927" y="1198" width="83" height="69" uuid="dae72528-1d21-4942-bdfd-c3b699c89472"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{selfMonth}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2031" y="1198" width="95" height="69" uuid="a855e795-8d4d-41b4-8242-642251cb3ed3"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{selfDay}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="750" y="1560" width="620" height="150" uuid="5b5822d8-1edb-4fe0-9b88-9ba06e317d29"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchOpinion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="750" y="2040" width="620" height="150" uuid="7e8d3b10-e13d-4067-afc9-52918e56993b"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partyOpinion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="750" y="2491" width="620" height="150" uuid="299650e6-9ec6-4b0f-a4fe-722abfbed79d"/>
+				<textElement>
+					<font fontName="宋体" size="48" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owOpinion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1644" y="1824" width="113" height="69" uuid="2aeb27d0-736e-4793-b69e-7b1a4ad7a6fc"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchYear}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1816" y="1824" width="83" height="69" uuid="ecdb8326-3e83-4d01-97e1-5268b6df819f"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchMonth}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1934" y="1824" width="95" height="69" uuid="5a008751-23d0-4522-9dbc-f4d9b5af0480"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchDay}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1746" y="2314" width="113" height="69" uuid="38401e38-d1f2-4157-a910-5773e07ff5cf"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partyYear}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1902" y="2314" width="83" height="69" uuid="e1f6fe4e-b615-4b5b-9ca0-54f739ff9739"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partyMonth}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2017" y="2314" width="95" height="69" uuid="44eba7e5-b693-4ad9-aff6-d2f2bc84059b"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{partyDay}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1746" y="2707" width="113" height="69" uuid="1f968802-3432-4349-a7ff-3ed8fefc1836"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owYear}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1902" y="2707" width="83" height="69" uuid="27bf589a-fe12-4803-a777-440a5dc0b8ca"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owMonth}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="2017" y="2707" width="95" height="69" uuid="05c0a33a-203c-4a93-b397-33b20b2c0372"/>
+				<textElement>
+					<font fontName="宋体" size="40" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{owDay}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

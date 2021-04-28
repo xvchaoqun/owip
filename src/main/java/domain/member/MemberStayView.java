@@ -2,6 +2,7 @@ package domain.member;
 
 import domain.sys.SysUserView;
 import sys.jackson.SignRes;
+import sys.spring.UserResUtils;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -18,6 +19,10 @@ public class MemberStayView implements Serializable {
 
         return CmTag.getUserById(lastPrintUserId);
     }
+    public String getSignId(){
+        return UserResUtils.sign(String.valueOf(id));
+    }
+
     private Integer id;
 
     private String code;
@@ -110,6 +115,10 @@ public class MemberStayView implements Serializable {
     private String reason;
 
     private Date createTime;
+
+    private Date branchCheckTime;
+
+    private Date partyCheckTime;
 
     private Date checkTime;
 
@@ -489,6 +498,22 @@ public class MemberStayView implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getBranchCheckTime() {
+        return branchCheckTime;
+    }
+
+    public void setBranchCheckTime(Date branchCheckTime) {
+        this.branchCheckTime = branchCheckTime;
+    }
+
+    public Date getPartyCheckTime() {
+        return partyCheckTime;
+    }
+
+    public void setPartyCheckTime(Date partyCheckTime) {
+        this.partyCheckTime = partyCheckTime;
     }
 
     public Date getCheckTime() {

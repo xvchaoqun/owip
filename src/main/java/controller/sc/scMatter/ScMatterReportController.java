@@ -6,30 +6,23 @@ import domain.sc.scMatter.ScMatterAccessItemView;
 import domain.sc.scMatter.ScMatterAccessItemViewExample;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.jasper.ReportUtils;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
-import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -92,7 +85,8 @@ public class ScMatterReportController extends ScBaseController {
         }
 
         if (export == 1) {
-            exportPdf("jasper/sc_matter_access.jasper", data, itemData, "领导干部个人有关事项调阅接收单.pdf", response);
+            ReportUtils.exportPdf("jasper/sc_matter_access.jasper", data, itemData,
+                    "领导干部个人有关事项调阅接收单", request, response);
             return null;
         }
 
@@ -115,39 +109,5 @@ public class ScMatterReportController extends ScBaseController {
     public String printPreview() {
 
         return "jasper/print_preview";
-    }
-
-    public static void exportPdf(String jasperFile,
-                                 List<Map<String, ?>> data,
-                                 List<Map<String, ?>> itemData,
-                                 String pdfFileName,
-                                 HttpServletResponse response) throws IOException, JRException {
-
-        File jasper = new File(ConfigUtil.defaultConfigPath() + File.separator + jasperFile);
-        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(jasper.getPath());
-        JRBeanCollectionDataSource collectionDataSource = new JRBeanCollectionDataSource(data);
-
-        JRDataSource jrDataSource2 = new JRMapCollectionDataSource(itemData);
-        Map<String,Object> parameters = new HashMap<>();
-        parameters.put("items", jrDataSource2);
-        parameters.put("net.sf.jasperreports.awt.ignore.missing.font", true);
-
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, collectionDataSource);
-
-        JRPdfExporter exporter = new JRPdfExporter();
-
-        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-
-        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-        //可以通过configuration对象设置输出pdf文档的各种属性
-        //configuration.setCreatingBatchModeBookmarks(true);
-        exporter.setConfiguration(configuration);
-
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(pdfFileName, "UTF-8"));
-        response.setContentType("application/pdf");
-        response.setCharacterEncoding("UTF-8");
-
-        exporter.exportReport();
     }
 }

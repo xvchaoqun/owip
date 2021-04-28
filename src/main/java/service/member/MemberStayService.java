@@ -221,6 +221,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setUserId(memberStay.getUserId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         record.setIsBack(false);
+        record.setBranchCheckTime(new Date());
         updateByPrimaryKeySelective(record);
     }
 
@@ -236,6 +237,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setUserId(memberStay.getUserId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
+        record.setPartyCheckTime(new Date());
         updateByPrimaryKeySelective(record);
     }
 
@@ -254,6 +256,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setOrgBranchAdminPhone(orgBranchAdminPhone);
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
+        record.setPartyCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
         // 支部转移

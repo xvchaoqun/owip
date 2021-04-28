@@ -64,14 +64,14 @@
         </table>-->
         <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
         </table>-->
-        <!--<table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
+        <table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView" mapperName="member.MemberStayViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
+        </table>
         <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
         </table>-->
 
@@ -133,7 +133,7 @@
        <!-- <table tableName="ow_branch_member" domainObjectName="party.BranchMember">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
+        <!--<table tableName="ow_branch_member_view" domainObjectName="party.BranchMemberView"
         mapperName="party.BranchMemberViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -141,7 +141,7 @@
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_present" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="ow_organizer" domainObjectName="party.Organizer"
                 mapperName="party.OrganizerMapper">
