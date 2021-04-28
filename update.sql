@@ -1,4 +1,6 @@
 
+20210427
+-- 南航
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
     VALUES ('adFormShowProPostTime', '任免审批表显示职称评定时间', 'false', 3, 103, '');
@@ -17,7 +19,7 @@ update ow_member set status=1 where status=5;
 20210423
 -- 吉大、大工
 ALTER TABLE `cadre_edu`
-	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'
+	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NULL DEFAULT '0'
 	    COMMENT '显示为双学位，仅对全日制教育有效' AFTER `adform_display_as_fulltime`;
 
 -- 更新 ow_branch_member_view
