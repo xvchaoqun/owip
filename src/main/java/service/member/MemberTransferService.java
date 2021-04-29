@@ -325,7 +325,7 @@ public class MemberTransferService extends MemberBaseMapper {
                     loginUserId,  (type == 1)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
                             OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
-                            ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
+                            ? "转出党组织审核" : "转入党组织审核", (byte) 1, null);
         }
     }
 

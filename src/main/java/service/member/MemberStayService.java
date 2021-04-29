@@ -411,7 +411,7 @@ public class MemberStayService extends MemberBaseMapper {
                             (type == 2) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY : OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
                             ? "支部审核" : (type == 2)
-                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+                            ? "基层党组织审核" : "组织部审核", (byte) 1, null);
         }
     }
 
