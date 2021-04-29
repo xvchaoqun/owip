@@ -74,7 +74,7 @@ public class CadreExportService extends BaseMapper {
                 /*15*/"户籍地|100", "身份证号|150", "出生时间|100", "年龄|50", "政治面貌|150",
                 /*20*/"党派加入时间|120", "参加工作时间|120", "到校日期|100", "最高学历|120", "最高学位|120",
                 /*25*/"毕业时间|100", "学习方式|120", "毕业学校|200", "学校类型|100", "所学专业|200",
-                /*30*/"全日制教育学历|150", "全日制教育毕业院校系及专业|400", "在职教育学历|150", "在职教育毕业院系及专业|400", "最高毕业院校及专业|400",
+                /*30*/"全日制教育学历学位|120", "全日制教育毕业院校系及专业|400", "在职教育学历学位|120", "在职教育毕业院系及专业|400", "最高毕业院校及专业|400",
                 /*35*/"专业技术职务|150", "专技职务评定时间|200", "现职务任命文件|150",
                 /*38*/"任现职时间|100", "现职务始任时间|150", "现职务始任年限|120", "现职级始任时间|150", "任现职级年限|120",
                 /*43*/"兼任单位及职务|250", "兼任职务现任时间|180", "兼任职务始任时间|150", "是否双肩挑|100", "双肩挑单位|100",
@@ -319,9 +319,13 @@ public class CadreExportService extends BaseMapper {
 
                 Integer eduId = fulltimeEdu.getEduId();
                 if(eduId!=null) {
-                    //String degree = fulltimeEdu.getDegree();
-                    _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+                    _fulltimeEdu = metaTypeMap.get(eduId).getName();
                 }
+                String degree = fulltimeEdu.getDegree();
+                if(StringUtils.isNotEmpty(degree)){
+                    _fulltimeEdu += (StringUtils.isNotBlank(_fulltimeEdu)?"\n":"") + degree;
+                }
+
                 _fulltimeMajor = StringUtils.trimToEmpty(fulltimeEdu.getSchool())
                             + StringUtils.trimToEmpty(fulltimeEdu.getDep())
                             + StringUtils.trimToEmpty(fulltimeEdu.getMajor());
@@ -332,9 +336,13 @@ public class CadreExportService extends BaseMapper {
                 Byte degreeType = onjobEdu.getDegreeType();
                 Integer eduId = onjobEdu.getEduId();
                 if(eduId!=null) {
-                    //String degree = onjobEdu.getDegree();
-                    _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+                    _onjobEdu = metaTypeMap.get(eduId).getName();
                 }
+                String degree = onjobEdu.getDegree();
+                if(StringUtils.isNotEmpty(degree)){
+                    _onjobEdu += (StringUtils.isNotBlank(_onjobEdu)?"\n":"") + degree;
+                }
+
                 _onjobMajor = StringUtils.trimToEmpty(onjobEdu.getSchool())
                             + StringUtils.trimToEmpty(onjobEdu.getDep())
                             + StringUtils.trimToEmpty(onjobEdu.getMajor());
