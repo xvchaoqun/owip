@@ -402,7 +402,7 @@ public class SysUserController extends BaseController {
 
         record.setUserId(userId);
         record.setAvatar(avatarService.uploadAvatar(_avatar));
-        record.setSign(sysUserService.uploadSign(userId, _sign));
+        record.setSign(uploadThumbPic(_sign, "sign", 750, 500));
 
         // 个人数据同步设置
         SyncStatus userStatus = new SyncStatus(0);
