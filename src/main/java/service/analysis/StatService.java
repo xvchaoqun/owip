@@ -191,7 +191,10 @@ public class StatService extends BaseMapper {
 
             otherMap.put("汉族", statMemberMapper.countHan(partyId, branchId));
             otherMap.put("少数民族", statMemberMapper.countMinority(partyId, branchId));
-            otherMap.put("无数据", statMemberMapper.countNull(partyId, branchId));
+            Integer countNull = statMemberMapper.countNull(partyId, branchId);
+            if(countNull!=null && countNull>0) {
+                otherMap.put("无数据", countNull);
+            }
         }
 
         return otherMap;
