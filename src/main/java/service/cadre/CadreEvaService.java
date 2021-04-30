@@ -1,8 +1,6 @@
 package service.cadre;
 
-import domain.cadre.CadreEva;
-import domain.cadre.CadreEvaExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -16,10 +14,13 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.constants.CadreConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -171,15 +172,32 @@ public class CadreEvaService extends BaseMapper {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    public void cadreEva_export(Integer[] ids, Integer cadreId, HttpServletRequest request, HttpServletResponse response) {
+    public void cadreEva_export(Integer[] ids, Integer cadreId, int exportType, byte status, HttpServletRequest request, HttpServletResponse response) {
         CadreEvaExample example =new CadreEvaExample();
         CadreEvaExample.Criteria criteria =example.createCriteria();
         example.setOrderByClause("year desc");
-        if(ids != null && ids.length > 0){
-            criteria.andIdIn(Arrays.asList(ids));
+        //导出校级领导信息
+        if (exportType == 2) {
+            if (ids != null && ids.length > 0) {
+                criteria.andCadreIdIn(Arrays.asList(ids));
+            } else {
+                List<CadreEdu> cadreEdus = iCadreMapper.getCadreEdus(ids, status);
+                List<Integer> list = new ArrayList<>();
+                for (CadreEdu cadreEdu: cadreEdus) {
+                    list.add(cadreEdu.getCadreId());
+                }
+                criteria.andCadreIdIn(list);
+                Integer now = DateUtils.getCurrentYear();
+                criteria.andYearBetween(now - 5, DateUtils.getCurrentYear());
+            }
         } else {
-            if (cadreId != null) {
-                criteria.andCadreIdEqualTo(cadreId);
+            //导出领导干部信息
+            if(ids != null && ids.length > 0){
+                criteria.andIdIn(Arrays.asList(ids));
+            } else {
+                if (cadreId != null) {
+                    criteria.andCadreIdEqualTo(cadreId);
+                }
             }
         }
         List<CadreEva> records = cadreEvaMapper.selectByExample(example);

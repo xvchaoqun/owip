@@ -731,11 +731,13 @@ public class CadreEduService extends BaseMapper {
         return record;
     }
 
-    public void cadreEdu_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
+    public void cadreEdu_export(Integer[] ids, int isExportLeader, int exportType, Integer reserveType, byte status, HttpServletResponse response) {
 
         List<CadreEdu> cadreEdus = new ArrayList<>();
         String preStr = "";
-        if (exportType == 0) { // 现任干部
+        if (isExportLeader == 1) {
+            cadreEdus = iCadreMapper.getCadreEdus(ids, status);
+        } else if (exportType == 0) { // 现任干部
             cadreEdus = iCadreMapper.getCadreEdus(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
             preStr = metaTypeService.getName(reserveType);

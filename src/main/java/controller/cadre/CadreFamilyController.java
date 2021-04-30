@@ -72,7 +72,7 @@ public class CadreFamilyController extends BaseController {
                                  Integer pageSize, Integer pageNo,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录（干部id)
-                                 @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                 @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部 2:现任校领导
                                  Integer reserveType // 年轻干部类别
                                     ) throws IOException {
 
@@ -96,7 +96,13 @@ public class CadreFamilyController extends BaseController {
             ShiroHelper.checkPermission("cadre:exportFamily");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
+            byte status = 0;
+            if (exportType != 2) {
+                status = CadreConstants.CADRE_STATUS_CJ;
+            } else {
+                status = CadreConstants.CADRE_STATUS_LEADER;
+            }
+            cadreFamily_export(ids, status, exportType, reserveType, response);
             return;
         }
 
@@ -263,9 +269,9 @@ public class CadreFamilyController extends BaseController {
 
         List<CadreFamily> cadreFamilys = new ArrayList<>();
         String preStr = "";
-        if (exportType == 0){
+        if (exportType == 0 || exportType == 2){
             cadreFamilys = iCadreMapper.getCadreFamilys(ids, status);
-        }else {
+        } else {
             preStr = metaTypeService.getName(reserveType);
             cadreFamilys = iCadreMapper.getCadreReserveFamilys(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }

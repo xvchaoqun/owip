@@ -67,7 +67,8 @@ public class CadreEvaController extends BaseController {
                               @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
                               Integer[] ids, // 导出的记录（干部id)
                               Integer pageSize, Integer pageNo,
-                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部 2:校级领导信息
+                              @RequestParam(required = false, defaultValue = "0") Byte status,// 0: 领导干部信息 >0: 校级领导status(现任)
                               Integer reserveType // 年轻干部类别
                                 )  throws IOException{
 
@@ -97,7 +98,7 @@ public class CadreEvaController extends BaseController {
         }
 
         if (export == 1) {
-            cadreEvaService.cadreEva_export(ids, cadreId, request, response);
+            cadreEvaService.cadreEva_export(ids, cadreId, exportType, status, request, response);
             return;
         }
 

@@ -1179,4 +1179,16 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         unitPost.setCode(genCode(unit.getCode(), false));
 
     }
+
+    public List<CadreView> getLeaderCadreView(Integer[] ids, byte status) {
+        CadreViewExample example = new CadreViewExample();
+        CadreViewExample.Criteria criteria = example.createCriteria();
+        if (ids != null && ids.length > 0) {
+            criteria.andIdIn(Arrays.asList(ids));
+        } else {
+            criteria.andStatusEqualTo(status);
+        }
+        List<CadreView> list = cadreViewMapper.selectByExample(example);
+        return list;
+    }
 }

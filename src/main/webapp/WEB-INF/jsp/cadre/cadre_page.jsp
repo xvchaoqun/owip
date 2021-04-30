@@ -333,7 +333,7 @@
                                                     <li role="separator" class="divider"></li>
                                                     <li>
                                                         <a href="javascript:;" class="jqExportBtn"
-                                                           data-need-id="false" data-url="${ctx}/cesResult_data">
+                                                           data-need-id="false" data-url="${ctx}/cesResult_data?type=1">
                                                             <i class="fa fa-file-excel-o"></i> 导出年终考核测评数据（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>

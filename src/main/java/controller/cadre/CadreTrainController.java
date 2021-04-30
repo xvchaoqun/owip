@@ -151,8 +151,9 @@ public class CadreTrainController extends BaseController {
                                 Integer cadreId,
                                 @RequestParam(required = false, defaultValue = "0") int export,
                                 Integer[] ids, // 导出的记录（干部id)
-                                @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部 2: 现任校领导 3：离任校领导
                                 Integer reserveType, // 年轻干部类别
+                                @RequestParam(required = false, defaultValue = "0") Byte status, //默认0：干部领导信息 >0 ：校领导status(现任，离任)
                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -174,7 +175,10 @@ public class CadreTrainController extends BaseController {
         if (export == 1) {
             if (ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreTrain_export(ids,CadreConstants.CADRE_STATUS_CJ, exportType, reserveType, response);
+            if (status == 0) {
+                status = CadreConstants.CADRE_STATUS_CJ;
+            }
+            cadreTrain_export(ids,status, exportType, reserveType, response);
             return;
         }
 
@@ -348,7 +352,18 @@ public class CadreTrainController extends BaseController {
         String preStr = "";
         if (exportType == 0){
             cadreTrains = iCadreMapper.getCadreTrains(ids,status);
-        }else {
+        } else if (exportType == 2 || exportType == 3) {
+            if (ids == null || ids.length == 0) {
+                List<CadreView> list = cadreService.getLeaderCadreView(ids, status);
+                if (list.size() > 0) {
+                    ids = new Integer[list.size()];
+                    for (int i = 0; i < list.size(); i++) {
+                        ids[i] = list.get(i).getId();
+                    }
+                }
+            }
+            cadreTrains = iCadreMapper.getCadreTrains(ids,status);
+        } else {
             preStr = metaTypeService.getName(reserveType);
             cadreTrains = iCadreMapper.getCadreReserveTrains(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
