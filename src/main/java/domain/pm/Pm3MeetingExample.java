@@ -1702,12 +1702,15 @@ public class Pm3MeetingExample {
             if(partyIdList==null) partyIdList = new ArrayList<>();
             if(branchIdList==null) branchIdList = new ArrayList<>();
 
-            if(!partyIdList.isEmpty() && !branchIdList.isEmpty())
+            if(!partyIdList.isEmpty() && !branchIdList.isEmpty()) {
                 addCriterion("(party_id in(" + StringUtils.join(partyIdList, ",") + ") or branch_id in(" + StringUtils.join(branchIdList, ",") + "))");
-            if(partyIdList.isEmpty() && !branchIdList.isEmpty())
+            }else if(partyIdList.isEmpty() && !branchIdList.isEmpty()) {
                 andBranchIdIn(branchIdList);
-            if(branchIdList.isEmpty() && !partyIdList.isEmpty())
+            }else if(branchIdList.isEmpty() && !partyIdList.isEmpty()) {
                 andPartyIdIn(partyIdList);
+            }else{
+                andIdIsNull();
+            }
 
             return this;
         }

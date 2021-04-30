@@ -93,10 +93,7 @@
                             党派加入时间
                         </td>
                         <td>
-                            <c:if test="${param.isDp==1}">${cm:formatDate(dpMember.dpGrowTime, 'yyyy.MM.dd')}</c:if>
-                            <c:if test="${empty param.isDp}">
                                 ${cm:cadreParty(cadre.userId, cadre.isOw, cadre.owGrowTime, cadre.owPositiveTime, cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
-                            </c:if>
                         </td>
 
                         <td>国家/地区</td>
@@ -110,10 +107,7 @@
                                 所在党组织
                             </td>
                             <td>
-                                <c:if test="${param.isDp==1}">${dpMember.dpParty.name}</c:if>
-                                <c:if test="${empty param.isDp}">
-                                        ${cm:displayParty(member.partyId, member.branchId)}
-                                </c:if>
+                                    ${cm:displayParty(member.partyId, member.branchId)}
                             </td>
                         </c:if>
                         <td>证件类型</td>
@@ -612,8 +606,6 @@
                                     党派加入时间
                                 </td>
                                 <td>
-                                    <c:if test="${param.isDp==1}">${cm:formatDate(dpMember.dpGrowTime, 'yyyy.MM.dd')}</c:if>
-                                    <c:if test="${empty param.isDp}">
                                         <c:set var="original" value="${cadreParty.get('growTime')}"/>
                                         <c:if test="${member!=null || hasMultiParty}">${original}</c:if>
                                         <c:if test="${member==null && !hasMultiParty}">
@@ -659,7 +651,6 @@
                                                 }
                                             }).change();
                                         </script>
-                                    </c:if>
                                 </td>
 
                                 <td>国家/地区</td>
@@ -673,10 +664,7 @@
                                         所在党组织
                                     </td>
                                     <td>
-                                        <c:if test="${param.isDp==1}">${dpMember.dpParty.name}</c:if>
-                                        <c:if test="${empty param.isDp}">
                                             ${cm:displayParty(member.partyId, member.branchId)}
-                                        </c:if>
                                     </td>
                                 </c:if>
                                 <td>证件类型</td>
