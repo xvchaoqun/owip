@@ -48,6 +48,8 @@
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="branch_check_time" jdbcType="TIMESTAMP" property="branchCheckTime" />
+    <result column="party_check_time" jdbcType="TIMESTAMP" property="partyCheckTime" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="print_count" jdbcType="INTEGER" property="printCount" />
     <result column="last_print_time" jdbcType="TIMESTAMP" property="lastPrintTime" />
@@ -117,7 +119,8 @@
     name1, relate1, unit1, post1, phone1, mobile1, email1, name2, relate2, unit2, post2, 
     phone2, mobile2, email2, letter, country, school, start_time, end_time, over_date, 
     abroad_type, save_start_time, save_end_time, pay_time, type, status, is_back, reason, 
-    create_time, check_time, print_count, last_print_time, last_print_user_id
+    create_time, branch_check_time, party_check_time, check_time, print_count, last_print_time, 
+    last_print_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberStayExample" resultMap="BaseResultMap">
     select
@@ -168,8 +171,9 @@
       abroad_type, save_start_time, save_end_time, 
       pay_time, type, status, 
       is_back, reason, create_time, 
-      check_time, print_count, last_print_time, 
-      last_print_user_id)
+      branch_check_time, party_check_time, check_time, 
+      print_count, last_print_time, last_print_user_id
+      )
     values (#{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{branchId,jdbcType=INTEGER}, #{toBranchId,jdbcType=INTEGER}, #{orgBranchAdminId,jdbcType=INTEGER}, 
       #{orgBranchAdminPhone,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{stayReason,jdbcType=VARCHAR}, 
@@ -185,8 +189,9 @@
       #{abroadType,jdbcType=TINYINT}, #{saveStartTime,jdbcType=DATE}, #{saveEndTime,jdbcType=DATE}, 
       #{payTime,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{isBack,jdbcType=BIT}, #{reason,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{checkTime,jdbcType=TIMESTAMP}, #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, 
-      #{lastPrintUserId,jdbcType=INTEGER})
+      #{branchCheckTime,jdbcType=TIMESTAMP}, #{partyCheckTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{printCount,jdbcType=INTEGER}, #{lastPrintTime,jdbcType=TIMESTAMP}, #{lastPrintUserId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.member.MemberStay">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -328,6 +333,12 @@
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="branchCheckTime != null">
+        branch_check_time,
+      </if>
+      <if test="partyCheckTime != null">
+        party_check_time,
       </if>
       <if test="checkTime != null">
         check_time,
@@ -477,6 +488,12 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="branchCheckTime != null">
+        #{branchCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partyCheckTime != null">
+        #{partyCheckTime,jdbcType=TIMESTAMP},
       </if>
       <if test="checkTime != null">
         #{checkTime,jdbcType=TIMESTAMP},
@@ -639,6 +656,12 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.branchCheckTime != null">
+        branch_check_time = #{record.branchCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.partyCheckTime != null">
+        party_check_time = #{record.partyCheckTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.checkTime != null">
         check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       </if>
@@ -704,6 +727,8 @@
       is_back = #{record.isBack,jdbcType=BIT},
       reason = #{record.reason,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      branch_check_time = #{record.branchCheckTime,jdbcType=TIMESTAMP},
+      party_check_time = #{record.partyCheckTime,jdbcType=TIMESTAMP},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       print_count = #{record.printCount,jdbcType=INTEGER},
       last_print_time = #{record.lastPrintTime,jdbcType=TIMESTAMP},
@@ -850,6 +875,12 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="branchCheckTime != null">
+        branch_check_time = #{branchCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="partyCheckTime != null">
+        party_check_time = #{partyCheckTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="checkTime != null">
         check_time = #{checkTime,jdbcType=TIMESTAMP},
       </if>
@@ -912,6 +943,8 @@
       is_back = #{isBack,jdbcType=BIT},
       reason = #{reason,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      branch_check_time = #{branchCheckTime,jdbcType=TIMESTAMP},
+      party_check_time = #{partyCheckTime,jdbcType=TIMESTAMP},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       print_count = #{printCount,jdbcType=INTEGER},
       last_print_time = #{lastPrintTime,jdbcType=TIMESTAMP},

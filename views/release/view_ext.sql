@@ -121,3 +121,34 @@ left join sys_user_view u on o.user_id = u.user_id
 left join ow_member m on m.user_id = u.user_id
 LEFT JOIN base_meta_type bmt ON o.`type`=bmt.id
 WHERE o.STATUS=2 AND bmt.name='京外' ;
+
+
+DROP VIEW IF EXISTS `ext_org_admin_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ext_org_admin_view` AS
+select tmp.user_id, p.id as party_id, null as branch_id, 1 as type from (
+      select * from (
+          select  m.user_id, mg.party_id, m.post_id, 0 as normal,
+          m.sort_order from ow_party_member m, ow_party_member_group mg
+          where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+          union all
+          select user_id, party_id, null as post_id, 1 as normal, null as sort_order from
+          ow_org_admin where type=1
+      ) t   group by party_id, user_id
+  ) tmp
+  left join ow_party p on p.id=tmp.party_id
+  union all
+  select tmp.user_id, p.id as party_id, b.id as branch_id, 2 as type from (
+      select * from (
+
+          select concat(mg.branch_id,'_', m.user_id, '_', 1) as id, mg.id as group_id, m.user_id, mg.branch_id, m.types, m.sort_order from
+          ow_branch_member m,
+          ow_branch_member_group mg
+          where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+
+          union all
+
+          select concat(branch_id,'_', user_id, '_', 2) as id, null as group_id, user_id, branch_id, null as types, null as sort_order from ow_org_admin where type=2
+     ) t group by branch_id, user_id
+    ) tmp
+  left join ow_branch b on b.id=tmp.branch_id
+  left join ow_party p on p.id=b.party_id;

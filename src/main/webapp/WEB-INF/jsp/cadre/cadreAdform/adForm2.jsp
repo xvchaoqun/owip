@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="${_pMap['adFormShowProPostTime']=='true'}" var="_p_adFormShowProPostTime"/>
+<c:set value="${_pMap['proPostTimeToDay']=='true'?'yyyy.MM.dd':'yyyy.MM'}" var="_p_proPostTimeFormat"/>
 <style>
 <!--
  /* Style Definitions */
@@ -167,6 +169,9 @@ margin-bottom:0pt;margin-left:0cm;text-align:center'><span style='font-size:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt'><span>${bean.proPost}</span></p>
+   <c:if test="${_p_adFormShowProPostTime && not empty bean.proPostTime}">
+          <div style="text-align: center">（${cm:formatDate(bean.proPostTime, _p_proPostTimeFormat)}）</div>
+        </c:if>
   </td>
   <td width=94 colspan=2 style='width:70.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;

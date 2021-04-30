@@ -48,6 +48,8 @@
     <result column="is_back" jdbcType="BIT" property="isBack" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="branch_check_time" jdbcType="TIMESTAMP" property="branchCheckTime" />
+    <result column="party_check_time" jdbcType="TIMESTAMP" property="partyCheckTime" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="print_count" jdbcType="INTEGER" property="printCount" />
     <result column="last_print_time" jdbcType="TIMESTAMP" property="lastPrintTime" />
@@ -89,7 +91,8 @@
     name1, relate1, unit1, post1, phone1, mobile1, email1, name2, relate2, unit2, post2, 
     phone2, mobile2, email2, letter, country, school, start_time, end_time, over_date, 
     abroad_type, save_start_time, save_end_time, pay_time, type, status, is_back, reason, 
-    create_time, check_time, print_count, last_print_time, last_print_user_id, member_status
+    create_time, branch_check_time, party_check_time, check_time, print_count, last_print_time, 
+    last_print_user_id, member_status
   </sql>
   <select id="selectByExample" parameterType="domain.member.MemberStayViewExample" resultMap="BaseResultMap">
     select

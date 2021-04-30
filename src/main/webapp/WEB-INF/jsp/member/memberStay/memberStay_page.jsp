@@ -108,7 +108,7 @@
                         <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="memberStay:edit">
-                                    <c:if test="${cls==1||cls==4}">
+                                    <c:if test="${cls==1||cls>=4}">
                                         <button class="jqEditBtn btn btn-primary btn-sm"
                                                 data-url="${ctx}/user/memberStay"
                                                 data-querystr="&type=${param.type}&auth=admin"
@@ -392,11 +392,15 @@
             },
             <c:if test="${cls==5||cls==6}">
             {
-                label: '打印审批表', width: 110, formatter: function (cellvalue, options, rowObject) {
+                label: '审批表', width: 130, formatter: function (cellvalue, options, rowObject) {
 
                 var html = '<button class="openView btn btn-success btn-xs"'
-                        + ' data-url="${ctx}/report/printPreview?type=${param.type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids={0}"><i class="fa fa-print"></i> 打印审批表</button>'
+                        + ' data-url="${ctx}/report/printPreview?type=${param.type==MEMBER_STAY_TYPE_ABROAD?JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD:JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL}&ids={0}"><i class="fa fa-print"></i> 打印</button>'
                                 .format(rowObject.id);
+
+                        html += '&nbsp;<button class="downloadBtn btn btn-primary btn-xs"'
+                        + ' data-url="${ctx}/report/member_stay?type=${param.type}&ids={0}&print=2"><i class="fa fa-file-pdf-o"></i> 下载</button>'
+                                .format(rowObject.signId);
                 return html;
             }
             },

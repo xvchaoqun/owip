@@ -103,7 +103,7 @@
                 function addData(){
 
                     <c:forEach items="${USER_TYPE_MAP}" var="userType">
-                        if (statMap[${userType.key}]!=0){
+                        if (statMap!=undefined && statMap[${userType.key}]>0){
                             countData.push({name: '${userType.value}党员('+statMap[${userType.key}]+')',
                                 value: statMap[${userType.key}], userType:${userType.key}});
                             legendTitle.push('${userType.value}党员('+statMap[${userType.key}]+')');

@@ -574,7 +574,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                    CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，分党委审核":"领取志愿书，分党委审核");
+                    CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，基层党组织审核":"领取志愿书，基层党组织审核");
         }
     }
 
@@ -728,7 +728,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "正式党员，分党委审核");
+                        "正式党员，基层党组织审核");
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,

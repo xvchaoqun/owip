@@ -11,6 +11,7 @@
 <c:set value="${_pMap['ignore_plan_and_draw']=='true'}" var="_ignore_plan_and_draw"/>
 <c:set value="${_pMap['memberOutNeedOwCheck']=='true'}" var="_p_memberOutNeedOwCheck"/>
 <c:set value="${_pMap['use_code_as_identify']=='true'}" var="_use_code_as_identify"/>
+<c:set value="${_pMap['hasMemberStayStatus']=='true'}" var="_p_hasMemberStayStatus"/>
 
 <c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <c:set var="OW_APPLY_STAGE_REMOVE" value="<%=OwConstants.OW_APPLY_STAGE_REMOVE%>"/>

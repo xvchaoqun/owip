@@ -118,7 +118,7 @@ public class MemberCertifyService extends MemberBaseMapper {
                         ShiroHelper.getCurrentUserId(), (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
                                 OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CERTIFY, (type == 1)
-                                ? "分党委审核" : "组织部审核",
+                                ? "基层党组织审核" : "组织部审核",
                         pass ?  OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS : OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, reason);
             }
         }
@@ -170,7 +170,7 @@ public class MemberCertifyService extends MemberBaseMapper {
                     ShiroHelper.getCurrentUserId(), (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
                             OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_CERTIFY,
-                    (type == 1) ? "分党委审核" : "组织部审核",
+                    (type == 1) ? "基层党组织审核" : "组织部审核",
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }
     }

@@ -13,7 +13,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${currentYear}年度请假记录</a>
+                    <a href="javascript:;">${currentYear}年度申请记录</a>
                 </li>
             </ul>
         </div>

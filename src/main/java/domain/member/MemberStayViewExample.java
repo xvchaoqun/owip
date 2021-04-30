@@ -3176,6 +3176,126 @@ public class MemberStayViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andBranchCheckTimeIsNull() {
+            addCriterion("branch_check_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeIsNotNull() {
+            addCriterion("branch_check_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeEqualTo(Date value) {
+            addCriterion("branch_check_time =", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeNotEqualTo(Date value) {
+            addCriterion("branch_check_time <>", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeGreaterThan(Date value) {
+            addCriterion("branch_check_time >", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("branch_check_time >=", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeLessThan(Date value) {
+            addCriterion("branch_check_time <", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeLessThanOrEqualTo(Date value) {
+            addCriterion("branch_check_time <=", value, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeIn(List<Date> values) {
+            addCriterion("branch_check_time in", values, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeNotIn(List<Date> values) {
+            addCriterion("branch_check_time not in", values, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeBetween(Date value1, Date value2) {
+            addCriterion("branch_check_time between", value1, value2, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBranchCheckTimeNotBetween(Date value1, Date value2) {
+            addCriterion("branch_check_time not between", value1, value2, "branchCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeIsNull() {
+            addCriterion("party_check_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeIsNotNull() {
+            addCriterion("party_check_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeEqualTo(Date value) {
+            addCriterion("party_check_time =", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeNotEqualTo(Date value) {
+            addCriterion("party_check_time <>", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeGreaterThan(Date value) {
+            addCriterion("party_check_time >", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("party_check_time >=", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeLessThan(Date value) {
+            addCriterion("party_check_time <", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeLessThanOrEqualTo(Date value) {
+            addCriterion("party_check_time <=", value, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeIn(List<Date> values) {
+            addCriterion("party_check_time in", values, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeNotIn(List<Date> values) {
+            addCriterion("party_check_time not in", values, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeBetween(Date value1, Date value2) {
+            addCriterion("party_check_time between", value1, value2, "partyCheckTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPartyCheckTimeNotBetween(Date value1, Date value2) {
+            addCriterion("party_check_time not between", value1, value2, "partyCheckTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCheckTimeIsNull() {
             addCriterion("check_time is null");
             return (Criteria) this;

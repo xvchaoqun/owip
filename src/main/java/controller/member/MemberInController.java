@@ -2,7 +2,6 @@ package controller.member;
 
 import controller.global.OpException;
 import domain.base.MetaType;
-import domain.member.Member;
 import domain.member.MemberIn;
 import domain.member.MemberInExample;
 import domain.member.MemberInExample.Criteria;
@@ -526,7 +525,6 @@ public class MemberInController extends MemberBaseController {
             if (uv == null) {
                 throw new OpException("第{0}行学工号[{1}]不存在", row, userCode);
             }
-            Member member = memberService.get(uv.getUserId());
 
             String userName = StringUtils.trim(xlsRow.get(col++));
             if (StringUtils.isBlank(userName)) {
@@ -547,9 +545,6 @@ public class MemberInController extends MemberBaseController {
             Party party = partyService.getByName(partyName);
             if (party == null) {
                 throw new OpException("第{0}行转入党委[{1}]不存在", row, partyName);
-            }
-            if (party.getId() == member.getPartyId()) {
-                throw new OpException("第{0}行当前所在党委和转入党委相同[{1}]", row, partyName);
             }
             record.setPartyId(party.getId());
 

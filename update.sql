@@ -1,8 +1,52 @@
 
+20210429
+-- xxx南航待更新
+
+-- 北航（断开）
+
+20210428
+-- 哈工大
+-- 更新 utils
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `branch_check_time` DATETIME NULL DEFAULT NULL COMMENT '支部审核时间' AFTER `create_time`,
+	ADD COLUMN `party_check_time` DATETIME NULL DEFAULT NULL COMMENT '分党委审核时间' AFTER `branch_check_time`;
+-- 更新 ow_member_stay_view
+
+update ow_member_stay oms,
+(select oms.id, oms.party_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='分党委审核' and log1.status=1 group by oms.id) tmp
+set oms.party_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.branch_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='支部审核' and log1.status=1 group by oms.id) tmp
+set oms.branch_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='组织部审核' and log1.status=1 group by oms.id) tmp
+set oms.check_time=tmp.create_time where oms.id=tmp.id;
+
+20210427
+-- 南航
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+    VALUES ('adFormShowProPostTime', '任免审批表显示职称评定时间', 'false', 3, 103, '');
+
+20210426
+-- 西工大、哈工大、测试、大工
+
+20210425
+-- 北师大
+-- 哈工大需要单独处理（他们需要把暂留党员单独入库，其他学校不需要）！
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('hasMemberStayStatus', '暂留党员是否单独入库', 'false', 3, 102, '暂留党员是否单独入库');
+update ow_member set status=1 where status=5;
+-- 哈工大需要单独处理！
+
 20210423
--- 吉大
+-- 吉大、大工
 ALTER TABLE `cadre_edu`
-	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0'
+	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NULL DEFAULT '0'
 	    COMMENT '显示为双学位，仅对全日制教育有效' AFTER `adform_display_as_fulltime`;
 
 -- 更新 ow_branch_member_view

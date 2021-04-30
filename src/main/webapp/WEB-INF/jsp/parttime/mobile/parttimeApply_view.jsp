@@ -41,7 +41,7 @@
     <li>
       <a data-toggle="tab" href="#logs">
         <i class="green ace-icon fa fa-history  bigger-120"></i>
-        本年度干部请假记录
+        本年度申报记录
         <c:set var="yearCount" value="${fn:length(parttimeApplys)}"/>
         <c:if test="${yearCount>0}">
         <span class="badge badge-danger">${yearCount}</span>
@@ -287,7 +287,7 @@
       <div class="message-list-container">
         <div class="message-list">
           <c:if test="${fn:length(parttimeApplys)==0}">
-            <div class="none">本年度无干部请假记录</div>
+            <div class="none">本年度无申报记录</div>
           </c:if>
           <c:forEach items="${parttimeApplys}" var="parttimeApply">
             <c:set var="cadre" value="${cm:getCadreById(parttimeApply.cadreId)}"/>

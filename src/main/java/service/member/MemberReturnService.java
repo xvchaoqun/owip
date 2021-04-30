@@ -265,7 +265,7 @@ public class MemberReturnService extends MemberBaseMapper {
                     loginUserId, (type == 1)? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
                             OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
-                            ? "党支部审核" : "分党委审核", (byte) 1, null);
+                            ? "党支部审核" : "基层党组织审核", (byte) 1, null);
         }
     }
 

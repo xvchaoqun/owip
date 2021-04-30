@@ -126,6 +126,8 @@ public class IndexController extends BaseController {
 			toPage = "stat_ow_page"; // 党建信息统计页
 		}else if(ShiroHelper.isPermitted("stat:party")){
 			toPage = "stat_party_page"; // 党建信息统计页
+		}else if(ShiroHelper.isPermitted("stat:branch")){
+			toPage = "stat_branch_page"; // 党建信息统计页
 		}
 		modelMap.put("to", toPage);
 		int userId = ShiroHelper.getCurrentUserId();

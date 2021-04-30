@@ -1225,6 +1225,30 @@
 							<w:t>${proPost!}</w:t>
 						</w:r>
 					</w:p>
+					<#if adFormShowProPostTime && proPostTime??>
+					<w:p w14:paraId="2608FB58"
+   						w14:textId="15B65B41"
+   						w:rsidR="00563A30"
+   						w:rsidRPr="009B666C"
+   						w:rsidRDefault="00CB35BA"
+   						w:rsidP="009B666C">
+						<w:pPr>
+							<w:spacing w:line="300"
+         								w:lineRule="exact"/>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:rFonts w:ascii="Times New Roman"
+        									w:hAnsi="Times New Roman"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:rFonts w:hint="eastAsia"/>
+							</w:rPr>
+							<w:t>（${proPostTime!}）</w:t>
+						</w:r>
+					</w:p>
+					</#if>
 				</w:tc>
 				<w:tc>
 					<w:tcPr>

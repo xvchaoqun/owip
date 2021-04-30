@@ -1,12 +1,11 @@
 package service.oa;
 
-import controller.global.OpException;
-import persistence.oa.common.TaskUser;
 import domain.oa.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.oa.common.TaskUser;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.OaConstants;
@@ -92,8 +91,8 @@ public class OaTaskService extends OaBaseMapper {
         checkAuth(taskId);
 
         // 先删除未选择的任务对象（假删除），如果存在的话
+        List<Integer> userIds = new ArrayList<>();
         {
-            List<Integer> userIds = new ArrayList<>();
             for (TaskUser taskUser : taskUsers) {
                 userIds.add(taskUser.getUserId());
             }
@@ -115,12 +114,15 @@ public class OaTaskService extends OaBaseMapper {
             String mobile = taskUser.getMobile();
             String title = taskUser.getTitle();
 
-            // 先判断是否已经被指定为该任务负责人了，如果是，则不允许设定为任务对象
+            // 先判断是否已经被指定为该任务负责人了，如果是，则清空指定负责人
             OaTaskUserView ouv = oaTaskUserService.getTaskUser(taskId, userId);
-            if (ouv != null && ouv.getAssignUserId() != null && ouv.getAssignUserId() == userId) {
+            if (ouv != null && ouv.getAssignUserId() != null && ouv.getAssignUserId().intValue() == userId) {
 
-                throw new OpException("{0}已经被{1}指定为该任务的负责人，不可添加为任务对象。",
-                        ouv.getAssignRealname(), ouv.getRealname());
+                // 删除指定负责人
+                commonMapper.excuteSql("update oa_task_user set assign_user_id=null, assign_user_mobile=null " +
+                        "where id=" + ouv.getId());
+
+                ouv = null; // 为了后面能添加该人
             }
 
             if (ouv == null) {
@@ -145,10 +147,6 @@ public class OaTaskService extends OaBaseMapper {
                 record.setIsDelete(false);
                 record.setSortOrder(i + 1);
                 oaTaskUserMapper.updateByPrimaryKeySelective(record);
-
-                // 删除指定负责人
-                commonMapper.excuteSql("update oa_task_user set assign_user_id=null, assign_user_mobile=null " +
-                        "where id=" + id);
             }
         }
 

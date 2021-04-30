@@ -20,6 +20,7 @@ import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -220,6 +221,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setUserId(memberStay.getUserId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         record.setIsBack(false);
+        record.setBranchCheckTime(new Date());
         updateByPrimaryKeySelective(record);
     }
 
@@ -235,6 +237,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setUserId(memberStay.getUserId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
+        record.setPartyCheckTime(new Date());
         updateByPrimaryKeySelective(record);
     }
 
@@ -253,6 +256,7 @@ public class MemberStayService extends MemberBaseMapper {
         record.setOrgBranchAdminPhone(orgBranchAdminPhone);
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
+        record.setPartyCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
         // 支部转移
@@ -287,11 +291,13 @@ public class MemberStayService extends MemberBaseMapper {
         record.setCheckTime(new Date());
         updateByPrimaryKeySelective(record);
 
-        // 转移至暂留党员库
-        Member member = new Member();
-        member.setUserId(userId);
-        member.setStatus(MemberConstants.MEMBER_STATUS_STAY);
-        memberMapper.updateByPrimaryKeySelective(member);
+        if(CmTag.getBoolProperty("hasMemberStayStatus")) {
+            // 转移至暂留党员库
+            Member member = new Member();
+            member.setUserId(userId);
+            member.setStatus(MemberConstants.MEMBER_STATUS_STAY);
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
     }
 
     @Transactional
@@ -405,7 +411,7 @@ public class MemberStayService extends MemberBaseMapper {
                             (type == 2) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY : OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
                             ? "支部审核" : (type == 2)
-                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+                            ? "基层党组织审核" : "组织部审核", (byte) 1, null);
         }
     }
 

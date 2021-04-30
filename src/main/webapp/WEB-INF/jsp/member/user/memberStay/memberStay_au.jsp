@@ -32,7 +32,7 @@
             <div class="widget-main">
                 <form class="form-horizontal" action="${ctx}/user/memberStay_au" autocomplete="off" disableautocomplete id="modalForm" method="post">
                     <input type="hidden" name="id" value="${memberStay.id}">
-                    <input type="hidden" name="userId" value="${param.userId}">
+                    <input type="hidden" name="userId" value="${userBean.userId}">
                     <input type="hidden" name="type" value="${param.type}">
 
                     <div class="row">
@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-6 control-label"> 姓名</label>
                                     <div class="col-xs-6 label-text">
-                                        ${cm:getUserById(param.userId).realname}
+                                        ${cm:getUserById(userBean.userId).realname}
                                     </div>
                                 </div>
                                 </c:if>
@@ -414,7 +414,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-4 control-label"> 姓名</label>
                                     <div class="col-xs-6 label-text">
-                                        ${cm:getUserById(param.userId).realname}
+                                        ${cm:getUserById(userBean.userId).realname}
                                     </div>
                                 </div>
                                 </c:if>
