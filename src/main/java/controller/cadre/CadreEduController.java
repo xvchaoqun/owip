@@ -80,6 +80,8 @@ public class CadreEduController extends BaseController {
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer[] ids, // 导出的记录（exportType=0时为现任干部id)
                               @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              @RequestParam(required = false, defaultValue = "0") int isExportLeader, //默认为0：导出领导干部信息 1：导出校级领导信息
+                              @RequestParam(required = false, defaultValue = "0") Byte status, //默认0：导出领导干部信息 导出校级领导信息时值为干部的status(现任)
                               Integer reserveType // 年轻干部类别
                               ) throws IOException {
 
@@ -101,7 +103,7 @@ public class CadreEduController extends BaseController {
 
         if (export == 1) {
             ShiroHelper.checkPermission("cadre:export");
-            cadreEduService.cadreEdu_export(ids, exportType, reserveType, response);
+            cadreEduService.cadreEdu_export(ids, isExportLeader, exportType, reserveType, status, response);
             return;
         }
 

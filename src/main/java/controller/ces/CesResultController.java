@@ -292,6 +292,7 @@ public class CesResultController extends BaseController {
                                 String title,
                                 @RequestParam(required = false, defaultValue = "0") byte export,
                                 Integer[] ids, // 导出的记录
+                                @RequestParam(required = false, defaultValue = "0") byte status, //0: 领导干部信息 >0: 校级领导status(现任校领导)
                                 Integer pageSize, Integer pageNo)  throws IOException{
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -350,8 +351,21 @@ public class CesResultController extends BaseController {
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0){
-                criteria.andIdIn(Arrays.asList(ids));
+            if (status > 0) {
+                if(ids!=null && ids.length>0){
+                    criteria.andCadreIdIn(Arrays.asList(ids));
+                } else {
+                    List<CadreView> cadreViews = cadreService.getLeaderCadreView(ids, status);
+                    List<Integer> list = new ArrayList<>();
+                    for (CadreView cadreView: cadreViews) {
+                        list.add(cadreView.getId());
+                    }
+                    criteria.andCadreIdIn(list);
+                }
+            } else {
+                if(ids!=null && ids.length>0){
+                    criteria.andIdIn(Arrays.asList(ids));
+                }
             }
             cesResultService.cesResult_export(type, example, response);
             return;

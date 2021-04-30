@@ -612,11 +612,13 @@ public class CadreWorkService extends BaseMapper {
         return record;
     }
 
-    public void cadreWork_export(Integer[] ids, int exportType, Integer reserveType, HttpServletResponse response) {
+    public void cadreWork_export(Integer[] ids, int exportType, Integer reserveType, int isExportLeader, byte status, HttpServletResponse response) {
 
         List<CadreWork> cadreWorks = new ArrayList<>();
         String preStr = "";
-        if (exportType == 0) { // 现任干部
+        if (isExportLeader == 1) {
+            cadreWorks = iCadreMapper.getCadreWorks(ids, status);
+        } else if (exportType == 0) { // 现任干部
             cadreWorks = iCadreMapper.getCadreWorks(ids, CadreConstants.CADRE_STATUS_CJ);
         } else if (exportType == 1) { // 年轻干部
             preStr = metaTypeService.getName(reserveType);

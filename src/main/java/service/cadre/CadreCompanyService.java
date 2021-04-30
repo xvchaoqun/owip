@@ -328,9 +328,9 @@ public class CadreCompanyService extends BaseMapper {
             cadreCategory = metaTypeService.getName(reserveType);
         }
         List<CadreCompanyView> records = new ArrayList<>();
-        if (exportType == 0){
+        if (exportType == 0 || exportType == 2 || exportType == 3){
             records = cadreCompanyViewMapper.selectByExample(example);
-        }else {
+        } else {
             records = iCadreMapper.getCadreReserveCompany(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
 

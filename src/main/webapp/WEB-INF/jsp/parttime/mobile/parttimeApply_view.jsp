@@ -219,7 +219,7 @@
             <div class="profile-user-info profile-user-info-striped">
             <c:forEach items="${approvalResultMap}" var="result">
               <c:if test="${result.value.value!=-1}">
-                <c:set var="approvalLog" value="${cm:getClaApprovalLog(parttimeApply.id, result.key)}"/>
+                <c:set var="approvalLog" value="${cm:getParttimeApprovalLog(parttimeApply.id, result.key)}"/>
                 <div class="profile-info-row">
                   <div class="profile-info-name">
                     <c:if test="${result.key==-1}">组织部初审</c:if>
