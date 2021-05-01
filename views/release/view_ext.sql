@@ -122,6 +122,16 @@ left join ow_member m on m.user_id = u.user_id
 LEFT JOIN base_meta_type bmt ON o.`type`=bmt.id
 WHERE o.STATUS=2 AND bmt.name='京外' ;
 
+-- 党委委员
+DROP VIEW IF EXISTS `ext_party_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ext_party_member_view`
+AS select pm.id, p.code as party_code, p.name as party_name, u.code, ui.realname, bmt.name as post from ow_party_member pm
+left join ow_party_member_group pmg on pmg.id=pm.group_id
+left join ow_party p on p.id=pmg.party_id
+left join sys_user u on pm.user_id=u.id
+left join sys_user_info ui on pm.user_id=ui.user_id
+left join base_meta_type bmt on bmt.id=pm.post_id
+where p.is_deleted=0 and pmg.is_deleted=0 and pm.is_history=0 order by p.sort_order desc, pm.sort_order desc;
 
 DROP VIEW IF EXISTS `ext_org_admin_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `ext_org_admin_view` AS
