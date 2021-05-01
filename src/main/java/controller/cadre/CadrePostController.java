@@ -588,14 +588,14 @@ public class CadrePostController extends BaseController {
             records.add(record);
         }
 
-        int addCount = cadrePostService.batchImportWorkTimes(records);
+        int updateCount = cadrePostService.batchImportWorkTimes(records);
         int totalCount = records.size();
-        resultMap.put("successCount", addCount);
+        resultMap.put("updateCount", updateCount);
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部任职时间成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount - addCount));
+                "导入干部任职时间成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, updateCount));
 
         return resultMap;
     }
