@@ -354,7 +354,7 @@ public class MemberQuitService extends MemberBaseMapper {
                 cadreParty.setGrowTime(member.getGrowTime());
             }
 
-            cadreParty.setRemark("已转出");
+            cadreParty.setRemark("组织关系已转出");
 
             cadrePartyService.addOrUpdateCadreParty(cadreParty);
         }
