@@ -334,6 +334,10 @@ public class MemberOutService extends MemberBaseMapper {
         record.setIsModify(false);
         record.setPrintCount(0);
         memberOpService.checkOpAuth(userId);
+
+        // 检查党费缴纳情况
+        memberQuitService.checkPmdStatus(userId);
+
         if (record.getId() == null) {
             archive(userId);
             record.setSn(genSn(record.getYear()));
@@ -341,6 +345,7 @@ public class MemberOutService extends MemberBaseMapper {
             SysUserView uv = CmTag.getUserById(userId);
             record.setUserCode(uv.getCode());
             record.setRealname(uv.getRealname());
+
             memberOutMapper.insertSelective(record);
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
@@ -515,6 +520,9 @@ public class MemberOutService extends MemberBaseMapper {
                 record.setSn(genSn(year));
 
                 record.setApplyTime(new Date());
+
+                // 检查党费缴纳情况
+                memberQuitService.checkPmdStatus(userId);
                 memberOutMapper.insertSelective(record);
                 addCount++;
             } else {

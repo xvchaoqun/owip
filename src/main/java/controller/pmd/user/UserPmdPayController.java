@@ -44,6 +44,10 @@ public class UserPmdPayController extends PmdBaseController {
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
 
+        if(pmdMember==null){
+            return _pmdMember; // 如果当月党费缴纳记录已经被删除，应该允许补缴历史月份的党费？？
+        }
+
         int userId = ShiroHelper.getCurrentUserId();
         if(isSelfPay){ // 本人线上缴费
 

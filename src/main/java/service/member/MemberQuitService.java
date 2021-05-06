@@ -333,27 +333,30 @@ public class MemberQuitService extends MemberBaseMapper {
                 + status +" where user_id=" + userId);*/
         commonMapper.excuteSql("update ow_member set status=" + status +" where user_id=" + userId);
 
-        // 存在未缴纳党费时，不允许转出
-        if(status==MemberConstants.MEMBER_STATUS_OUT){
-
-            PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
-            if(pmdMemberPayViewMapper!=null){
-
-                PmdMemberPayViewExample example = new PmdMemberPayViewExample();
-                example.createCriteria()
-                        .andUserIdEqualTo(userId)
-                        .andHasPayEqualTo(false);
-
-                long count = pmdMemberPayViewMapper.countByExample(example);
-                if(count > 0){
-                    SysUserView uv = CmTag.getUserById(userId);
-                    throw new OpException("{0}存在{1}条未缴纳党费记录，请缴纳后再办理转出程序。", uv.getRealname(), count);
-                }
-            }
-        }
+        // 存在未缴纳党费时，不允许转出或减员
+        checkPmdStatus(userId);
 
         // 更新系统角色  党员->访客
         sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
+    }
+
+    // 检验是否存在未缴纳的党费记录
+    public void checkPmdStatus(int userId){
+
+        PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
+        if(pmdMemberPayViewMapper!=null){
+
+            PmdMemberPayViewExample example = new PmdMemberPayViewExample();
+            example.createCriteria()
+                    .andUserIdEqualTo(userId)
+                    .andHasPayEqualTo(false);
+
+            long count = pmdMemberPayViewMapper.countByExample(example);
+            if(count > 0){
+                SysUserView uv = CmTag.getUserById(userId);
+                throw new OpException("{0}存在{1}条未缴纳党费记录，请缴纳后再办理其他业务。", uv.getRealname(), count);
+            }
+        }
     }
 
      // 撤销已减员记录

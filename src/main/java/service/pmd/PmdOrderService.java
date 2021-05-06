@@ -914,6 +914,9 @@ public class PmdOrderService extends PmdBaseMapper {
                 // 把党员生成订单时所在党委、支部，设置为缴费的单位
                 int userId = pmdMemberPayView.getUserId();
                 PmdMember pmdMember = pmdMemberService.get(needPayMonthId, userId);
+                if(pmdMember==null){ // 当月缴费记录已经被删除时，补缴历史党费
+                    pmdMember = pmdMemberMapper.selectByPrimaryKey(recordId);
+                }
                 int partyId = pmdMember.getPartyId();
                 Integer branchId = pmdMember.getBranchId();
                 record.setChargePartyId(partyId);

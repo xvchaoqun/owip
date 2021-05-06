@@ -154,18 +154,11 @@
         pager: "jqGridPager2",
         url: '${ctx}/oa/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'code', width:120},
-            {label: '姓名', name: 'realname', width:120},
+            {label: '工作证号', name: 'code', width:120, frozen:true},
+            {label: '姓名', name: 'realname', width:120, frozen:true},
             {label: '所在单位及职务', name: 'title', width:280, align:'left'},
             {label: '手机号码', name: 'mobile', width:120},
-            {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--';
-                return cellvalue + "({0})".format(rowObject.assignCode)
-            }},
-            {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '--';
-                return cellvalue
-            }},
+
             {
                 label: '报送', name: '_report', formatter: function (cellvalue, options, rowObject) {
 
@@ -191,6 +184,7 @@
                 if(cellvalue==undefined) return '--';
                 return cellvalue
             }},
+            { label: '报送时间',name: 'reportTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 <c:if test="${!taskCanEdit}"> return '--'</c:if>
                 if(cellvalue==undefined) return '--'
@@ -220,7 +214,15 @@
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_oaTaskUser_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
                 'data-url="${ctx}/oa/oaTaskUser_back?id={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.id, rowObject.realname);
-            }},{hidden:true, name: 'userId', key:true}
+            }},{hidden:true, name: 'userId', key:true},
+            {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '--';
+                return cellvalue + "({0})".format(rowObject.assignCode)
+            }},
+            {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '--';
+                return cellvalue
+            }},
         ]
     }).jqGrid("setFrozenColumns");
 

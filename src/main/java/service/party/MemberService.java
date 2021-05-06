@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.base.MetaTypeService;
-import service.member.EnterApplyService;
-import service.member.MemberApplyService;
-import service.member.MemberBaseMapper;
-import service.member.MemberHistoryService;
+import service.member.*;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -62,6 +59,8 @@ public class MemberService extends MemberBaseMapper {
     private BranchMemberGroupService branchMemberGroupService;
     @Autowired
     private MemberApplyService memberApplyService;
+    @Autowired
+    private MemberQuitService memberQuitService;
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
@@ -289,6 +288,12 @@ public class MemberService extends MemberBaseMapper {
     public void batchDel(Integer[] userIds, boolean denyApply) {
 
         if (userIds == null || userIds.length == 0) return;
+
+        for (Integer userId : userIds) {
+            // 没缴纳党费不允许转出或减员或删除
+            memberQuitService.checkPmdStatus(userId);
+        }
+
         {
             MemberExample example = new MemberExample();
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
