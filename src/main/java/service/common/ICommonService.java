@@ -20,6 +20,7 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.IdcardUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -329,5 +330,25 @@ public abstract class ICommonService {
         }
 
         return evaResult;
+    }
+
+    // 根据身份证号更新性别、出生日期
+    public void checkGenderAndBirthByIdcard(SysUserInfo ui, SysUserView uv) {
+
+        if (ui.getIdcard() != null) {
+            if (ui.getBirth() == null && uv.getBirth() == null) {
+                Date birth = IdcardUtils.getBirth(ui.getIdcard());
+                ui.setBirth(birth);
+            }
+            if (ui.getGender() == null && uv.getGender() == null) {
+                String gender = IdcardUtils.getGender(ui.getIdcard());
+                if (StringUtils.contains(gender, "男")) {
+                    ui.setGender(SystemConstants.GENDER_MALE);
+                }
+                if (StringUtils.contains(gender, "女")) {
+                    ui.setGender(SystemConstants.GENDER_FEMALE);
+                }
+            }
+        }
     }
 }

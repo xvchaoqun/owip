@@ -25,7 +25,6 @@ import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
-import sys.utils.IdcardUtils;
 import sys.utils.SqlUtils;
 
 import java.util.Date;
@@ -637,26 +636,6 @@ public class SyncService extends BaseMapper {
         }
     }
 
-    // 根据身份证号更新性别、出生日期
-    private void checkGenderAndBirthByIdcard(SysUserInfo ui, SysUserView uv) {
-
-        if (ui.getIdcard() != null) {
-            if (ui.getBirth() == null && uv.getBirth() == null) {
-                Date birth = IdcardUtils.getBirth(ui.getIdcard());
-                ui.setBirth(birth);
-            }
-            if (ui.getGender() == null && uv.getGender() == null) {
-                String gender = IdcardUtils.getGender(ui.getIdcard());
-                if (StringUtils.contains(gender, "男")) {
-                    ui.setGender(SystemConstants.GENDER_MALE);
-                }
-                if (StringUtils.contains(gender, "女")) {
-                    ui.setGender(SystemConstants.GENDER_FEMALE);
-                }
-            }
-        }
-    }
-
     // 同步教职工信息
     public void snycTeacherInfo(int userId, String code) {
 
@@ -684,7 +663,7 @@ public class SyncService extends BaseMapper {
             ui.setIdcardType(StringUtils.trimToNull(extJzg.getName()));
             ui.setIdcard(StringUtils.trimToNull(extJzg.getSfzh()));
 
-            checkGenderAndBirthByIdcard(ui, uv);
+            extCommonService.checkGenderAndBirthByIdcard(ui, uv);
 
             ui.setNativePlace(StringUtils.trimToNull(extJzg.getJg()));
             ui.setNation(extCommonService.formatNation(StringUtils.trimToNull(extJzg.getMz())));
@@ -822,7 +801,7 @@ public class SyncService extends BaseMapper {
                     ui.setBirth(DateUtils.parseStringToDate(extBks.getCsrq()));
                 ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
 
-                checkGenderAndBirthByIdcard(ui, uv);
+                extCommonService.checkGenderAndBirthByIdcard(ui, uv);
 
                 //ui.setMobile(StringUtils.trim(StringUtils.trimToNull(extBks.getYddh())));
                 //ui.setEmail(StringUtils.trim(StringUtils.trimToNull(extBks.getDzxx())));
@@ -870,7 +849,7 @@ public class SyncService extends BaseMapper {
                     ui.setBirth(DateUtils.parseStringToDate(extYjs.getCsrq()));
                 ui.setIdcard(StringUtils.trimToNull(extYjs.getSfzh()));
 
-                checkGenderAndBirthByIdcard(ui, uv);
+                extCommonService.checkGenderAndBirthByIdcard(ui, uv);
 
                 //ui.setMobile(StringUtils.trim(StringUtils.trimToNull(extYjs.getYddh())));
                 //ui.setEmail(StringUtils.trim(StringUtils.trimToNull(extYjs.getDzxx())));
