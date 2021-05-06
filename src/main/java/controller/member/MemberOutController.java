@@ -668,7 +668,7 @@ public class MemberOutController extends MemberBaseController {
         MemberOutExample example = new MemberOutExample();
         // 查询状态为“组织部审批通过”的记录（不包含已归档记录）
         MemberOutExample.Criteria criteria = example.createCriteria()
-                .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+                .andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
 
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
