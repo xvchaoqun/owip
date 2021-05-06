@@ -1,11 +1,10 @@
 package controller.pmd;
 
 import com.google.gson.Gson;
+import controller.global.OpException;
 import domain.member.Member;
-import domain.pmd.PmdFee;
-import domain.pmd.PmdFeeExample;
+import domain.pmd.*;
 import domain.pmd.PmdFeeExample.Criteria;
-import domain.pmd.PmdOrder;
 import domain.sys.SysUserView;
 import ext.utils.Pay;
 import mixin.MixinUtils;
@@ -153,11 +152,10 @@ public class PmdFeeController extends PmdBaseController {
             return failed("缴费月份有误");
         }
 
-        if (pmdFeeService.idDuplicate(id, record.getUserId(),record.getStartMonth(), record.getEndMonth())) {
-            return failed("存在重复的缴费月份");
-        }
         SysUserView uv = CmTag.getUserById(record.getUserId());
         record.setUserType(uv.getType());
+
+        checkDuplicate(id, record.getUserId(), record.getStartMonth(), record.getEndMonth());
 
         if (id == null) {
 
@@ -175,6 +173,35 @@ public class PmdFeeController extends PmdBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 添加或缴费确认时，判断是否存在重复缴费记录
+    private void checkDuplicate(Integer pmdFeeId, int userId, Date startMonth, Date endMonth){
+
+        // 判断是否已存在单独的补缴记录
+        PmdFeeExample example = new PmdFeeExample();
+        example.createCriteria().andUserIdEqualTo(userId)
+                .andStartMonthLessThanOrEqualTo(endMonth)
+                .andEndMonthGreaterThanOrEqualTo(startMonth);
+        List<PmdFee> pmdFees = pmdFeeMapper.selectByExample(example);
+        if(pmdFees.size()>1
+                || (pmdFees.size()>0 && (pmdFeeId==null || pmdFees.get(0).getId().intValue()!=pmdFeeId))){
+            throw new OpException("已经存在补缴记录（缴费月份重叠）。");
+        }
+
+        // 判断是否已存在每月的缴费记录
+        do{
+            PmdMonth month = pmdMonthService.getMonth(startMonth);
+            if(month!=null) {
+                PmdMember pmdMember = pmdMemberService.get(month.getId(), userId);
+                if(pmdMember!=null){
+
+                    throw new OpException("{0}已经存在{1}月份的缴费记录。", pmdMember.getUser().getRealname(),
+                            DateUtils.formatDate(startMonth, DateUtils.YYYYMM));
+                }
+            }
+            startMonth = DateUtils.getDateBeforeOrAfterMonthes(startMonth, 1);
+        } while (startMonth.before(endMonth));
     }
 
     @RequiresPermissions("pmdFee:edit")
@@ -212,6 +239,9 @@ public class PmdFeeController extends PmdBaseController {
                              HttpServletRequest request){
 
         PmdFee pmdFee = pmdFeeMapper.selectByPrimaryKey(id);
+
+        checkDuplicate(id, pmdFee.getUserId(), pmdFee.getStartMonth(), pmdFee.getEndMonth());
+
         boolean isSelfPay = (pmdFee.getUserId().intValue()==ShiroHelper.getCurrentUserId());
 
         PmdOrder order = pmdOrderService.feeConfirm(id, isSelfPay, isMobile);
