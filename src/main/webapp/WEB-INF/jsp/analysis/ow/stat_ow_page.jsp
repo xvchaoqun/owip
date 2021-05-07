@@ -26,7 +26,9 @@
                                 <c:import url="/stat_member_count"/>
                                 <c:import url="/stat_member_age"/>
                                 <c:import url="/stat_branch_type"/>
-                                <c:import url="/stat_member_apply"/>
+                                <shiro:lacksPermission name="statOw:showPart">
+                                    <c:import url="/stat_member_apply"/>
+                                </shiro:lacksPermission>
                                 <c:import url="/stat_party_tran_time"/>
                                 <c:import url="/stat_branch_tran_time"/>
                             </div>
@@ -58,6 +60,7 @@
                 </div><!-- /.widget-box -->
             </div><!-- /.col -->
         </div>
+        <shiro:lacksPermission name="statOw:showPart">
         <div class="row">
             <div class="col-xs-12">
                 <div class="widget-box transparent">
@@ -81,5 +84,6 @@
                 </div><!-- /.widget-box -->
             </div><!-- /.col -->
         </div>
+        </shiro:lacksPermission>
     </div>
 </div>

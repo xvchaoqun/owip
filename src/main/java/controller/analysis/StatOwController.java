@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.common.MemberStatByPartyBean;
+import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -52,6 +53,9 @@ public class StatOwController extends BaseController {
     @RequestMapping("/stat_member_count")
     public String stat_member_count(Integer type, ModelMap modelMap) {
 
+        if (ShiroHelper.isPermitted("statOw:showPart")){
+            type = 3;
+        }
         modelMap.put("type", type);
         return "analysis/ow/stat_member_count";
     }
@@ -61,6 +65,10 @@ public class StatOwController extends BaseController {
     @RequestMapping("/stat_member_count_data")
     @ResponseBody
     public Map stat_member_count_data(Integer type, Integer partyId, Integer branchId) {
+
+        if (ShiroHelper.isPermitted("statOw:showPart")){
+            type = 3;
+        }
 
         Map<String, Object> resultMap = new HashMap<>();
 

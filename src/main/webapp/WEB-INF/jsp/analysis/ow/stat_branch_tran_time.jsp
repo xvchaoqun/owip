@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
-<div class="col-sm-4" id="stat_member_apply" style="width: ${empty param.partyId?550:750}px;float: left;">
+<div class="col-sm-4" id="stat_member_apply" style="width: ${cm:isPermitted("statOw:showPart")?750:empty param.partyId?550:750}px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">

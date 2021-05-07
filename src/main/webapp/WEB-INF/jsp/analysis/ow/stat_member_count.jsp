@@ -8,7 +8,8 @@
                 <i class="ace-icon fa fa-pie-chart"></i>
                 党员数量统计
             </h5>
-            <div class="widget-toolbar no-border">
+            <shiro:lacksPermission name="statOw:showPart">
+                <div class="widget-toolbar no-border">
                 <div class="inline dropdown-hover">
                     <button class="btn btn-xs btn-info">
                         ${empty type?"详细情况":(type==1)?"性别":(type==2)?"民族":"基本情况"}
@@ -47,6 +48,7 @@
                     </ul>
                 </div>
             </div>
+            </shiro:lacksPermission>
         </div>
         <div class="widget-body">
             <c:if test="${not empty type}">
