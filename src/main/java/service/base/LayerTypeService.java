@@ -21,8 +21,8 @@ public class LayerTypeService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = "LayerTypes", key = "#record.code"),
-        @CacheEvict(value = "LayerTypes:ALL")
+            @CacheEvict(value = "LayerTypes", allEntries=true),
+            @CacheEvict(value = "LayerTypes:ALL")
     })
     public void insertSelective(LayerType record){
 
@@ -49,8 +49,8 @@ public class LayerTypeService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = "LayerTypes", key = "#result.code"),
-        @CacheEvict(value = "LayerTypes:ALL")
+            @CacheEvict(value = "LayerTypes", allEntries = true),
+            @CacheEvict(value = "LayerTypes:ALL")
     })
     public LayerType del(Integer id){
 
@@ -73,8 +73,8 @@ public class LayerTypeService extends BaseMapper {
 
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = "LayerTypes", key = "#record.code"),
-        @CacheEvict(value = "LayerTypes:ALL")
+            @CacheEvict(value = "LayerTypes", allEntries = true),
+            @CacheEvict(value = "LayerTypes:ALL")
     })
     public void updateByPrimaryKeySelective(LayerType record){
 
@@ -92,7 +92,7 @@ public class LayerTypeService extends BaseMapper {
         for (LayerType type : layerTypes) {
             type.setChildren(getChildren(type.getId()));
         }
-        
+
         return layerTypes;
     }
 
@@ -126,7 +126,7 @@ public class LayerTypeService extends BaseMapper {
     }
 
     public List<LayerType> getChildren(int fid){
-        
+
         LayerTypeExample example = new LayerTypeExample();
         example.createCriteria().andFidEqualTo(fid);
         example.setOrderByClause("sort_order asc");
