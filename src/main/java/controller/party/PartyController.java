@@ -17,6 +17,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ import service.pcs.PcsConfigService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -56,7 +58,7 @@ public class PartyController extends BaseController {
     @RequestMapping("/party_base")
     public String party_base(Integer id, ModelMap modelMap) {
 
-        Party party = partyMapper.selectByPrimaryKey(id);
+        PartyView party = partyService.getPartyView(id);
         modelMap.put("party", party);
         PartyMemberGroup presentGroup = partyMemberGroupService.getPresentGroup(id);
         modelMap.put("presentGroup", presentGroup);
@@ -130,6 +132,7 @@ public class PartyController extends BaseController {
                                     Boolean isBg,
                                     String sortBy, // 自定义排序
                                     @RequestDateRange DateRange _foundTime,
+                                  String tranYear, // 换届年份
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -238,6 +241,17 @@ public class PartyController extends BaseController {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
         }
 
+        if(tranYear!=null){
+            if(tranYear.equals("无数据")){
+                criteria.andTranTimeIsNull();
+            }else if(StringUtils.isNumeric(tranYear)){
+                criteria.andTranTimeGreaterThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "0101"))
+                        .andTranTimeLessThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "1231"));
+            }else{
+                criteria.andIdIsNull();
+            }
+        }
+
         if (_integrity != null){
 
             if (_integrity){
@@ -316,25 +330,58 @@ public class PartyController extends BaseController {
             modelMap.put("party", party);
         }
 
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+
         return "party/party_au";
     }
 
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "1")boolean isDeleted,
-                        Integer[] ids, ModelMap modelMap) {
+    public Map do_party_batchDel(HttpServletRequest request,
+                                            @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)Date abolishTime,
+                                         @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
+                                         Integer[] ids, ModelMap modelMap) {
 
-
-        if (null != ids && ids.length>0){
-            partyService.batchDel(ids, isDeleted);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
+        if (null != ids && ids.length > 0) {
+            partyService.batchDel(ids, isDeleted, abolishTime);
+            logger.info(addLog(LogConstants.LOG_PARTY, "撤销基层党组织：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("party:del")
+    @RequestMapping("/party_batchDel")
+    public String party_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("party", partyMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/party_batchDel";
+    }
 
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
@@ -448,9 +495,9 @@ public class PartyController extends BaseController {
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
         List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"编号|200","名称|350|left","简称|250|left","党总支类别|100",
-                "是否已设立现任委员会|80", "任命时间|100","应换届时间|100", "实际换届时间|100",
+                "是否已设立现任委员会|80", "任命时间|100","应换届时间|100",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
-                "组织类别|100","关联单位|250|left","关联单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
+                "组织类别|100",/*"关联单位|250|left",*/"单位属性|100","联系电话","联系地址|250|left","传真","邮箱", "成立时间"}));
         if (type != 1){
             titles.add(4, "支部数量");
             titles.add(5, "党员总数");
@@ -471,14 +518,13 @@ public class PartyController extends BaseController {
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
 
                     BooleanUtils.isTrue(record.getIsEnterpriseBig()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsEnterpriseNationalized()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsSeparate()) ? "是" : "否",
 
                     metaTypeService.getName(record.getTypeId()),
-                    record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
+                    /*record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),*/
                     metaTypeService.getName(record.getUnitTypeId()),
                     record.getPhone(),
                     record.getAddress(),

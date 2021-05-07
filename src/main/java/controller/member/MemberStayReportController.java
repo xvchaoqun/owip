@@ -6,8 +6,8 @@ import domain.member.MemberStay;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.StudentInfo;
-import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -20,12 +20,13 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
+import sys.jasper.ReportUtils;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,12 +38,13 @@ public class MemberStayReportController extends MemberBaseController {
 
     // 出国暂留
     @RequestMapping(value = "/member_stay")
-    public String member_stay(@CurrentUser SysUserView loginUser, HttpServletRequest request,
+    public String member_stay(HttpServletRequest request,
+                              HttpServletResponse response,
                               byte type,
                               String ids,
-                              @RequestParam(required = false, defaultValue = "0") Boolean print,
+                              @RequestParam(required = false, defaultValue = "0") Byte print,
                               @RequestParam(defaultValue = "pdf") String format,
-                              Model model) throws IOException {
+                              Model model) throws IOException, JRException {
 
         // 分党委、组织部管理员或管理员才可以操作
         if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
@@ -71,41 +73,58 @@ public class MemberStayReportController extends MemberBaseController {
             data.add(map);
         }
 
-        // 报表数据源
-        JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
-
+        String jasperPath = "";
         if (type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
-            model.addAttribute("url", "/WEB-INF/jasper/member_stay_abroad.jasper");
+            jasperPath = "jasper/member_stay_abroad.jasper";
         } else {
-            model.addAttribute("url", "/WEB-INF/jasper/member_stay_internal.jasper");
-        }
-        model.addAttribute("format", format); // 报表格式
-        model.addAttribute("jrMainDataSource", jrDataSource);
-
-        if (print) {
-            iMemberMapper.increasePrintCount("ow_member_stay",  new ArrayList<>(idSet), new Date(), ShiroHelper.getCurrentUserId());
-
-            logger.info("出国暂留打印 {}, {}, {}, {}, {}, {}",
-                    new Object[]{loginUser.getUsername(), request.getRequestURI(),
-                            request.getMethod(),
-                            JSONUtils.toString(request.getParameterMap(), false),
-                            RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
+            jasperPath = "jasper/member_stay_internal.jasper";
         }
 
-        return "iReportView";
+        if (print==0 || print==1) {
+
+            // 报表数据源
+            JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
+            model.addAttribute("url", "/WEB-INF/" + jasperPath);
+            model.addAttribute("format", format); // 报表格式
+            model.addAttribute("jrMainDataSource", jrDataSource);
+
+            if(print==1) {
+                iMemberMapper.increasePrintCount("ow_member_stay", new ArrayList<>(idSet), new Date(), ShiroHelper.getCurrentUserId());
+
+                logger.info("申请组织关系暂留打印 {}, {}, {}, {}, {}, {}",
+                        new Object[]{ShiroHelper.getCurrentUsername(), request.getRequestURI(),
+                                request.getMethod(),
+                                JSONUtils.toString(request.getParameterMap(), false),
+                                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});
+            }
+
+            return "iReportView";
+        }else if (print == 2) {
+
+            DownloadUtils.addFileDownloadCookieHeader(response);
+            ReportUtils.exportPdf(jasperPath, data,
+                    null, "申请组织关系暂留", request, response);
+            return null;
+        }/*else if (print == 3) {
+            ReportUtils.exportDoc(jasperPath, data,
+                    null, "申请组织关系暂留", request, response);
+            return null;
+        }*/
+
+        return null;
     }
 
     // 获取出国暂留相关信息
     public Map<String, Object> getMemberStayMap(int id) {
 
-        MemberStay ga = memberStayMapper.selectByPrimaryKey(id);
-        int userId = ga.getUserId();
+        MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
+        int userId = memberStay.getUserId();
         UserBean u = userBeanService.get(userId);
         StudentInfo student = studentInfoService.get(userId);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", ga.getCode());
+        map.put("code", memberStay.getCode());
 
-        Date createTime = ga.getCreateTime();
+        Date createTime = memberStay.getCreateTime();
         map.put("year", DateUtils.getYear(createTime));
         map.put("month", DateUtils.getMonth(createTime));
         map.put("day", DateUtils.getDay(createTime));
@@ -128,100 +147,100 @@ public class MemberStayReportController extends MemberBaseController {
         map.put("grade", student==null?"":student.getEnrolYear());
         // 学历？
         map.put("education", student==null?"":student.getEduLevel());
-        map.put("mobile", ga.getMobile());
-        map.put("phone", ga.getPhone());
-        map.put("qq", ga.getQq());
-        map.put("email", ga.getEmail());
-        map.put("weixin", ga.getWeixin());
+        map.put("mobile", memberStay.getMobile());
+        map.put("phone", memberStay.getPhone());
+        map.put("qq", memberStay.getQq());
+        map.put("email", memberStay.getEmail());
+        map.put("weixin", memberStay.getWeixin());
 
         // 接收函？
         map.put("letter", "");
 
         String name1 = "";
-        if (ga.getName1() != null && ga.getRelate1() != null) {
-            name1 = String.format("%s(%s)", ga.getName1(), ga.getRelate1());
-        } else if (ga.getName1() != null) {
-            name1 = ga.getName1();
+        if (memberStay.getName1() != null && memberStay.getRelate1() != null) {
+            name1 = String.format("%s(%s)", memberStay.getName1(), memberStay.getRelate1());
+        } else if (memberStay.getName1() != null) {
+            name1 = memberStay.getName1();
         }
         map.put("name1", name1);
-        map.put("mobile1", ga.getMobile1());
-        map.put("stayReason", ga.getStayReason());
+        map.put("mobile1", memberStay.getMobile1());
+        map.put("stayReason", memberStay.getStayReason());
 
 
-        if (ga.getType() == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
-            map.put("inAddress", ga.getInAddress());
-            map.put("outAddress", ga.getOutAddress());
+        if (memberStay.getType() == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
+            map.put("inAddress", memberStay.getInAddress());
+            map.put("outAddress", memberStay.getOutAddress());
 
-            map.put("unit1", ga.getUnit1());
-            map.put("post1", ga.getPost1());
-            map.put("phone1", ga.getPhone1());
-            map.put("email1", ga.getEmail1());
+            map.put("unit1", memberStay.getUnit1());
+            map.put("post1", memberStay.getPost1());
+            map.put("phone1", memberStay.getPhone1());
+            map.put("email1", memberStay.getEmail1());
 
             String name2 = "";
-            if (ga.getName2() != null && ga.getRelate2() != null) {
-                name2 = String.format("%s(%s)", ga.getName2(), ga.getRelate2());
-            } else if (ga.getName2() != null) {
-                name2 = ga.getName2();
+            if (memberStay.getName2() != null && memberStay.getRelate2() != null) {
+                name2 = String.format("%s(%s)", memberStay.getName2(), memberStay.getRelate2());
+            } else if (memberStay.getName2() != null) {
+                name2 = memberStay.getName2();
             }
             map.put("name2", name2);
 
-            map.put("unit2", ga.getUnit2());
-            map.put("post2", ga.getPost2());
-            map.put("phone2", ga.getPhone2());
-            map.put("mobile2", ga.getMobile2());
-            map.put("email2", ga.getEmail2());
+            map.put("unit2", memberStay.getUnit2());
+            map.put("post2", memberStay.getPost2());
+            map.put("phone2", memberStay.getPhone2());
+            map.put("mobile2", memberStay.getMobile2());
+            map.put("email2", memberStay.getEmail2());
 
-            map.put("country", ga.getCountry());
-            map.put("school", ga.getSchool());
+            map.put("country", memberStay.getCountry());
+            map.put("school", memberStay.getSchool());
 
             String startTime = "";
-            if (ga.getStartTime() != null && ga.getEndTime() != null) {
-                startTime = DateUtils.formatDate(ga.getStartTime(), DateUtils.YYYYMM)
-                        + " 至 " + DateUtils.formatDate(ga.getEndTime(), DateUtils.YYYYMM);
-            } else if (ga.getStartTime() != null) {
-                startTime = DateUtils.formatDate(ga.getStartTime(), DateUtils.YYYYMM);
+            if (memberStay.getStartTime() != null && memberStay.getEndTime() != null) {
+                startTime = DateUtils.formatDate(memberStay.getStartTime(), DateUtils.YYYYMM)
+                        + " 至 " + DateUtils.formatDate(memberStay.getEndTime(), DateUtils.YYYYMM);
+            } else if (memberStay.getStartTime() != null) {
+                startTime = DateUtils.formatDate(memberStay.getStartTime(), DateUtils.YYYYMM);
             }
             map.put("startTime", startTime);
 
-            map.put("payTime", DateUtils.formatDate(ga.getPayTime(), DateUtils.YYYYMM));
+            map.put("payTime", DateUtils.formatDate(memberStay.getPayTime(), DateUtils.YYYYMM));
 
-            Byte abroadType = ga.getAbroadType();
+            Byte abroadType = memberStay.getAbroadType();
             map.put("typeCheck1", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_PUB ? "√" : "");
             map.put("typeCheck2", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_SELF ? "√" : "");
         }
 
-        map.put("overDate", DateUtils.formatDate(ga.getOverDate(), DateUtils.YYYYMM));
+        map.put("overDate", DateUtils.formatDate(memberStay.getOverDate(), DateUtils.YYYYMM));
 
         String branchAdmin = "";
-        if (ga.getOrgBranchAdminPhone() != null && ga.getOrgBranchAdmin() != null) {
-            branchAdmin = String.format("%s(%s)", ga.getOrgBranchAdmin().getRealname(), ga.getOrgBranchAdminPhone());
-        } else if (ga.getOrgBranchAdmin() != null) {
-            branchAdmin = ga.getOrgBranchAdmin().getRealname();
+        if (memberStay.getOrgBranchAdminPhone() != null && memberStay.getOrgBranchAdmin() != null) {
+            branchAdmin = String.format("%s(%s)", memberStay.getOrgBranchAdmin().getRealname(), memberStay.getOrgBranchAdminPhone());
+        } else if (memberStay.getOrgBranchAdmin() != null) {
+            branchAdmin = memberStay.getOrgBranchAdmin().getRealname();
         }
         map.put("branchAdmin", branchAdmin);
 
-        map.put("saveStartTime", DateUtils.formatDate(ga.getSaveStartTime(), DateUtils.YYYYMM)
-                + " 至 " + DateUtils.formatDate(ga.getSaveEndTime(), DateUtils.YYYYMM));
+        map.put("saveStartTime", DateUtils.formatDate(memberStay.getSaveStartTime(), DateUtils.YYYYMM)
+                + " 至 " + DateUtils.formatDate(memberStay.getSaveEndTime(), DateUtils.YYYYMM));
 
         String party = "";
         Map<Integer, Party> partyMap = partyService.findAll();
-        if (ga.getPartyId() != null) {
-            Party _party = partyMap.get(ga.getPartyId());
+        if (memberStay.getPartyId() != null) {
+            Party _party = partyMap.get(memberStay.getPartyId());
             if (_party != null) party = _party.getName();
         }
         map.put("party", party); // 所在党组织
 
         String branch = "";
         Map<Integer, Branch> branchMap = branchService.findAll();
-        if (ga.getBranchId() != null) {
-            Branch _branch = branchMap.get(ga.getBranchId());
+        if (memberStay.getBranchId() != null) {
+            Branch _branch = branchMap.get(memberStay.getBranchId());
             if (_branch != null) branch = _branch.getName();
         }
         map.put("branch", branch); // 暂留所在党支部
 
         String toBranch = "";
-        if (ga.getToBranchId() != null) {
-            Branch _branch = branchMap.get(ga.getToBranchId());
+        if (memberStay.getToBranchId() != null) {
+            Branch _branch = branchMap.get(memberStay.getToBranchId());
             if (_branch != null) toBranch = _branch.getName();
         }
         map.put("toBranch", toBranch); // 暂留所在党支部
@@ -239,6 +258,34 @@ public class MemberStayReportController extends MemberBaseController {
         }
         map.put("transferTime", transferTime);
 
+        map.put("selfOpinion", "申请保留组织关系");
+        map.put("selfYear", DateUtils.getYear(createTime));
+        map.put("selfMonth", DateUtils.getMonth(createTime));
+        map.put("selfDay", DateUtils.getDay(createTime));
+
+        Date branchCheckTime = memberStay.getBranchCheckTime();
+        map.put("branchOpinion", "审批通过");
+        if(branchCheckTime!=null) {
+            map.put("branchYear", DateUtils.getYear(branchCheckTime));
+            map.put("branchMonth", DateUtils.getMonth(branchCheckTime));
+            map.put("branchDay", DateUtils.getDay(branchCheckTime));
+        }
+
+        Date partyCheckTime = memberStay.getPartyCheckTime();
+        map.put("partyOpinion", "审批通过");
+        if(partyCheckTime!=null) {
+            map.put("partyYear", DateUtils.getYear(partyCheckTime));
+            map.put("partyMonth", DateUtils.getMonth(partyCheckTime));
+            map.put("partyDay", DateUtils.getDay(partyCheckTime));
+        }
+
+        Date checkTime = memberStay.getCheckTime();
+        map.put("owOpinion", "审批通过");
+        if(checkTime!=null) {
+            map.put("owYear", DateUtils.getYear(checkTime));
+            map.put("owMonth", DateUtils.getMonth(checkTime));
+            map.put("owDay", DateUtils.getDay(checkTime));
+        }
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             if (entry.getValue() == null) {

@@ -29,18 +29,18 @@
     </sql>
 
     <sql id="userSearchSql">
-        select * from sys_user_view
+        select id, realname, username, code, type,create_time, role_ids from sys_user_view
         <if test="query != null">
             <where>
                 and username like '${query}%'
             </where>
             union
-            select * from sys_user_view
+            select id, realname, username, code, type,create_time, role_ids from sys_user_view
             <where>
                 and realname like '${query}%'
             </where>
             union
-            select * from sys_user_view
+            select id, realname, username, code, type,create_time, role_ids from sys_user_view
             <where>
                 and code like '${query}%'
             </where>
@@ -102,7 +102,7 @@
         and role_ids not like "%${regRoleStr}%" and u.type=1
     </select>
     <select id="selectNotDpMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select * from (<include refid="userSearchSql" />) u
+        select id, realname, username, code, type,create_time, role_ids from (<include refid="userSearchSql" />) u
         where not exists(select 1 from dp_member where user_id=u.id and status=1)
         and role_ids not like "%${regRoleStr}%"
         and type in(1)
@@ -130,7 +130,7 @@
     </select>
 
     <select id="selectUserList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select * from (<include refid="userSearchSql" />) u
+        select id, realname, username, code, type,create_time, role_ids from (<include refid="userSearchSql" />) u
         where u.type=1 order by id desc
     </select>
     <select id="countUserList" parameterType="map" resultType="java.lang.Integer">

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -23,18 +23,6 @@
                 <div class="tab-content">
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${status==1}">
-                                <button id="detailBtn" data-url="${ctx}/cla/claApply_view"
-                                        data-open-by="page"
-                                        class="jqOpenViewBtn btn btn-warning btn-sm">
-                                    <i class="fa fa-info-circle"></i> 详情
-                                </button>
-                            </c:if>
-                            <c:if test="${status==0}">
-                                <button id="detailBtn" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-info-circle"></i> 详情
-                                </button>
-                            </c:if>
                             <a class="popupBtn btn btn-info btn-sm"
                                data-width="650"
                                data-url="${ctx}/hf_content?code=hf_cla_apply_approval_note">
@@ -70,43 +58,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-<%--                                            <div class="col-xs-4">--%>
-<%--                                                <div class="form-group">--%>
-<%--                                                    <label class="col-xs-4 control-label">申请日期范围</label>--%>
-
-<%--                                                    <div class="col-xs-6">--%>
-<%--                                                        <div class="input-group tooltip-success" data-rel="tooltip"--%>
-<%--                                                             title="申请日期范围">--%>
-<%--                                                            <span class="input-group-addon">--%>
-<%--                                                                <i class="fa fa-calendar bigger-110"></i>--%>
-<%--                                                            </span>--%>
-<%--                                                            <input placeholder="请选择申请日期范围" data-rel="date-range-picker"--%>
-<%--                                                                   class="form-control date-range-picker" type="text"--%>
-<%--                                                                   name="_applyDate" value="${param._applyDate}"/>--%>
-<%--                                                        </div>--%>
-<%--                                                    </div>--%>
-<%--                                                </div>--%>
-
-<%--                                            </div>--%>
-<%--                                            <div class="col-xs-4">--%>
-<%--                                                <div class="form-group">--%>
-<%--                                                    <label class="col-xs-4 control-label">类别</label>--%>
-
-<%--                                                    <div class="col-xs-6">--%>
-<%--                                                        <select name="type" data-rel="select2"--%>
-<%--                                                                data-placeholder="请选择">--%>
-<%--                                                            <option></option>--%>
-<%--                                                            <c:forEach items="${CLA_APPLY_TYPE_MAP}" var="type">--%>
-<%--                                                                <option value="${type.key}">${type.value}</option>--%>
-<%--                                                            </c:forEach>--%>
-<%--                                                        </select>--%>
-<%--                                                        <script>--%>
-<%--                                                            $("#searchForm select[name=type]").val('${param.type}');--%>
-<%--                                                        </script>--%>
-<%--                                                    </div>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -135,28 +86,11 @@
 </div>
 <script type="text/template" id="remark_tpl">
     <button class="popupBtn btn btn-xs btn-primary"
-            data-url="${ctx}/cla/claApplyModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
+            data-url="${ctx}/parttime/parttimeApplyModifyList?applyId={{=id}}"><i class="fa fa-search"></i> 查看
     </button>
 </script>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    $("#detailBtn").click(function () {
-        var grid = $("#jqGrid");
-        var id = grid.getGridParam("selrow");
-        var ids = grid.getGridParam("selarrrow");
-        if (!$(this).hasClass("jqOpenViewBtn")) {
-            if (!id || ids.length > 1) {
-                SysMsg.warning("请选择一行", "提示");
-                return;
-            }
-        }
-
-        var approvalBtn = $("[role='row'][id=" + id + "]", "#jqGrid").find(".openView.btn-success");
-        if (approvalBtn && approvalBtn.length == 1) {
-            //alert(0)
-            approvalBtn.click();
-        }
-    });
     $("#jqGrid").jqGrid({
         //forceFit:true,
         url: '${ctx}/parttime/parttimeApplyList_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -167,11 +101,12 @@
             <c:if test="${status==0}">
             {
                 label: '审批', name: '_approval', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
+                    return _approval(rowObject.approvalTdBeanMap, rowObject.isDeleted)
             }, frozen: true},
             </c:if>
             {
                 label: '编号', name: 'id', width: 80, formatter: function (cellvalue, options, rowObject) {
+                    console.log(rowObject)
                 return "L{0}".format(rowObject.id);
             }, frozen: true
             },
@@ -194,39 +129,12 @@
                 }
             },
             {
-                label: '审批', name: 'approver', width: 150,align: 'left',
-                cellattr: function (rowId, val, rowObject, cm, rdata) {
-                    var list = ${cm:toJSONObject(approverTypeMap)};
-                    for (var index in list) {
-                        var tdBean = rowObject.approvalTdBeanMap[list[index].id];
-                        return approverTdAttrs(tdBean);
-                    }
-                }, formatter: function (cellvalue, options, rowObject) {
-                    var list = ${cm:toJSONObject(approverTypeMap)};
-                    var approvalStr = "";
-                    for (var index in list) {
-                        var tdBean = rowObject.approvalTdBeanMap[list[index].id];
-                        var res = processTdBean(tdBean);
-                        //正职
-                        var record = list[index];
-                        if (rowObject.cadre.isPrincipal) {
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_LEADER}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        } else {
-                            //副职
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_UNIT}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        }
-                        if (rowObject.background) {
-                            if (record.type == ${PARTTIME_APPROVER_TYPE_FOREIGN}) {
-                                approvalStr += record.name + " : " + res + '<br/>';
-                            }
-                        }
-                    }
-                    return approvalStr;
-                }, classes:'can-wrap'
+                label: '审批', name: 'approver', width: 90,
+                formatter: function (cellvalue, options, rowObject) {
+
+                    return ('<button data-url="${ctx}/parttime/parttimeApply_view?id={0}" class="openView btn btn-warning btn-xs">'
+                               + '<i class="fa fa-info-circle"></i> 详情</button>').format(rowObject.id);
+                }
             },
             {
                 label: '组织部终审',
@@ -239,17 +147,24 @@
                         return "class='not_approval'"
                 },
                 formatter: function (cellvalue, options, rowObject) {
+                    var map = rowObject.approvalTdBeanMap;
+                    for (var i in map) {
+                        var m = map[i];
+                        if (m.tdType == 5 && m.approvalTypeId != 0) {
+                            return "--";
+                        }
+                    }
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     return processTdBean(tdBean)
                 }
-            },
+            }/*,
             {
                 label: '变更记录', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return '--'
             }
-            }
+            }*/
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
 
@@ -306,7 +221,7 @@
                 case 4:
                 {
                     html = "<button {0} class=\"openView btn {1} btn-xs\"" +
-                            "        data-url=\"${ctx}/cla/claApply_view?type=approval&id={2}&approvalTypeId={3}\">" +
+                            "        data-url=\"${ctx}/parttime/parttimeApply_view?type=approval&id={2}&approvalTypeId={3}\">" +
                             "        <i class=\"fa fa-edit\"></i> 审批" +
                             "        </button>";
                     //console.log(html)

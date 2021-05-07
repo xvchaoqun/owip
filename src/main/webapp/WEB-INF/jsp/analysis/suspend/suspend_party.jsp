@@ -110,6 +110,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="infobox infobox-brown"
+                             <c:if test="${memberTrasferCount>0}">data-url="${ctx}/memberTransfer"</c:if>>
+                            <div class="infobox-icon">
+                                <i class="ace-icon fa fa-random"></i>
+                            </div>
+
+                            <div class="infobox-data">
+                                <span class="infobox-data-number"><span class="count">${memberTrasferCount}</span> <span
+                                        style="font-size: 10pt;">未处理</span> </span>
+
+                                <div class="infobox-content">
+                                    校内转接审批
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="infobox infobox-blue2"
                              <c:if test="${memberStayCount_abroad>0}">data-url="${ctx}/memberStay?type=${MEMBER_STAY_TYPE_ABROAD}&cls=2&partyId=${param.partyId}"</c:if>>

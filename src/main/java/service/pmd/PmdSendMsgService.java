@@ -14,6 +14,7 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.utils.DateUtils;
 
@@ -85,7 +86,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
         String msg = MessageFormat.format(tpl.getContent(), DateUtils.formatDate(payMonth, "yyyy年MM月"));
 
-        oneSendService.sendMsg(userList, realnameList, msg);
+        oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, msg);
     }
 
     // 给某个分党委所有管理员发通知
@@ -109,7 +110,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
         String msg = MessageFormat.format(tpl.getContent(), DateUtils.formatDate(payMonth, "yyyy年MM月"));
 
-        oneSendService.sendMsg(userList, realnameList, msg);
+        oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, msg);
 
     }
 
@@ -162,7 +163,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
                     DateUtils.formatDate(payMonth, "yyyy年MM月"),
                     party.getName());
 
-            oneSendService.sendMsg(userList, realnameList, msg);
+            oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, msg);
         }
     }
 
@@ -219,7 +220,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
                 DateUtils.formatDate(payMonth, "yyyy年MM月"),
                 branchName);
 
-        oneSendService.sendMsg(userList, realnameList, msg);
+        oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, msg);
     }
 
     // 本月党费收缴已经启动，短信通知本支部党员缴纳党费
@@ -249,7 +250,7 @@ public class PmdSendMsgService extends PmdBaseMapper {
             realnameList.add(uv.getRealname());
         }
 
-        oneSendService.sendMsg(userList, realnameList, msg);
+        oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, msg);
     }
 
     public String notifyMembersMsg(int partyId, Integer branchId) {

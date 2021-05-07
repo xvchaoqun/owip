@@ -603,6 +603,13 @@ public class CadreAdformService extends BaseMapper {
 
         dataMap.put("health", bean.getHealth());
         dataMap.put("proPost", bean.getProPost());
+        dataMap.put("adFormShowProPostTime", CmTag.getBoolProperty("adFormShowProPostTime"));
+        if(CmTag.getBoolProperty("proPostTimeToDay")){
+            dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMMDD_DOT));
+        }else{
+            dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM));
+        }
+
         dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("edu", bean.getEdu());
@@ -650,7 +657,7 @@ public class CadreAdformService extends BaseMapper {
         } else if (adFormType == CadreConstants.CADRE_ADFORMTYPE_ZZB_SONG) {
             maxFamilyCount = 7;
             adFormFtl = "/adform_docx/adform_zzb.ftl";
-            titleEditorFtl = "/common/titleEditor3.ftl";
+            titleEditorFtl = "/adform_docx/titleEditor_zzb.ftl";
             rewardFtl = "/common/titleEditor2.ftl";
             familyFtl = "/adform_docx/family_zzb.ftl";
         }
@@ -671,6 +678,8 @@ public class CadreAdformService extends BaseMapper {
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
         dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, rewardFtl));
 
+        int adForm1_family_birth = CmTag.getIntProperty("adForm1_family_birth", 1);
+        dataMap.put("adForm1_family_birth", adForm1_family_birth);
         String family = "";
         List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
         int size = cadreFamilys.size();
@@ -1418,7 +1427,18 @@ public class CadreAdformService extends BaseMapper {
 
         setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(bean.getWorkTime(), "yyyyMM"));
         setNodeText(doc, "JianKangZhuangKuang", bean.getHealth());
-        setNodeText(doc, "ZhuanYeJiShuZhiWu", bean.getProPost());
+
+        String proPost = StringUtils.trimToEmpty(bean.getProPost());
+        if(CmTag.getBoolProperty("adFormShowProPostTime") && bean.getProPostTime()!=null) {
+            if (CmTag.getBoolProperty("proPostTimeToDay")) {
+                proPost += "（" + DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMMDD_DOT) + "）";
+            } else {
+                proPost += "（" + DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM) + "）";
+            }
+        }
+        
+        setNodeText(doc, "ZhuanYeJiShuZhiWu", proPost);
+
         setNodeText(doc, "ShuXiZhuanYeYouHeZhuanChang", bean.getSpecialty());
 
         setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", bean.getEdu());
@@ -1511,7 +1531,20 @@ public class CadreAdformService extends BaseMapper {
         if(cf!=null && cf.getBirthday()!=null){
             fage = DateUtils.calAge(cf.getBirthday());
         }*/
-        dataMap.put("fage", cf == null ? "" : DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
+         if (cf != null) {
+             Date birth = cf.getBirthday();
+             String fage = birth == null ? "" : DateUtils.formatDate(birth, DateUtils.YYYYMM);
+             dataMap.put("fage", fage);
+
+             String fage2;
+             int adForm1_family_birth = CmTag.getIntProperty("adForm1_family_birth", 1);
+             if(adForm1_family_birth==1){
+                 fage2 = fage;
+             }else{
+                 fage2 = (birth == null || BooleanUtils.isTrue(cf.getWithGod())) ? "" : DateUtils.yearOffNow(DateUtils.getFirstDayOfMonth(birth))+"";
+             }
+             dataMap.put("fage2", fage2);
+         }
 
         String fps = "";
         if (cf != null && cf.getPoliticalStatus() != null) {

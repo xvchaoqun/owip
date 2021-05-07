@@ -16,7 +16,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import service.abroad.ApplySelfService;
@@ -30,13 +29,8 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
-import sys.tool.graphicsmagick.GmTool;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-import sys.utils.PropertiesUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -52,27 +46,6 @@ public class SysUserService extends BaseMapper {
     private CacheHelper cacheHelper;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
-
-    public String uploadSign(int userId, MultipartFile sign) throws IOException {
-
-        if (sign == null || sign.isEmpty()) {
-            return null;
-        }
-
-        String savePath = FILE_SEPARATOR + "sign" + FILE_SEPARATOR + userId + ".png";
-
-        String filePath = springProps.uploadPath + savePath;
-        FileUtils.saveFile(sign, new File(filePath));
-
-        try {
-            GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
-            gmTool.scaleResize(filePath, filePath, 750, 500);
-        }catch (Exception ex){
-            throw new OpException("上传失败：" + ex.getMessage());
-        }
-
-        return savePath;
-    }
 
     @Transactional
     public void changeRoleGuestToMember(int userId) {

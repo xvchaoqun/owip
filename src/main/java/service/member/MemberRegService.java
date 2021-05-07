@@ -25,6 +25,7 @@ import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.IdcardUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -375,6 +376,18 @@ public class MemberRegService extends MemberBaseMapper {
         sysUserInfo.setUserId(sysUser.getId());
         sysUserInfo.setRealname(record.getRealname());
         sysUserInfo.setIdcard(record.getIdcard());
+        if(StringUtils.isNotBlank(sysUserInfo.getIdcard())) {
+
+            String gender = IdcardUtils.getGender(sysUserInfo.getIdcard());
+            if (StringUtils.contains(gender, "男")) {
+                sysUserInfo.setGender(SystemConstants.GENDER_MALE);
+            }
+            if (StringUtils.contains(gender, "女")) {
+                sysUserInfo.setGender(SystemConstants.GENDER_FEMALE);
+            }
+
+            sysUserInfo.setBirth(IdcardUtils.getBirth(sysUserInfo.getIdcard()));
+        }
         sysUserInfo.setMobile(record.getPhone());
         sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
 

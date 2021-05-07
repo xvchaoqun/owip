@@ -36,6 +36,26 @@ pageEncoding="UTF-8" %>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>确定为入党积极分子时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_activeTime" value="${param._activeTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>确定为发展对象时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_candidateTime" value="${param._candidateTime}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
                                                             data-ajax-url="${ctx}/party_selects?auth=1" data-width="350"
@@ -63,10 +83,10 @@ pageEncoding="UTF-8" %>
                                                         <li>不选${_p_partyName}、党支部则导出全部</li>
                                                         <li>
                                                             <c:if test="${_ignore_plan_and_draw}">
-                                                                导出结果中包含申请至发展对象这三个阶段的数据
+                                                                导出结果中包含申请（支部审核通过）至发展对象这三个阶段的数据
                                                             </c:if>
                                                             <c:if test="${!_ignore_plan_and_draw}">
-                                                                导出结果中包含申请至领取志愿书这五个阶段的数据
+                                                                导出结果中包含申请（支部审核通过）至领取志愿书这五个阶段的数据
                                                             </c:if>
                                                         </li>
                                                     </ul>
@@ -154,15 +174,11 @@ pageEncoding="UTF-8" %>
                                         </div>
                                     </div>
                                 </div>
+                                 <c:if test="${!_ignore_plan_and_draw}">
                                 <div class="widget-box">
                                     <div class="widget-header">
                                         <h4 class="widget-title"><i class="ace-icon fa fa-download red "></i>
-                                            <c:if test="${_ignore_plan_and_draw}">
-                                                预备党员信息导出
-                                            </c:if>
-                                            <c:if test="${!_ignore_plan_and_draw}">
                                                 领取志愿书信息导出
-                                            </c:if>
                                         </h4>
                                         <div class="widget-toolbar">
                                             <a href="javascript:;" data-action="collapse">
@@ -185,18 +201,17 @@ pageEncoding="UTF-8" %>
                                                         </div>
                                                     </div>
                                                 </c:if>
-                                                <c:if test="${!_ignore_plan_and_draw}">
-                                                    <div class="form-group">
-                                                        <label>领取志愿书时间</label>
-                                                        <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar bigger-110"></i>
-                                                            </span>
-                                                            <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
-                                                                   type="text" name="_drawTime" value="${param._drawTime}"/>
-                                                        </div>
+
+                                                <div class="form-group">
+                                                    <label>领取志愿书时间</label>
+                                                    <div class="input-group tooltip-success" data-rel="tooltip" title="时间范围">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar bigger-110"></i>
+                                                        </span>
+                                                        <input placeholder="请选择时间范围" data-rel="date-range-picker" class="form-control date-range-picker"
+                                                               type="text" name="_drawTime" value="${param._drawTime}"/>
                                                     </div>
-                                                </c:if>
+                                                </div>
                                                 <div class="form-group">
                                                     <label>${_p_partyName}</label>
                                                     <select class="form-control" data-rel="select2-ajax"
@@ -234,6 +249,7 @@ pageEncoding="UTF-8" %>
                                                         </li>
                                                     </ul>
                                                 </div>
+
                                             </form>
                                                 <div class="clearfix form-actions center" style="margin-top: 0;margin-bottom: 0;">
                                                     <button class="btn btn-primary btn-sm"  onclick="_exportApply3(this,'${MEMBER_TYPE_STUDENT}')">
@@ -249,6 +265,7 @@ pageEncoding="UTF-8" %>
                                         </div>
                                     </div>
                                 </div>
+                                 </c:if>
 
                                 <div class="widget-box">
                                     <div class="widget-header">
@@ -331,10 +348,12 @@ pageEncoding="UTF-8" %>
     function _exportApply1(btn, type){
 
         var _applyTime = $("input[name=_applyTime]", "#exportForm1").val();
+        var _activeTime = $("input[name=_activeTime]", "#exportForm1").val();
+        var _candidateTime = $("input[name=_candidateTime]", "#exportForm1").val();
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
-        var url="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
-                .format(type, partyId, branchId, _applyTime, new Date().getTime());
+        var url="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&_activeTime={4}&_candidateTime={5}&t={6}"
+                .format(type, partyId, branchId, _applyTime, _activeTime, _candidateTime, new Date().getTime());
         $(btn).download(url);
     }
 

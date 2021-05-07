@@ -238,7 +238,7 @@ public class CadreCompanyController extends BaseController {
                                   @RequestParam(required = false, defaultValue = "0") int idType,
                                   @RequestParam(required = false, defaultValue = "0") int formatType, // 0：汇总表 1： 确认表
                                   Integer[] ids, // 导出的记录（干部id)
-                                  @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                                  @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部 2：现任校领导 3：离任校领导
                                   Integer reserveType, // 年轻干部类别
                                   Integer pageSize, Integer pageNo) throws IOException {
 
@@ -308,8 +308,19 @@ public class CadreCompanyController extends BaseController {
 
                 if(idType==1){
                     criteria.andIdIn(Arrays.asList(ids));
-                }else {
+                } else {
                     criteria.andCadreIdIn(Arrays.asList(ids));
+                }
+            } else {
+                if (exportType == 2 || exportType == 3) {
+                    List<CadreView> list = cadreService.getLeaderCadreView(ids, cadreStatus);
+                    List<Integer> cadres = new ArrayList<>();
+                    if (list.size() > 0) {
+                        for (CadreView cadreView: list) {
+                            cadres.add(cadreView.getId());
+                        }
+                        criteria.andCadreIdIn(cadres);
+                    }
                 }
             }
 

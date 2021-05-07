@@ -261,7 +261,7 @@ public class CadrePostService extends BaseMapper {
     @Transactional
     public int batchImportWorkTimes(List<CadrePost> records) {
 
-        int addCount = 0;
+        int updateCount = 0;
         for (CadrePost record : records) {
 
             int cadreId = record.getCadreId();
@@ -269,19 +269,14 @@ public class CadrePostService extends BaseMapper {
             if (cadreMainCadrePost != null) {
                 record.setId(cadreMainCadrePost.getId());
                 cadrePostMapper.updateByPrimaryKeySelective(record);
-            } else {
-                record.setIsMainPost(true);
-                record.setIsFirstMainPost(true);
-                record.setSortOrder(getNextSortOrder("cadre_post", "cadre_id=" + record.getCadreId()
-                + " and is_main_post=" + record.getIsMainPost()));
-                insertSelective(record);
-                addCount++;
+
+                updateCount++;
             }
 
             cacheHelper.clearCadreCache(cadreId);
         }
 
-        return addCount;
+        return updateCount;
     }
 
     @Transactional

@@ -284,20 +284,13 @@
         <c:if test="${cls==4}">
         url: '${ctx}/oa/oaTaskUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '任务标题', name: 'taskName', width: 170},
-            {label: '工作类型', name: 'taskType', formatter: $.jgrid.formatter.MetaType},
-            {label: '工作证号', name: 'code', width:120},
-            {label: '姓名', name: 'realname', width:120},
+            {label: '任务标题', name: 'taskName', width: 170, frozen:true},
+            {label: '工作类型', name: 'taskType', formatter: $.jgrid.formatter.MetaType, frozen:true},
+            {label: '工作证号', name: 'code', width:120, frozen:true},
+            {label: '姓名', name: 'realname', width:120, frozen:true},
             {label: '所在单位及职务', name: 'title', width:280, align:'left'},
             {label: '手机号码', name: 'mobile', width:120},
-            {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '--';
-                    return cellvalue + "({0})".format(rowObject.assignCode)
-                }},
-            {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
-                    if(cellvalue==undefined) return '--';
-                    return cellvalue
-                }},
+
             {label: '报送情况', name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
 
                     if(!cellvalue) return '未报送';
@@ -310,6 +303,7 @@
                     if(cellvalue==undefined) return '--';
                     return cellvalue
                 }},
+            { label: '报送时间',name: 'reportTime',width:130, formatter: $.jgrid.formatter.date, formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y.m.d H:i'}},
             {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 <c:set var="taskCanEdit" value="${cellvalue != OA_TASK_STATUS_ABOLISH && cellvalue != OA_TASK_STATUS_FINISH}" />
                     <c:if test="${!taskCanEdit}"> return '--'</c:if>
@@ -331,7 +325,15 @@
                     return "-";
                 }},
             </c:if>
-            {hidden:true, name: 'userId', key:true}
+            {hidden:true, name: 'userId', key:true},
+            {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    return cellvalue + "({0})".format(rowObject.assignCode)
+                }},
+            {label: '指定负责人手机号', name: 'assignUserMobile', width:140, formatter: function (cellvalue, options, rowObject) {
+                    if(cellvalue==undefined) return '--';
+                    return cellvalue
+                }},
         ]
         </c:if>
         /*,onSelectRow: function (id, status) {

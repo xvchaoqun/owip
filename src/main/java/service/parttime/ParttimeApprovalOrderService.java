@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.parttime.ParttimeApprovalOrderMapper;
 import service.BaseMapper;
+
 import java.util.List;
 
 @Service
@@ -82,7 +83,7 @@ public class ParttimeApprovalOrderService extends BaseMapper {
 
         Assert.isTrue(!idDuplicate(null, record.getApplicateTypeId(), record.getApproverTypeId()), "duplicate");
 
-        record.setSortOrder(getNextSortOrder("cla_approval_order", "applicat_type_id=" + record.getApplicateTypeId()));
+        record.setSortOrder(getNextSortOrder("parttime_approval_order", "applicat_type_id=" + record.getApplicateTypeId()));
         return parttimeApprovalOrderMapper.insertSelective(record);
     }
 }

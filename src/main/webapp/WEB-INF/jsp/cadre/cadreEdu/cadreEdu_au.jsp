@@ -266,6 +266,9 @@
 							<input type="checkbox" name="adformDisplayAsFulltime" ${cadreEdu.adformDisplayAsFulltime?'checked':''}/> 显示为主要经历
 							<span class="prompt" data-title="说明"
 							  data-prompt="注：此选项仅对在职教育有效"><i class="fa fa-question-circle-o"></i></span>
+							<input type="checkbox" name="adformDisplayAsDouble" ${cadreEdu.adformDisplayAsDouble?'checked':''}/> 显示为双学位
+							<span class="prompt" data-title="说明"
+							  data-prompt="注：此选项仅对全日制教育有效"><i class="fa fa-question-circle-o"></i></span>
 						</div>
 					</div>
 
@@ -315,6 +318,7 @@
 	isHighDegreeChange();
 
 	function hasDegreeChange(){
+
 		if($("#modalForm input[name=hasDegree]").bootstrapSwitch("state")){
 			$("#modalForm select[name=degreeType]").requireField(true);
 			$("#modalForm input[name=degree]").requireField(true);
@@ -340,6 +344,8 @@
 			$("#modalForm input[name=degreeUnit]").requireField(false, true);;
 			$("#modalForm input[name=degreeTime]").requireField(false, true);;
 		}
+
+		schoolTypeChange();
 	}
 	$('#modalForm input[name=hasDegree]').on('switchChange.bootstrapSwitch', function(event, state) {
 		/*console.log(this); // DOM element
@@ -357,7 +363,7 @@
 					|| $schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC%>'){
 				$("#modalForm input[name=degreeCountry]").requireField(false, true).val('中国');
 			}else{
-				$("#modalForm input[name=degreeCountry]").requireField(true);
+				$("#modalForm input[name=degreeCountry]").requireField(true).val('');
 			}
 		}
 	}

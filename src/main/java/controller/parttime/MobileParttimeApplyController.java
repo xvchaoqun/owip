@@ -119,7 +119,7 @@ public class MobileParttimeApplyController extends ParttimeBaseController {
         Integer cadreId = parttimeApply.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) {
+        if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if(cadre.getId().intValue()!=cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -148,7 +148,7 @@ public class MobileParttimeApplyController extends ParttimeBaseController {
         return "parttime/mobile/parttimeApply_view";
     }
 
-    @RequiresPermissions("parttimeApply:approval")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApply_approval")
     public String parttimeApply_approval(Integer id, ModelMap modelMap) {
 
@@ -158,7 +158,7 @@ public class MobileParttimeApplyController extends ParttimeBaseController {
         return "parttime/mobile/parttimeApply_approval";
     }
 
-    @RequiresPermissions("parttimeApply:approval")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApply_detail")
     public String parttimeApply_detail(Integer id, ModelMap modelMap, HttpServletRequest request) {
 

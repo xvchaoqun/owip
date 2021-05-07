@@ -49,22 +49,23 @@
             var cadreOtherChart = echarts.init($displayDiv);
             cadreOtherChart.showLoading({text: '正在加载数据'});
 
-            $.get("${ctx}/stat_cadreOther_count_data", {type:${param.type},cadreCategory:cadreCategory}, function (otherMap) {
-
+            $.get("${ctx}/stat_cadreOther_count_data", {type:${param.type},cadreCategory:cadreCategory}, function (map) {
                 var legendData = [];
                 var seriesData1 = [];
                 var seriesData2 = [];
-
+                var otherMap = map.otherMap;
                 $.each(otherMap, function (key, value) {
                     var item=key+'('+value+')';
                     legendData.push(item);
                     seriesData1.push({
                         name: item,
-                        value: value
+                        value: value,
+                        _type: key
                     });
                     seriesData2.push({
                         name: key,
-                        value: value
+                        value: value,
+                        _type: key
                     });
                 });
 
@@ -117,6 +118,53 @@
 
                 cadreOtherChart.setOption(option, true);
                 cadreOtherChart.hideLoading();
+
+                <shiro:hasPermission name="cadre:list">
+                cadreOtherChart.on('click', function (params) {
+                    var status = ${param.cadreCategory == 1 ? 1 : 8};
+                    if (${(param.type == 1 && (param.cadreCategory == 1 || param.cadreCategory == 2))}) {
+                        var genderId = map[params.data._type];
+                        var url = "";
+                        if (genderId != undefined) {
+                            url = "#${ctx}/cadre?gender={0}&status={1}".format($.trim(genderId), status);
+                        } else {
+                            var genderMap = _cMap.GENDER_MAP;
+                            var data = [];
+                            for (var i in genderMap) {
+                                data.push(i);
+                            }
+                            url = "#${ctx}/cadre?genders={0}&_type={1}&status={2}".format($.trim(data), "其他", status);
+                        }
+                        window.open(url, "_blank");
+                    }
+                    if (${param.type == 2 && (param.cadreCategory == 1 || param.cadreCategory == 2)}) {
+                        var nation = "";
+                        var type = params.data._type;
+                        var url = "";
+                        if (type == '其他') {
+                            nation = '其他';
+                        } else if (type != '汉族') {
+                            var ids = [];
+                            var nations = ${cm:toJSONObject(cm:getMetaTypes("mc_nation"))};
+                            var nationsName = map.nationsName;
+                            ids.push("少数民族");
+                            for (var j in nationsName) {
+                                if (nationsName[j] == "汉族") {
+                                    continue;
+                                }
+                                ids.push(nationsName[j]);
+                            }
+                            url = "#${ctx}/cadre?nation={0}_type={1}&status={2}".format(ids, "其他", status);
+                            window.open(url, "_blank");
+                            return;
+                        } else {
+                            nation = type;
+                        }
+                        url = "#${ctx}/cadre?nation={0}&status={1}".format($.trim(nation), status);
+                        window.open(url, "_blank");
+                    }
+                });
+                </shiro:hasPermission>
 
             })
         })($div[0], ${param.cadreCategory});

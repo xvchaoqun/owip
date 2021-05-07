@@ -20,6 +20,7 @@
     <div class="widget-body">
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
+                <c:if test="${!partyMemberGroup.isDeleted}">
                 <shiro:hasPermission name="partyMember:edit">
                     <a class="popupBtn btn btn-info btn-sm"
                        data-url="${ctx}/partyMember_au?gridId=jqGrid2&groupId=${partyMemberGroup.id}">
@@ -48,8 +49,6 @@
                         <i class="fa fa-times"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <c:if test="${partyMemberGroup.isDeleted}">
-                    <span style="color: red;font-size: 12px">【注：当前班子不是现任班子，只有现任班子可设置管理员】</span>
                 </c:if>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>

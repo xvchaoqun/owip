@@ -8,7 +8,6 @@ import domain.cadre.CadreEvaExample;
 import domain.cadre.CadreEvaExample.Criteria;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.ExcelUtils;
 import sys.utils.FormUtils;
@@ -69,7 +67,8 @@ public class CadreEvaController extends BaseController {
                               @RequestParam(required = false, defaultValue = "0") int export, // 导出近五年考核结果
                               Integer[] ids, // 导出的记录（干部id)
                               Integer pageSize, Integer pageNo,
-                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部
+                              @RequestParam(required = false, defaultValue = "0") int exportType,// 0: 现任干部 1：年轻干部 2:校级领导信息
+                              @RequestParam(required = false, defaultValue = "0") Byte status,// 0: 领导干部信息 >0: 校级领导status(现任)
                               Integer reserveType // 年轻干部类别
                                 )  throws IOException{
 
@@ -99,7 +98,7 @@ public class CadreEvaController extends BaseController {
         }
 
         if (export == 1) {
-            cadreEvaService.cadreEva_export(ids, cadreId, request, response);
+            cadreEvaService.cadreEva_export(ids, cadreId, exportType, status, request, response);
             return;
         }
 
@@ -130,7 +129,7 @@ public class CadreEvaController extends BaseController {
 
         Integer id = record.getId();
 
-        if (StringUtils.isBlank(record.getTitle())) {
+        /*if (StringUtils.isBlank(record.getTitle())) {
             if (record.getCadreId() != null) {
                 CadreView cadre = cadreService.get(record.getCadreId());
                 if (cadre != null) {
@@ -145,7 +144,7 @@ public class CadreEvaController extends BaseController {
                     }
                 }
             }
-        }
+        }*/
         if (id == null) {
             if (cadreEvaService.idDuplicate(id, record.getCadreId(), record.getYear())) {
                 return failed("添加重复");

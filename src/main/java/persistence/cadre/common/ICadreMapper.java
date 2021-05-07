@@ -247,6 +247,36 @@ public interface ICadreMapper {
 
     //更新临时表的排序字段,并根据临时表的排序更新干部库的排序
     public void updateCadreByTmpSort(@Param("count")int count);
+
+    //查询干部(查询条件为其他 除年龄分布外)
+    public List<CadreView> selectCadreByOthers(@Param("status")int status,
+                                                    @Param("adminLevels")Integer[] adminLevels,
+                                                    @Param("genders")Integer[] genders,
+                                                    @Param("isOtherAge")boolean isOtherAge,
+                                                    @Param("nation")String[] nation,
+                                                    @Param("proPostLevels")String[] proPostLevels,
+                                                    @Param("startAge")Integer startAge,
+                                                    RowBounds rowBounds);
+
+    //查询干部数量(查询条件为其他 除年龄分布外)
+    public Integer countCadreByOthers(@Param("status")int status,
+                                           @Param("adminLevels")Integer[] adminLevels,
+                                           @Param("genders")Integer[] genders,
+                                           @Param("isOtherAge")boolean isOtherAge,
+                                           @Param("nation")String[] nation,
+                                           @Param("proPostLevels")String[] proPostLevels,
+                                           @Param("startAge")Integer startAge
+                                           );
+    //干部年龄分布统计列表
+    public Integer countCadreAgeRange(@Param("status")int status,
+                                      @Param("startAge")Integer startAge,
+                                      @Param("endAge")Integer endAge
+                                      );
+    //干部年龄分布统计列表
+    public List<CadreView> selectCadreAgeRange(@Param("status")int status,
+                                               @Param("startAge")Integer startAge,
+                                               @Param("endAge")Integer endAge,
+                                               RowBounds rowBounds);
 }
 
 

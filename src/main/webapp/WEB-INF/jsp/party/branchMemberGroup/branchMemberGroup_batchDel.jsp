@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>撤销支部委员会</h3>
+    <h3>支部委员会换届</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/branchMemberGroup_batchDel" autocomplete="off" disableautocomplete id="modalForm" method="post">
@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 		<c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
 		<c:if test="${count>1}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label"> 撤销委员会个数</label>
+				<label class="col-xs-4 control-label"> 已选委员会个数</label>
 				<div class="col-xs-6 label-text">
 						${count} 个
 				</div>
@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
 		</c:if>
 		<c:if test="${count==1}">
 			<div class="form-group">
-				<label class="col-xs-4 control-label">名称</label>
+				<label class="col-xs-4 control-label">支部委员会名称</label>
 				<div class="col-xs-6 label-text">
 						${branchMemberGroup.name}
 				</div>
@@ -39,10 +39,11 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
+	<div class="note">注：换届时，原领导班子成员请勿删除。</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
-            class="btn btn-primary"><i class="fa fa-check"></i> 撤销</button>
+            class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
 </div>
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

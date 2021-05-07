@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="tabbable">
   <ul class="preview title nav nav-tabs padding-12 tab-color-blue background-blue" style="padding-right: 20px">
 
@@ -9,7 +9,7 @@
           <i class="ace-icon fa fa-backward"></i>
           返回
         </a>
-        <c:if test="${!claApply.isDeleted && fn:length(approvalResultMap)>0}">
+        <c:if test="${param.type=='approval' && !parttimeApply.isDeleted && fn:length(approvalResultMap)>0}">
         <button id="agree" style="margin-left: 220px; margin-right: 30px;"
            class="btn btn-primary btn-sm"><i class="fa fa-check"></i> 同意申请</button>
           <button id="disagree" class="btn btn-danger btn-sm">
@@ -18,15 +18,15 @@
       </div>
       <div class="buttons pull-right">
 
-      <%--  <c:if test="${needExport}">
-        <button class="linkBtn btn btn-primary btn-sm"
-                data-url="${ctx}/cla/claApply_export?applyId=${claApply.id}">
+<%--      <c:if test="${needExport}">--%>
+        <button class="downloadBtn btn btn-primary btn-sm"
+                data-url="${ctx}/parttime/parttimeApply_export?applyId=${parttimeApply.id}">
           <i class="fa fa-file-excel-o"></i>  导出</button>
-        </c:if>--%>
+<%--        </c:if>--%>
         <button class="openView btn btn-info btn-sm"
-                data-url="${ctx}/parttime/parttimeApply_yearLogs?id=${claApply.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
+                data-url="${ctx}/parttime/parttimeApply_yearLogs?id=${parttimeApply.id}&type=${justView?'user':param.type}&approvalTypeId=${param.approvalTypeId}"
                 style="margin-left: 10px">
-          <i class="fa fa-history"></i>  本年度申报记录</button>
+          <i class="fa fa-history"></i>  本年度申请记录</button>
 
       </div>
   </ul>
@@ -62,19 +62,19 @@
           <td rowspan="2" class="bg-right">是否首次</td>
           <td colspan="5" class="bg-left">
             <c:forEach items="${PARTTIME_APPLY_FIRST_MAP}" var="type">
-              <input type="checkbox" class="big chkBox" ${type.key==(claApply.isFirst?1:0)?"checked":""} disabled> ${type.value}
+              <input type="checkbox" class="big chkBox" ${type.key==(parttimeApply.isFirst?1:0)?"checked":""} disabled> ${type.value}
               &nbsp;&nbsp;&nbsp;&nbsp;
             </c:forEach>
           </td>
         </tr>
         <tr>
-          <td colspan="5" class="bg-left">兼职时间： ${cm:formatDate(claApply.startTime, "yyyy年 MM月 dd日  HH:mm")}  至  ${cm:formatDate(claApply.endTime, "yyyy年 MM月 dd日  HH:mm")}</td>
+          <td colspan="5" class="bg-left">兼职时间： ${cm:formatDate(parttimeApply.startTime, "yyyy年 MM月 dd日")}  至  ${cm:formatDate(parttimeApply.endTime, "yyyy年 MM月 dd日")}</td>
         </tr>
         <tr>
           <td class="bg-right">是否有国境外背景</td>
           <td colspan="5" class="bg-left">
             <c:forEach items="${PARTTIME_APPLY_BACKGROUND_MAP}" var="type">
-              <input type="checkbox" class="big chkBox" ${type.key==(claApply.background?1:0)?"checked":""} disabled> ${type.value}
+              <input type="checkbox" class="big chkBox" ${type.key==(parttimeApply.background?1:0)?"checked":""} disabled> ${type.value}
             </c:forEach>
           </td>
         </tr>
@@ -82,23 +82,23 @@
           <td class="bg-right">是否取酬</td>
           <td colspan="5" class="bg-left">
             <c:forEach items="${PARTTIME_APPLY_HAS_PAY_MAP}" var="type">
-              <input type="checkbox" class="big chkBox" ${type.key==(claApply.hasPay?1:0)?"checked":""} disabled> ${type.value}
+              <input type="checkbox" class="big chkBox" ${type.key==(parttimeApply.hasPay?1:0)?"checked":""} disabled> ${type.value}
             </c:forEach>
           </td>
         </tr>
         <tr>
           <td class="bg-right">取酬金额</td>
-          <td colspan="5" class="bg-left">${claApply.balance}</td>
+          <td colspan="5" class="bg-left">${parttimeApply.balance}</td>
         </tr>
         <tr>
           <td class="bg-right">申请理由
           </td>
-          <td colspan="5" class="bg-left">${claApply.reason}</td>
+          <td colspan="5" class="bg-left">${parttimeApply.reason}</td>
         </tr>
 
         <tr>
           <td class="bg-right">备注</td>
-          <td colspan="5" class="bg-left">${claApply.remark}</td>
+          <td colspan="5" class="bg-left">${parttimeApply.remark}</td>
         </tr>
         <tr>
           <td class="bg-right">其他说明材料</td>
@@ -110,11 +110,11 @@
         </tr>
         <tr>
           <td class="bg-right">申请人签字</td>
-          <td colspan="6" class="bg-left">申请人：${sysUser.realname} &nbsp;&nbsp;&nbsp;&nbsp; 申请日期：${cm:formatDate(claApply.applyTime, "yyyy年 MM月 dd日")}</td>
+          <td colspan="6" class="bg-left">申请人：${sysUser.realname} &nbsp;&nbsp;&nbsp;&nbsp; 申请日期：${cm:formatDate(parttimeApply.applyTime, "yyyy年 MM月 dd日")}</td>
         </tr>
         <c:forEach items="${approvalResultMap}" var="result">
           <c:if test="${result.value.value!=-1}">
-            <c:set var="approvalLog" value="${cm:getParttimeApprovalLog(claApply.id, result.key)}"/>
+            <c:set var="approvalLog" value="${cm:getParttimeApprovalLog(parttimeApply.id, result.key)}"/>
             <tr>
               <td colspan="7" class="bg-right center">
                 <c:if test="${result.key==-1}">组织部初审</c:if>
@@ -123,33 +123,27 @@
                   <c:set var="approvalType" value="${approverTypeMap.get(result.key)}"/>
                   ${approvalType.name}
                 </c:if>意见
-                <c:if test="${result.key>0 && result.key==claApply.flowNode}">
+                <c:if test="${result.key>0 && result.key==parttimeApply.flowNode}">
                 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                   <button type="button" class="popupBtn btn btn-success btn-xs"
-                          data-url="${ctx}/parttime/parttimeApply_approval_direct?applyId=${claApply.id}&approvalTypeId=${result.key}">
+                          data-url="${ctx}/parttime/parttimeApply_approval_direct?applyId=${parttimeApply.id}&approvalTypeId=${result.key}">
                 <i class="fa fa-check"></i> 审批通过</button>
                 </shiro:hasPermission>
                 </c:if>
               </td>
             </tr>
             <tr>
-              <td colspan="7" class="bg-left">
-                审批结果：
-                <c:if test="${result.value.value == null || result.value.value == -1}">
-                  未审批
-                </c:if>
-                <c:if test="${result.value.value == 0 || result.value.value == 1}">
-                  ${result.value.value==null?"未审批":(result.value.value==0?"未通过":"通过")}
-                </c:if>
+              <td colspan="7"   class="bg-left">
+                审批结果：${result.value.value==null?"未审批":(result.value.value==0?"未通过":"通过")}
                 <br/>
                 <c:if test="${not empty approvalLog}">
                   <c:set var="sysUser" value="${cm:getUserById(approvalLog.userId)}"/>
                   审批意见：${approvalLog.remark}<br/>
                   <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                   审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}
-                  <shiro:hasPermission name="${PERMISSION_COMPANYAPPLY}">
+                  <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
                   &nbsp;<button type="button" class="popupBtn btn btn-primary btn-xs"
-                          data-url="${ctx}/parttime/parttimeApply_approval_direct_au?applyId=${claApply.id}&approvalLogId=${approvalLog.id}&approvalTypeId=${result.key}&type=${param.type}">
+                          data-url="${ctx}/parttime/parttimeApply_approval_direct_au?applyId=${parttimeApply.id}&approvalLogId=${approvalLog.id}&approvalTypeId=${result.key}&type=${param.type}">
                     <i class="fa fa-edit"></i> 修改</button>
                   </shiro:hasPermission>
                 </c:if>
@@ -184,10 +178,10 @@
 <script>
 <c:if test="${param.type=='approval'}">
   $("#agree").click(function(){
-    $.loadModal("${ctx}/parttime/parttimeApply_approval?applyId=${claApply.id}&approvalTypeId=${param.approvalTypeId}&pass=1");
+    $.loadModal("${ctx}/parttime/parttimeApply_approval?applyId=${parttimeApply.id}&approvalTypeId=${param.approvalTypeId}&pass=1");
   });
   $("#disagree").click(function(){
-    $.loadModal("${ctx}/parttime/parttimeApply_approval?applyId=${claApply.id}&approvalTypeId=${param.approvalTypeId}&pass=0");
+    $.loadModal("${ctx}/parttime/parttimeApply_approval?applyId=${parttimeApply.id}&approvalTypeId=${param.approvalTypeId}&pass=0");
   });
 </c:if>
 </script>

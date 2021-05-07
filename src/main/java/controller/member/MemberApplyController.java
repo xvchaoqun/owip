@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.member.common.MemberApplyCount;
+import persistence.member.common.SponsorBean;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
 import sys.constants.*;
@@ -180,17 +181,21 @@ public class MemberApplyController extends MemberBaseController {
             record.setActiveTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setActiveTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
 
-            if(needCandidateTrain) {
-                record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-                record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                if (needCandidateTrain) {
+                    record.setActiveTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                    record.setActiveGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+                }
             }
 
             record.setCandidateTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
             record.setCandidateTrainStartTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
 
-            if(needCandidateTrain) {
-                record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
-                record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+            if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                if (needCandidateTrain) {
+                    record.setCandidateTrainEndTime(DateUtils.parseStringToDate(StringUtils.trimToNull(xlsRow.get(rowNum++))));
+                    record.setCandidateGrade(StringUtils.trimToNull(xlsRow.get(rowNum++)));
+                }
             }
 
             if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
@@ -418,6 +423,7 @@ public class MemberApplyController extends MemberBaseController {
                                  @RequestParam(defaultValue = MemberConstants.MEMBER_TYPE_STUDENT + "") Byte type,
                                  @RequestParam(defaultValue = "0") Byte stage,
                                  @RequestParam(required = false, defaultValue = "1") Boolean isApply,
+                                 Byte applyStatus, // 申请阶段查询
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
                                  String applySn, // 志愿书编码
@@ -456,7 +462,11 @@ public class MemberApplyController extends MemberBaseController {
                 criteria.andStageEqualTo(stage);
             }
 
-            if (stage == OwConstants.OW_APPLY_STAGE_DRAW) {
+            if (stage == OwConstants.OW_APPLY_STAGE_INIT) {
+                if (applyStatus != null) {
+                    criteria.andStageEqualTo(applyStatus);
+                }
+            }else if (stage == OwConstants.OW_APPLY_STAGE_DRAW) {
                 if (growStatus != null && growStatus >= 0)
                     criteria.andGrowStatusEqualTo(growStatus);
                 if (growStatus != null && growStatus == -1)
@@ -466,13 +476,6 @@ public class MemberApplyController extends MemberBaseController {
                     criteria.andPositiveStatusEqualTo(positiveStatus);
                 if (positiveStatus != null && positiveStatus == -1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
-            }
-
-            // 考虑已经转出的情况 2016-12-19
-            if (stage == OwConstants.OW_APPLY_STAGE_OUT) {
-                criteria.andMemberStatusEqualTo(1); // 已转出的党员的申请
-            } else {
-                criteria.andMemberStatusEqualTo(0); // 不是党员或未转出的党员的申请
             }
 
             // 已移除的记录
@@ -958,12 +961,13 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
+
     //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor")
     public String apply_candidate_sponsor(Integer[] ids, ModelMap modelMap) {
 
-        byte inSchool = 1; // 默认校内
         if(ids.length==1) {
+
             int userId = ids[0];
             if(!ShiroHelper.isPermitted("memberApply:admin")
                 && userId!=ShiroHelper.getCurrentUserId()){
@@ -971,25 +975,12 @@ public class MemberApplyController extends MemberBaseController {
             }
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if(memberApply!=null) {
-                String _userIds = memberApply.getSponsorUserIds();
-                String _users = memberApply.getSponsorUsers();
-                if (StringUtils.isBlank(_userIds)
-                        && StringUtils.isNotBlank(_users)) {
-                    inSchool = 0;
-                    if (StringUtils.isNotBlank(_users)) {
-                        String[] users = _users.split(",");
-                        modelMap.put("users", users);
-                    }
-                } else {
-
-                    Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                    modelMap.put("userIds", userIds.toArray());
-                }
+                SponsorBean bean = SponsorBean.toBean(memberApply.getSponsorUserIds());
+                modelMap.put("bean", bean);
             }
         }else{
             ShiroHelper.checkPermission("memberApply:admin");
         }
-        modelMap.put("inSchool", inSchool);
 
         return "member/memberApply/apply_candidate_sponsor";
     }
@@ -998,8 +989,7 @@ public class MemberApplyController extends MemberBaseController {
     //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_candidate_sponsor", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_candidate_sponsor(Integer[] ids, Integer[] userIds,
-                                       String[] users, HttpServletRequest request) {
+    public Map do_apply_candidate_sponsor(Integer[] ids, String sponsorUserIds, HttpServletRequest request) {
 
         if(ids.length==1) {
             int userId = ids[0];
@@ -1011,18 +1001,19 @@ public class MemberApplyController extends MemberBaseController {
             ShiroHelper.checkPermission("memberApply:admin");
         }
 
-        String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, userIds, users);
+        SponsorBean bean = SponsorBean.toBean(sponsorUserIds);
+        if(bean!=null){
+            if(bean.getUserId1()!=null && bean.getUserId2()!=null &&
+            bean.getUserId1().intValue()==bean.getUserId2()){
+              return failed("不可选择相同的入党介绍人");
+            }
+        }
+
+        String sponsorUsers = memberApplyOpService.apply_candidate_sponsor(ids, sponsorUserIds);
         Map<String, Object> resultMap = success();
         resultMap.put("sponsorUsers", sponsorUsers);
-        // 添加时赋值
-        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
-            if(userIds.length==2&& userIds[1]!=null){
-                if(userIds[0].intValue()==userIds[1]){
-                    return failed("不可选择相同的入党介绍人");
-                }
-            }
-            resultMap.put("sponsorUserIds", StringUtils.join(userIds, ","));
-        }
+        resultMap.put("sponsorUserIds", sponsorUserIds);
+
         return resultMap;
     }
 
@@ -1154,52 +1145,58 @@ public class MemberApplyController extends MemberBaseController {
         return success();
     }
 
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_grow_contact")
     public String apply_grow_contact(Integer[] ids, ModelMap modelMap) {
 
-        byte inSchool = 1; // 默认校内
         if(ids.length==1) {
-            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(ids[0]);
-            String _userIds = memberApply.getGrowContactUserIds();
-            String _users = memberApply.getGrowContactUsers();
-            if(StringUtils.isBlank(_userIds)
-                    &&StringUtils.isNotBlank(_users)){
-                inSchool = 0;
-                if(StringUtils.isNotBlank(_users)){
-                    String[] users = _users.split(",");
-                    modelMap.put("users", users);
-                }
-            }else{
 
-                Set<Integer> userIds = NumberUtils.toIntSet(_userIds, ",");
-                modelMap.put("userIds", userIds.toArray());
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
             }
+            MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+            if(memberApply!=null) {
+                SponsorBean bean = SponsorBean.toBean(memberApply.getGrowContactUserIds());
+                modelMap.put("bean", bean);
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
         }
-        modelMap.put("inSchool", inSchool);
 
         return "member/memberApply/apply_grow_contact";
     }
 
     // 提交 确定培养联系人
-    @RequiresPermissions("memberApply:admin")
+    //@RequiresPermissions("memberApply:admin")
     @RequestMapping(value = "/apply_grow_contact", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_apply_grow_contact(Integer[] ids, Integer[] userIds,
-                                       String[] users, HttpServletRequest request) {
+    public Map do_apply_grow_contact(Integer[] ids, String growContactUserIds, HttpServletRequest request) {
 
-        String growContactUsers = memberApplyOpService.apply_grow_contact(ids, userIds, users);
+        if(ids.length==1) {
+            int userId = ids[0];
+            if(!ShiroHelper.isPermitted("memberApply:admin")
+                && userId!=ShiroHelper.getCurrentUserId()){
+                throw new UnauthorizedException();
+            }
+        }else{
+            ShiroHelper.checkPermission("memberApply:admin");
+        }
+
+        SponsorBean bean = SponsorBean.toBean(growContactUserIds);
+        if(bean!=null){
+            if(bean.getUserId1()!=null && bean.getUserId2()!=null &&
+            bean.getUserId1().intValue()==bean.getUserId2()){
+              return failed("不可选择相同的培养联系人");
+            }
+        }
+
+        String growContactUsers = memberApplyOpService.apply_grow_contact(ids, growContactUserIds);
         Map<String, Object> resultMap = success();
         resultMap.put("growContactUsers", growContactUsers);
-        // 添加时赋值
-        if(ArrayUtils.getLength(userIds)>0 && userIds[0]!=null) {
-            if(userIds.length==2&& userIds[1]!=null){
-                if(userIds[0].intValue()==userIds[1]){
-                    return failed("不可选择相同的培养联系人");
-                }
-            }
-            resultMap.put("growContactUserIds", StringUtils.join(userIds, ","));
-        }
+        resultMap.put("growContactUserIds", growContactUserIds);
+
         return resultMap;
     }
 

@@ -1,6 +1,8 @@
 package service.member;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
+import domain.cadre.CadreParty;
 import domain.member.Member;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
@@ -14,14 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.pmd.PmdMemberPayViewMapper;
 import service.LoginUserService;
+import service.cadre.CadrePartyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
@@ -36,6 +39,8 @@ public class MemberQuitService extends MemberBaseMapper {
     private PartyService partyService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private CadrePartyService cadrePartyService;
 
     @Autowired
     protected ApplyApprovalLogService applyApprovalLogService;
@@ -265,7 +270,7 @@ public class MemberQuitService extends MemberBaseMapper {
                             (type == 2)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, (type == 1)
                             ? "支部审核" : (type == 2)
-                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+                            ? "基层党组织审核" : "组织部审核", (byte) 1, null);
         }
     }
 
@@ -334,27 +339,47 @@ public class MemberQuitService extends MemberBaseMapper {
                 + status +" where user_id=" + userId);*/
         commonMapper.excuteSql("update ow_member set status=" + status +" where user_id=" + userId);
 
-        // 存在未缴纳党费时，不允许转出
-        if(status==MemberConstants.MEMBER_STATUS_OUT){
+        Member member = memberService.get(userId);
+        // 存在未缴纳党费时，不允许转出或减员
+        checkPmdStatus(userId);
 
-            PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
-            if(pmdMemberPayViewMapper!=null){
-
-                PmdMemberPayViewExample example = new PmdMemberPayViewExample();
-                example.createCriteria()
-                        .andUserIdEqualTo(userId)
-                        .andHasPayEqualTo(false);
-
-                long count = pmdMemberPayViewMapper.countByExample(example);
-                if(count > 0){
-                    SysUserView uv = CmTag.getUserById(userId);
-                    throw new OpException("{0}存在{1}条未缴纳党费记录，请缴纳后再办理转出程序。", uv.getRealname(), count);
-                }
+        Cadre cadre = CmTag.getCadre(userId);
+        if(cadre!=null){
+            // 干部转出时，自动加入“特殊党员干部库”中
+            CadreParty cadreParty = cadrePartyService.getOwOrFirstDp(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+            if(cadreParty==null){
+                cadreParty = new CadreParty();
+                cadreParty.setUserId(userId);
+                cadreParty.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
+                cadreParty.setGrowTime(member.getGrowTime());
             }
+
+            cadreParty.setRemark("组织关系已转出");
+
+            cadrePartyService.addOrUpdateCadreParty(cadreParty);
         }
 
         // 更新系统角色  党员->访客
         sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
+    }
+
+    // 检验是否存在未缴纳的党费记录
+    public void checkPmdStatus(int userId){
+
+        PmdMemberPayViewMapper pmdMemberPayViewMapper = CmTag.getBean(PmdMemberPayViewMapper.class);
+        if(pmdMemberPayViewMapper!=null){
+
+            PmdMemberPayViewExample example = new PmdMemberPayViewExample();
+            example.createCriteria()
+                    .andUserIdEqualTo(userId)
+                    .andHasPayEqualTo(false);
+
+            long count = pmdMemberPayViewMapper.countByExample(example);
+            if(count > 0){
+                SysUserView uv = CmTag.getUserById(userId);
+                throw new OpException("{0}存在{1}条未缴纳党费记录，请缴纳后再办理其他业务。", uv.getRealname(), count);
+            }
+        }
     }
 
      // 撤销已减员记录

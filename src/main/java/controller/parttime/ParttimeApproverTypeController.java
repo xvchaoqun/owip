@@ -30,7 +30,7 @@ import java.util.*;
 @Controller
 public class ParttimeApproverTypeController extends ParttimeBaseController {
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApproverType")
     public String parttimeApproverType(HttpServletResponse response,
                                   @RequestParam(defaultValue = "1") int cls,
@@ -84,7 +84,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return "parttime/parttimeApproverType/parttimeApproverType_page";
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApproverType_au")
     public String parttimeApproverType_au(Integer id, ModelMap modelMap) {
 
@@ -95,7 +95,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return "parttime/parttimeApproverType/parttimeApproverType_au";
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApproverType_au", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApproverType_au(ParttimeApproverType record, HttpServletRequest request) {
@@ -116,7 +116,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApproverType_del", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApproverType_del(HttpServletRequest request, Integer id) {
@@ -129,7 +129,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApproverType_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApproverType_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
@@ -143,7 +143,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttime/parttimeApproverType_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApproverType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -153,7 +153,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApproverType/selectCadres")
     public String selectCadres(Integer id, byte type, ModelMap modelMap) throws IOException {
 
@@ -164,7 +164,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return "parttime/parttimeApproverType/selectCadres";
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApproverType/selectCadres_tree")
     @ResponseBody
     public Map selectCadres_tree(Integer id, byte type) throws IOException {
@@ -213,7 +213,7 @@ public class ParttimeApproverTypeController extends ParttimeBaseController {
         return resultMap;
     }
 
-    @RequiresPermissions("parttimeApproveAuth:*")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttimeApproverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
     public Map do_selectCadres(Integer id, byte type, Integer[] cadreIds) {

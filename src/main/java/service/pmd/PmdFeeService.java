@@ -2,7 +2,6 @@ package service.pmd;
 
 import controller.global.OpException;
 import domain.pmd.PmdFee;
-import domain.pmd.PmdFeeExample;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,17 +25,6 @@ public class PmdFeeService extends PmdBaseMapper {
     private PmdBranchAdminService pmdBranchAdminService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
-
-    public boolean idDuplicate(Integer id, Integer userId, Date startMonth, Date endMonth){
-
-        PmdFeeExample example = new PmdFeeExample();
-        PmdFeeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(PmdConstants.PMD_FEE_STATUS_NORMAL);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-        criteria.andUserIdEqualTo(userId).andStartMonthGreaterThanOrEqualTo(startMonth)
-                .andEndMonthLessThanOrEqualTo(endMonth);
-
-        return pmdFeeMapper.countByExample(example) > 0;
-    }
 
     @Transactional
     public void insertSelective(PmdFee record){

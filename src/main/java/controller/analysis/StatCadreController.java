@@ -541,6 +541,7 @@ public class StatCadreController extends BaseController {
 
         CadreSearchBean searchBean = new CadreSearchBean();
         searchBean.setCadreType(cadreCategory);
+        Map map = new LinkedHashMap();
         Map otherMap = new LinkedHashMap();
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         if (type == 1) {
@@ -561,17 +562,21 @@ public class StatCadreController extends BaseController {
             if(cadreCount != genderCount){
                 otherMap.put("其他", cadreCount-genderCount);
             }
+            map.put("男", SystemConstants.GENDER_MALE);
+            map.put("女", SystemConstants.GENDER_FEMALE);
 
         } else if(type == 2) {
             List<StatCadreBean> nationList = statCadreMapper.cadre_stat_nation(searchBean);
 
             int nation1 = 0, nation2 = 0, nationCount = 0;
+            List<String> nationsName = new ArrayList<>();
             for (StatCadreBean bean : nationList) {
                 if (StringUtils.contains(bean.getNation(), "汉")) {
                     nation1 += bean.getNum();
                 } else {
                     nation2 += bean.getNum();
                 }
+                nationsName.add(bean.getNation());
                 nationCount +=bean.getNum();
             }
             otherMap.put("汉族", nation1);
@@ -579,10 +584,11 @@ public class StatCadreController extends BaseController {
             if(cadreCount != nationCount){
                 otherMap.put("其他", cadreCount-nationCount);
             }
-
+//            nationsName.add("少数民族");
+            map.put("nationsName", nationsName);
         }
-
-        return otherMap;
+        map.put("otherMap", otherMap);
+        return map;
     }
 
     // 干部政治面貌统计
@@ -602,12 +608,10 @@ public class StatCadreController extends BaseController {
         MetaType metaType = CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
         int crowdId = metaType.getId();
         Map cadreDpMap = new LinkedHashMap();
-
         StatCadreBean totalBean = statCadreMapper.cadre_stat_dp(crowdId, searchBean);
         cadreDpMap.put("中共党员",totalBean == null ?0:totalBean.getNum2());
         cadreDpMap.put("民主党派",totalBean == null ?0:totalBean.getNum1());
         cadreDpMap.put("群众",totalBean == null ?0:totalBean.getNum3());
-
         return cadreDpMap;
     }
 
@@ -627,15 +631,22 @@ public class StatCadreController extends BaseController {
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int ageCount = 0;
         Map cadreAgeMap = new LinkedHashMap();
-
+        Map map = new LinkedHashMap();
         StatCadreBean totalBean = statCadreMapper.cadre_stat_age(searchBean);
         cadreAgeMap.put("30岁及以下",totalBean == null ?0:totalBean.getNum1());
+        map.put("30岁及以下", Arrays.asList(0, 30));
         cadreAgeMap.put("31-35岁",totalBean == null ?0:totalBean.getNum2());
+        map.put("31-35岁", Arrays.asList(31, 35));
         cadreAgeMap.put("36-40岁",totalBean == null ?0:totalBean.getNum3());
+        map.put("36-40岁", Arrays.asList(36, 40));
         cadreAgeMap.put("41-45岁",totalBean == null ?0:totalBean.getNum4());
+        map.put("41-45岁", Arrays.asList(41, 45));
         cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
+        map.put("46-50岁", Arrays.asList(46, 50));
         cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
+        map.put("51-55岁", Arrays.asList(51, 55));
         cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
+        map.put("55岁以上", Arrays.asList(55));
         if(totalBean!=null) {
             ageCount = totalBean.getNum1() + totalBean.getNum2() + totalBean.getNum3() + totalBean.getNum4()
                     + totalBean.getNum5() + totalBean.getNum6() + totalBean.getNum7();
@@ -643,8 +654,8 @@ public class StatCadreController extends BaseController {
                 cadreAgeMap.put("其他", cadreCount - ageCount);
             }
         }
-
-        return cadreAgeMap;
+        map.put("cadreAgeMap", cadreAgeMap);
+        return map;
     }
 
     // 干部职级统计
@@ -724,17 +735,22 @@ public class StatCadreController extends BaseController {
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int eduCount = 0;
         Map cadreEduMap = new LinkedHashMap();
+        Map map = new LinkedHashMap();
         List<StatCadreBean> statCadreBeans = statCadreMapper.cadre_stat_edu(searchBean);
 
         for (StatCadreBean statCadreBean : statCadreBeans) {
-            cadreEduMap.put(CmTag.getMetaType(statCadreBean.eduId).getName(), statCadreBean.num);
-            eduCount += statCadreBean.num;
+            MetaType metaType = CmTag.getMetaType(statCadreBean.eduId);
+            if (metaType != null) {
+                cadreEduMap.put(metaType.getName(), statCadreBean.num);
+                eduCount += statCadreBean.num;
+                map.put(metaType.getName(), statCadreBean.getEduId());
+            }
         }
         if(cadreCount != eduCount){
             cadreEduMap.put("其他",cadreCount-eduCount);
         }
-
-        return cadreEduMap;
+        map.put("cadreEduMap", cadreEduMap);
+        return map;
     }
 
     // 干部平均年龄统计

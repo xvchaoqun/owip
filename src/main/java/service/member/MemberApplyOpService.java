@@ -11,6 +11,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.member.common.SponsorBean;
 import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
@@ -247,23 +248,26 @@ public class MemberApplyOpService extends MemberBaseMapper {
 
      // 发展对象：确定入党介绍人
     @Transactional
-    public String apply_candidate_sponsor(Integer[] userIds, Integer[] sponsorUserIds, String[] sponsorUsers){
+    public String apply_candidate_sponsor(Integer[] userIds, String sponsorUserIds){
 
         String _sponsorUsers = "";
-        String _sponsorUserIds = "";
-        if (ArrayUtils.getLength(sponsorUserIds) > 0 && sponsorUserIds[0] != null) {
-
-            List<String> users = new ArrayList<>();
-            for (Integer sponsorUserId : sponsorUserIds) {
-                SysUserView uv = CmTag.getUserById(sponsorUserId);
-                if (uv != null) {
-                    users.add(uv.getRealname());
-                }
+        SponsorBean bean = SponsorBean.toBean(sponsorUserIds);
+        if(bean!=null){
+            if(bean.getInSchool1()==1){
+                SysUserView uv = CmTag.getUserById(bean.getUserId1());
+                _sponsorUsers = uv.getRealname();
+            }else{
+                _sponsorUsers = bean.getUser1();
             }
-            _sponsorUsers = StringUtils.join(users, ",");
-            _sponsorUserIds = StringUtils.join(sponsorUserIds, ",");
-        } else {
-            _sponsorUsers = StringUtils.join(sponsorUsers, ",");
+            if(bean.getInSchool2()!=null) {
+                if (bean.getInSchool2() == 1) {
+                    SysUserView uv = CmTag.getUserById(bean.getUserId2());
+                    _sponsorUsers += "," + uv.getRealname();
+                } else {
+                    _sponsorUsers += "," + bean.getUser2();
+                }
+
+            }
         }
 
         for (int userId : userIds) {
@@ -272,7 +276,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
             record.setSponsorUsers(_sponsorUsers);
-            record.setSponsorUserIds(_sponsorUserIds);
+            record.setSponsorUserIds(sponsorUserIds);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
@@ -570,38 +574,41 @@ public class MemberApplyOpService extends MemberBaseMapper {
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
                     OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                    CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，分党委审核":"领取志愿书，分党委审核");
+                    CmTag.getBoolProperty("ignore_plan_and_draw")?"确定为发展对象，基层党组织审核":"领取志愿书，基层党组织审核");
         }
     }
 
+
     // 预备党员：确定培养联系人
     @Transactional
-    public String apply_grow_contact(Integer[] userIds, Integer[] growContactUserIds, String[] growContactUsers){
+    public String apply_grow_contact(Integer[] userIds, String growContactUserIds){
 
-        String _contactUsers = "";
-        String _contactUserIds = "";
-        if(ArrayUtils.getLength(growContactUserIds)>0 && growContactUserIds[0]!=null) {
-
-            List<String> users = new ArrayList<>();
-            for (Integer contactUserId : growContactUserIds) {
-                SysUserView uv = CmTag.getUserById(contactUserId);
-                if(uv!=null) {
-                    users.add(uv.getRealname());
-                }
+        String _growContactUsers = "";
+        SponsorBean bean = SponsorBean.toBean(growContactUserIds);
+        if(bean!=null){
+            if(bean.getInSchool1()==1){
+                SysUserView uv = CmTag.getUserById(bean.getUserId1());
+                _growContactUsers = uv.getRealname();
+            }else{
+                _growContactUsers = bean.getUser1();
             }
-            _contactUsers = StringUtils.join(users, ",");
-            _contactUserIds = StringUtils.join(growContactUserIds, ",");
-        }else{
-            _contactUsers = StringUtils.join(growContactUsers, ",");
+            if(bean.getInSchool2()!=null) {
+                if (bean.getInSchool2() == 1) {
+                    SysUserView uv = CmTag.getUserById(bean.getUserId2());
+                    _growContactUsers += "," + uv.getRealname();
+                } else {
+                    _growContactUsers += "," + bean.getUser2();
+                }
+
+            }
         }
 
         for (int userId : userIds) {
 
-
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
-            record.setGrowContactUsers(_contactUsers);
-            record.setGrowContactUserIds(_contactUserIds);
+            record.setGrowContactUsers(_growContactUsers);
+            record.setGrowContactUserIds(growContactUserIds);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
@@ -613,12 +620,12 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
                         ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定培养联系人：" + _contactUsers);
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_PLAN),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "确定培养联系人：" + _growContactUsers);
             }
         }
 
-        return _contactUsers;
+        return _growContactUsers;
     }
 
     // 预备党员：提交 正式党员
@@ -721,7 +728,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
                         OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
-                        "正式党员，分党委审核");
+                        "正式党员，基层党组织审核");
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
@@ -813,7 +820,7 @@ public class MemberApplyOpService extends MemberBaseMapper {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
-            if(stage>=OwConstants.OW_APPLY_STAGE_GROW ){
+            if(stage>OwConstants.OW_APPLY_STAGE_GROW ){
                 throw new OpException("已是党员，不可移除。");
             }
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -51,6 +52,19 @@ public class LeaderController extends BaseController {
                 modelMap.put("sysUser", sysUser);
             }
         }
+
+        // 导出的列名字
+        List<String> titles = cadreExportService.getTitles();
+        boolean useCadreState = CmTag.getBoolProperty("useCadreState");
+        boolean hasPartyModule = CmTag.getBoolProperty("hasPartyModule");
+        if(!useCadreState){
+            titles.remove(2);
+        }
+        if(!hasPartyModule){
+            titles.remove(titles.size()-7); // 去掉所在党组织
+        }
+
+        modelMap.put("titles", titles);
 
         return "leader/leader/leaderInfo_page";
     }

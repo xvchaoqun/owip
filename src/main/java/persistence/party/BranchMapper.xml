@@ -19,6 +19,7 @@
     <result column="fax" jdbcType="VARCHAR" property="fax" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
+    <result column="abolish_time" jdbcType="DATE" property="abolishTime" />
     <result column="transfer_count" jdbcType="INTEGER" property="transferCount" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -86,7 +87,8 @@
   <sql id="Base_Column_List">
     id, code, name, short_name, party_id, types, is_staff, is_prefessional, is_base_team, 
     unit_type_id, is_enterprise_big, is_enterprise_nationalized, is_union, phone, fax, 
-    email, found_time, transfer_count, sort_order, create_time, is_deleted, integrity
+    email, found_time, abolish_time, transfer_count, sort_order, create_time, is_deleted, 
+    integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.BranchExample" resultMap="BaseResultMap">
     select
@@ -127,17 +129,17 @@
       is_prefessional, is_base_team, unit_type_id, 
       is_enterprise_big, is_enterprise_nationalized, is_union, 
       phone, fax, email, 
-      found_time, transfer_count, sort_order, 
-      create_time, is_deleted, integrity
-      )
+      found_time, abolish_time, transfer_count, 
+      sort_order, create_time, is_deleted, 
+      integrity)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
       #{partyId,jdbcType=INTEGER}, #{types,jdbcType=VARCHAR}, #{isStaff,jdbcType=BIT}, 
       #{isPrefessional,jdbcType=BIT}, #{isBaseTeam,jdbcType=BIT}, #{unitTypeId,jdbcType=INTEGER}, 
       #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, #{isUnion,jdbcType=BIT}, 
       #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{foundTime,jdbcType=DATE}, #{transferCount,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL}
-      )
+      #{foundTime,jdbcType=DATE}, #{abolishTime,jdbcType=DATE}, #{transferCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT}, 
+      #{integrity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Branch">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -192,6 +194,9 @@
       </if>
       <if test="foundTime != null">
         found_time,
+      </if>
+      <if test="abolishTime != null">
+        abolish_time,
       </if>
       <if test="transferCount != null">
         transfer_count,
@@ -257,6 +262,9 @@
       </if>
       <if test="foundTime != null">
         #{foundTime,jdbcType=DATE},
+      </if>
+      <if test="abolishTime != null">
+        #{abolishTime,jdbcType=DATE},
       </if>
       <if test="transferCount != null">
         #{transferCount,jdbcType=INTEGER},
@@ -335,6 +343,9 @@
       <if test="record.foundTime != null">
         found_time = #{record.foundTime,jdbcType=DATE},
       </if>
+      <if test="record.abolishTime != null">
+        abolish_time = #{record.abolishTime,jdbcType=DATE},
+      </if>
       <if test="record.transferCount != null">
         transfer_count = #{record.transferCount,jdbcType=INTEGER},
       </if>
@@ -374,6 +385,7 @@
       fax = #{record.fax,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
+      abolish_time = #{record.abolishTime,jdbcType=DATE},
       transfer_count = #{record.transferCount,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -434,6 +446,9 @@
       <if test="foundTime != null">
         found_time = #{foundTime,jdbcType=DATE},
       </if>
+      <if test="abolishTime != null">
+        abolish_time = #{abolishTime,jdbcType=DATE},
+      </if>
       <if test="transferCount != null">
         transfer_count = #{transferCount,jdbcType=INTEGER},
       </if>
@@ -470,6 +485,7 @@
       fax = #{fax,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       found_time = #{foundTime,jdbcType=DATE},
+      abolish_time = #{abolishTime,jdbcType=DATE},
       transfer_count = #{transferCount,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

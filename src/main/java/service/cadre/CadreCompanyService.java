@@ -244,6 +244,8 @@ public class CadreCompanyService extends BaseMapper {
                 // 删除原纪录
                 cadreCompanyMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【企业、社团兼职】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreCompany modify = new CadreCompany();
@@ -326,9 +328,9 @@ public class CadreCompanyService extends BaseMapper {
             cadreCategory = metaTypeService.getName(reserveType);
         }
         List<CadreCompanyView> records = new ArrayList<>();
-        if (exportType == 0){
+        if (exportType == 0 || exportType == 2 || exportType == 3){
             records = cadreCompanyViewMapper.selectByExample(example);
-        }else {
+        } else {
             records = iCadreMapper.getCadreReserveCompany(ids, reserveType, CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
         }
 

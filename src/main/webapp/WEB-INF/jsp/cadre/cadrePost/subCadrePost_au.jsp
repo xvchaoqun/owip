@@ -89,19 +89,20 @@
 					</div>
 				</div>
 				<div class="form-group">
-                    <label class="col-xs-3 control-label">任职日期</label>
+                    <label class="col-xs-3 control-label"><span class="star">*</span> 任职日期</label>
                     <div class="col-xs-6">
                         <div class="input-group">
 							<c:if test="${_p_postTimeToDay}">
-                                <input class="form-control date-picker" name="_lpWorkTime" type="text"
+                                <input required class="form-control date-picker" name="_lpWorkTime" type="text"
                                    data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM.dd')}"/>
                             </c:if>
                             <c:if test="${!_p_postTimeToDay}">
-                                <input class="form-control date-picker" name="_lpWorkTime" type="text"
+                                <input required class="form-control date-picker" name="_lpWorkTime" type="text"
                                     data-date-min-view-mode="1" data-date-format="yyyy.mm" value="${cm:formatDate(cadrePost.lpWorkTime,'yyyy.MM')}"/>
                             </c:if>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
+						<span class="help-block">注：任职日期是指最近一次任命该职务的日期</span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -118,6 +119,7 @@
                             </c:if>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
+						<span class="help-block">注：始任日期是指首次任命该职务的日期</span>
                     </div>
                 </div>
 				<div class="form-group">

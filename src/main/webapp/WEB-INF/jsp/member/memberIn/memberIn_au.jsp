@@ -30,6 +30,18 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
+						<div class="col-xs-6">
+							<select required data-rel="select2" name="type" data-placeholder="请选择">
+								<option></option>
+								<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
+							</select>
+							<script>
+								$("#updateForm select[name=type]").val(${memberIn.type});
+							</script>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-xs-5 control-label"><c:if test="${empty userBean}"><span class="star">*</span></c:if>转入账号</label>
 						<c:if test="${not empty userBean}">
 						<div class="col-xs-6 label-text">
@@ -92,18 +104,7 @@ pageEncoding="UTF-8"%>
 							<input required class="form-control" type="text" name="idcard" value="${memberIn.idcard}">
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-5 control-label"><span class="star">*</span>类别</label>
-						<div class="col-xs-6">
-							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
-								<option></option>
-								<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
-							</select>
-							<script>
-								$("#updateForm select[name=type]").val(${memberIn.type});
-							</script>
-						</div>
-					</div>
+
 					<div class="form-group">
 						<label class="col-xs-5 control-label"><span class="star">*</span>转入${_p_partyName}</label>
 						<div class="col-xs-6">
@@ -343,6 +344,18 @@ pageEncoding="UTF-8"%>
           $("#updateForm input[name=_positiveTime]")
                   .requireField($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}');
         }).change();
+
+	var $selectType =$('#updateForm select[name=type]');
+	$selectType.on("change",function(){
+		var extraAttr = $(this).find("option:selected").data("extra-attr");
+		var requireFill = (extraAttr!='none');
+		$("#updateForm [name=fromTitle]").requireField(requireFill);
+		$("#updateForm [name=validDays]").requireField(requireFill);
+		$("#updateForm [name=fromUnit]").requireField(requireFill);
+		$("#updateForm [name=fromAddress]").requireField(requireFill);
+		$("#updateForm [name=fromPhone]").requireField(requireFill);
+		$("#updateForm [name=fromPostCode]").requireField(requireFill);
+	});
 
 	var $select = $.register.user_select($('#updateForm select[name=userId]'));
 	$select.on("change",function(){

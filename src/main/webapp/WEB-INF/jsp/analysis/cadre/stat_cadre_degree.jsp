@@ -41,11 +41,13 @@
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: key,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
 
@@ -98,6 +100,28 @@
 
             cadreDegreeChart.setOption(option, true);
             cadreDegreeChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadreDegreeChart.on('click', function (params) {
+                var status = ${param.cadreCategory == 1 ? 1 : 8};
+                var degreeMap = ${cm:toJSONObject(DEGREE_TYPE_MAP)};
+                var name = params.data._type;
+                var index = 0;
+                for (var i in degreeMap) {
+                    if (degreeMap[i] == name) {
+                        index = i;
+                        break;
+                    }
+                }
+                var url = "";
+                if (name == '其他') {
+                    url = "#${ctx}/cadre?degreeType={0}&status={1}".format($.trim(-1), status);
+                } else {
+                    url = "#${ctx}/cadre?degreeType={0}&status={1}".format($.trim(index), status);
+                }
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
 
         })
     })($div[0], ${param.cadreCategory});

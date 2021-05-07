@@ -94,34 +94,21 @@
             var statPoliticalStatusMap= ret.statPoliticalStatusMap;
             var statGrowMap= ret.statGrowMap;
             var statPositiveMap= ret.statPositiveMap;
+            var statMap= ret.statMap;
 
             if(type == 3){
                 var legendTitle = [];
                 var countData = [];
-                var JZG_count=statPositiveMap[${USER_TYPE_JZG}];
                 var count=statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}] + statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_GROW}];
                 function addData(){
-                    if (statPositiveMap[${USER_TYPE_BKS}]!=0){
-                        countData.push({name: '本科生党员('+statPositiveMap[${USER_TYPE_BKS}]+')', value: statPositiveMap[${USER_TYPE_BKS}]});
-                        legendTitle.push('本科生党员('+statPositiveMap[${USER_TYPE_BKS}]+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_SS}]!=0){
-                        countData.push({name: '硕士生党员('+statPositiveMap[${USER_TYPE_SS}]+')', value: statPositiveMap[${USER_TYPE_SS}]});
-                        legendTitle.push('硕士生党员('+statPositiveMap[${USER_TYPE_SS}]+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_BS}]!=0){
-                        countData.push({name: '博士生党员('+statPositiveMap[${USER_TYPE_BS}]+')', value: statPositiveMap[${USER_TYPE_BS}]});
-                        legendTitle.push('博士生党员('+statPositiveMap[${USER_TYPE_BS}]+')');
-                    }
 
-                    if (JZG_count!=0){
-                        countData.push({name: '教职工党员('+JZG_count+')', value: JZG_count });
-                        legendTitle.push('教职工党员('+JZG_count+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_JZG}]!=0){
-                        countData.push({name: '离退休党员('+statPositiveMap[${USER_TYPE_RETIRE}]+')', value: statPositiveMap[${USER_TYPE_RETIRE}]});
-                        legendTitle.push('离退休党员('+statPositiveMap[${USER_TYPE_RETIRE}]+')');
-                    }
+                    <c:forEach items="${USER_TYPE_MAP}" var="userType">
+                        if (statMap!=undefined && statMap[${userType.key}]>0){
+                            countData.push({name: '${userType.value}党员('+statMap[${userType.key}]+')',
+                                value: statMap[${userType.key}], userType:${userType.key}});
+                            legendTitle.push('${userType.value}党员('+statMap[${userType.key}]+')');
+                        }
+                    </c:forEach>
                 }
                 addData();
                 var option = {
@@ -131,9 +118,10 @@
                     },
                     tooltip: {
                         trigger: 'item',
-                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                        formatter: '{a} <br/>{b}:{d}%'
                     },
                     legend: {
+                        type: 'scroll',
                         orient: 'vertical',
                         left:-5,
                         top: -5,
@@ -188,15 +176,14 @@
                 var memberData = [];
                 var legendTitle = [];
                 var countData = [];
-                var positive_JZG_count = statPositiveMap[${USER_TYPE_JZG}];
-                var grow_JZG_count = statGrowMap[${USER_TYPE_JZG}];
                 var count =statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}] + statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_GROW}];
                 function addData1(){
-                    //正式党员  预备党员
+
                     if (statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}]!=0){
                         memberData.push({
                             name: '正式党员('+statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}]+')',
                             value: statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}],
+                            politicalStatus:${MEMBER_POLITICAL_STATUS_POSITIVE}
                         });
                         legendTitle.push('正式党员('+statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_POSITIVE}]+')');
                     }
@@ -204,51 +191,27 @@
                         memberData.push({
                             name: '预备党员('+statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_GROW}]+')',
                             value: statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_GROW}],
+                            politicalStatus:${MEMBER_POLITICAL_STATUS_GROW}
                         });
                         legendTitle.push('预备党员('+statPoliticalStatusMap[${MEMBER_POLITICAL_STATUS_GROW}]+')');
                     }
 
-                    //其他
-                    if (statPositiveMap[${USER_TYPE_JZG}]!=0){
-                        countData.push({name: '离退休正式党员('+statPositiveMap[${USER_TYPE_RETIRE}]+')', value: statPositiveMap[${USER_TYPE_RETIRE}]});
-                        legendTitle.push('离退休正式党员('+statPositiveMap[${USER_TYPE_RETIRE}]+')');
-                    }
-                    if (positive_JZG_count != 0){
-                        countData.push({name: '教职工正式党员('+positive_JZG_count+')', value: positive_JZG_count});
-                        legendTitle.push('教职工正式党员('+positive_JZG_count+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_BKS}]!=0){
-                        countData.push({name: '本科生正式党员('+statPositiveMap[${USER_TYPE_BKS}]+')', value: statPositiveMap[${USER_TYPE_BKS}]});
-                        legendTitle.push('本科生正式党员('+statPositiveMap[${USER_TYPE_BKS}]+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_SS}]!=0){
-                        countData.push({name: '硕士生正式党员('+statPositiveMap[${USER_TYPE_SS}]+')', value: statPositiveMap[${USER_TYPE_SS}]});
-                        legendTitle.push('硕士生正式党员('+statPositiveMap[${USER_TYPE_SS}]+')');
-                    }
-                    if (statPositiveMap[${USER_TYPE_BS}]!=0){
-                        countData.push({name: '博士生正式党员('+statPositiveMap[${USER_TYPE_BS}]+')', value: statPositiveMap[${USER_TYPE_BS}]});
-                        legendTitle.push('博士生正式党员('+statPositiveMap[${USER_TYPE_BS}]+')');
-                    }
-                    if (statGrowMap[${USER_TYPE_JZG}]!=0){
-                        countData.push( {name: '离退休预备党员('+statGrowMap[${USER_TYPE_RETIRE}]+')', value: statGrowMap[${USER_TYPE_RETIRE}]});
-                        legendTitle.push('离退休预备党员('+statGrowMap[${USER_TYPE_RETIRE}]+')');
-                    }
-                    if (grow_JZG_count!=0){
-                        countData.push({name: '教职工预备党员('+grow_JZG_count+')', value: grow_JZG_count});
-                        legendTitle.push('教职工预备党员('+grow_JZG_count+')');
-                    }
-                    if (statGrowMap[${USER_TYPE_BKS}]!=0){
-                        countData.push({name: '本科生预备党员('+statGrowMap[${USER_TYPE_BKS}]+')', value: statGrowMap[${USER_TYPE_BKS}]});
-                        legendTitle.push('本科生预备党员('+statGrowMap[${USER_TYPE_BKS}]+')');
-                    }
-                    if (statGrowMap[${USER_TYPE_SS}]!=0){
-                        countData.push({name: '硕士生预备党员('+statGrowMap[${USER_TYPE_SS}] +')', value: statGrowMap[${USER_TYPE_SS}]});
-                        legendTitle.push('硕士生预备党员('+statGrowMap[${USER_TYPE_SS}] +')');
-                    }
-                    if (statGrowMap[${USER_TYPE_BS}]!=0){
-                        countData.push({name: '博士生预备党员('+statGrowMap[${USER_TYPE_BS}]+')', value: statGrowMap[${USER_TYPE_BS}]});
-                        legendTitle.push('博士生预备党员('+statGrowMap[${USER_TYPE_BS}]+')');
-                    }
+                    <c:forEach items="${USER_TYPE_MAP}" var="userType">
+                        if (statPositiveMap[${userType.key}]!=0){
+                            countData.push({name: '${userType.value}正式党员('+statPositiveMap[${userType.key}]+')',
+                                value: statPositiveMap[${userType.key}], userType:${userType.key},
+                                politicalStatus:${MEMBER_POLITICAL_STATUS_POSITIVE}});
+                            legendTitle.push('${userType.value}正式党员('+statPositiveMap[${userType.key}]+')');
+                        }
+                    </c:forEach>
+                    <c:forEach items="${USER_TYPE_MAP}" var="userType">
+                        if (statGrowMap[${userType.key}]!=0){
+                            countData.push({name: '${userType.value}预备党员('+statGrowMap[${userType.key}]+')',
+                                value: statGrowMap[${userType.key}], userType:${userType.key},
+                                politicalStatus:${MEMBER_POLITICAL_STATUS_GROW}});
+                            legendTitle.push('${userType.value}预备党员('+statGrowMap[${userType.key}]+')');
+                        }
+                    </c:forEach>
                 }
                 addData1();
                 var option = {
@@ -258,9 +221,10 @@
                     },
                     tooltip: {
                         trigger: 'item',
-                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                        formatter: '{a} <br/>{b}:{d}%'
                     },
                     legend: {
+                        type: 'scroll',
                         orient: 'vertical',
                         left:-5,
                         top: -5,
@@ -305,14 +269,16 @@
                     otherLabel.push(item);
                     otherData.push({
                         name: item,
-                        value: value
+                        value: value,
+                        _nation:type==2?key:'',
+                        _gender:type==1?key:''
                     });
                 });
 
                 var option = {
                     tooltip: {
                         trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        formatter: '{a} <br/>{b}:{d}%'
                     },
                     legend: {
                         orient: 'vertical',
@@ -368,6 +334,16 @@
 
             countChart.setOption(option);
             countChart.hideLoading();
+
+            <shiro:hasPermission name="member:list">
+            countChart.on('click', function (params) {
+                //console.log(params.data);
+                var url = "#${ctx}/member?cls=-1&partyId=${partyId}&branchId=${branchId}&userType={0}&politicalStatus={1}&_nation={2}&_gender={3}"
+                    .format($.trim(params.data.userType), $.trim(params.data.politicalStatus),
+                        $.trim(params.data._nation), $.trim(params.data._gender));
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         });
     })($div[0], '${type}','${partyId}','${branchId}');
 </script>

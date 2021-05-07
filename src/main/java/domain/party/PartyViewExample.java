@@ -599,6 +599,76 @@ public class PartyViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUnitIdsIsNull() {
+            addCriterion("unit_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIsNotNull() {
+            addCriterion("unit_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsEqualTo(String value) {
+            addCriterion("unit_ids =", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotEqualTo(String value) {
+            addCriterion("unit_ids <>", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThan(String value) {
+            addCriterion("unit_ids >", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_ids >=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThan(String value) {
+            addCriterion("unit_ids <", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("unit_ids <=", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsLike(String value) {
+            addCriterion("unit_ids like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotLike(String value) {
+            addCriterion("unit_ids not like", value, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsIn(List<String> values) {
+            addCriterion("unit_ids in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotIn(List<String> values) {
+            addCriterion("unit_ids not in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsBetween(String value1, String value2) {
+            addCriterion("unit_ids between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("unit_ids not between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
         public Criteria andClassIdIsNull() {
             addCriterion("class_id is null");
             return (Criteria) this;
@@ -1426,6 +1496,66 @@ public class PartyViewExample {
 
         public Criteria andFoundTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("found_time not between", value1, value2, "foundTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeIsNull() {
+            addCriterion("abolish_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeIsNotNull() {
+            addCriterion("abolish_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time =", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time <>", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("abolish_time >", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time >=", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeLessThan(Date value) {
+            addCriterionForJDBCDate("abolish_time <", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("abolish_time <=", value, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_time in", values, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("abolish_time not in", values, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_time between", value1, value2, "abolishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbolishTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("abolish_time not between", value1, value2, "abolishTime");
             return (Criteria) this;
         }
 

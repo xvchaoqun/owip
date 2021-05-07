@@ -49,7 +49,7 @@ public class ProfileController extends BaseController {
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(loginUser.getId());
-        record.setSign(sysUserService.uploadSign(loginUser.getUserId(), sign));
+        record.setSign(uploadThumbPic(sign, "sign", 750, 500));
         record.setMobile(mobile);
         record.setPhone(phone);
 

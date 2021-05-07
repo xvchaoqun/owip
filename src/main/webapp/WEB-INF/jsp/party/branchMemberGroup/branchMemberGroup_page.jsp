@@ -68,9 +68,7 @@
                                 <c:if test="${status>=0}">
                                     <shiro:hasPermission name="branchMemberGroup:del">
                                         <a class="jqOpenViewBatchBtn btn btn-danger btn-sm"
-                                           data-url="${ctx}/branchMemberGroup_batchDel" data-title="撤销支部委员会"
-                                           data-msg="确定撤销这{0}个支部委员会吗？"><i class="fa fa-history"></i> 撤销</a>
-                                        【注：撤销操作将同时删除相关管理员权限，请谨慎操作！】
+                                           data-url="${ctx}/branchMemberGroup_batchDel"><i class="fa fa-history"></i> 换届</a>
                                     </shiro:hasPermission>
                                 </c:if>
                                 <c:if test="${status==-1}">
@@ -85,8 +83,8 @@
                                         <a class="jqBatchBtn btn btn-success btn-sm"
                                            data-url="${ctx}/branchMemberGroup_batchDel"
                                            data-querystr="isDeleted=0"
-                                           data-title="恢复已删除支部委员会"
-                                           data-msg="确定恢复这{0}个支部委员会吗？"><i class="fa fa-reply"></i> 恢复</a>
+                                           data-title="返回支部委员会列表"
+                                           data-msg="确定将这{0}个支部委员会恢复吗？"><i class="fa fa-reply"></i> 恢复</a>
                                         【注：恢复操作之后需要重新设置相关管理员权限！】
                                     </shiro:hasPermission>
                                 </c:if>

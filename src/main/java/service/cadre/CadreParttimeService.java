@@ -252,6 +252,8 @@ public class CadreParttimeService extends BaseMapper {
                 // 删除原纪录
                 cadreParttimeMapper.deleteByPrimaryKey(originalId);
             }
+        }else{
+            CmTag.sendMsg(mta.getApplyUserId(), "您提交的【社会或学术兼职】信息修改申请(序号：{0})未通过审核，请进入干部个人信息修改申请模块查看详情", mta.getId()+"");
         }
 
         CadreParttime modify = new CadreParttime();

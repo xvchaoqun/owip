@@ -94,6 +94,7 @@ public class CmTag {
     static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
     static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
     static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
+    static SysMsgService sysMsgService = context.getBean(SysMsgService.class);
 
     public static <T> T getBean(Class<T> cls){
 
@@ -196,6 +197,16 @@ public class CmTag {
     }
     public static boolean validPasswd(String passwd){
         return FormUtils.match(CmTag.getStringProperty("passwdRegex"), passwd);
+    }
+
+    public static void sendMsg(int userId, String content, String... params){
+
+        sysMsgService.send(userId, null, "系统提醒", content, params);
+    }
+
+    public static void sendMsg(int userId, Integer sendUserId, String title, String content, String... params){
+
+        sysMsgService.send(userId, sendUserId, title, content, params);
     }
 
     public static String getJsFolder(){

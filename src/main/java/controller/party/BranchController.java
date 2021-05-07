@@ -19,6 +19,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +57,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_base")
     public String branch_base(Integer id, ModelMap modelMap) {
 
-        Branch branch = branchMapper.selectByPrimaryKey(id);
+        BranchView branch = branchService.getBranchView(id);
         modelMap.put("branch", branch);
         BranchMemberGroup presentGroup = branchMemberGroupService.getPresentGroup(id);
         modelMap.put("presentGroup", presentGroup);
@@ -79,7 +80,7 @@ public class BranchController extends BaseController {
     @RequestMapping("/branch_view")
     public String branch_view(int id, HttpServletResponse response, ModelMap modelMap) {
 
-        Branch branch = branchMapper.selectByPrimaryKey(id);
+        BranchView branch = branchService.getBranchView(id);
         modelMap.put("branch", branch);
 
         return "party/branch/branch_view";
@@ -115,9 +116,11 @@ public class BranchController extends BaseController {
                             String code,
                             String name,
                             Integer partyId,
+                            String _type,
                             Integer[] types,
                             Integer unitTypeId,
                             @RequestDateRange DateRange _foundTime,
+                            String tranYear, // 换届年份
                             Boolean isStaff,
                             Boolean isPrefessional,
                             Boolean isBaseTeam,
@@ -201,6 +204,19 @@ public class BranchController extends BaseController {
             else criteria.andPartyIdIsNull();
         }*/
 
+        if(StringUtils.isNotBlank(_type)){
+            if(_type.equals("其他")){
+                criteria.andTypesIsNull();
+            }else{
+                MetaType branchType = CmTag.getMetaTypeByName("mc_branch_type", _type);
+                if(branchType!=null){
+                    criteria.andTypesContain(new HashSet<>(Arrays.asList(branchType.getId())));
+                }else {
+                    criteria.andIdIsNull();
+                }
+            }
+        }
+
         if (types != null) {
             criteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
         }
@@ -223,6 +239,17 @@ public class BranchController extends BaseController {
 
         if (_foundTime.getEnd() != null) {
             criteria.andFoundTimeLessThanOrEqualTo(_foundTime.getEnd());
+        }
+
+        if(tranYear!=null){
+            if(tranYear.equals("无数据")){
+                criteria.andTranTimeIsNull();
+            }else if(StringUtils.isNumeric(tranYear)){
+                criteria.andTranTimeGreaterThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "0101"))
+                        .andTranTimeLessThanOrEqualTo(DateUtils.parseStringToDate(tranYear + "1231"));
+            }else{
+                criteria.andIdIsNull();
+            }
         }
 
         if (_integrity != null){
@@ -457,17 +484,27 @@ public class BranchController extends BaseController {
     @RequiresPermissions("branch:del")
     @RequestMapping(value = "/branch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
-                        @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
-                        Integer[] ids, ModelMap modelMap) {
-
+    public Map do_branch_batchDel(HttpServletRequest request,
+                                            @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)Date abolishTime,
+                                         @RequestParam(required = false, defaultValue = "1") boolean isDeleted,
+                                         Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            branchService.batchDel(ids, isDeleted);
-            logger.info(addLog(LogConstants.LOG_PARTY, "批量撤销党支部：%s", StringUtils.join(ids, ",")));
+            branchService.batchDel(ids, isDeleted, abolishTime);
+            logger.info(addLog(LogConstants.LOG_PARTY, "撤销党支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("branch:del")
+    @RequestMapping("/branch_batchDel")
+    public String branch_batchDel(Integer[] ids, ModelMap modelMap) {
+
+        if (ids != null && ids.length == 1){
+            modelMap.put("branch", branchMapper.selectByPrimaryKey(ids[0]));
+        }
+        return "/party/branch/branch_batchDel";
     }
 
     @RequiresPermissions("branch:changeOrder")
@@ -512,7 +549,7 @@ public class BranchController extends BaseController {
         int rownum = records.size();
         String[] titles = {"编号|100", "名称|200|left", "简称|150|left", "所属分党委|300|left", "类别|100",
                 "党员总数", "在职教职工数量", "离退休党员数量", "学生数量", "委员会总数",
-                "是否已设立现任委员会", "任命时间", "应换届时间", "实际换届时间", "是否是教工党支部", "是否一线教学科研党支部", "是否建立在团队",
+                "是否已设立现任委员会", "任命时间", "应换届时间", "是否教工党支部", "是否一线教学科研党支部", "是否建立在团队",
                 "单位属性", "联系电话|100", "传真|100", "邮箱|150", "成立时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
@@ -541,7 +578,6 @@ public class BranchController extends BaseController {
 
                     DateUtils.formatDate(record.getAppointTime(), DateUtils.YYYYMMDD_DOT),
                     DateUtils.formatDate(record.getTranTime(), DateUtils.YYYYMMDD_DOT),
-                    DateUtils.formatDate(record.getActualTranTime(), DateUtils.YYYYMMDD_DOT),
 
                     BooleanUtils.isTrue(record.getIsStaff()) ? "是" : "否",
                     BooleanUtils.isTrue(record.getIsPrefessional()) ? "是" : "否",

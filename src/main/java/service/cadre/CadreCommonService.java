@@ -7,7 +7,6 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
-import domain.dp.DpMemberView;
 import domain.member.Member;
 import domain.party.Branch;
 import domain.party.Party;
@@ -19,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadreReserve.CadreReserveService;
-import service.dp.DpMemberService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -354,13 +352,5 @@ public class CadreCommonService extends BaseMapper {
 
         // 如果是后备干部
         modelMap.put("cadreReserve", cadreReserveService.getNormalRecord(cadreId));
-
-        DpMemberService dpMemberService = CmTag.getBean(DpMemberService.class);
-        if(dpMemberService!=null) {
-            DpMemberView dpMember = dpMemberService.findByUserId(uv.getUserId());
-            if (dpMember != null) {
-                modelMap.put("dpMember", dpMember);
-            }
-        }
     }
 }

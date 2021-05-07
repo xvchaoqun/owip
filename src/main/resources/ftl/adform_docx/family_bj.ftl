@@ -76,7 +76,7 @@
                     <w:rFonts w:ascii="宋体" w:hint="eastAsia"/>
                     <w:sz w:val="24"/>
                 </w:rPr>
-                <w:t>${fage!}</w:t>
+                <w:t>${fage2!}</w:t>
             </w:r>
         </w:p>
     </w:tc>

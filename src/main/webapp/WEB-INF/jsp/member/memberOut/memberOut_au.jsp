@@ -25,6 +25,24 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-xs-5 control-label"><span class="star">*</span>类别
+						<c:if test="${not empty _pMap['memberOutTypeRemark']}">
+						<span class="prompt" data-title="类别说明" data-width="400"
+							  data-prompt="${_pMap['memberOutTypeRemark']}"><i class="fa fa-question-circle-o"></i></span>
+							</c:if>
+					</label>
+					<div class="col-xs-6">
+						<select required data-rel="select2" name="type" data-width="180" data-placeholder="请选择"  >
+							<option></option>
+							<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
+						</select>
+						<script>
+							$("#updateForm select[name=type]").val(${memberOut.type});
+						</script>
+
+					</div>
+				</div>
 			<div class="form-group">
 				<label class="col-xs-5 control-label"><c:if test="${empty memberOut}"><span class="star">*</span></c:if>姓名</label>
 				<c:if test="${not empty memberOut}">
@@ -102,24 +120,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 				<%--</c:if>--%>
-				<div class="form-group">
-					<label class="col-xs-5 control-label"><span class="star">*</span>类别
-						<c:if test="${not empty _pMap['memberOutTypeRemark']}">
-						<span class="prompt" data-title="类别说明" data-width="400"
-							  data-prompt="${_pMap['memberOutTypeRemark']}"><i class="fa fa-question-circle-o"></i></span>
-							</c:if>
-					</label>
-					<div class="col-xs-6">
-						<select required data-rel="select2" name="type" data-width="180" data-placeholder="请选择"  >
-							<option></option>
-							<c:import url="/metaTypes?__code=mc_member_in_out_type"/>
-						</select>
-						<script>
-							$("#updateForm select[name=type]").val(${memberOut.type});
-						</script>
 
-					</div>
-				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><span class="star">*</span>党员本人联系电话</label>
 					<div class="col-xs-6">
@@ -266,8 +267,22 @@ pageEncoding="UTF-8"%>
     $('#updateForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 	$.register.date($('.input-group.date'));
-	var $select = $.register.user_select($('#updateForm select[name=userId]'));
-	$select.on("change",function(){
+	var $selectType =$('#updateForm select[name=type]');
+	$selectType.on("change",function(){
+		var extraAttr = $(this).find("option:selected").data("extra-attr");
+		var requireFill = (extraAttr!='none');
+		$("#updateForm [name=toTitle]").requireField(requireFill);
+		$("#updateForm [name=toUnit]").requireField(requireFill);
+		$("#updateForm [name=fromUnit]").requireField(requireFill);
+		$("#updateForm [name=fromAddress]").requireField(requireFill);
+		$("#updateForm [name=fromPhone]").requireField(requireFill);
+		$("#updateForm [name=fromFax]").requireField(requireFill);
+		$("#updateForm [name=fromPostCode]").requireField(requireFill);
+		$("#updateForm [name=validDays]").requireField(requireFill);
+	});
+
+	var $selectUser = $.register.user_select($('#updateForm select[name=userId]'));
+	$selectUser.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {
 			//console.log(entity)

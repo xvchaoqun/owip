@@ -191,7 +191,10 @@ public class StatService extends BaseMapper {
 
             otherMap.put("汉族", statMemberMapper.countHan(partyId, branchId));
             otherMap.put("少数民族", statMemberMapper.countMinority(partyId, branchId));
-            otherMap.put("无数据", statMemberMapper.countNull(partyId, branchId));
+            Integer countNull = statMemberMapper.countNull(partyId, branchId);
+            if(countNull!=null && countNull>0) {
+                otherMap.put("无数据", countNull);
+            }
         }
 
         return otherMap;
@@ -568,17 +571,20 @@ public class StatService extends BaseMapper {
 
         modelMap.put("branchTotalCount", branchTotalCount);
 
-        BranchExample branchExample = new BranchExample();
-        BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
+        List<Integer> branchIdList = null;
+        if (partyId != null) {
+            BranchExample branchExample = new BranchExample();
+            BranchExample.Criteria criteria = branchExample.createCriteria().andIsDeletedEqualTo(false);
 
-        Set<String> typesSet = new HashSet<>();
-        if(mtProfessionalTeacher!=null) {
-            typesSet.add(mtProfessionalTeacher.getId() + "");
-            criteria.andTypesContain(typesSet);
+            Set<String> typesSet = new HashSet<>();
+            if (mtProfessionalTeacher != null) {
+                typesSet.add(mtProfessionalTeacher.getId() + "");
+                criteria.andTypesContain(typesSet);
+            }
+
+            List<Branch> branchList = branchMapper.selectByExample(branchExample);
+            branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
         }
-
-        List<Branch> branchList = branchMapper.selectByExample(branchExample);
-        List<Integer> branchIdList = branchList.stream().map(Branch::getId).collect(Collectors.toList());
 
         List<Byte> teacherTypes = Arrays.asList(SystemConstants.USER_TYPE_JZG, SystemConstants.USER_TYPE_RETIRE);
         //师生党员总数
@@ -586,6 +592,8 @@ public class StatService extends BaseMapper {
         //教工党员总数
         modelMap.put("teacherCount", statMemberMapper.getMemberCount(teacherTypes, null, null, partyId));
         List<Byte> teacherTypes1 = Arrays.asList(SystemConstants.USER_TYPE_JZG);
+        Byte isFullTimeTeacher = 1; // 查询专任教师时使用
+        int totalFullTime = statMemberMapper.getMemberCount(teacherTypes1, null, branchIdList, partyId);
         //正高级
         int chiefCount = statMemberMapper.getMemberCount(teacherTypes1, "正高", branchIdList, partyId);
         modelMap.put("chiefCount", chiefCount);
@@ -593,17 +601,19 @@ public class StatService extends BaseMapper {
         int deputyCount = statMemberMapper.getMemberCount(teacherTypes1, "副高", branchIdList, partyId);
         modelMap.put("deputyCount", deputyCount);
         //中级及以下
-        modelMap.put("middleCount", statMemberMapper.isMemberAndFullTime() - chiefCount - deputyCount);
+        modelMap.put("middleCount",  totalFullTime - chiefCount - deputyCount);
         //离退休教工党员总数
-        modelMap.put("retireTeacherCount", statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_RETIRE), null, null, partyId));
+        List<Byte> teacherTypes2 = Arrays.asList(SystemConstants.USER_TYPE_RETIRE);
+        int retireTeacherCount = statMemberMapper.getMemberCount(teacherTypes2, null, branchIdList, partyId);
+        modelMap.put("retireTeacherCount", retireTeacherCount);
         //本科生党员
-        int bksStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BKS), null, null, partyId);
+        int bksStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BKS), null, branchIdList, partyId);
         modelMap.put("bksStuCount", bksStuCount);
         //硕士生党员
-        int ssStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_SS), null, null, partyId);
+        int ssStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_SS), null, branchIdList, partyId);
         modelMap.put("ssStuCount", ssStuCount);
         //博士生党员
-        int bsStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BS), null, null, partyId);
+        int bsStuCount = statMemberMapper.getMemberCount(Arrays.asList(SystemConstants.USER_TYPE_BS), null, branchIdList, partyId);
         modelMap.put("bsStuCount", bsStuCount);
     }
 }

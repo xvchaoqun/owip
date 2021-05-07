@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ParttimeApproveAuthController extends ParttimeBaseController {
 
-    @RequiresPermissions("parttimeApproveAuth:list")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttimeApproveAuth")
     public String parttimeApproveAuth(@RequestParam(defaultValue = "1")Integer cls, ModelMap modelMap) {
 

@@ -5,6 +5,7 @@
 <%@ page import="sys.utils.JSONUtils" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="shiro.ShiroHelper" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <html>
@@ -25,7 +26,7 @@
     List<String> realnameList = new ArrayList<>();
     userList.add(user);
 
-    OneSend oneSend = oneSendService.sendMsg(userList, realnameList, content);
+    OneSend oneSend = oneSendService.sendMsg(ShiroHelper.getCurrentUserId(), userList, realnameList, content);
     request.setAttribute("oneSend", oneSend);
 
     ret = JSONUtils.toString(oneSend, false);

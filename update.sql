@@ -1,3 +1,182 @@
+20210506
+-- 测试、哈工大
+
+20210501
+-- 珠海、南航
+
+-- 更新utils
+
+20210430
+-- 北师大
+
+20210429
+-- 北航（断开）
+
+20210428
+-- 哈工大
+-- 更新 utils
+
+ALTER TABLE `ow_member_stay`
+	ADD COLUMN `branch_check_time` DATETIME NULL DEFAULT NULL COMMENT '支部审核时间' AFTER `create_time`,
+	ADD COLUMN `party_check_time` DATETIME NULL DEFAULT NULL COMMENT '分党委审核时间' AFTER `branch_check_time`;
+-- 更新 ow_member_stay_view
+
+update ow_member_stay oms,
+(select oms.id, oms.party_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='分党委审核' and log1.status=1 group by oms.id) tmp
+set oms.party_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.branch_check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='支部审核' and log1.status=1 group by oms.id) tmp
+set oms.branch_check_time=tmp.create_time where oms.id=tmp.id;
+update ow_member_stay oms,
+(select oms.id, oms.check_time, max(log1.create_time) as create_time from ow_member_stay oms ,ow_apply_approval_log log1
+where oms.id=log1.record_id and log1.type=13 and log1.stage='组织部审核' and log1.status=1 group by oms.id) tmp
+set oms.check_time=tmp.create_time where oms.id=tmp.id;
+
+20210427
+-- 南航
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+    VALUES ('adFormShowProPostTime', '任免审批表显示职称评定时间', 'false', 3, 103, '');
+
+20210426
+-- 西工大、哈工大、测试、大工
+
+20210425
+-- 北师大
+-- 哈工大需要单独处理（他们需要把暂留党员单独入库，其他学校不需要）！
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('hasMemberStayStatus', '暂留党员是否单独入库', 'false', 3, 102, '暂留党员是否单独入库');
+update ow_member set status=1 where status=5;
+-- 哈工大需要单独处理！
+
+20210423
+-- 吉大、大工
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `adform_display_as_double` TINYINT(1) UNSIGNED NULL DEFAULT '0'
+	    COMMENT '显示为双学位，仅对全日制教育有效' AFTER `adform_display_as_fulltime`;
+
+-- 更新 ow_branch_member_view
+
+20210422
+-- 北师大、南航
+
+-- 删除民族 “其他”
+delete bmt.* from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id and bmt.name='其他';
+update sys_user_info set nation='汉族' where nation='汉';
+update sys_user_info set nation=null where nation is not null and nation not in(
+select bmt.name from base_meta_type bmt, base_meta_class bmc where bmc.code='mc_nation' and bmt.class_id=bmc.id
+);
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`) VALUES
+('adForm1_family_birth', '北京任免表显示家庭成员出生日期', '1', 2, 101, '1：显示出生日期， 2：显示年龄');
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `unit_code` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位编码' AFTER `unit`;
+ALTER TABLE `ow_party`
+	ADD COLUMN `unit_ids` VARCHAR(300) NULL DEFAULT NULL COMMENT '关联单位2' AFTER `unit_id`;
+-- 更新 sys_user_view
+update ow_party set unit_ids = unit_id;
+
+ALTER TABLE `ow_party`
+	ADD COLUMN `abolish_time` DATE NULL DEFAULT NULL COMMENT '撤销时间，撤销后is_deleted=1' AFTER `found_time`,
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `update_time`;
+-- 更新 ow_party_view
+
+ALTER TABLE `ow_branch`
+	ADD COLUMN `abolish_time` DATE NULL DEFAULT NULL COMMENT '撤销时间，撤销后is_deleted=1' AFTER `found_time`,
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否撤销' AFTER `update_time`;
+-- 更新 ow_branch_view
+
+ALTER TABLE `ow_party_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否换届' AFTER `sort_order`;
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `is_deleted` `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否换届' AFTER `sort_order`;
+
+
+20210419
+-- 哈工大
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `sponsor_user_ids` `sponsor_user_ids` VARCHAR(50) NULL DEFAULT NULL COMMENT '入党介绍人，1##userId,0##张三，1：校内 0：校外 ' COLLATE 'utf8_general_ci' AFTER `candidate_status`;
+ALTER TABLE `ow_member_apply`
+	CHANGE COLUMN `grow_contact_users` `grow_contact_users` VARCHAR(50) NULL DEFAULT NULL COMMENT '培养联系人，0##userId,1##张三，0：校内 1：校外 ' COLLATE 'utf8_general_ci' AFTER `grow_contact_user_ids`;
+
+/**
+    update ow_member_apply set sponsor_user_ids = concat('1##', replace(sponsor_user_ids, ',', ',1##')) where length(sponsor_user_ids)>1;
+    update ow_member_apply set sponsor_user_ids = concat('0##', replace(sponsor_users, ',', ',0##')) where (sponsor_user_ids is null or length(sponsor_user_ids)=0) and length(sponsor_users)>1;
+    update ow_member_apply set grow_contact_user_ids = concat('1##', replace(grow_contact_user_ids, ',', ',1##')) where length(grow_contact_user_ids)>1;
+    update ow_member_apply set grow_contact_user_ids = concat('0##', replace(grow_contact_users, ',', ',0##')) where (grow_contact_user_ids is null or length(grow_contact_user_ids)=0) and length(grow_contact_users)>1;
+ */
+20210419
+-- 大工、北师大
+
+ALTER TABLE `ow_branch_member_group`
+	CHANGE COLUMN `tran_time` `tran_time` DATE NULL DEFAULT NULL COMMENT '应换届时间，任命时间基础上自动加3年' AFTER `name`;
+update ow_branch_member_group set tran_time = date_add(appoint_time, interval 3 YEAR);
+
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (84, '校内升学', 'mt_r1mekj', 0, 'none', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+VALUES (84, '留校任职', 'mt_xg1pk5', 0, 'none', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`)
+ VALUES (84, '学工号变更', 'mt_myqmdl', 0, 'none', '', 5, 1);
+
+ALTER TABLE `ow_member_out`
+	CHANGE COLUMN `to_title` `to_title` VARCHAR(100) NULL COMMENT '转入单位抬头' COLLATE 'utf8_general_ci' AFTER `type`,
+	CHANGE COLUMN `to_unit` `to_unit` VARCHAR(100) NULL COMMENT '转入单位' COLLATE 'utf8_general_ci' AFTER `to_title`,
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位，默认为xxx大学+分党委名称' COLLATE 'utf8_general_ci' AFTER `to_unit`,
+	CHANGE COLUMN `from_address` `from_address` VARCHAR(100) NULL COMMENT '转出单位地址，默认同上' COLLATE 'utf8_general_ci' AFTER `from_unit`,
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(100) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `from_address`,
+	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(100) NULL COMMENT '转出单位邮编，默认为100875' COLLATE 'utf8_general_ci' AFTER `from_fax`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_post_code`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `handle_time` `handle_time` DATE NULL COMMENT '办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `print_count` `print_count` INT(10) UNSIGNED NULL DEFAULT '0' COMMENT '打印次数' AFTER `check_time`;
+
+ALTER TABLE `ow_member_in`
+	CHANGE COLUMN `from_unit` `from_unit` VARCHAR(100) NULL COMMENT '转出单位' COLLATE 'utf8_general_ci' AFTER `branch_id`,
+	CHANGE COLUMN `from_title` `from_title` VARCHAR(100) NULL COMMENT '转出单位抬头' COLLATE 'utf8_general_ci' AFTER `from_unit`,
+	CHANGE COLUMN `from_address` `from_address` VARCHAR(100) NULL COMMENT '转出单位地址，默认同上' COLLATE 'utf8_general_ci' AFTER `from_title`,
+	CHANGE COLUMN `from_phone` `from_phone` VARCHAR(50) NULL COMMENT '转出单位联系电话' COLLATE 'utf8_general_ci' AFTER `from_address`,
+	CHANGE COLUMN `from_post_code` `from_post_code` VARCHAR(10) NULL COMMENT '转出单位邮编' COLLATE 'utf8_general_ci' AFTER `from_fax`,
+	CHANGE COLUMN `pay_time` `pay_time` DATE NULL COMMENT '党费缴纳至年月' AFTER `from_post_code`,
+	CHANGE COLUMN `valid_days` `valid_days` INT(10) UNSIGNED NULL COMMENT '介绍信有效期天数' AFTER `pay_time`,
+	CHANGE COLUMN `from_handle_time` `from_handle_time` DATE NULL COMMENT '转出办理时间' AFTER `valid_days`,
+	CHANGE COLUMN `handle_time` `handle_time` DATE NULL COMMENT '转入办理时间，默认为填报信息当天' AFTER `from_handle_time`;
+
+
+20210419
+-- 南航、哈工大
+
+ALTER TABLE `sys_user`
+	CHANGE COLUMN `role_ids` `role_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '所属角色，格式：,1,' COLLATE 'utf8_general_ci' AFTER `salt`,
+	ADD INDEX `role_ids` (`role_ids`);
+
+-- 更新  cadre_view
+
+20210418
+-- 北航 、大工
+
+-- 北航需要更新
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('_uploadAvatarStyle', '上传头像样式', '1', 2, 100, '1：直接上传图片 2：裁剪上传');
+--
+
+20210417
+-- 北师大
+
+-- 新增兼职模块 xcq 执行sql
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (1400, 0, '统一通信平台消息', '', 'url', '', '/oneSend', 21, '0/1/21/', 1, 'oneSend:*', NULL, NULL, NULL, 1, 200);
+
+ALTER TABLE `sys_msg`
+	CHANGE COLUMN `send_user_id` `send_user_id` INT(10) UNSIGNED NULL COMMENT '发送人' AFTER `user_id`,
+	CHANGE COLUMN `ip` `ip` VARCHAR(50) NULL COMMENT 'ip' COLLATE 'utf8_general_ci' AFTER `confirm_time`;
+
+INSERT INTO `sys_scheduler_job` (`name`, `summary`, `clazz`, `cron`, `is_started`, `need_log`, `sort_order`, `create_time`, `is_deleted`) VALUES ('支委会换届提醒', '6月前、3月前、换届后每月、未填写任命时间对支部管理员进行提醒', 'job.party.BranchTranMsgJob', '0 0 8 * * ?', 0, 0, 34, '2021-04-17 09:51:03', 0);
+
+
 
 20210416
 -- 南航
@@ -105,7 +284,7 @@ ALTER TABLE `ow_member_stay`
 -- 更新 ow_member_stay_view
 
 20210406
--- 珠海-  北师大
+-- 珠海  北师大
 
 20210405
 -- 戏曲

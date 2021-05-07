@@ -23,7 +23,6 @@
 </div>
 <script>
     var $div = $("${param.cadreCategory == 1?'#cadreCount-placeholder_CJ':'#cadreCount-placeholder_KJ'}");
-
     (function($displayDiv, cadreCategory){
 
         var cadreCountChart= echarts.init($displayDiv);
@@ -34,17 +33,20 @@
             var seriesData1 = [];
             var seriesData2 = [];
             var totalCount = 0;
+
             $.each(statCadreCountMap, function (key, value) {
                 totalCount += value;
                 var item = key + '(' + value + ')';
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: key,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
             var option = {
@@ -100,6 +102,41 @@
             };
             cadreCountChart.setOption(option, true);
             cadreCountChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadreCountChart.on('click', function (params) {
+                var status = ${param.cadreCategory == 1 ? 1 : 8};
+                var str = "";
+                for (var i in seriesData1) {
+                    if (seriesData1[i]._type != '其他') {
+                        str += seriesData1[i]._type;
+                    }
+                }
+                var name = params.data._type;
+                var map = ${cm:toJSONObject(cm:getMetaTypes("mc_admin_level"))};
+                var adminLevels = [];
+                var isOther = (name == '其他');
+                for (var i in map) {
+                    if (isOther) {
+                        if (str.indexOf(map[i].name) < 0) {
+                            adminLevels.push(i);
+                        }
+                    }
+                    if (map[i].name == name) {
+                        adminLevels.push(i);
+                    }
+                }
+                var url = "";
+                if (isOther) {
+                    url = "#${ctx}/cadre?adminLevels={0}&_type={1}&status={2}".format($.trim(adminLevels), "其他", status);
+                } else {
+                    url = "#${ctx}/cadre?adminLevels={0}&status={1}".format($.trim(adminLevels), status);
+                }
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         })
+
+
     })($div[0], ${param.cadreCategory});
 </script>

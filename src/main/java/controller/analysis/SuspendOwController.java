@@ -1,9 +1,6 @@
 package controller.analysis;
 
-import com.twelvemonkeys.imageio.metadata.tiff.IFD;
 import controller.member.MemberBaseController;
-import domain.party.Branch;
-import domain.party.Party;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +10,8 @@ import service.party.BranchAdminService;
 import service.party.BranchMemberGroupService;
 import service.party.PartyAdminService;
 import service.party.PartyMemberGroupService;
-import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.constants.SystemConstants;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 // 党建待办事项
 @Controller
@@ -80,6 +71,8 @@ public class SuspendOwController extends MemberBaseController {
                 OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(partyId, null, (byte) 1, null));
         modelMap.put("memberInCount", memberInService.count(partyId, null, (byte) 1));
+        modelMap.put("memberTrasferCount", memberTransferService.count(partyId, null, (byte) 1)
+        +memberTransferService.count(partyId, null, (byte) 2));
         modelMap.put("memberStayCount_abroad", memberStayService.count(partyId, null, (byte) 2,
                 MemberConstants.MEMBER_STAY_TYPE_ABROAD, null));//新申请+返回修改
         modelMap.put("memberStayCount_internal", memberStayService.count(partyId, null, (byte) 2,

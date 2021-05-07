@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h4>
@@ -72,7 +72,7 @@
 						if(!node.data.isFolder && !node.data.unselectable && !node.isSelected()) {
 							cadreIds.push(node.data.key);
 						}
-                        console.log(cadreIds)
+
 					});
 					</c:if>
 					$(form).ajaxSubmit({

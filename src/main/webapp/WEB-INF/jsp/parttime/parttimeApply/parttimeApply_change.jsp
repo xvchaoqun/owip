@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
     <h3 class="header">兼职申报变更</h3>
     <form class="form-horizontal" action="${ctx}/parttime/parttimeApply_change" autocomplete="off" disableautocomplete id="modalForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${parttimeApply.id}">

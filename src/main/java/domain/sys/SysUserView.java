@@ -108,6 +108,8 @@ public class SysUserView implements Serializable {
 
     private String unit;
 
+    private String unitCode;
+
     private String phone;
 
     private String homePhone;
@@ -394,6 +396,14 @@ public class SysUserView implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode == null ? null : unitCode.trim();
     }
 
     public String getPhone() {

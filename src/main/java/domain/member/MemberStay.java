@@ -113,6 +113,10 @@ public class MemberStay implements Serializable {
 
     private Date createTime;
 
+    private Date branchCheckTime;
+
+    private Date partyCheckTime;
+
     private Date checkTime;
 
     private Integer printCount;
@@ -489,6 +493,22 @@ public class MemberStay implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getBranchCheckTime() {
+        return branchCheckTime;
+    }
+
+    public void setBranchCheckTime(Date branchCheckTime) {
+        this.branchCheckTime = branchCheckTime;
+    }
+
+    public Date getPartyCheckTime() {
+        return partyCheckTime;
+    }
+
+    public void setPartyCheckTime(Date partyCheckTime) {
+        this.partyCheckTime = partyCheckTime;
     }
 
     public Date getCheckTime() {

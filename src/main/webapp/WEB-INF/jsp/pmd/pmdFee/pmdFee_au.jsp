@@ -99,6 +99,9 @@ pageEncoding="UTF-8"%>
     </form>
 </div>
 <div class="modal-footer">
+	<div style="text-align: left">
+		${cm:getHtmlFragment('hf_pmd_fee').content}
+	</div>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
@@ -126,5 +129,5 @@ pageEncoding="UTF-8"%>
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
-    $.register.date($('.date-picker'));
+    $.register.date($('.date-picker'), {endDate: '${_today}'});
 </script>

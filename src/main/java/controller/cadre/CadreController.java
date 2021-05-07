@@ -13,6 +13,7 @@ import domain.unit.Unit;
 import domain.unit.UnitExample;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
+import ext.service.Source;
 import freemarker.template.TemplateException;
 import mixin.CadreDispatchMixin;
 import mixin.CadreEduMixin;
@@ -212,6 +213,9 @@ public class CadreController extends BaseController {
                            Integer cadreId,
                            String realname,
                            Byte gender,
+                           String _type, //点击echarts跳转页面
+                           @RequestParam(required = false, defaultValue = "0") Integer otherAge,//echarts是否点击其他年龄 0 否 1 是
+                           Integer[] genders, //查询其他性别
                            Integer startAge,
                            Integer endAge,
                            Integer startDpAge, // 党龄
@@ -265,7 +269,6 @@ public class CadreController extends BaseController {
         if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREARCHIVE)) {
             throw new UnauthorizedException("没有权限访问");
         }
-
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -573,16 +576,36 @@ public class CadreController extends BaseController {
             return;
         }
 
-        long count = cadreViewMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
-
-            pageNo = Math.max(1, pageNo - 1);
+        long count = 0;
+        List<CadreView> cadres = new ArrayList<>();
+        //echarts跳转页面查询其他条件
+        if ((StringUtils.isNotBlank(_type) && StringUtils.equals("其他", _type)) || (startAge != null && startAge == 55)) {
+            boolean isOtherAge = (otherAge == 1);
+            if (startAge != null && endAge != null && !isOtherAge) {
+                //年龄分布数据
+                count = iCadreMapper.countCadreAgeRange(status, startAge, endAge);
+                if ((pageNo - 1) * pageSize >= count) {
+                    pageNo = Math.max(1, pageNo - 1);
+                }
+                cadres = iCadreMapper.selectCadreAgeRange(status, startAge, endAge, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            } else {
+                //其他分布数据
+                count = iCadreMapper.countCadreByOthers(status, adminLevels, genders, isOtherAge, nation, proPostLevels, startAge);
+                if ((pageNo - 1) * pageSize >= count) {
+                    pageNo = Math.max(1, pageNo - 1);
+                }
+                cadres = iCadreMapper.selectCadreByOthers(status, adminLevels, genders, isOtherAge, nation, proPostLevels, startAge, new RowBounds((pageNo - 1) * pageSize, pageSize));
+            }
+        } else {
+            count = cadreViewMapper.countByExample(example);
+            if ((pageNo - 1) * pageSize >= count) {
+                pageNo = Math.max(1, pageNo - 1);
+            }
+            cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
-        List<CadreView> Cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
-        resultMap.put("rows", Cadres);
+        resultMap.put("rows", cadres);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);

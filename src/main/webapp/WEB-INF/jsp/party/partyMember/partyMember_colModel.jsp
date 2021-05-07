@@ -25,6 +25,7 @@
 
             }, frozen: true
             },
+            <c:if test="${!partyMemberGroup.isDeleted}">
             <c:if test="${empty param.isHistory}">
             {label: '是否离任', name: 'isHistory', width: 80, formatter:$.jgrid.formatter.TRUEFALSE,
                 formatoptions:{on:'<span class="red bolder">是</span>', off:"否"}, frozen: true},
@@ -37,7 +38,7 @@
             },
              </shiro:hasPermission>
              </c:if>
-            <c:if test="${empty param.isHistory || param.isHistory!=1}">
+            <c:if test="${(empty param.isHistory || param.isHistory!=1)}">
             <shiro:hasPermission name="partyMember:edit">
             {label: '管理员', name: 'isAdmin',width:'80',formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isHistory){
@@ -49,6 +50,7 @@
                     return '<button data-url="${ctx}/partyMember_admin?id={0}&isAdmin=1" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> 设置</button>'.format(rowObject.id);
             }},
             </shiro:hasPermission>
+            </c:if>
             </c:if>
             {label: '所在单位', name: 'unitId', width: 180, align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属${_p_partyName}', name: 'groupPartyId', width: 350, align:'left',formatter: function (cellvalue, options, rowObject) {

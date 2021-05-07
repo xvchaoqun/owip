@@ -31,6 +31,8 @@ public class Party implements Serializable {
 
     private Integer unitId;
 
+    private String unitIds;
+
     private Integer classId;
 
     private Integer typeId;
@@ -57,6 +59,9 @@ public class Party implements Serializable {
 
     @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
     private Date foundTime;
+
+    @DateTimeFormat(pattern = DateUtils.YYYYMMDD_DOT)
+    private Date abolishTime;
 
     private Integer sortOrder;
 
@@ -132,6 +137,14 @@ public class Party implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
     public Integer getClassId() {
@@ -236,6 +249,14 @@ public class Party implements Serializable {
 
     public void setFoundTime(Date foundTime) {
         this.foundTime = foundTime;
+    }
+
+    public Date getAbolishTime() {
+        return abolishTime;
+    }
+
+    public void setAbolishTime(Date abolishTime) {
+        this.abolishTime = abolishTime;
     }
 
     public Integer getSortOrder() {

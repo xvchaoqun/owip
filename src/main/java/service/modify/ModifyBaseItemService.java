@@ -463,8 +463,10 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
             }
         }
 
-        // 没审核通过或者不需要更新数据的，则不更新缓存
-        if (BooleanUtils.isNotTrue(status) || StringUtils.isBlank(tableName)) return;
+        if(BooleanUtils.isNotTrue(status)){
+            // 发送系统提醒
+            CmTag.sendMsg(userId, "您提交的【"+mbi.getName() + "】修改申请未通过审核，请进入干部个人信息修改申请模块查看详情");
+        }
 
         cacheHelper.clearUserCache(_sysUser);
         CmTag.clearCadreCache(userId);

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<%@ include file="/WEB-INF/jsp/cla/constants.jsp" %>
+<%@ include file="/WEB-INF/jsp/parttime/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -39,7 +39,7 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${approverTypes}" var="approverType" varStatus="st">
                         <tr>
 								<td>${approverType.name}</td>
-								<td>${CADRE_APPROVER_TYPE_MAP.get(approverType.type)}</td>
+								<td>${PARTTIME_APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
                                     <c:if test="${approverType.type==CADRE_APPROVER_TYPE_UNIT || approverType.type==CADRE_APPROVER_TYPE_LEADER}">
                                         <button data-url="${ctx}/parttimeApproverType/selectCadres?type=${approverType.type}"

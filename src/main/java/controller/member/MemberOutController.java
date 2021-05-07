@@ -668,7 +668,7 @@ public class MemberOutController extends MemberBaseController {
         MemberOutExample example = new MemberOutExample();
         // 查询状态为“组织部审批通过”的记录（不包含已归档记录）
         MemberOutExample.Criteria criteria = example.createCriteria()
-                .andStatusEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
+                .andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY);
 
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
@@ -703,7 +703,7 @@ public class MemberOutController extends MemberBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", userId + "");
                 option.put("text", record.getRealname());
-                option.put("code", record.getCode());
+                option.put("code", record.getUserCode());
                 option.put("unit", extService.getUnit(userId));
 
                 MemberView mv = iMemberMapper.getMemberView(userId);
@@ -824,13 +824,13 @@ public class MemberOutController extends MemberBaseController {
                     memberTypeName,
                     record.getPhone(),
                     record.getType() == null ? "" : metaTypeService.getName(record.getType()),
-                    MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()),
+                    member==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getToTitle(),
                     record.getToUnit(),
                     record.getFromUnit(),
-                    record.getValidDays() + "",
+                    record.getValidDays()==null?"":(record.getValidDays() + ""),
                     DateUtils.formatDate(record.getHandleTime(), DateUtils.YYYY_MM_DD),
                     BooleanUtils.isTrue(record.getHasReceipt())?"是":"否",
                     DateUtils.formatDate(record.getAcceptReceiptTime(), DateUtils.YYYY_MM_DD),

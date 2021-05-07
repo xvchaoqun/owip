@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.dispatch.DispatchCadreRelateService;
+import service.global.CacheHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -50,6 +52,8 @@ import java.util.*;
 public class CadrePostController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired(required = false)
+    private CacheHelper cacheHelper;
 
     // 主职、兼职、任职级经历 放在同一个页面
     @RequiresPermissions("cadrePost:list")
@@ -154,6 +158,11 @@ public class CadrePostController extends BaseController {
                 record.setIsMainPost(!record.getIsMainPost());
             }
             cadrePostService.updateByPrimaryKeySelective(record, true);
+            if(record.getNpWorkTime()==null){
+                int cadreId = record.getCadreId();
+                commonMapper.excuteSql("update cadre_post set np_work_time=null where id=" + id);
+                cacheHelper.clearCadreCache(cadreId);
+            }
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         }
 
@@ -579,14 +588,14 @@ public class CadrePostController extends BaseController {
             records.add(record);
         }
 
-        int addCount = cadrePostService.batchImportWorkTimes(records);
+        int updateCount = cadrePostService.batchImportWorkTimes(records);
         int totalCount = records.size();
-        resultMap.put("successCount", addCount);
+        resultMap.put("updateCount", updateCount);
         resultMap.put("total", totalCount);
 
         logger.info(log(LogConstants.LOG_ADMIN,
-                "导入干部任职时间成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
-                totalCount, addCount, totalCount - addCount));
+                "导入干部任职时间成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, updateCount));
 
         return resultMap;
     }

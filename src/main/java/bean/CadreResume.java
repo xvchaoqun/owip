@@ -9,19 +9,23 @@ import java.util.List;
  */
 public class CadreResume {
 
-    private boolean isWork; // 工作经历/学习经历
+    public static byte TYPE_WORK = 1;
+    public static byte TYPE_EDU = 2;
+    public static byte TYPE_EDU_DOUBLE = 3;
+
+    private byte type; // 1:工作经历 2: 学习经历 3: 学习经历(双学位)
     private Date startDate;     // yyyy.MM
     private Date endDate;       // yyyy.MM
     private String detail;      // 描述
     private List<CadreResume> containResumes;  // 其间（包含）
     private List<CadreResume> overlapResumes;  // 其间（不包含）
 
-    public boolean isWork() {
-        return isWork;
+    public byte getType() {
+        return type;
     }
 
-    public void setIsWork(boolean isWork) {
-        this.isWork = isWork;
+    public void setType(byte type) {
+        this.type = type;
     }
 
     public Date getStartDate() {

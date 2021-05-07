@@ -310,7 +310,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
     @RequiresPermissions("pcsPrParty:list")
     @RequestMapping("/pcsPrParty_candidates")
-    public String pcsPrParty_candidates(byte stage, byte type, ModelMap modelMap) {
+    public String pcsPrParty_candidates(byte stage, int type, ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();

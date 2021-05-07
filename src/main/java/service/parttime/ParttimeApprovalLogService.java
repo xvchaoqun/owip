@@ -15,12 +15,15 @@ import persistence.parttime.ParttimeApproverTypeMapper;
 import persistence.parttime.common.ParttimeApprovalResult;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
-import sys.constants.ClaConstants;
+import sys.constants.ParttimeConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
-import sys.utils.IpUtils;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ParttimeApprovalLogService {
@@ -34,8 +37,6 @@ public class ParttimeApprovalLogService {
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
     private ParttimeApplyMapper parttimeApplyMapper;
-    @Autowired
-    private ParttimeShortMsgService parttimeShortMsgService;
 
     // 获取申请记录 初审结果  审批结果: -1不需要审批 0未通过 1通过 null未审批
     public Integer getAdminFirstTrialStatus(int applyId){
@@ -64,9 +65,9 @@ public class ParttimeApprovalLogService {
         ParttimeApprovalLogExample example = new ParttimeApprovalLogExample();
         ParttimeApprovalLogExample.Criteria criteria = example.createCriteria().andApplyIdEqualTo(applySefId);
         if(approverTypeId==-1){
-            criteria.andTypeIdIsNull().andOdTypeEqualTo(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_FIRST);
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST);
         }else if(approverTypeId==0){
-            criteria.andTypeIdIsNull().andOdTypeEqualTo(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST);
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST);
         }else{
             criteria.andTypeIdEqualTo(approverTypeId);
         }
@@ -94,7 +95,7 @@ public class ParttimeApprovalLogService {
         }
         if (approvalTypeId == -1) { // 管理员初审
             org.springframework.util.Assert.isTrue(result == null, "null");
-            ShiroHelper.checkPermission(RoleConstants.PERMISSION_COMPANYAPPLY);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN);
         }
         Map<Integer, ParttimeApproverType> approverTypeMap = parttimeApplyService.findAll();
         if (approvalTypeId > 0) {
@@ -131,21 +132,23 @@ public class ParttimeApprovalLogService {
         if (approvalTypeId > 0)
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
-            record.setOdType(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-            if (!pass) { // 不通过，退回申请
+            record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_FIRST); // 初审
+            if (!pass) {
                 ParttimeApply apply = new ParttimeApply();
                 apply.setId(applyId);
                 apply.setStatus(false); // 退回
                 apply.setApprovalRemark(remark);
-                //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。
-                // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
                 apply.setIsFinish(true);
-                apply.setIsAgreed(pass);
                 parttimeApplyService.doApproval(apply);
             }
         }
         if (approvalTypeId == 0) {
-            record.setOdType(ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST); // 终审
+            record.setOdType(ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST); // 终审
+            ParttimeApply apply = new ParttimeApply();
+            apply.setId(applyId);
+            apply.setIsFinish(true);
+            apply.setIsAgreed(pass);
+            parttimeApplyService.doApproval(apply);
         }
         record.setStatus(pass);
         record.setRemark(remark);
@@ -157,15 +160,7 @@ public class ParttimeApprovalLogService {
 
     @Transactional
     public synchronized void doApproval(ParttimeApprovalLog record){
-/*        Integer typeId = record.getTypeId();// 审批人身份ID
-        if(typeId==null){
-            if(record.getOdType()==ClaConstants.CLA_APPROVER_LOG_OD_TYPE_FIRST){
-                typeId = ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST; //初审
-            }
-            if(record.getOdType()==ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST){
-                typeId = ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST; // 终审
-            }
-        }*/
+
         // 先完成审批记录，再更新申请记录审批字段
         insertSelective(record);
         String _approverType = "";
@@ -177,7 +172,7 @@ public class ParttimeApprovalLogService {
         ParttimeApply _apply = parttimeApplyMapper.selectByPrimaryKey(record.getApplyId());
         sysApprovalLogService.add(_apply.getId(), _apply.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
                 _approverType+ "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
                         : SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY, record.getRemark());
         Integer applyId = record.getApplyId();
@@ -192,7 +187,7 @@ public class ParttimeApprovalLogService {
                 if(nextFlowNode == null){
                     nextFlowNode = flowNode;
                 }
-                if(flowNode == ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST)
+                if(flowNode == ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST)
                     break; // 还没经过组织部初审
                 else
                     continue;
@@ -208,22 +203,21 @@ public class ParttimeApprovalLogService {
         apply.setFlowNode(nextFlowNode); // 下一个审批身份
         apply.setApprovalRemark(record.getRemark());
         if(!record.getStatus()) // 如果上一个领导未通过，应该下面的领导都不需要审批了，直接转到组织部终审。
-            apply.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST);
+            apply.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_LAST);
 
         apply.setFlowNodes(StringUtils.join(flowNodes, ",")); // 已完成审批的 审批身份
         apply.setFlowUsers(StringUtils.join(flowUsers, ",")); // 已完成审批（未通过或通过）的 审批人
 
-        if(record.getTypeId()==null && record.getOdType()==ClaConstants.CLA_APPROVER_LOG_OD_TYPE_LAST){
+        if(record.getTypeId()==null && record.getOdType()==ParttimeConstants.PARTTIME_APPROVER_LOG_OD_TYPE_LAST){
             apply.setIsFinish(true); // 终审完成
             apply.setIsAgreed(record.getStatus());
         }
+        if (!record.getStatus()) {
+            apply.setIsAgreed(false);
+            apply.setIsFinish(true);
+        }
         // 立刻更新申请记录的相关审批结果字段（供查询使用）
         parttimeApplyService.doApproval(apply);
-
-        // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
-        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==ClaConstants.CLA_APPROVER_TYPE_ID_OD_LAST){
-            parttimeShortMsgService.sendClaApplyPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
-        }
     }
 
     @Transactional

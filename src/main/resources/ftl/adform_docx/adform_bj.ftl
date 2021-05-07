@@ -1788,7 +1788,46 @@
                         <w:tcW w:w="1080" w:type="dxa"/>
                         <w:vAlign w:val="center"/>
                     </w:tcPr>
-                    <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
+                    <#if adForm1_family_birth==1>
+                    <w:p w:rsidR="00466809"
+   						w:rsidRDefault="00AD3A61">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:rFonts w:ascii="宋体"/>
+								<w:sz w:val="24"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:rFonts w:ascii="宋体"
+        									w:hint="eastAsia"/>
+								<w:sz w:val="24"/>
+							</w:rPr>
+							<w:t>出 生</w:t>
+						</w:r>
+					</w:p>
+					<w:p w:rsidR="00AD3A61"
+   						w:rsidRDefault="00AD3A61">
+						<w:pPr>
+							<w:jc w:val="center"/>
+							<w:rPr>
+								<w:rFonts w:ascii="宋体"
+        									w:hint="eastAsia"/>
+								<w:sz w:val="24"/>
+							</w:rPr>
+						</w:pPr>
+						<w:r>
+							<w:rPr>
+								<w:rFonts w:ascii="宋体"
+        									w:hint="eastAsia"/>
+								<w:sz w:val="24"/>
+							</w:rPr>
+							<w:t>年 月</w:t>
+						</w:r>
+					</w:p>
+                     <#else>
+                        <w:p w:rsidR="00466809" w:rsidRDefault="00466809">
                         <w:pPr>
                             <w:jc w:val="center"/>
                             <w:rPr>
@@ -1804,6 +1843,7 @@
                             <w:t>年 龄</w:t>
                         </w:r>
                     </w:p>
+                    </#if>
                 </w:tc>
                 <w:tc>
                     <w:tcPr>

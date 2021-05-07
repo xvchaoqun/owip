@@ -39,7 +39,6 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -206,14 +205,9 @@ public class PartyMemberGroupController extends BaseController {
         if (isTranTime!=null) {
             criteria.andTranTimeLessThanOrEqualTo(new Date());
         }
-        if (year != null){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-            Date lastYear = new Date();
-            Calendar cl = Calendar.getInstance();
-            cl.setTime(lastYear);
-            cl.add(Calendar.YEAR, -1);
-            lastYear = cl.getTime();
-            criteria.andTranTimeLessThan(DateUtils.parseStringToDate(sdf.format(lastYear)));
+        if (year != null){ // 查询应换届满1年
+            Date lastYear = DateUtils.getDateBeforeOrAfterYears(new Date(), -1);
+            criteria.andTranTimeLessThan(lastYear);
         }
         if (export == 1) {
             if (ids != null && ids.length > 0)

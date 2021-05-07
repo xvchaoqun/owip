@@ -334,6 +334,10 @@ public class MemberOutService extends MemberBaseMapper {
         record.setIsModify(false);
         record.setPrintCount(0);
         memberOpService.checkOpAuth(userId);
+
+        // 检查党费缴纳情况
+        memberQuitService.checkPmdStatus(userId);
+
         if (record.getId() == null) {
             archive(userId);
             record.setSn(genSn(record.getYear()));
@@ -341,6 +345,7 @@ public class MemberOutService extends MemberBaseMapper {
             SysUserView uv = CmTag.getUserById(userId);
             record.setUserCode(uv.getCode());
             record.setRealname(uv.getRealname());
+
             memberOutMapper.insertSelective(record);
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
@@ -421,7 +426,7 @@ public class MemberOutService extends MemberBaseMapper {
                     loginUserId, (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
                             OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
-                            ? "分党委审核" : "组织部审核", (byte) 1, null);
+                            ? "基层党组织审核" : "组织部审核", (byte) 1, null);
         }
     }
 
@@ -515,6 +520,9 @@ public class MemberOutService extends MemberBaseMapper {
                 record.setSn(genSn(year));
 
                 record.setApplyTime(new Date());
+
+                // 检查党费缴纳情况
+                memberQuitService.checkPmdStatus(userId);
                 memberOutMapper.insertSelective(record);
                 addCount++;
             } else {

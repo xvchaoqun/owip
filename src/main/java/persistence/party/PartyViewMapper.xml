@@ -9,6 +9,7 @@
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_ids" jdbcType="VARCHAR" property="unitIds" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
@@ -22,6 +23,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
+    <result column="abolish_time" jdbcType="DATE" property="abolishTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_pycj" jdbcType="BIT" property="isPycj" />
@@ -73,12 +75,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
-    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, fax, 
-    email, mailbox, found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, 
-    update_time, is_deleted, integrity, branch_count, member_count, student_member_count, 
-    positive_count, teacher_member_count, retire_member_count, group_count, present_group_id, 
-    appoint_time, tran_time, actual_tran_time
+    id, fid, code, name, short_name, url, unit_id, unit_ids, class_id, type_id, unit_type_id, 
+    branch_type, is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, 
+    fax, email, mailbox, found_time, abolish_time, sort_order, create_time, is_pycj, 
+    pycj_date, is_bg, bg_date, update_time, is_deleted, integrity, branch_count, member_count, 
+    student_member_count, positive_count, teacher_member_count, retire_member_count, 
+    group_count, present_group_id, appoint_time, tran_time, actual_tran_time
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyViewExample" resultMap="BaseResultMap">
     select

@@ -853,6 +853,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("member:list")
     @RequestMapping("/member")
     public String member(HttpServletResponse response,
                          Integer userId,
@@ -968,15 +969,18 @@ public class MemberController extends MemberBaseController {
                             Integer userId,
                             String realname, // 姓名或学工号
                             Byte userType,
+                            Byte memberType,
                             Integer unitId,
                             Integer partyId,
                             Integer branchId,
                             Byte politicalStatus,
                             Byte gender,
+                            String _gender,
                             Byte age,
                             Integer startAge,
                             Integer endAge,
                             String[] nation,
+                            String _nation,
                             String[] nativePlace,
                             @RequestDateRange DateRange _growTime,
                             @RequestDateRange DateRange _positiveTime,
@@ -1066,16 +1070,37 @@ public class MemberController extends MemberBaseController {
             criteria.andBranchIdEqualTo(branchId);
         }
 
+        if(StringUtils.contains(_gender, "男")){
+            gender = SystemConstants.GENDER_MALE;
+        }else if(StringUtils.contains(_gender, "女")){
+            gender = SystemConstants.GENDER_FEMALE;
+        }else if(StringUtils.contains(_gender, "无数据")){
+            criteria.andGenderIsNull();
+        }
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
         if (politicalStatus != null) {
             criteria.andPoliticalStatusEqualTo(politicalStatus);
         }
-        if (nation != null) {
-            List<String> selectNations = Arrays.asList(nation);
+
+        List<String> selectNations = null;
+        if(StringUtils.isNotBlank(_nation)) {
+            if (StringUtils.contains(_nation, "少数民族")) {
+                criteria.andNationNotIn(Arrays.asList("汉族", "其他"));
+            }else if (StringUtils.contains(_nation, "无数据")) {
+                criteria.andNationIsNull();
+            }else{
+                selectNations = Arrays.asList(_nation);
+            }
+        }
+        if(nation != null){
+            selectNations = Arrays.asList(nation);
+        }
+        if (selectNations != null && selectNations.size()>0) {
             criteria.andNationIn(selectNations);
         }
+
         if (nativePlace != null) {
             List<String> selectNativePlaces = Arrays.asList(nativePlace);
             criteria.andNativePlaceIn(selectNativePlaces);
@@ -1171,8 +1196,18 @@ public class MemberController extends MemberBaseController {
             criteria.andOutHandleTimeLessThanOrEqualTo(_outHandleTime.getEnd());
         }
 
+        if(memberType!=null) {
+            if (memberType == MemberConstants.MEMBER_TYPE_TEACHER) {
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_JZG,
+                        SystemConstants.USER_TYPE_RETIRE));
+            } else if (memberType == MemberConstants.MEMBER_TYPE_STUDENT) {
+                criteria.andUserTypeIn(Arrays.asList(SystemConstants.USER_TYPE_BKS,
+                            SystemConstants.USER_TYPE_SS, SystemConstants.USER_TYPE_BS));
+            }
+        }
+
         /*
-           1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 10全部
+           1 学生 2教职工 3离退休 6已转出学生 7 已转出教职工 -1全部
          */
         switch (cls) {
             case 1:
@@ -1325,13 +1360,13 @@ public class MemberController extends MemberBaseController {
 
         return new ArrayList<>(Arrays.asList(new String[]{"工作证号|100", "姓名|80",
                 "编制类别|80", "人员分类|100", "人员状态|80", /*"在岗情况|80", "岗位类别|80", "主岗等级|120",*/
-                "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", /*"国家/地区|80",*/ "证件号码|150",
+                "性别|50", "出生日期|80", "年龄|50", "年龄范围|80", "民族|50", "籍贯|120", /*"国家/地区|80",*/ "证件号码|150",
                 "政治面貌|80", "所属" + CmTag.getStringProperty("partyName", "党委") + "|300", "所在党支部|300", "所在单位|200",
                 "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "到校日期|80",
                 "专业技术职务|120", "职称级别|120", /*"管理岗位等级|120",*/
-                "行政职务|180", "任职级别|120","学历|120", "毕业学校|200", /*"学位授予学校|200",*/
+                "行政职务|180", "任职级别|120","学历|120", "毕业学校|200", "专业|200", /*"学位授予学校|200",*/
                 "学位|100", /*"人员结构|100", "人才类型|100", "人才称号|200",*/ "手机号码|100","备注1|150","备注2|150","备注3|150"}));
     }
 
@@ -1391,6 +1426,7 @@ public class MemberController extends MemberBaseController {
                     birth != null ? DateUtils.intervalYearsUntilNow(birth) + "" : "",
                     ageRange, // 年龄范围
                     record.getNation(),
+                    record.getNativePlace(),
                     /*uv.getCountry(),*/// 国家/地区
                     record.getIdcard(), // 证件号码
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
@@ -1416,6 +1452,7 @@ public class MemberController extends MemberBaseController {
                     adminLevel, // 任职级别 -- 行政级别
                     record.getEducation(), // 学历
                     record.getSchool(), // 毕业学校
+                    record.getMajor(),
                     /*record.getDegreeSchool(),*/
                     record.getDegree(), // 学位
                     /*record.getFromType(),*/ // 人员结构
@@ -1451,7 +1488,7 @@ public class MemberController extends MemberBaseController {
     private List<String> getStudentExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"学号|100", "学生类别|150", "姓名|80", "性别|50", "出生日期|100", "身份证号|150",
-                "民族|100", "年级|50", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
+                "民族|100", "籍贯|120", "年级|50", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "培养层次（研究生）|150", "培养类型（研究生）|150", "教育类别|150",
@@ -1492,6 +1529,7 @@ public class MemberController extends MemberBaseController {
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
                     record.getIdcard(),
                     record.getNation(),
+                    record.getNativePlace(),
                     record.getEnrolYear(), // 年级
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
@@ -1538,7 +1576,7 @@ public class MemberController extends MemberBaseController {
     private List<String> getCommonExportTitles() {
 
         return new ArrayList<>(Arrays.asList(new String[]{"姓名|80", "学工号|100", "人员类别|100","性别|50", "出生日期|100", "年龄|50", "身份证号|150",
-                "民族|100", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
+                "民族|100", "籍贯|120", "所属" + CmTag.getStringProperty("partyName", "党委") + "|350|left", "所属党支部|350|left",
                 "政治面貌|100", "入党时间|100", "入党时所在党支部|200|left", "入党介绍人|100", "转正时间|100", "转正时所在党支部|200|left",
                 "党内职务|100", "党内奖励|100", "其他奖励|100", "增加类型|100",
                 "手机号码|100","备注1|150","备注2|150","备注3|150"}));
@@ -1577,7 +1615,8 @@ public class MemberController extends MemberBaseController {
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYYMMDD_DOT),//出生日期
                     record.getBirth() != null ? DateUtils.intervalYearsUntilNow(record.getBirth()) + "" : "",//年龄
                     record.getIdcard(),//身份证号
-                    record.getNation(),//身份证号
+                    record.getNation(),
+                    record.getNativePlace(),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),//所在党组织
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),//所属党支部
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌

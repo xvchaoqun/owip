@@ -73,6 +73,16 @@ public class BranchMemberView implements Serializable {
 
     private Integer partySortOrder;
 
+    private String branchTypes;
+
+    private Integer unitTypeId;
+
+    private Boolean isStaff;
+
+    private Boolean isPrefessional;
+
+    private Boolean isBaseTeam;
+
     private Integer branchSortOrder;
 
     private String postClass;
@@ -333,6 +343,46 @@ public class BranchMemberView implements Serializable {
 
     public void setPartySortOrder(Integer partySortOrder) {
         this.partySortOrder = partySortOrder;
+    }
+
+    public String getBranchTypes() {
+        return branchTypes;
+    }
+
+    public void setBranchTypes(String branchTypes) {
+        this.branchTypes = branchTypes == null ? null : branchTypes.trim();
+    }
+
+    public Integer getUnitTypeId() {
+        return unitTypeId;
+    }
+
+    public void setUnitTypeId(Integer unitTypeId) {
+        this.unitTypeId = unitTypeId;
+    }
+
+    public Boolean getIsStaff() {
+        return isStaff;
+    }
+
+    public void setIsStaff(Boolean isStaff) {
+        this.isStaff = isStaff;
+    }
+
+    public Boolean getIsPrefessional() {
+        return isPrefessional;
+    }
+
+    public void setIsPrefessional(Boolean isPrefessional) {
+        this.isPrefessional = isPrefessional;
+    }
+
+    public Boolean getIsBaseTeam() {
+        return isBaseTeam;
+    }
+
+    public void setIsBaseTeam(Boolean isBaseTeam) {
+        this.isBaseTeam = isBaseTeam;
     }
 
     public Integer getBranchSortOrder() {

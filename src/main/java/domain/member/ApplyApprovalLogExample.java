@@ -940,6 +940,9 @@ public class ApplyApprovalLogExample {
             if(branchIdList.isEmpty() && !partyIdList.isEmpty())
                 andPartyIdIn(partyIdList);
 
+            if(branchIdList.isEmpty() && partyIdList.isEmpty())
+                andUserIdIsNull();
+
             return this;
         }
     }

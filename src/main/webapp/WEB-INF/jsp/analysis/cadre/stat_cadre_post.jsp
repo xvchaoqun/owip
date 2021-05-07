@@ -30,7 +30,6 @@
         cadrePostChart.showLoading({text: '正在加载数据'});
 
         $.get("${ctx}/stat_cadrePost_count_data", {cadreCategory:cadreCategory}, function (cadrePostMap) {
-
             var legendData = [];
             var seriesData1 = [];
             var seriesData2 = [];
@@ -40,11 +39,13 @@
                 legendData.push(item);
                 seriesData1.push({
                     name: item,
-                    value: value
+                    value: value,
+                    _type: key
                 });
                 seriesData2.push({
                     name: key,
-                    value: value
+                    value: value,
+                    _type: key
                 });
             });
 
@@ -97,6 +98,26 @@
 
             cadrePostChart.setOption(option, true);
             cadrePostChart.hideLoading();
+
+            <shiro:hasPermission name="cadre:list">
+            cadrePostChart.on('click', function (params) {
+                var status = ${param.cadreCategory == 1 ? 1 : 8};
+                var url = "";
+                var data = [];
+                var param = params.data._type;
+                var isOther = (param == '其他');
+                if (param == '中（初）级') {
+                    data.push("中级");
+                    data.push("初级");
+                } else if(isOther) {
+                    data.push("其他");
+                } else {
+                    data.push(param);
+                }
+                url = isOther ? '#${ctx}/cadre?_type={0}&proPostLevels={1}&status={2}'.format("其他", $.trim(data), status) : '#${ctx}/cadre?proPostLevels={0}&status={1}'.format($.trim(data), status);
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
 
         })
     })($div[0], ${param.cadreCategory});

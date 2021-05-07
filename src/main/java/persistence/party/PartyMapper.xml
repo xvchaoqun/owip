@@ -9,6 +9,7 @@
     <result column="short_name" jdbcType="VARCHAR" property="shortName" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_ids" jdbcType="VARCHAR" property="unitIds" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
@@ -22,6 +23,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mailbox" jdbcType="VARCHAR" property="mailbox" />
     <result column="found_time" jdbcType="DATE" property="foundTime" />
+    <result column="abolish_time" jdbcType="DATE" property="abolishTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_pycj" jdbcType="BIT" property="isPycj" />
@@ -90,10 +92,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, code, name, short_name, url, unit_id, class_id, type_id, unit_type_id, branch_type, 
-    is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, fax, 
-    email, mailbox, found_time, sort_order, create_time, is_pycj, pycj_date, is_bg, bg_date, 
-    is_deleted, integrity
+    id, fid, code, name, short_name, url, unit_id, unit_ids, class_id, type_id, unit_type_id, 
+    branch_type, is_enterprise_big, is_enterprise_nationalized, is_separate, phone, address, 
+    fax, email, mailbox, found_time, abolish_time, sort_order, create_time, is_pycj, 
+    pycj_date, is_bg, bg_date, is_deleted, integrity
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyExample" resultMap="BaseResultMap">
     select
@@ -131,22 +133,24 @@
     </selectKey>
     insert into ow_party (fid, code, name, 
       short_name, url, unit_id, 
-      class_id, type_id, unit_type_id, 
-      branch_type, is_enterprise_big, is_enterprise_nationalized, 
-      is_separate, phone, address, 
-      fax, email, mailbox, 
-      found_time, sort_order, create_time, 
-      is_pycj, pycj_date, is_bg, bg_date, 
-      is_deleted, integrity)
+      unit_ids, class_id, type_id, 
+      unit_type_id, branch_type, is_enterprise_big, 
+      is_enterprise_nationalized, is_separate, phone, 
+      address, fax, email, 
+      mailbox, found_time, abolish_time, 
+      sort_order, create_time, is_pycj, 
+      pycj_date, is_bg, bg_date, is_deleted, 
+      integrity)
     values (#{fid,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{shortName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
-      #{classId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{unitTypeId,jdbcType=INTEGER}, 
-      #{branchType,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, #{isEnterpriseNationalized,jdbcType=BIT}, 
-      #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mailbox,jdbcType=VARCHAR}, 
-      #{foundTime,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isPycj,jdbcType=BIT}, #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, 
-      #{isDeleted,jdbcType=BIT}, #{integrity,jdbcType=DECIMAL})
+      #{unitIds,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
+      #{unitTypeId,jdbcType=INTEGER}, #{branchType,jdbcType=INTEGER}, #{isEnterpriseBig,jdbcType=BIT}, 
+      #{isEnterpriseNationalized,jdbcType=BIT}, #{isSeparate,jdbcType=BIT}, #{phone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{mailbox,jdbcType=VARCHAR}, #{foundTime,jdbcType=DATE}, #{abolishTime,jdbcType=DATE}, 
+      #{sortOrder,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isPycj,jdbcType=BIT}, 
+      #{pycjDate,jdbcType=DATE}, #{isBg,jdbcType=BIT}, #{bgDate,jdbcType=DATE}, #{isDeleted,jdbcType=BIT}, 
+      #{integrity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.party.Party">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -171,6 +175,9 @@
       </if>
       <if test="unitId != null">
         unit_id,
+      </if>
+      <if test="unitIds != null">
+        unit_ids,
       </if>
       <if test="classId != null">
         class_id,
@@ -210,6 +217,9 @@
       </if>
       <if test="foundTime != null">
         found_time,
+      </if>
+      <if test="abolishTime != null">
+        abolish_time,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -255,6 +265,9 @@
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
+      <if test="unitIds != null">
+        #{unitIds,jdbcType=VARCHAR},
+      </if>
       <if test="classId != null">
         #{classId,jdbcType=INTEGER},
       </if>
@@ -293,6 +306,9 @@
       </if>
       <if test="foundTime != null">
         #{foundTime,jdbcType=DATE},
+      </if>
+      <if test="abolishTime != null">
+        #{abolishTime,jdbcType=DATE},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -350,6 +366,9 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
+      <if test="record.unitIds != null">
+        unit_ids = #{record.unitIds,jdbcType=VARCHAR},
+      </if>
       <if test="record.classId != null">
         class_id = #{record.classId,jdbcType=INTEGER},
       </if>
@@ -389,6 +408,9 @@
       <if test="record.foundTime != null">
         found_time = #{record.foundTime,jdbcType=DATE},
       </if>
+      <if test="record.abolishTime != null">
+        abolish_time = #{record.abolishTime,jdbcType=DATE},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -427,6 +449,7 @@
       short_name = #{record.shortName,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       unit_id = #{record.unitId,jdbcType=INTEGER},
+      unit_ids = #{record.unitIds,jdbcType=VARCHAR},
       class_id = #{record.classId,jdbcType=INTEGER},
       type_id = #{record.typeId,jdbcType=INTEGER},
       unit_type_id = #{record.unitTypeId,jdbcType=INTEGER},
@@ -440,6 +463,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       mailbox = #{record.mailbox,jdbcType=VARCHAR},
       found_time = #{record.foundTime,jdbcType=DATE},
+      abolish_time = #{record.abolishTime,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       is_pycj = #{record.isPycj,jdbcType=BIT},
@@ -472,6 +496,9 @@
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="unitIds != null">
+        unit_ids = #{unitIds,jdbcType=VARCHAR},
       </if>
       <if test="classId != null">
         class_id = #{classId,jdbcType=INTEGER},
@@ -512,6 +539,9 @@
       <if test="foundTime != null">
         found_time = #{foundTime,jdbcType=DATE},
       </if>
+      <if test="abolishTime != null">
+        abolish_time = #{abolishTime,jdbcType=DATE},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -547,6 +577,7 @@
       short_name = #{shortName,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       unit_id = #{unitId,jdbcType=INTEGER},
+      unit_ids = #{unitIds,jdbcType=VARCHAR},
       class_id = #{classId,jdbcType=INTEGER},
       type_id = #{typeId,jdbcType=INTEGER},
       unit_type_id = #{unitTypeId,jdbcType=INTEGER},
@@ -560,6 +591,7 @@
       email = #{email,jdbcType=VARCHAR},
       mailbox = #{mailbox,jdbcType=VARCHAR},
       found_time = #{foundTime,jdbcType=DATE},
+      abolish_time = #{abolishTime,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       is_pycj = #{isPycj,jdbcType=BIT},

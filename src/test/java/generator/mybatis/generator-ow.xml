@@ -64,16 +64,16 @@
         </table>-->
         <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
         </table>-->
-        <!--<table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
+        <table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView" mapperName="member.MemberStayViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>-->
-        <table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
         </table>
+        <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
+        </table>-->
 
         <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
         <columnOverride column="remark" jdbcType="VARCHAR"/>
@@ -181,7 +181,6 @@
                <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
          </table>-->
-
          <!--   <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            </table>
@@ -210,6 +209,12 @@
         <!--<table tableName="ow_branch" domainObjectName="party.Branch">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         <ignoreColumn column="update_time"/>
+        </table>
+        <table tableName="ow_branch_view" domainObjectName="party.BranchView"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
        <!-- <table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -221,12 +226,7 @@
 
         <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
         </table>-->
-        <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-            <columnOverride column="present_group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+
 
         <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

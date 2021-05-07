@@ -5,16 +5,9 @@ import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidate;
 import domain.pcs.PcsProposalFile;
 import domain.pcs.PcsProposalView;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -25,18 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.PcsConstants;
+import sys.jasper.ReportUtils;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
-import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -71,11 +62,13 @@ public class PcsReportController extends PcsBaseController {
         }
 
         if (type == 1) {
-            exportPdf("jasper/pcs_proposal.jasper", pcsProposalData, "党员代表提案.pdf", response);
+            ReportUtils.exportPdf("jasper/pcs_proposal.jasper", pcsProposalData,
+                    null, "党员代表提案", request, response);
             return null;
         }
         if (type == 2) {
-            exportDoc("jasper/pcs_proposal.jasper", pcsProposalData, "党员代表提案.docx", response);
+            ReportUtils.exportDoc("jasper/pcs_proposal.jasper", pcsProposalData,
+                    null, "党员代表提案", request, response);
             return null;
         }
 
@@ -156,69 +149,5 @@ public class PcsReportController extends PcsBaseController {
         }
 
         return seconderMapList;
-    }
-
-
-    public static void exportPdf(String jasperFile,
-                                 List<Map<String, ?>> pcsProposalData,
-                                 String pdfFileName,
-                                 HttpServletResponse response) throws IOException, JRException {
-
-        File jasper = new File(ConfigUtil.defaultConfigPath() + File.separator + jasperFile);
-        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(jasper.getPath());
-        JRBeanCollectionDataSource collectionDataSource = new JRBeanCollectionDataSource(pcsProposalData);
-
-        Map<String,Object> parameters = new HashMap<>();
-        parameters.put("net.sf.jasperreports.awt.ignore.missing.font", true);
-
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, collectionDataSource);
-
-        JRPdfExporter exporter = new JRPdfExporter();
-
-        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-
-        SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-        //可以通过configuration对象设置输出pdf文档的各种属性
-        //configuration.setCreatingBatchModeBookmarks(true);
-        exporter.setConfiguration(configuration);
-
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(pdfFileName, "UTF-8"));
-        response.setContentType("application/pdf");
-        response.setCharacterEncoding("UTF-8");
-
-        exporter.exportReport();
-    }
-
-
-    public static void exportDoc(String jasperFile,
-                                 List<Map<String, ?>> pcsProposalData,
-                                 String pdfFileName,
-                                 HttpServletResponse response) throws IOException, JRException {
-
-        File jasper = new File(ConfigUtil.defaultConfigPath() + File.separator + jasperFile);
-        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(jasper.getPath());
-        JRBeanCollectionDataSource collectionDataSource = new JRBeanCollectionDataSource(pcsProposalData);
-
-        Map<String,Object> parameters = new HashMap<>();
-        parameters.put("net.sf.jasperreports.awt.ignore.missing.font", true);
-
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, collectionDataSource);
-
-        JRDocxExporter exporter = new JRDocxExporter();
-
-        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
-
-        SimpleDocxReportConfiguration configuration = new SimpleDocxReportConfiguration();
-        //可以通过configuration对象设置输出pdf文档的各种属性
-        //configuration.setCreatingBatchModeBookmarks(true);
-        exporter.setConfiguration(configuration);
-
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(pdfFileName, "UTF-8"));
-        response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        response.setCharacterEncoding("UTF-8");
-
-        exporter.exportReport();
     }
 }

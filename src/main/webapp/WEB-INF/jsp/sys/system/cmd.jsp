@@ -131,7 +131,8 @@
         })
         return false;
     });
-    var websocket = new WebSocket('wss://'+ location.host +'/log');
+
+    var websocket = new WebSocket((location.href.startWith("https://")?"wss":"ws") + '://'+ location.host +'/log');
     websocket.onmessage = function (event) {
         $("div", $logContainer).append(("<span class='{0}'>" + event.data + "</span>")
             .format(event.data.indexOf('WARING')!=-1?'bg-warning':(event.data.indexOf('ERROR')!=-1?'bg-danger':'')));

@@ -14,7 +14,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" data-target="#party-content">
                 <li class="active">
-                    <a href="javascript:;" data-url="${ctx}/party_base?id=${param.id}&type=${type}">基本信息</a>
+                    <a href="javascript:;" data-url="${ctx}/party_base?id=${param.id}">基本信息</a>
                 </li>
                 <shiro:hasPermission name="partyReward:list">
                 <li>

@@ -44,8 +44,29 @@ pageEncoding="UTF-8"%>
 
 						</td>
 					</tr>
+
 					<tr>
-						
+						<td>
+							党员总数
+						</td>
+						<td>
+							${branch.memberCount}
+						</td>
+						<td >
+							正式党员总数
+						</td>
+						<td>
+							${branch.positiveCount}
+						</td>
+						<td >
+							预备党员总数
+						</td>
+						<td colspan="3">
+							${branch.memberCount-branch.positiveCount}
+						</td>
+					</tr>
+					<tr>
+
 						<td>
 							联系电话
 						</td>

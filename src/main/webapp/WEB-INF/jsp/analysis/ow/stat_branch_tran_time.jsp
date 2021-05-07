@@ -33,7 +33,8 @@
                 legendData.push(item);
                 seriesData.push({
                     name: item,
-                    value: value
+                    value: value,
+                    tranYear:key
                 });
             });
 
@@ -98,5 +99,14 @@
             };
             branchTranTimeChart.setOption(option, true);
             branchTranTimeChart.hideLoading();
+
+            <shiro:hasPermission name="branch:list">
+            branchTranTimeChart.on('click', function (params) {
+                //console.log(params.data);
+                var url = "#${ctx}/branch?partyId=${partyId}&tranYear={0}"
+                    .format($.trim(params.data.tranYear));
+                window.open(url, "_blank");
+            });
+            </shiro:hasPermission>
         })
 </script>

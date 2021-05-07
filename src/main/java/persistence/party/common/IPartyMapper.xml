@@ -12,7 +12,7 @@
             <if test="status != null">
                 and oo.status=#{status}
             </if>
-            <if test="query != null">
+            <if test="query!=null and query.length>0">
                 and (uv.username like '${query}%'
                 or uv.realname like '${query}%'
                 or uv.code like '${query}%')

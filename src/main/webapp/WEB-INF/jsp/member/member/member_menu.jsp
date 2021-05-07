@@ -51,9 +51,11 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=8"><i class="fa fa-hand-o-right"></i>  已转移至历史党员库</a>
       </li>
         </shiro:hasPermission>
+        <c:if test="${_p_hasMemberStayStatus}">
       <li>
         <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=9"><i class="fa fa-hand-o-right"></i>  已转移至暂留党员库</a>
       </li>
+        </c:if>
     </ul>
   </li>
         </shiro:hasPermission>

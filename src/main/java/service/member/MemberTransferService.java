@@ -62,13 +62,15 @@ public class MemberTransferService extends MemberBaseMapper {
 
         if(type==1){ //转出分党委审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
+            if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
         } else if(type==2){ //转入分党委审核
             criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            if(partyId!=null) criteria.andToPartyIdEqualTo(partyId);
+            if(branchId!=null) criteria.andToBranchIdEqualTo(branchId);
         }else{
             throw new OpException("审核类型错误");
         }
-        if(partyId!=null) criteria.andPartyIdEqualTo(partyId);
-        if(branchId!=null) criteria.andBranchIdEqualTo(branchId);
 
         return (int) memberTransferMapper.countByExample(example);
     }
@@ -323,7 +325,7 @@ public class MemberTransferService extends MemberBaseMapper {
                     loginUserId,  (type == 1)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
                             OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
                     OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
-                            ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
+                            ? "转出党组织审核" : "转入党组织审核", (byte) 1, null);
         }
     }
 

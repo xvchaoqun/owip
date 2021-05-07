@@ -1,6 +1,5 @@
 package controller.parttime;
 
-import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.parttime.*;
@@ -24,9 +23,14 @@ import org.springframework.web.multipart.MultipartFile;
 import persistence.parttime.common.ParttimeApprovalResult;
 import persistence.parttime.common.ParttimeApproverTypeBean;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.LogConstants;
+import sys.constants.ParttimeConstants;
+import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.helper.ParttimeHelper;
 import sys.shiro.CurrentUser;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
 
@@ -57,18 +61,6 @@ public class ParttimeApplyController extends ParttimeBaseController {
                            ModelMap modelMap) {
 
         modelMap.put("status", status);
-        ParttimeApplyExample example = new ParttimeApplyExample();
-        ParttimeApplyExample.Criteria criteria = example.createCriteria();
-        if (status == ParttimeConstants.PARTTIME_TYPE_APPLY) {
-            criteria.andStatusEqualTo(true);
-        } else if (status == ParttimeConstants.PARTTIME_TYPE_PASS) {
-            criteria.andIsAgreedEqualTo(true);
-        } else if (status == ParttimeConstants.PARTTIME_TYPE_NOT_PASS) {
-            criteria.andIsAgreedEqualTo(false);
-        } else if(status == ParttimeConstants.PARTTIME_TYPE_DELETED) {
-            criteria.andIsDeletedEqualTo(true);
-        }
-        List<ParttimeApply> records = parttimeApplyMapper.selectByExample(example);
 
         return "parttime/parttimeApply/parttimeApply_page";
     }
@@ -117,7 +109,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
     @RequiresPermissions("parttimeApply:list")
     @RequestMapping("/parttimeApply_au_page")
     public String parttime_au_page() {
-        return "parttime/parttimeApply/parttimeApply_au_page";
+        return "parttime/user/parttimeApply/parttimeApply_au";
     }
 
     @RequiresPermissions("parttimeApply:list")
@@ -137,7 +129,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_COMPANYAPPLY)){
+        if(cadreId==null || !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -152,13 +144,6 @@ public class ParttimeApplyController extends ParttimeBaseController {
         if (_files.length > 0) {
             for (MultipartFile _file : _files) {
                 String originalFilename = _file.getOriginalFilename();
-                /*String fileName = UUID.randomUUID().toString();
-                String realPath =  FILE_SEPARATOR
-                        + "cla_apply" + FILE_SEPARATOR + cadre.getUserId() + FILE_SEPARATOR
-                        + fileName;
-                String savePath = realPath + FileUtils.getExtention(originalFilename);
-                FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
-
                 String savePath = upload(_file, "parttime_apply");
 
                 ParttimeApplyFile parttimeApplyFile = new ParttimeApplyFile();
@@ -174,9 +159,9 @@ public class ParttimeApplyController extends ParttimeBaseController {
             record.setStatus(true);
             Date date = new Date();
             record.setCreateTime(date);
-            record.setApplyTime(DateUtils.parseDate(DateUtils.formatDate(date, "yyyy-MM-dd")));
+            record.setApplyTime(date);
             record.setIp(IpUtils.getRealIp(request));
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST);
             parttimeApplyMapper.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "提交兼职申报申请：%s", record.getId()));
 
@@ -184,8 +169,8 @@ public class ParttimeApplyController extends ParttimeBaseController {
             parttimeApplyService.sendApplySubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
-                    "提交干部请假申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
+                    "提交干部兼职申报", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
         }else{
 
@@ -197,7 +182,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
             }
             record.setCadreId(null);
             record.setStatus(true);// 重新提交
-            record.setFlowNode(ClaConstants.CLA_APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(ParttimeConstants.PARTTIME_APPROVER_TYPE_ID_OD_FIRST);
             record.setIsFinish(false);
 
             ParttimeApprovalLogExample example = new ParttimeApprovalLogExample();
@@ -209,7 +194,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
                     "修改兼职申报申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(pApply, MixinUtils.baseMixins(), false));
         }
@@ -222,53 +207,6 @@ public class ParttimeApplyController extends ParttimeBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("applyId", applyId);
         return resultMap;
-    }
-
-    @RequiresPermissions("parttimeApply:edit")
-    @RequestMapping(value = "/parttime/parttimeApply_change", method = RequestMethod.POST)
-    @ResponseBody
-    public Map parttimeApply_change(ParttimeApply record,
-                                  String _applyDate,
-                                  MultipartFile _modifyProof, String modifyRemark,
-                                  HttpServletRequest request) throws IOException, InterruptedException {
-
-        Integer id = record.getId();
-
-        if (StringUtils.isNotBlank(_applyDate)) {
-            record.setApplyTime(DateUtils.parseDate(_applyDate, DateUtils.YYYY_MM_DD));
-        }
-
-        String modifyProof = null;
-        String modifyProofFileName = null;
-        if (_modifyProof != null && !_modifyProof.isEmpty()) {
-
-            modifyProofFileName = _modifyProof.getOriginalFilename();
-            modifyProof = upload(_modifyProof, "parttime_apply_modify");
-        }
-
-        parttimeApplyService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
-        logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "更新兼职申报申请：%s", record.getId()));
-
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("parttimeApply:edit")
-    @RequestMapping("/parttime/parttimeApply_change")
-    public String claApply_change(Integer id, ModelMap modelMap) {
-
-        if (id != null) {
-            ParttimeApply pApply = parttimeApplyMapper.selectByPrimaryKey(id);
-            modelMap.put("parttimeApply", pApply);
-
-            CadreView cadre = iCadreMapper.getCadre(pApply.getCadreId());
-            modelMap.put("cadre", cadre);
-            SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-            modelMap.put("sysUser", sysUser);
-        }
-
-        modelMap.put("countryList", JSONUtils.toString(countryService.getCountryList()));
-
-        return "parttime/parttimeApply/parttimeApply_change";
     }
 
     @RequiresPermissions("parttimeApply:del")
@@ -312,16 +250,16 @@ public class ParttimeApplyController extends ParttimeBaseController {
     @RequestMapping("/parttime/parttimeApply_view")
     public String parttimeApply_view(Integer id, ModelMap modelMap) {
 
-        ParttimeApply claApply = parttimeApplyMapper.selectByPrimaryKey(id);
-        Integer cadreId = claApply.getCadreId();
+        ParttimeApply parttimeApply = parttimeApplyMapper.selectByPrimaryKey(id);
+        Integer cadreId = parttimeApply.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_COMPANYAPPLY)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ParttimeApproverTypeBean approverTypeBean = parttimeApplyService.getApproverTypeBean(ShiroHelper.getCurrentUserId());
-                if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(claApply.getCadreId()))
+                if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(parttimeApply.getCadreId()))
                     throw new OpException("您没有权限");
             }
         }
@@ -331,11 +269,11 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         modelMap.put("sysUser", uv);
         modelMap.put("cadre", cadre);
-        modelMap.put("claApply", claApply);
+        modelMap.put("parttimeApply", parttimeApply);
 
         modelMap.put("cadreMobile", userBeanService.getMsgMobile(cadre.getUserId()));
 
-        List<ParttimeApplyFile> files = parttimeApplyService.getFiles(claApply.getId());
+        List<ParttimeApplyFile> files = parttimeApplyService.getFiles(parttimeApply.getId());
         modelMap.put("files", files);
 
         Map<Integer, ParttimeApprovalResult> approvalResultMap = parttimeApplyService.getApprovalResultMap(id);
@@ -355,16 +293,16 @@ public class ParttimeApplyController extends ParttimeBaseController {
         }
         modelMap.put("needExport", needExport);
 
-        return "parttime/user/parttimeApply_view";
+        return "parttime/user/parttimeApply/parttimeApply_view";
     }
 
     @RequiresPermissions("parttimeApply:download")
     @RequestMapping("/parttime/parttimeApply_download")
-    public void claApply_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void parttimeApply_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         ParttimeApplyFile pApplyFile = parttimeApplyFileMapper.selectByPrimaryKey(id);
 
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) { // 干部管理员有下载权限
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = pApplyFile.getApplyId();
@@ -395,11 +333,11 @@ public class ParttimeApplyController extends ParttimeBaseController {
     @RequiresPermissions("parttimeApply:view")
     @RequestMapping("/parttime/parttimeApply_yearLogs_data")
     @ResponseBody
-    public void claApply_yearLogs_data(@CurrentUser SysUserView loginUser, Integer cadreId, Integer year,
+    public void parttimeApply_yearLogs_data(@CurrentUser SysUserView loginUser, Integer cadreId, Integer year,
                                        Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_CLAADMIN)) {
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)) {
             CadreView cadre = iCadreMapper.getCadre(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 //ShiroUser shiroUser = ShiroHelper.getShiroUser();
@@ -467,25 +405,14 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         if (null != ids && ids.length > 0) {
             parttimeApplyService.doBatchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CLA, "批量删除[真删除]兼职申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "批量删除[真删除]兼职申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequestMapping("/parttime/shortMsg_view")
-    public String shortMsg_view(@CurrentUser SysUserView loginUser,
-                                String type,
-                                Integer id, ModelMap modelMap) {
-
-        ShortMsgBean shortMsgBean = parttimeShortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
-        modelMap.put("shortMsgBean", shortMsgBean);
-
-        return "parttime/shortMsg_view";
-    }
-
     // 干部管理员直接审批（代审）
-    @RequiresPermissions("parttimeApply:approval")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttime/parttimeApply_approval_direct")
     public String parttimeApply_approval_direct(int applyId, int approvalTypeId, ModelMap modelMap) {
 
@@ -498,7 +425,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
         return "parttime/parttimeApply/parttimeApply_approval_direct";
     }
 
-    @RequiresPermissions("parttimeApply:approval")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping(value = "/parttime/parttimeApply_approval", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApply_approval(int applyId, int approvalTypeId,
@@ -510,7 +437,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         //int userId = ShiroHelper.getCurrentUserId();
         if(BooleanUtils.isTrue(isAdmin)){
-            ShiroHelper.checkPermission(RoleConstants.PERMISSION_CLAADMIN);
+            ShiroHelper.checkPermission(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
         }else{
@@ -522,31 +449,13 @@ public class ParttimeApplyController extends ParttimeBaseController {
 
         parttimeApprovalLogService.approval(approvalUserId, applyId, approvalTypeId, pass, approvalTime, remark);
 
-        if (BooleanUtils.isNotTrue(isAdmin)) {
-            //if (springProps.claApplySendApprovalMsg) {
-            // 如果在工作日周一至周五，8:30-17:30，那么就立即发送给下一个领导
-            // 短信通知下一个审批人
-            Date now = new Date();
-            String nowTime = DateUtils.formatDate(now, "HHmm");
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(now);
-            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-            if ((dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)
-                    && (nowTime.compareTo("0830") >= 0 && nowTime.compareTo("1730") <= 0)) {
-
-                Map<String, Integer> resultMap = parttimeShortMsgService.sendApprovalMsg(applyId);
-                logger.info("【兼职申报】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
-            }
-            //}
-        }
-
         logger.info(addLog(LogConstants.LOG_PARTTIME_APPLY, "兼职申报审批：%s", applyId));
 
         return success(FormUtils.SUCCESS);
     }
 
     // 干部管理员直接修改审批
-    @RequiresPermissions(RoleConstants.PERMISSION_COMPANYAPPLY)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)
     @RequestMapping("/parttime/parttimeApply_approval_direct_au")
     public String parttimeApply_approval_direct_au(int approvalLogId, ModelMap modelMap) {
 
@@ -556,7 +465,7 @@ public class ParttimeApplyController extends ParttimeBaseController {
         return "parttime/parttimeApply/parttimeApply_approval_direct_au";
     }
 
-    @RequiresPermissions(RoleConstants.PERMISSION_COMPANYAPPLY)
+    @RequiresPermissions(RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN)
     @RequestMapping(value = "/parttime/parttimeApply_approval_direct_au", method = RequestMethod.POST)
     @ResponseBody
     public Map parttimeApply_approval_direct_au(HttpServletRequest request,
@@ -579,13 +488,13 @@ public class ParttimeApplyController extends ParttimeBaseController {
         ParttimeApply claApply = parttimeApplyMapper.selectByPrimaryKey(applyId);
         sysApprovalLogService.add(applyId, claApply.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PARTTIME_APPLY,
                 "修改审批", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, before);
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("parttimeApply:approval")
+    @RequiresPermissions("parttimeApply:approve")
     @RequestMapping("/parttime/parttimeApply_approval")
     public String parttimeApply_approval() {
 
@@ -609,6 +518,34 @@ public class ParttimeApplyController extends ParttimeBaseController {
         }
 
         return "parttime/parttimeApply/parttimeApplyList_page";
+    }
+
+    // 非管理员  审批人身份 审批记录
+    @RequiresPermissions("parttimeApply:approvalList")
+    @RequestMapping("/parttime/parttimeApplyList_data")
+    public void parttimeApplyList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
+                                  Integer cadreId,
+                                  @RequestDateRange DateRange _applyDate,
+                                  Byte type, // 出行时间范围
+                                  // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+                                  @RequestParam(required = false, defaultValue = "0") int status,
+                                  Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
+
+
+        Map map = parttimeApplyService.findApplyList(loginUser.getId(), cadreId, _applyDate,
+                type, status, pageNo, springProps.pageSize);
+        CommonList commonList = (CommonList) map.get("commonList");
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", map.get("applys"));
+        resultMap.put("records", commonList.recNum);
+        resultMap.put("page", commonList.pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        request.setAttribute("isView", false);
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
 

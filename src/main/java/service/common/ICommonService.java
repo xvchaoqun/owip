@@ -20,6 +20,7 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.IdcardUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,13 +28,13 @@ import java.util.stream.Collectors;
 public abstract class ICommonService {
 
     @Autowired
-    private SysUserService sysUserService;
+    protected SysUserService sysUserService;
     @Autowired
-    private SysUserInfoMapper sysUserInfoMapper;
+    protected SysUserInfoMapper sysUserInfoMapper;
     @Autowired
-    private ExtService extService;
+    protected ExtService extService;
     @Autowired
-    private CadreEvaMapper cadreEvaMapper;
+    protected CadreEvaMapper cadreEvaMapper;
 
     // 同步用户头像
     public String syncAvatar(Integer userId){
@@ -198,26 +199,24 @@ public abstract class ICommonService {
     // 人事库中的民族转换成标准格式
     public static String formatNation(String mz){
 
-        if(StringUtils.isBlank(mz)
-                || StringUtils.equalsAnyIgnoreCase(mz.trim(),
-                "无", "空", "null", "未知", "其他", "其它")
-        ) return null;
+        if(mz==null) return null;
 
-        mz = mz.trim();
-        if(mz.contains("族")){
+        mz = StringUtils.trim(mz);
 
-            if(!mz.endsWith("族")){
-                mz = mz.substring(0, mz.indexOf("族")+1);
-            }
-            return mz;
+        // 处理加备注的民族，比如：回族（区内）
+        if(mz.contains("族") && !mz.endsWith("族")){
+            mz = mz.substring(0, mz.indexOf("族"));
         }
+
+        mz = StringUtils.appendIfMissing(mz.trim(), "族");
 
         Map<Integer, MetaType> nations = CmTag.getMetaTypes("mc_nation");
         Set<String> nationSet = nations.values().stream().map(MetaType::getName).collect(Collectors.toSet());
-        if(nationSet.contains(mz+"族")){
-            return mz+"族";
+        if(nationSet.contains(mz)){
+            return mz;
         }
-        return mz;
+
+        return null;
     }
 
     // 人事库中的职级转换成标准格式
@@ -243,7 +242,12 @@ public abstract class ICommonService {
     }
 
     // 任免审批表学习经历表述
-    public String getResumeOfCadreEdu(CadreEdu cadreEdu, boolean isOnjob) {
+    public String getResumeOfCadreEdu(CadreEdu cadreEdu) {
+
+        if(cadreEdu.getLearnStyle()==null) return "";
+
+        MetaType onjobType = CmTag.getMetaTypeByCode("mt_onjob");
+        boolean isOnjob = cadreEdu.getLearnStyle().intValue() == onjobType.getId();
 
         String detail = cadreEdu.getResume();
         String major = StringUtils.trimToNull(cadreEdu.getMajor());
@@ -326,5 +330,25 @@ public abstract class ICommonService {
         }
 
         return evaResult;
+    }
+
+    // 根据身份证号更新性别、出生日期
+    public void checkGenderAndBirthByIdcard(SysUserInfo ui, SysUserView uv) {
+
+        if (ui.getIdcard() != null) {
+            if (ui.getBirth() == null && uv.getBirth() == null) {
+                Date birth = IdcardUtils.getBirth(ui.getIdcard());
+                ui.setBirth(birth);
+            }
+            if (ui.getGender() == null && uv.getGender() == null) {
+                String gender = IdcardUtils.getGender(ui.getIdcard());
+                if (StringUtils.contains(gender, "男")) {
+                    ui.setGender(SystemConstants.GENDER_MALE);
+                }
+                if (StringUtils.contains(gender, "女")) {
+                    ui.setGender(SystemConstants.GENDER_FEMALE);
+                }
+            }
+        }
     }
 }

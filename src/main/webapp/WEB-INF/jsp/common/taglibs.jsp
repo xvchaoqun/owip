@@ -62,7 +62,7 @@
 <c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 
-<c:set var="PERMISSION_COMPANYAPPLY" value="<%=RoleConstants.PERMISSION_COMPANYAPPLY%>"/>
+<c:set var="PERMISSION_PARTTIMEAPPLY_ADMIN" value="<%=RoleConstants.PERMISSION_PARTTIMEAPPLY_ADMIN%>"/>
 <c:set var="PERMISSION_PARTYVIEWALL" value="<%=RoleConstants.PERMISSION_PARTYVIEWALL%>"/>
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=RoleConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=RoleConstants.PERMISSION_CADREADMINSELF%>"/>
@@ -123,11 +123,6 @@
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_CADRE%>" var="CES_RESULT_TYPE_CADRE"/>
 <c:set value="<%=SystemConstants.CES_RESULT_TYPE_UNIT%>" var="CES_RESULT_TYPE_UNIT"/>
 <c:set value="点击此搜索条的任意位置可展开/收起搜索框" var="note_searchbar"/>
+<c:set value="<%=SystemConstants.DEGREE_TYPE_MAP%>" var="DEGREE_TYPE_MAP"/>
 
-<c:set var="PARTTIME_APPROVER_TYPE_UNIT" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_UNIT%>"/>
-<c:set var="PARTTIME_APPROVER_TYPE_LEADER" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_LEADER%>"/>
-<c:set var="PARTTIME_APPROVER_TYPE_MAP" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_MAP%>"/>
-<c:set var="PARTTIME_APPLY_FIRST_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_FIRST_MAP%>"/>
-<c:set var="PARTTIME_APPLY_BACKGROUND_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_BACKGROUND_MAP%>"/>
-<c:set var="PARTTIME_APPLY_HAS_PAY_MAP" value="<%=ParttimeConstants.PARTTIME_APPLY_HAS_PAY_MAP%>"/>
-<c:set var="PARTTIME_APPROVER_TYPE_FOREIGN" value="<%=ParttimeConstants.PARTTIME_APPROVER_TYPE_FOREIGN%>"/>
+

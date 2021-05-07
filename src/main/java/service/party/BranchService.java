@@ -154,7 +154,7 @@ public class BranchService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "Branch:ALL", allEntries = true)
-    public void batchDel(Integer[] ids, boolean isDeleted) {
+    public void batchDel(Integer[] ids, boolean isDeleted, Date abolishTime) {
 
         if (ids == null || ids.length == 0) return;
 
@@ -165,11 +165,12 @@ public class BranchService extends BaseMapper {
             Branch record = new Branch();
             record.setId(id);
             record.setIsDeleted(isDeleted);
+            record.setAbolishTime(abolishTime);
 
             if(!isDeleted){ // 恢复支部
                 Party party = partyMapper.selectByPrimaryKey(branch.getPartyId());
                 if(party.getIsDeleted())
-                    throw new OpException(String.format("恢复支部失败，支部所属的分党委【%s】已删除。", party.getName()));
+                    throw new OpException(String.format("恢复支部失败，支部所属的党组织【%s】已删除。", party.getName()));
 
                 record.setSortOrder(getNextSortOrder("ow_branch",
                 "is_deleted=0 and party_id=" + record.getPartyId()));

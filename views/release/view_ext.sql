@@ -18,7 +18,11 @@ left join base_meta_type _unittype on unit.type_id = _unittype.id
 , sys_user u, sys_user_info ui
 where c.user_id = u.id and (c.status = 1 or c.status=6) and ui.user_id = u.id order by field(c.status, 2,5,3,1,4,6) desc;
 
-
+DROP VIEW IF EXISTS `ext_party_view`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `ext_party_view` AS
+select p.code, p.name, bmt.name as type , p.short_name, p.found_time, p.is_deleted, p.sort_order as weight from ow_party p
+left join base_meta_type bmt on bmt.id = p.class_id where fid is null
+order by p.is_deleted asc, weight desc ;
 -- ----------------------------
 --  View definition for `ext_branch_view`
 -- ----------------------------
@@ -117,3 +121,44 @@ left join sys_user_view u on o.user_id = u.user_id
 left join ow_member m on m.user_id = u.user_id
 LEFT JOIN base_meta_type bmt ON o.`type`=bmt.id
 WHERE o.STATUS=2 AND bmt.name='京外' ;
+
+-- 党委委员
+DROP VIEW IF EXISTS `ext_party_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ext_party_member_view`
+AS select pm.id, p.code as party_code, p.name as party_name, u.code, ui.realname, bmt.name as post from ow_party_member pm
+left join ow_party_member_group pmg on pmg.id=pm.group_id
+left join ow_party p on p.id=pmg.party_id
+left join sys_user u on pm.user_id=u.id
+left join sys_user_info ui on pm.user_id=ui.user_id
+left join base_meta_type bmt on bmt.id=pm.post_id
+where p.is_deleted=0 and pmg.is_deleted=0 and pm.is_history=0 order by p.sort_order desc, pm.sort_order desc;
+
+DROP VIEW IF EXISTS `ext_org_admin_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `ext_org_admin_view` AS
+select tmp.user_id, p.id as party_id, null as branch_id, 1 as type from (
+      select * from (
+          select  m.user_id, mg.party_id, m.post_id, 0 as normal,
+          m.sort_order from ow_party_member m, ow_party_member_group mg
+          where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+          union all
+          select user_id, party_id, null as post_id, 1 as normal, null as sort_order from
+          ow_org_admin where type=1
+      ) t   group by party_id, user_id
+  ) tmp
+  left join ow_party p on p.id=tmp.party_id
+  union all
+  select tmp.user_id, p.id as party_id, b.id as branch_id, 2 as type from (
+      select * from (
+
+          select concat(mg.branch_id,'_', m.user_id, '_', 1) as id, mg.id as group_id, m.user_id, mg.branch_id, m.types, m.sort_order from
+          ow_branch_member m,
+          ow_branch_member_group mg
+          where mg.is_deleted=0 and m.group_id=mg.id and m.is_admin=1 and m.is_history=0
+
+          union all
+
+          select concat(branch_id,'_', user_id, '_', 2) as id, null as group_id, user_id, branch_id, null as types, null as sort_order from ow_org_admin where type=2
+     ) t group by branch_id, user_id
+    ) tmp
+  left join ow_branch b on b.id=tmp.branch_id
+  left join ow_party p on p.id=b.party_id;
