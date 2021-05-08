@@ -28,6 +28,11 @@ pageEncoding="UTF-8" %>
                         data-open-by="page">
                     <i class="fa fa-search"></i> 操作记录
                 </button>
+                <button class="popupBtn btn btn-warning btn-sm tooltip-info"
+                            data-url="${ctx}/pmd/pmdFee_import"
+                            data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                        批量导入
+                    </button>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/pmd/pmdFee_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">

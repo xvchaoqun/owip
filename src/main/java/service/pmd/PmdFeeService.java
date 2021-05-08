@@ -2,6 +2,8 @@ package service.pmd;
 
 import controller.global.OpException;
 import domain.pmd.PmdFee;
+import domain.pmd.PmdFeeExample;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,38 @@ public class PmdFeeService extends PmdBaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_FEE,
                 "添加", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+    }
+
+    @Transactional
+    public int bacthImport(List<PmdFee> records) {
+
+        int addCount = 0;
+        for (PmdFee record : records) {
+
+            PmdFee _record = null;
+
+            // 覆盖未缴费的、起始月份相同的记录
+            PmdFeeExample example = new PmdFeeExample();
+            example.createCriteria().andUserIdEqualTo(record.getUserId())
+                    .andStartMonthEqualTo(record.getStartMonth())
+                    .andHasPayEqualTo(false);
+            List<PmdFee> pmdFees = pmdFeeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+            if(pmdFees.size()>0){
+                _record = pmdFees.get(0);
+            }
+
+            if(_record==null){
+
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(_record.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
     }
 
     @Transactional

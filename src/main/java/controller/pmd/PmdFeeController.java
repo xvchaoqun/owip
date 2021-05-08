@@ -2,6 +2,7 @@ package controller.pmd;
 
 import com.google.gson.Gson;
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.member.Member;
 import domain.pmd.*;
 import domain.pmd.PmdFeeExample.Criteria;
@@ -9,7 +10,12 @@ import domain.sys.SysUserView;
 import ext.utils.Pay;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,20 +25,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -175,8 +181,115 @@ public class PmdFeeController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("pmdFee:edit")
+    @RequestMapping("/pmdFee_import")
+    public String pmdFee_import(ModelMap modelMap) {
+
+        return "pmd/pmdFee/pmdFee_import";
+    }
+
+    @RequiresPermissions("pmdFee:edit")
+    @RequestMapping(value = "/pmdFee_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdFee_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<PmdFee> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            PmdFee record = new PmdFee();
+            row++;
+
+            String userCode = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(userCode)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(userCode);
+            if (uv == null) {
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, userCode);
+            }
+            int userId = uv.getUserId();
+            record.setUserId(userId);
+            record.setUserType(uv.getType());
+
+            Member member = memberService.get(userId);
+            if(member==null){
+                throw new OpException("第{0}行工作证号[{1}]不是党员", row, userCode);
+            }
+            record.setPartyId(member.getPartyId());
+            record.setBranchId(member.getBranchId());
+
+            String typeName = StringUtils.trimToNull(xlsRow.get(2));
+            MetaType metaType = CmTag.getMetaTypeByName("mc_pmd_fee_type", typeName);
+            if(metaType==null) {
+                throw new OpException("第{0}行缴费类型不存在", row, userCode);
+            }
+            record.setType(metaType.getId());
+
+            String _startMonth = StringUtils.trimToNull(xlsRow.get(3));
+            Date startMonth = DateUtils.parseStringToDate(_startMonth);
+            if (startMonth == null) {
+                throw new OpException("第{0}行起始月份为空", row);
+            }
+            record.setStartMonth(startMonth);
+
+            String _endMonth = StringUtils.trimToNull(xlsRow.get(4));
+            Date endMonth = DateUtils.parseStringToDate(_endMonth);
+            if (endMonth == null) {
+                endMonth = startMonth;
+            }
+            record.setEndMonth(endMonth);
+
+            try {
+                checkDuplicate(null, userId, startMonth, endMonth);
+            }catch (Exception ex){
+                throw new OpException("第{0}行" + ex.getMessage(), row);
+            }
+
+            String _fee = StringUtils.trimToNull(xlsRow.get(5));
+            if (StringUtils.isBlank(_fee) || !NumberUtils.isParsable(_fee) || new BigDecimal(_fee).compareTo(BigDecimal.ZERO)<=0) {
+                throw new OpException("第{0}行缴费金额有误", row);
+            }
+            BigDecimal fee = new BigDecimal(_fee);
+            record.setAmt(fee);
+
+            record.setReason(StringUtils.trimToNull(xlsRow.get(6)));
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(7)));
+
+            record.setIsOnlinePay(true);
+            record.setHasPay(false);
+            record.setStatus(PmdConstants.PMD_FEE_STATUS_NORMAL);
+
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = pmdFeeService.bacthImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入补缴记录成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
+    }
+
     // 添加或缴费确认时，判断是否存在重复缴费记录
     private void checkDuplicate(Integer pmdFeeId, int userId, Date startMonth, Date endMonth){
+
+        SysUserView uv = CmTag.getUserById(userId);
 
         // 判断是否已存在单独的补缴记录
         PmdFeeExample example = new PmdFeeExample();
@@ -186,7 +299,7 @@ public class PmdFeeController extends PmdBaseController {
         List<PmdFee> pmdFees = pmdFeeMapper.selectByExample(example);
         if(pmdFees.size()>1
                 || (pmdFees.size()>0 && (pmdFeeId==null || pmdFees.get(0).getId().intValue()!=pmdFeeId))){
-            throw new OpException("已经存在补缴记录（缴费月份重叠）。");
+            throw new OpException("{0}已经存在补缴记录（缴费月份重叠）。", uv.getRealname());
         }
 
         // 判断是否已存在每月的缴费记录
@@ -196,7 +309,7 @@ public class PmdFeeController extends PmdBaseController {
                 PmdMember pmdMember = pmdMemberService.get(month.getId(), userId);
                 if(pmdMember!=null){
 
-                    throw new OpException("{0}已经存在{1}月份的缴费记录。", pmdMember.getUser().getRealname(),
+                    throw new OpException("{0}已经存在{1}月份的缴费记录。", uv.getRealname(),
                             DateUtils.formatDate(startMonth, DateUtils.YYYYMM));
                 }
             }
