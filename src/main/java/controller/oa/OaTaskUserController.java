@@ -92,7 +92,7 @@ public class OaTaskUserController extends OaBaseController {
         Boolean showAll = ShiroHelper.isPermitted("oaTaskShowAll:*");
 
         if (!showAll) {
-            criteria.andTaskUserIdEqualTo(ShiroHelper.getCurrentUserId());
+            criteria.listCreateOrShareTasks(ShiroHelper.getCurrentUserId());
         }
 
         if (taskId != null) {

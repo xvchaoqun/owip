@@ -1512,6 +1512,11 @@ public class OaTaskUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria listCreateOrShareTasks(int userId) {
+            addCriterion("(task_user_id=" + userId + " or find_in_set(" + userId + ", task_user_ids))");
+            return (Criteria) this;
+        }
+
         public Criteria andTaskUserIdEqualTo(Integer value) {
             addCriterion("task_user_id =", value, "taskUserId");
             return (Criteria) this;

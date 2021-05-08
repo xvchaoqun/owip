@@ -1,9 +1,18 @@
 package domain.cadre;
 
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreFamily implements Serializable {
+    public String getFamilyTitle(){
+        return (title!=null)? CmTag.getMetaType(title).getName():null;
+    }
+    public String getFamilyPolitical() {
+        return (politicalStatus!=null)? CmTag.getMetaType(politicalStatus).getName():null;
+    }
+
     private Integer id;
 
     private Integer cadreId;
