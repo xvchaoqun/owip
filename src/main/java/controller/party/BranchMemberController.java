@@ -42,7 +42,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class BranchMemberController extends BaseController {
@@ -69,7 +68,7 @@ public class BranchMemberController extends BaseController {
                                   Integer groupId,
                                   Integer partyId,
                                   Integer userId,
-                                  Integer types,
+                                  Integer[] types,
                                   Boolean isAdmin,
                                   Boolean isDeleted,
                                   Boolean isHistory,
@@ -115,7 +114,7 @@ public class BranchMemberController extends BaseController {
             criteria.andUserIdEqualTo(userId);
         }
         if (types != null) {
-            criteria.andTypesLike("%" + types + "%");
+            criteria.andTypesContain(new HashSet<>(Arrays.asList(types)));
         }
         if (isAdmin != null) {
             criteria.andIsAdminEqualTo(isAdmin);

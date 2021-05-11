@@ -8,7 +8,7 @@
              data-url-export="${ctx}/branchMember_data?isDeleted=0"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId||not empty param.partyId
-                                || not empty param.typeId|| not empty param.isDoubleLeader||not empty param.isStaff
+                                || not empty param.types|| not empty param.isDoubleLeader||not empty param.isStaff
             ||not empty param.isPrefessional||not empty param.isBaseTeam||not empty param.branchTypes ||not empty param.unitTypeId}"/>
             <div class="tabbable">
                     <jsp:include page="../branchMemberGroup/menu.jsp"/>
@@ -77,12 +77,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>职务</label>
-                                    <select name="types" data-rel="select2" data-width="120" data-placeholder="请选择"> 
-                                        <option></option>
-                                         <c:import url="/metaTypes?__code=mc_branch_member_type"/>
+                                    <select name="types" class="multiselect" multiple="" data-placeholder="请选择"> 
+                                          <c:import url="/metaTypes?__code=mc_branch_member_type"/>
                                     </select> 
-                                    <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
                                 </div>
+
                                 <div class="form-group">
                                     <label>是否双带头人</label>
                                     <select name="isDoubleLeader" data-width="100"
@@ -167,6 +166,7 @@
 <jsp:include page="../branchMember/branchMember_colModel.jsp?isHistory=${empty param.isHistory?0:param.isHistory}"/>
 <script>
 
+    $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
     $.register.multiselect($('#searchForm select[name=branchTypes]'), ${cm:toJSONArray(selectBranchTypes)});
 
     $(".typeCheckbox").click(function () {
@@ -174,7 +174,6 @@
         $("#searchForm input[name=isHistory]").val($(":checkbox", this).val());
         $("#searchForm .jqSearchBtn").click();
     })
-    $.register.multiselect($('#searchForm select[name=typeIds]'), ${cm:toJSONArray(selectedTypeIds)});
     $.register.user_select($('#searchForm select[name=userId]'));
     function _adminCallback(){
         $("#modal").modal("hide")

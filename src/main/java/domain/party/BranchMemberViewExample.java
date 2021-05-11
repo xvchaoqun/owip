@@ -353,6 +353,17 @@ public class BranchMemberViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypesContain(Set<Integer> types) {
+
+            List<String> typeIdList = new ArrayList<>();
+            for (Integer typeId : types) {
+                typeIdList.add("find_in_set("+typeId+", types)");
+            }
+            addCriterion("(" + StringUtils.join(typeIdList, " or ") + ")");
+
+            return (Criteria) this;
+        }
+
         public Criteria andTypesLike(String value) {
             addCriterion("types like", value, "types");
             return (Criteria) this;

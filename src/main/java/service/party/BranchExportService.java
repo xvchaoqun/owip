@@ -126,7 +126,7 @@ public class BranchExportService extends BaseMapper {
         
         for (int i = 0; i < count; i++) {
             BranchMemberView record = records.get(i);
-            SysUserView sysUser = record.getUser();
+
             Member member = memberService.get(record.getUserId());
             
             Map<String, String> cadreParty = CmTag.getCadreParty(record.getUserId(), record.getIsOw(), record.getOwGrowTime(), record.getOwPositiveTime(),
@@ -160,6 +160,8 @@ public class BranchExportService extends BaseMapper {
                     types.add(name);
                 }
             }
+
+            SysUserView sysUser = record.getUser();
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
