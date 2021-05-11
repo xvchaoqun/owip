@@ -52,11 +52,11 @@
                                 </div>
                                 <div class="infobox-data">
                                     <span class="infobox-data-number">
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_STUDENT}&growStatus=-1">
+                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1">
                                             <span class="count">${studentGrowOdCheckCount}</span>
                                             <span style="font-size: 10pt;">学生</span>
                                         </span>
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_TEACHER}&growStatus=-1">
+                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1">
                                             <span class="count">${teacherGrowOdCheckCount}</span>
                                             <span style="font-size: 10pt;">教职工</span>
                                         </span>
@@ -72,10 +72,10 @@
                                 </div>
                                 <div class="infobox-data">
                           <span class="infobox-data-number">
-                                <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${MEMBER_TYPE_STUDENT}&positiveStatus=1">
+                                <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${MEMBER_TYPE_STUDENT}&positiveStatus=0">
                                     <span class="count">${studentPositiveOdCheckCount}</span><span
                                         style="font-size: 10pt;">学生</span></span>
-                                 <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${MEMBER_TYPE_TEACHER}&positiveStatus=1">
+                                 <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_GROW}&type=${MEMBER_TYPE_TEACHER}&positiveStatus=0">
                                     <span class="count">${teacherPositiveOdCheckCount}</span><span
                                          style="font-size: 10pt;">教职工</span></span>
                           </span>

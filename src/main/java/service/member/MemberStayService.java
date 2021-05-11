@@ -69,13 +69,14 @@ public class MemberStayService extends MemberBaseMapper {
             throw new OpException("审核类型错误");
         }
 
+        /* 没有返回修改标签
         if (cls != null) {
             if (cls == 1 || cls == 2 || cls == 3) {// 支部审核（新申请）/ 分党委审核（新申请) / 组织部审核（新申请)
                 criteria.andIsBackNotEqualTo(true);
             } else if (cls == 11 || cls == 21 || cls == 31) {// 支部审核（返回修改）/ 分党委审核（返回修改) / 组织部审核（返回修改)
                 criteria.andIsBackEqualTo(true);
             }
-        }
+        }*/
 
         if (partyId != null) criteria.andPartyIdEqualTo(partyId);
         if (branchId != null) criteria.andBranchIdEqualTo(branchId);

@@ -368,8 +368,13 @@ public class MemberApplyController extends MemberBaseController {
                 modelMap.put("candidateCheckCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_ACTIVE, (byte) 0));
                 break;
             case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                modelMap.put("planCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) -1));
-                modelMap.put("planCheckCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) 0));
+                if (!CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                    modelMap.put("planCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) -1));
+                    modelMap.put("planCheckCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) 0));
+                }else {
+                    modelMap.put("growCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) -1));
+                    modelMap.put("growCheckCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) 0));
+                }
                 break;
             case OwConstants.OW_APPLY_STAGE_PLAN:
                 modelMap.put("drawCount", memberApplyService.count(null, null, type, OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
@@ -424,6 +429,7 @@ public class MemberApplyController extends MemberBaseController {
                                  @RequestParam(defaultValue = "0") Byte stage,
                                  @RequestParam(required = false, defaultValue = "1") Boolean isApply,
                                  Byte applyStatus, // 申请阶段查询
+                                 Byte drawStatus, // 领取志愿书阶段查询
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
                                  String applySn, // 志愿书编码
@@ -466,6 +472,9 @@ public class MemberApplyController extends MemberBaseController {
                 if (applyStatus != null) {
                     criteria.andStageEqualTo(applyStatus);
                 }
+            }else if (stage == OwConstants.OW_APPLY_STAGE_PLAN){
+                if (drawStatus !=null && drawStatus == -1)
+                    criteria.andDrawStatusIsNull();
             }else if (stage == OwConstants.OW_APPLY_STAGE_DRAW) {
                 if (growStatus != null && growStatus >= 0)
                     criteria.andGrowStatusEqualTo(growStatus);
