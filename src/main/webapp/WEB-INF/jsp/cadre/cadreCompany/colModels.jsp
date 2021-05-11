@@ -58,7 +58,13 @@
             label: '批复文件', name: 'approvalFile', width: 80,
             formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--'
-                return $.pdfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
+                var str = $.pdfPreview(rowObject.approvalFile, rowObject.approvalFilename, "预览");
+                <shiro:hasPermission name="cadreCompanyList:list">
+                str += ('&nbsp;<a href="javascript:;" class="confirm" data-url="${ctx}/cadreCompany_delApprovalFile?id={0}"'
+                    +' data-callback="_reload2" data-msg="确定删除该批复文件？"> <i class="fa fa-times"></i> </a>')
+                    .format(rowObject.id);
+                </shiro:hasPermission>
+                return str;
             }
         },
         {label: '是否取酬', name: 'hasPay', formatter: $.jgrid.formatter.TRUEFALSE, width: 80},

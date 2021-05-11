@@ -447,6 +447,19 @@ public class CadreCompanyController extends BaseController {
     }
 
     @RequiresPermissions("cadreCompany:del")
+    @RequestMapping(value = "/cadreCompany_delApprovalFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreCompany_delApprovalFile(HttpServletRequest request,
+                        int id, ModelMap modelMap) {
+
+        CadreCompany cadreCompany = cadreCompanyMapper.selectByPrimaryKey(id);
+        commonMapper.excuteSql("update cadre_company set approval_file=null where id="+id);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "删除批复文件：%s", cadreCompany.getApprovalFile()));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreCompany:del")
     @RequestMapping(value = "/cadreCompany_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
