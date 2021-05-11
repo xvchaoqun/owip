@@ -109,15 +109,15 @@
                 确定入党介绍人
             </button>
             </c:if>
-            <button id="planBtn" ${planCount>0?'':'disabled'}
+            <button id="planBtn" ${(_ignore_plan_and_draw?growCount:planCount)>0?'':'disabled'}
                     class="jqOpenViewBtn btn btn-success btn-sm"
                     data-url="${ctx}/memberApply_approval"
                     data-open-by="page"
                     data-querystr="&type=${type}&stage=${OW_APPLY_STAGE_CANDIDATE}&status=-1"
                     data-need-id="false"
                     data-id-name="userId"
-                    data-count="${planCount}">
-                <i class="fa fa-sign-in"></i> <c:if test="${_ignore_plan_and_draw}">支部发展为预备党员</c:if><c:if test="${!_ignore_plan_and_draw}">支部列入发展计划</c:if> （${planCount}）
+                    data-count="${_ignore_plan_and_draw?growCount:planCount}">
+                <i class="fa fa-sign-in"></i> <c:if test="${_ignore_plan_and_draw}">支部发展为预备党员（${growCount}）</c:if><c:if test="${!_ignore_plan_and_draw}">支部列入发展计划（${planCount}）</c:if>
             </button>
             <shiro:hasAnyRoles
                     name="${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
@@ -129,7 +129,7 @@
                         data-need-id="false"
                         data-id-name="userId"
                         data-count="${planCheckCount}">
-                    <i class="fa fa-sign-in"></i> ${_p_partyName}审核（${planCheckCount}）
+                    <i class="fa fa-sign-in"></i> ${_p_partyName}审核<c:if test="${_ignore_plan_and_draw}">（${growCheckCount}）</c:if><c:if test="${!_ignore_plan_and_draw}">（${planCheckCount}）</c:if>
                 </button>
             </shiro:hasAnyRoles>
         </c:when>

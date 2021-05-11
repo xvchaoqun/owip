@@ -78,13 +78,13 @@ public class MemberOutService extends MemberBaseMapper {
         } else {
             throw new OpException("审核类型错误");
         }
-        if (cls != null) {
+        /*if (cls != null) {
             if (cls == 1 || cls == 6) {// 分党委审核（新申请) / 组织部审核（新申请)
                 criteria.andIsBackNotEqualTo(true);
             } else if (cls == 4 || cls == 7) {// 分党委审核（返回修改) / 组织部审核（返回修改)
                 criteria.andIsBackEqualTo(true);
             }
-        }
+        }*/
         if (partyId != null) criteria.andPartyIdEqualTo(partyId);
         if (branchId != null) criteria.andBranchIdEqualTo(branchId);
 

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/analysis/constants.jsp" %>
-<div class="col-sm-4" id="stat_branch_member_other" style="width:600px;float: left;">
+<div class="col-sm-4" id="stat_branch_member_other" style="width:550px;float: left;">
     <div class="widget-box">
         <div class="widget-header widget-header-flat widget-header-small">
             <h5 class="widget-title">

@@ -344,7 +344,7 @@ public class MemberApplyService extends MemberBaseMapper {
         }
     }
 
-    // status=-1代表 isNULL
+    // status=-1代表 isNULL status=-1代表一个阶段的状态，但这个阶段的状态此时对应null，下一步即将开始此阶段
     public int count(Integer partyId, Integer branchId, Byte applyType, Byte stage, Byte status) {
 
         MemberApplyViewExample example = new MemberApplyViewExample();
@@ -371,8 +371,15 @@ public class MemberApplyService extends MemberBaseMapper {
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                        if (status == -1) criteria.andPlanStatusIsNull();
-                        else criteria.andPlanStatusEqualTo(status);
+                        if (CmTag.getBoolProperty("ignore_plan_and_draw")) {
+                            if (status == -1)
+                                criteria.andGrowTimeIsNull();
+                            else if (status == 0)
+                                criteria.andGrowTimeIsNotNull().andGrowStatusEqualTo(status);
+                        }else {
+                            if (status == -1) criteria.andPlanStatusIsNull();
+                            else criteria.andPlanStatusEqualTo(status);
+                        }
                         break;
                     case OwConstants.OW_APPLY_STAGE_PLAN:
                         /*if(status==-1) criteria.andDrawStatusIsNull();

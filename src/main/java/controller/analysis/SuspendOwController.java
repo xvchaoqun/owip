@@ -66,9 +66,9 @@ public class SuspendOwController extends MemberBaseController {
         modelMap.put("isSearch", branchCount>0);
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.count(partyId));
         modelMap.put("studentGrowOdCheckCount", memberApplyService.count(partyId, null,
-                MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
+                MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
         modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
-                OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
+                OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
         modelMap.put("memberOutCount", memberOutService.count(partyId, null, (byte) 1, null));
         modelMap.put("memberInCount", memberInService.count(partyId, null, (byte) 1));
         modelMap.put("memberTrasferCount", memberTransferService.count(partyId, null, (byte) 1)
@@ -79,9 +79,9 @@ public class SuspendOwController extends MemberBaseController {
                 MemberConstants.MEMBER_STAY_TYPE_INTERNAL, null));//新申请+返回修改
 
         modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_STUDENT,
-                OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
+                OwConstants.OW_APPLY_STAGE_GROW, (byte) 0));
         modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
-                OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
+                OwConstants.OW_APPLY_STAGE_GROW, (byte) 0));
 
         return "analysis/suspend/suspend_party";
     }
@@ -91,21 +91,15 @@ public class SuspendOwController extends MemberBaseController {
     public String suspend_branch(int branchId, ModelMap modelMap) {
 
         modelMap.put("branchMemberGroupCount", branchMemberGroupService.countBranch(branchId));
-        modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, branchId,
-                MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
-        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
-                OwConstants.OW_APPLY_STAGE_DRAW, (byte) -1));
-        modelMap.put("memberOutCount", memberOutService.count(null, branchId, (byte) 1, null));
-        modelMap.put("memberInCount", memberInService.count(null, branchId, (byte) 1));
-        modelMap.put("memberStayCount_abroad", memberStayService.count(null, branchId, (byte) 2,
-                MemberConstants.MEMBER_STAY_TYPE_ABROAD, null));//新申请+返回修改
-        modelMap.put("memberStayCount_internal", memberStayService.count(null, branchId, (byte) 2,
-                MemberConstants.MEMBER_STAY_TYPE_INTERNAL, null));//新申请+返回修改
-
         modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_STUDENT,
-                OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
+                OwConstants.OW_APPLY_STAGE_GROW, (byte) -1));
         modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
-                OwConstants.OW_APPLY_STAGE_GROW, (byte) 1));
+                OwConstants.OW_APPLY_STAGE_GROW, (byte) -1));
+
+        modelMap.put("memberStayCount_abroad", memberStayService.count(null, branchId, (byte) 1,
+                MemberConstants.MEMBER_STAY_TYPE_ABROAD, null));//新申请+返回修改
+        modelMap.put("memberStayCount_internal", memberStayService.count(null, branchId, (byte) 1,
+                MemberConstants.MEMBER_STAY_TYPE_INTERNAL, null));//新申请+返回修改
 
         return "analysis/suspend/suspend_branch";
     }
