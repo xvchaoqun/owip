@@ -63,23 +63,35 @@
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_appointTime" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(branchMemberGroup.appointTime,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(branchMemberGroup.appointTime,'yyyy.MM.dd')}"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+                <c:if test="${empty branchMemberGroup || !branchMemberGroup.isDeleted}">
+                <span class="help-block">注：应换届时间由此日期往后推三年</span>
+                </c:if>
+            </div>
+        </div>
+
+        <c:if test="${branchMemberGroup.isDeleted}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"> 应换届时间</label>
+            <div class="col-xs-8 label-text">
+                ${cm:formatDate(branchMemberGroup.tranTime,'yyyy.MM.dd')}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label"><span class="star">*</span>实际换届时间</label>
+            <div class="col-xs-8">
+                <div class="input-group" style="width: 150px">
+                    <input required class="form-control date-picker" name="_actualTranTime" type="text"
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(branchMemberGroup.actualTranTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
         </div>
-        <%--<div class="form-group">
-            <label class="col-xs-3 control-label"><span class="star">*</span>应换届时间</label>
-            <div class="col-xs-8">
-                <div class="input-group" style="width: 150px">
-                    <input required class="form-control date-picker" name="_tranTime" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(branchMemberGroup.tranTime,'yyyy-MM-dd')}"/>
-                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                </div>
-            </div>
-        </div>--%>
+        </c:if>
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">发文</label>
             <div class="col-xs-8">
@@ -134,7 +146,7 @@
                             $("#modal").modal("hide")
                             //SysMsg.success('提交成功。', '成功',function(){
                             $("#jqGrid").trigger("reloadGrid");
-                            $.hashchange();
+                            //$.hashchange();
                             // });
                         }
                     }else{

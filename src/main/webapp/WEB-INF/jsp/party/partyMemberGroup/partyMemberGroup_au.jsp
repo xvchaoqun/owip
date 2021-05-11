@@ -50,8 +50,8 @@
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_appointTime" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(partyMemberGroup.appointTime,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(partyMemberGroup.appointTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
@@ -61,12 +61,25 @@
             <div class="col-xs-8">
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" name="_tranTime" type="text"
-                           data-date-format="yyyy-mm-dd"
-                           value="${cm:formatDate(partyMemberGroup.tranTime,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(partyMemberGroup.tranTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>
         </div>
+        <c:if test="${partyMemberGroup.isDeleted}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label"><span class="star">*</span>实际换届时间</label>
+            <div class="col-xs-8">
+                <div class="input-group" style="width: 150px">
+                    <input required class="form-control date-picker" name="_actualTranTime" type="text"
+                           data-date-format="yyyy.mm.dd"
+                           value="${cm:formatDate(partyMemberGroup.actualTranTime,'yyyy.MM.dd')}"/>
+                    <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
+                </div>
+            </div>
+        </div>
+        </c:if>
         <%--<div class="form-group">
             <label class="col-xs-4 control-label">发文</label>
             <div class="col-xs-8">
