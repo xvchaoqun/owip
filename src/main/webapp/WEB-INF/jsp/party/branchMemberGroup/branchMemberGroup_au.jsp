@@ -14,13 +14,13 @@
             <label class="col-xs-3 control-label"><span class="star">*</span>所属党支部</label>
             <c:if test="${empty branchMemberGroup}">
                 <div class="col-xs-8">
-                    <select class="form-control" data-width="292" data-rel="select2-ajax"
+                    <select required class="form-control" data-width="292" data-rel="select2-ajax"
                             data-ajax-url="${ctx}/party_selects?auth=1"
                             name="partyId" data-placeholder="请选择所属${_p_partyName}">
                         <option value="${party.id}" delete="${party.isDeleted}">${party.name}</option>
                     </select>
                     <div style="padding-top: 5px;${(empty branch)?'display: none':''}" id="branchDiv">
-                        <select class="form-control" data-rel="select2-ajax"
+                        <select required class="form-control" data-rel="select2-ajax"
                                 data-ajax-url="${ctx}/branch_selects?auth=1" data-width="292"
                                 name="branchId" data-placeholder="请选择党支部">
                             <option value="${branch.id}" delete="${branch.isDeleted}">${branch.name}</option>
