@@ -245,9 +245,9 @@ public class MemberStayReportController extends MemberBaseController {
         }
         map.put("toBranch", toBranch); // 暂留所在党支部
 
-        map.put("check1", (u.getPoliticalStatus() != null && u.getPoliticalStatus()
-                == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
         map.put("check2", (u.getPoliticalStatus() != null && u.getPoliticalStatus()
+                == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
+        map.put("check1", (u.getPoliticalStatus() != null && u.getPoliticalStatus()
                 == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
 
         String transferTime = "";
