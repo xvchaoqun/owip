@@ -108,8 +108,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
             }
         }else{
             // 是干部管理员
-            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
-                    && ShiroHelper.isPermitted("cadre:menu")){
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)){
                 hasDirectModifyCadreAuth = true;
             }
             // 只有查看权限
