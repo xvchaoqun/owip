@@ -231,11 +231,9 @@
                                             </shiro:hasPermission>
                                         </ul>
                                     </div>
-
                                 </shiro:hasPermission>
 
-
-
+                                <shiro:hasPermission name="cadre:edit">
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"
@@ -244,6 +242,7 @@
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
+                                </shiro:hasPermission>
                                 </shiro:hasPermission>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

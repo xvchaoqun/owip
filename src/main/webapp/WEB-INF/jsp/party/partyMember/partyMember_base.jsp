@@ -478,7 +478,7 @@
         </div>
     </div>
 </c:if>
-<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+<c:if test="${hasDirectModifyCadreAuth}">
     <c:if test="${param.type==1}">
         <form class="form-horizontal" action="${ctx}/cadreBaseInfo?cadreId=${cadre.id}" autocomplete="off"
               disableautocomplete id="updateForm" method="post" enctype="multipart/form-data">

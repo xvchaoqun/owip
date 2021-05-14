@@ -32,9 +32,7 @@
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-
+    <c:if test="${hasDirectModifyCadreAuth}">
         <shiro:hasPermission name="cadreCourse:edit">
             <button class="popupBtn btn btn-success btn-sm"
                data-url="${ctx}/cadreCourse_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -55,7 +53,6 @@
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
-        </shiro:lacksPermission>
         </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="course" name="check" class="cadre-info-check"> 无此类情况
@@ -68,9 +65,7 @@
 <c:if test="${type==2}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-
+    <c:if test="${hasDirectModifyCadreAuth}">
         <button class="popupBtn btn  btn-sm btn-success"
            data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_TEACH}&cadreId=${param.cadreId}"><i
                 class="fa fa-plus"></i>
@@ -89,7 +84,6 @@
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-times"></i> 删除
         </button>
-    </shiro:lacksPermission>
         </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="course_reward" name="check" class="cadre-info-check"> 无此类情况
@@ -197,7 +191,7 @@
     }
     <c:if test="${type==1}">
     $("#jqGrid_cadreCourse").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -209,7 +203,7 @@
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadreReward").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

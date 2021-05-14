@@ -110,7 +110,7 @@
                                                 data-url="${ctx}/cadre_promote">
                                             <i class="fa fa-level-up"></i> 提任${status==CADRE_STATUS_CJ?'校领导':'处级干部'}
                                         </button>
-                                    </shiro:hasPermission>
+
                                     <shiro:hasPermission name="cadre:leave">
                                         <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-width="700"
@@ -206,8 +206,6 @@
                                             </ul>
                                         </div>
                                     </shiro:hasPermission>
-
-                                    <shiro:hasPermission name="cadre:edit">
                                         <div class="btn-group">
                                             <button data-toggle="dropdown"
                                                     data-rel="tooltip" data-placement="top" data-html="true"
@@ -423,6 +421,7 @@
                                         <i class="fa fa-hand-pointer-o"></i> 提取简介
                                     </button>
                                 </shiro:hasPermission>
+                                <shiro:hasPermission name="cadre:edit">
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
                                             data-title="删除"
@@ -435,6 +434,7 @@
                                             class="jqBatchBtn btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
+                                </shiro:hasPermission>
                                 </shiro:hasPermission>
                                 <div class="pull-right hidden-sm hidden-xs">
                                     <select id="sortBy" data-placeholder="请选择排序方式" data-width="250">

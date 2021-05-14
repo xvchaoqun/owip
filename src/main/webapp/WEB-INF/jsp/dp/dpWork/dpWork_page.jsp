@@ -77,7 +77,7 @@
             $("#dp-content").loadPage({url:"${ctx}/dp/dpWork?userId=${param.userId}&type=" + type, callback:fn})
         }
         $("#jqGrid_dpWork").jqGrid({
-            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!hasDirectModifyCadreAuth}">
             multiselect: false,
             </c:if>
             ondblClickRow: function () {
@@ -204,8 +204,7 @@
                         },
                         width: 120
                     },
-                    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                    <c:if test="${hasDirectModifyCadreAuth}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
@@ -213,7 +212,6 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
-                    </shiro:lacksPermission>
                     </c:if>
                 ],
                 pager: null

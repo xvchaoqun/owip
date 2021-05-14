@@ -16,8 +16,7 @@
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
 <c:if test="${!cm:getHtmlFragment('hf_cadre_train').isDeleted}">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
@@ -52,8 +51,6 @@
                 <i class="fa fa-times"></i> 删除
             </button>
         </shiro:hasPermission>
-
-        </shiro:lacksPermission>
         </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="train" name="check" class="cadre-info-check"> 无此类情况
@@ -157,7 +154,7 @@
             $("#tab-content").loadPage({url:"${ctx}/cadreTrain_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreTrain").jqGrid({
-            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!hasDirectModifyCadreAuth}">
             multiselect:false,
             </c:if>
             ondblClickRow: function () {

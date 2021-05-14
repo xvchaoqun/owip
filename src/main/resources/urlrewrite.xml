@@ -4,6 +4,27 @@
 <urlrewrite>
 
 	<rule>
+		<note>/pmd/pmdFee_confirm</note>
+		<from>^/m/pmd/pmdFee_confirm</from>
+		<to>/pmd/pmdFee_confirm</to>
+	</rule>
+	<rule>
+		<note>/pmd/pmdFee_pay</note>
+		<from>^/m/pmd/pmdFee_pay</from>
+		<to>/pmd/pmdFee_pay</to>
+	</rule>
+	<rule>
+		<note>/user/pmd/payConfirm</note>
+		<from>^/m/user/pmd/payConfirm</from>
+		<to>/user/pmd/payConfirm</to>
+	</rule>
+	<rule>
+		<note>/user/pmd/pay</note>
+		<from>^/m/user/pmd/pay</from>
+		<to>/user/pmd/pay</to>
+	</rule>
+
+	<rule>
 		<note>pcs_login</note>
 		<from>^/ddh</from>
 		<to>/user/pcs/login</to>

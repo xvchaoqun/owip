@@ -58,6 +58,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
             return false;
         }
 
+        boolean hasDirectModifyCadreAuth = false;
         // 只有修改干部本人信息的权限，需要判断一下是否是本人和读取更新的权限
         if(!ShiroHelper.isPermittedAny(new String[]{RoleConstants.PERMISSION_CADREADMIN,
                 RoleConstants.PERMISSION_CADREONLYVIEW}) &&
@@ -83,7 +84,7 @@ public class CadreAuthFilter extends AuthorizationFilter{
             if(cadreId!=null && cadre.getId().intValue() != cadreId) {
                 cadre = cadreService.get(cadreId);
             }
-            boolean hasDirectModifyCadreAuth = false;
+
             if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYMEMBERARCHIVE)){
                 // 二级党委管理员，只允许修改非干部的信息
                 hasDirectModifyCadreAuth = !CadreConstants.CADRE_STATUS_SET.contains(cadre.getStatus());
@@ -105,6 +106,18 @@ public class CadreAuthFilter extends AuthorizationFilter{
                     return StringUtils.equals(_toApply, "1");
                 }
             }
+        }else{
+            // 是干部管理员
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN)
+                    && ShiroHelper.isPermitted("cadre:menu")){
+                hasDirectModifyCadreAuth = true;
+            }
+            // 只有查看权限
+            if(ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREONLYVIEW)){
+                hasDirectModifyCadreAuth = false;
+            }
+
+            request.setAttribute("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
         }
 
         return true;

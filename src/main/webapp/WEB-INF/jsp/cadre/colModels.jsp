@@ -691,7 +691,7 @@
         }
         },
         {label: '课程名称', name: 'name', width: 550, align:'left'},
-        <c:if test="${param._sort ne 'no' && (cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth)}">
+        <c:if test="${param._sort ne 'no' && hasDirectModifyCadreAuth}">
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
             formatoptions:{grid:'#jqGrid_cadreCourse', url: "${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"}, frozen: true

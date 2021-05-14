@@ -26,8 +26,7 @@
 <c:if test="${type==1}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostPro_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -48,7 +47,6 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </shiro:lacksPermission>
     </c:if>
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="post_pro" name="check" class="cadre-info-check"> 无此类情况
@@ -61,9 +59,7 @@
 <c:if test="${type==2}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-
+    <c:if test="${hasDirectModifyCadreAuth}">
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostAdmin_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -84,7 +80,6 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="post_admin" name="check" class="cadre-info-check"> 无此类情况
@@ -97,9 +92,7 @@
 <c:if test="${type==3}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
-
+    <c:if test="${hasDirectModifyCadreAuth}">
             <shiro:hasPermission name="cadrePostInfo:edit">
                 <button class="popupBtn btn btn-success btn-sm"
                    data-url="${ctx}/cadrePostWork_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
@@ -120,8 +113,6 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
             </shiro:hasPermission>
-
-        </shiro:lacksPermission>
     </c:if>
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <input type="checkbox" data-name="post_work" name="check" class="cadre-info-check"> 无此类情况
@@ -146,7 +137,7 @@
 
     <c:if test="${type==1}">
     $("#jqGrid_cadrePostPro").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -158,7 +149,7 @@
     </c:if>
     <c:if test="${type==2}">
     $("#jqGrid_cadrePostAdmin").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -170,7 +161,7 @@
     </c:if>
     <c:if test="${type==3}">
     $("#jqGrid_cadrePostWork").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

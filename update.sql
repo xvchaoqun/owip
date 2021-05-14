@@ -1,3 +1,11 @@
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`,
+                            `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1501, 0, '党费核算审核', '', 'function', '', NULL, 570, '0/1/564/570/', 1, 'pmdConfigMember:check', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`,
+                            `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                            VALUES (1500, 1, '补缴党费', '', 'url', 'fa fa-rmb', '/m/pmd/pmdFee', 692, '0/692/', 1, 'm:pmdFee:*', NULL, NULL, NULL, 1, 1828);
+
 20210511
 -- 北师大、哈工大、西工大
 20210510

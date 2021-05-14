@@ -92,17 +92,6 @@
             </div>
         </div>
         </c:if>
-        <%--<div class="form-group">
-            <label class="col-xs-3 control-label">发文</label>
-            <div class="col-xs-8">
-                <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchUnit_selects?unitId=${party.unitId}"
-                        name="dispatchUnitId" data-placeholder="请选择单位发文">
-                    <option value="${branchMemberGroup.dispatchUnitId}">
-                        ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}
-                    </option>
-                </select>
-            </div>
-        </div>--%>
     </form>
 </div>
 <div class="modal-footer">
@@ -111,7 +100,6 @@
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
         ${branchMemberGroup!=null?'确定':'添加'}</button>
 </div>
-
 <script>
     $("#modalForm select[name=branchId]").on("change", function(){
 

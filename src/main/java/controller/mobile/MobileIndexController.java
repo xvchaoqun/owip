@@ -119,17 +119,19 @@ public class MobileIndexController extends BaseController {
 		Map cadreAgeMap = new LinkedHashMap();
 
 		StatCadreBean totalBean = statCadreMapper.cadre_stat_age(searchBean);
-		cadreAgeMap.put("30岁及以下",totalBean == null ?0:totalBean.getNum1());
-		cadreAgeMap.put("31-35岁",totalBean == null ?0:totalBean.getNum2());
-		cadreAgeMap.put("36-40岁",totalBean == null ?0:totalBean.getNum3());
-		cadreAgeMap.put("41-45岁",totalBean == null ?0:totalBean.getNum4());
-		cadreAgeMap.put("46-50岁",totalBean == null ?0:totalBean.getNum5());
-		cadreAgeMap.put("51-55岁",totalBean == null ?0:totalBean.getNum6());
-		cadreAgeMap.put("55岁以上",totalBean == null ?0:totalBean.getNum7());
-		ageCount=totalBean.getNum1()+totalBean.getNum2()+totalBean.getNum3()+totalBean.getNum4()
-				+totalBean.getNum5()+totalBean.getNum6()+totalBean.getNum7();
-		if(totalBean != null && cadreCount != ageCount){
-			cadreAgeMap.put("无数据",cadreCount-ageCount);
+		if(totalBean!=null) {
+			cadreAgeMap.put("30岁及以下", totalBean == null ? 0 : totalBean.getNum1());
+			cadreAgeMap.put("31-35岁", totalBean == null ? 0 : totalBean.getNum2());
+			cadreAgeMap.put("36-40岁", totalBean == null ? 0 : totalBean.getNum3());
+			cadreAgeMap.put("41-45岁", totalBean == null ? 0 : totalBean.getNum4());
+			cadreAgeMap.put("46-50岁", totalBean == null ? 0 : totalBean.getNum5());
+			cadreAgeMap.put("51-55岁", totalBean == null ? 0 : totalBean.getNum6());
+			cadreAgeMap.put("55岁以上", totalBean == null ? 0 : totalBean.getNum7());
+			ageCount = totalBean.getNum1() + totalBean.getNum2() + totalBean.getNum3() + totalBean.getNum4()
+					+ totalBean.getNum5() + totalBean.getNum6() + totalBean.getNum7();
+			if (totalBean != null && cadreCount != ageCount) {
+				cadreAgeMap.put("无数据", cadreCount - ageCount);
+			}
 		}
 
 		modelMap.put("cadreAgeMap", cadreAgeMap);

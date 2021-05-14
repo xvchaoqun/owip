@@ -49,6 +49,7 @@ public class MemberOutService extends MemberBaseMapper {
         MemberOutExample example = new MemberOutExample();
         example.createCriteria().andUserIdEqualTo(userId).andStatusIn(Arrays.asList(MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY,
                 MemberConstants.MEMBER_OUT_STATUS_ARCHIVE));
+        example.setOrderByClause("status asc, id desc");
         List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
 
         return memberOuts.size() > 0 ? memberOuts.get(0) : null;

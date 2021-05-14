@@ -743,7 +743,9 @@ td.dark-danger{
 select[multiple] {
     display: none;
 }
-
+.multiselect-container{
+    z-index: 1030;
+}
 .multiselect-container .checkbox input[type="checkbox"],
 .multiselect-container .checkbox input[type="radio"] {
     opacity: 1;

@@ -4,8 +4,7 @@
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-home"></i> 家庭成员信息
-<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+<c:if test="${hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <c:if test="${!cm:getHtmlFragment('hf_cadre_family').isDeleted}">
                 <a class="popupBtn btn btn-warning btn-sm"
@@ -34,7 +33,6 @@
                     </a>
                 </shiro:hasPermission>
             </div>
-    </shiro:lacksPermission>
     </c:if>
         </h4>
 
@@ -62,8 +60,7 @@
             <input type="checkbox" data-name="family_abroad" name="check" class="cadre-info-check"> 无此类情况
                 </span>
         </shiro:lacksPermission>
-<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+<c:if test="${hasDirectModifyCadreAuth}">
             <div class="buttons">
                 <shiro:hasPermission name="cadreFamily:edit">
                     <button class="popupBtn btn btn-success btn-sm"
@@ -86,7 +83,6 @@
                     </button>
                 </shiro:hasPermission>
             </div>
-    </shiro:lacksPermission>
     </c:if>
         </h4>
 
@@ -110,7 +106,7 @@
     </c:if>
 
     $("#jqGrid_cadreFamily").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         pager: "#jqGridPager_cadreFamily",
@@ -122,7 +118,7 @@
     //$.initNavGrid("jqGrid_cadreFamily", "jqGridPager_cadreFamily");
 
     $("#jqGrid_cadreFamilyAbroad").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         pager: "#jqGridPager_cadreFamilyAbroad",

@@ -13,8 +13,7 @@ pageEncoding="UTF-8" %>
            data-load-el="#tab-content"
            data-url="${ctx}/cadreCompany?cls=2&cadreId=${param.cadreId}"><i class="fa fa-history"></i> 历史兼职</a>
     </li>
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
         <c:if test="${!cm:getHtmlFragment('hf_cadre_company').isDeleted}">
         <div class="buttons" style="position:absolute;left:250px;">
             <a class="popupBtn btn btn-warning btn-sm"
@@ -23,13 +22,11 @@ pageEncoding="UTF-8" %>
                 <i class="fa fa-info-circle"></i> 填写说明</a>
         </div>
         </c:if>
-    </shiro:lacksPermission>
     </c:if>
 </ul>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
-<c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+<c:if test="${hasDirectModifyCadreAuth}">
     <shiro:hasPermission name="cadreCompany:edit">
 
         <button class="popupBtn btn btn-success btn-sm" data-width="800"
@@ -73,7 +70,6 @@ pageEncoding="UTF-8" %>
             <i class="fa fa-times"></i> 删除
         </button>
     </shiro:hasPermission>
-    </shiro:lacksPermission>
     </c:if>
 <c:if test="${cls==1}">
     <a class="downloadBtn btn btn-success btn-sm tooltip-success" data-method="get"
@@ -100,7 +96,7 @@ pageEncoding="UTF-8" %>
         padding: 10px!important;
         padding-right: 2px!important;
     }
-    <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+    <c:if test="${!hasDirectModifyCadreAuth}">
     .multi-row-head-table .frozen-div .ui-jqgrid-labels th{
         padding: 10px!important;
         padding-right: 2px!important;
@@ -121,7 +117,7 @@ pageEncoding="UTF-8" %>
     </c:if>
 
     $("#jqGrid_cadreCompany").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

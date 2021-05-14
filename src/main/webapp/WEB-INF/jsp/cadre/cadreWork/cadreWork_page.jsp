@@ -21,7 +21,7 @@
 </ul>
 </shiro:hasPermission>
 <c:if test="${type==1}">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
+    <c:if test="${hasDirectModifyCadreAuth}">
         <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
@@ -293,7 +293,7 @@
             $("#tab-content").loadPage({url:"${ctx}/cadreWork_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
         $("#jqGrid_cadreWork").jqGrid({
-            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!hasDirectModifyCadreAuth}">
             multiselect: false,
             </c:if>
             ondblClickRow: function () {
@@ -333,8 +333,7 @@
                     ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
                 }, width: 120
                 },
-                <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                <c:if test="${hasDirectModifyCadreAuth}">
                         {
                             label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                             //alert(rowObject.id)
@@ -342,7 +341,6 @@
                             ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
                         }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                         }
-                </shiro:lacksPermission>
                 </c:if>
             ],
             rowattr: function (rowData, currentObj, rowId) {
@@ -435,8 +433,7 @@
                         },
                         width: 120
                     },
-                    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                    <c:if test="${hasDirectModifyCadreAuth}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
@@ -444,7 +441,6 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
-                    </shiro:lacksPermission>
                     </c:if>
                 ],
                 pager: null

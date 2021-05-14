@@ -132,7 +132,7 @@
 
             </div>
             <div class="page-content">
-                <shiro:hasPermission name="cadre:archive">
+                <c:if test='${cm:isPermitted("cadre:list")&&cm:isPermitted("cadre:archive")}'>
                     <div class="ace-settings-container" id="ace-settings-container">
                         <div class="btn btn-app btn-xs btn-info ace-settings-btn" id="ace-settings-btn">
                             <i class="ace-icon fa fa-cog bigger-130"></i>
@@ -183,7 +183,7 @@
                             </blockquote>
                         </div>
                     </script>
-                </shiro:hasPermission>
+                    </c:if>
                 <div id="page-content"></div>
             </div>
             <!-- /.page-content -->

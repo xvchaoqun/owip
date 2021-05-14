@@ -90,7 +90,7 @@
 
         var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
         $("#jqGrid_dpEdu").jqGrid({
-            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!hasDirectModifyCadreAuth}">
             multiselect:false,
             </c:if>
             ondblClickRow: function () {
@@ -269,8 +269,7 @@
                         })).join("，")
                     }, width: 270},
                     {label: '备注', name: 'remark', width: 150},
-                    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                    <c:if test="${hasDirectModifyCadreAuth}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
@@ -278,7 +277,6 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, userId: rowObject.userId})
                     }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
-                    </shiro:lacksPermission>
                     </c:if>
                 ],
                 pager: null

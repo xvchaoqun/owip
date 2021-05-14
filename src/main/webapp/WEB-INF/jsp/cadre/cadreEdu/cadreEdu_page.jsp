@@ -14,8 +14,7 @@
    </shiro:lacksPermission>
 </shiro:hasPermission>
 <c:if test="${type==1}">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
         <shiro:hasPermission name="cadreEdu:edit">
@@ -58,7 +57,6 @@
             </button>
         </shiro:hasPermission>
     </div>
-        </shiro:lacksPermission>
     </c:if>
     <div class="space-4"></div>
     <table id="jqGrid_cadreEdu" class="jqGrid2"></table>
@@ -207,7 +205,7 @@
 
         var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
         $("#jqGrid_cadreEdu").jqGrid({
-            <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+            <c:if test="${!hasDirectModifyCadreAuth}">
             multiselect:false,
             </c:if>
             ondblClickRow: function () {
@@ -288,8 +286,7 @@
                         })).join("，")
                     }, width: 140},
                     {label: '备注', name: 'remark', width: 150},
-                    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                    <c:if test="${hasDirectModifyCadreAuth}">
                     {
                         label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                         //alert(rowObject.id)
@@ -297,7 +294,6 @@
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
                     }, width: ${cm:isPermitted(PERMISSION_CADREADMIN)?200:150}
                     }
-                    </shiro:lacksPermission>
                     </c:if>
                 ],
                 pager: null

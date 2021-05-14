@@ -88,8 +88,7 @@
                     <textarea id="content">${cadreInfo.content}</textarea>
                     <input type="hidden" name="content">
                 </div>
-                <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-                    <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+                <c:if test="${hasDirectModifyCadreAuth}">
                     <div class="modal-footer center">
                             <a href="javascript:;" onclick="copyOrginal()" class="btn btn-success">
                                 <i class="ace-icon fa fa-copy"></i>
@@ -99,7 +98,6 @@
                                value="保存"/>
 
                     </div>
-                    </shiro:lacksPermission>
                 </c:if>
             </div>
         </div>
@@ -109,8 +107,7 @@
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
                 <shiro:hasPermission name="cadreResearch:edit">
                     <button class="popupBtn btn btn-success btn-sm"
                        data-url="${ctx}/cadreResearch_au?cadreId=${param.cadreId}&researchType=${CADRE_RESEARCH_TYPE_DIRECT}"><i
@@ -134,7 +131,6 @@
                     </button>
                 </shiro:hasPermission>
                 &nbsp;&nbsp;近5年的主持科研项目的情况。
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="research_direct" name="check" class="cadre-info-check"> 无此类情况
@@ -147,8 +143,7 @@
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
                 <shiro:hasPermission name="cadreResearch:edit">
                     <button class="popupBtn btn btn-success btn-sm"
                        data-url="${ctx}/cadreResearch_au?cadreId=${param.cadreId}&researchType=${CADRE_RESEARCH_TYPE_IN}"><i
@@ -172,7 +167,6 @@
                     </button>
                 </shiro:hasPermission>
                 &nbsp;&nbsp;近5年的参与科研项目的情况。
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="research_in" name="check" class="cadre-info-check"> 无此类情况
@@ -185,8 +179,7 @@
 <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
                 <button class="popupBtn btn  btn-sm btn-success"
                    data-url="${ctx}/cadreBook_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                     添加</button>
@@ -205,7 +198,6 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
                 &nbsp;&nbsp;近5年的出版著作的情况。
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="book" name="check" class="cadre-info-check"> 无此类情况
@@ -218,8 +210,7 @@
 <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
                 <button class="popupBtn btn  btn-sm btn-success"
                    data-url="${ctx}/cadrePaper_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                     添加</button>
@@ -238,7 +229,6 @@
                     <i class="fa fa-times"></i> 删除
                 </button>
                 &nbsp;&nbsp;近5年的发表论文的情况。
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="paper" name="check" class="cadre-info-check"> 无此类情况
@@ -251,8 +241,7 @@
 <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     <div class="space-4"></div>
     <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
-        <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
+    <c:if test="${hasDirectModifyCadreAuth}">
             <button class="popupBtn btn  btn-sm btn-success"
                data-url="${ctx}/cadreReward_au?rewardType=${CADRE_REWARD_TYPE_RESEARCH}&cadreId=${param.cadreId}"><i
                     class="fa fa-plus"></i>
@@ -271,7 +260,6 @@
                     class="jqBatchBtn btn btn-danger btn-sm">
                 <i class="fa fa-times"></i> 删除
             </button>
-        </shiro:lacksPermission>
     </c:if>
     <shiro:lacksPermission name="${PERMISSION_CADREONLYVIEW}">
         <input type="checkbox" data-name="research_reward" name="check" class="cadre-info-check"> 无此类情况
@@ -287,7 +275,7 @@
 <script>
     var ke_height =${type==CADRE_INFO_TYPE_RESEARCH?550:250};
     var readonlyMode = false;
-    <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+    <c:if test="${!hasDirectModifyCadreAuth}">
     ke_height += 60;
     readonlyMode = true;
     </c:if>
@@ -339,7 +327,7 @@
     }
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}">
     $("#jqGrid_cadreResearch_in").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -351,7 +339,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}">
     $("#jqGrid_cadreResearch_direct").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -363,7 +351,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_BOOK_SUMMARY}">
     $("#jqGrid_cadreBook").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -375,7 +363,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_PAPER_SUMMARY}">
     $("#jqGrid_cadrePaper").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {
@@ -387,7 +375,7 @@
     </c:if>
     <c:if test="${type==CADRE_INFO_TYPE_RESEARCH_REWARD}">
     $("#jqGrid_cadreReward").jqGrid({
-        <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
+        <c:if test="${!hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
         ondblClickRow: function () {

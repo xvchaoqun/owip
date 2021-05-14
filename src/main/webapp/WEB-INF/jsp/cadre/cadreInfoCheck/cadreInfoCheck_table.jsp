@@ -18,8 +18,7 @@
 <c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_EXIST"/>
 <c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_MAP%>" var="CADRE_INFO_CHECK_RESULT_MAP"/>
 
-<c:set var="toEdit" value="${hasDirectModifyCadreAuth
-|| (cm:isPermitted(PERMISSION_CADREADMIN) && !cm:isPermitted(PERMISSION_CADREONLYVIEW))}"/>
+<c:set var="toEdit" value="${hasDirectModifyCadreAuth}"/>
 <c:set var="displayEdit" value="${cm:isPermitted(PERMISSION_CADREADMIN)
 || (cm:isPermitted(PERMISSION_CADREADMINSELF) && cm:getCadreByUserId(_user.id).id==param.cadreId )}"/>
 <c:set var="moudleBase" value="${param._auth=='self'?100:0}"/>
