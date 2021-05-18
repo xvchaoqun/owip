@@ -1,6 +1,6 @@
 
 20210518
--- 西工大
+-- 西工大(停止同步更新）
 
 delete from pmd_member_pay where member_id not in(select id from pmd_member);
 ALTER TABLE `pmd_member_pay`

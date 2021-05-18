@@ -193,11 +193,12 @@
                             </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmdMember:del">
-                            <button id="delBtn" data-url="${ctx}/pmd/pmdMember_del"
+                            <button id="delBtn" data-url="${ctx}/pmd/pmdMember_batchDel"
                                     data-title="删除"
                                     data-msg="<div class='model-alert-tip'>确定删除这条未缴费记录？（删除后不可恢复，请谨慎操作）</div>"
                                     data-grid-id="#jqGrid2"
                                     data-callback="_reload2"
+                                    data-id-name="ids"
                                     class="jqItemBtn btn btn-danger btn-sm">
                                 <i class="fa fa-remove"></i> 删除
                             </button>

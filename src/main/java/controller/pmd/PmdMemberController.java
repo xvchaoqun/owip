@@ -343,28 +343,6 @@ public class PmdMemberController extends PmdBaseController {
         return;
     }
 
-    // 删除未缴费记录
-    @RequiresPermissions("pmdMember:del")
-    @RequestMapping(value = "/pmdMember_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_pmdMember_del(int id, HttpServletRequest request) {
-
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
-
-        //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
-        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
-            if (!pmdBranchAdminService.adminBranch(ShiroHelper.getCurrentUserId(),
-                    pmdMember.getPartyId(), pmdMember.getBranchId())) {
-                throw new UnauthorizedException();
-            }
-        }
-
-        pmdMemberService.del(id);
-        logger.info(addLog(LogConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
-
-        return success(FormUtils.SUCCESS);
-    }
-
     // 批量删除未缴费记录
     @RequiresPermissions("pmdMember:del")
     @RequestMapping(value = "/pmdMember_batchDel", method = RequestMethod.POST)
