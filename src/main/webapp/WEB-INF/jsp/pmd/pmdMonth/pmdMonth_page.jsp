@@ -48,6 +48,14 @@
                                 </c:if>
                             </shiro:hasPermission>
                             <shiro:hasRole name="${ROLE_SUPER}">
+                                <button class="jqRunBtn btn btn-warning btn-sm"
+                                        data-title="同步党员库"
+                                        data-msg="确定同步党员库？（以当前党员库数据为基准进行更新当月的未缴费、未设置延迟缴费的记录）"
+                                   data-url="${ctx}/pmd/pmdMonth_syncCurrentMonthPmdMembers?update=1"
+                                   data-need-ids="false"
+                                   data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                    同步党员库</button>
+
                                 <button class="jqItemBtn btn btn-danger btn-sm"
                                         data-title="更新结算"
                                         data-msg="确定更新结算？（仅更新汇总数据）"

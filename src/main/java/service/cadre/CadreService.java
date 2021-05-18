@@ -459,8 +459,9 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
             }
             cadrePartyMapper.deleteByPrimaryKey(id);
 
-            dpCommonService.updateMemberRole(userId);
-            //cadrePartyService.updateRole(userId);
+            if(dpCommonService!=null) {
+                dpCommonService.updateMemberRole(userId);
+            }
 
             cacheHelper.clearCadreCache(cadreView.getId());
         }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="member_stay_abroad" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="10749bac-8b05-4a5e-b555-2357c68192e5">
 	<property name="ireport.zoom" value="0.5644739300537784"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1330"/>
+	<property name="ireport.y" value="0"/>
 	<style name="zh_CN" isDefault="true" hAlign="Left" vAlign="Middle" fontName="宋体" fontSize="60" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 	<field name="realname" class="java.lang.String"/>
 	<field name="gender" class="java.lang.String"/>
@@ -108,7 +108,7 @@
 				<textFieldExpression><![CDATA[$F{birth}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1026" y="728" width="305" height="105" uuid="f997178c-7aa9-44ab-94f5-e33f63e4ea97"/>
+				<reportElement x="1014" y="728" width="334" height="105" uuid="f997178c-7aa9-44ab-94f5-e33f63e4ea97"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>

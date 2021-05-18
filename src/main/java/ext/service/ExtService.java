@@ -2,10 +2,10 @@ package ext.service;
 
 import bean.UserBean;
 import domain.base.MetaType;
-import ext.domain.*;
 import domain.member.Member;
 import domain.party.*;
 import domain.sys.SysUserView;
+import ext.domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,6 +123,55 @@ public class ExtService extends BaseMapper {
         String fileName = "党支部书记(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
+
+    /*public void branch_secretary_export(BranchViewExample example, HttpServletResponse response) {
+
+        Map<Integer, Party> partyMap = partyService.findAll();
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
+        List<BranchView> records = branchViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"工作证号|100","姓名",
+                "性别","出生日期|100", "年龄", "民族", "籍贯",
+                "所在基层党组织|300|left","所在党支部|200|left", "入党时间|100","转正时间|100",
+                "专业技术职务|150","职称级别|150", "手机号码|100","电子邮箱|150"};
+
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            BranchView branch = records.get(i);
+            List<BranchMember> branchSecretary = iPartyMapper.findBranchMembers(secretaryType.getId(), branch.getId());
+
+            if (branchSecretary.size() > 0) {
+                Integer userId = branchSecretary.get(0).getUserId();
+                SysUserView uv = sysUserService.findById(userId);
+                Date birth = uv.getBirth();
+                TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+                Member member = memberService.get(userId);
+                Integer partyId = (member!=null)?member.getPartyId():null;
+                Integer branchId = (member!=null)?member.getBranchId():null;
+                String[] values = {
+                        uv.getCode(),
+                        uv.getRealname(),
+                        uv.getGender()!=null?SystemConstants.GENDER_MAP.get(uv.getGender()):"",
+                        DateUtils.formatDate(birth, DateUtils.YYYY_MM_DD),
+                        birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
+                        uv.getNation(),
+                        uv.getNativePlace(),
+                        partyId==null?"":partyMap.get(partyId).getName(),
+                        branchId==null?"":branchMap.get(branchId).getName(),
+                        member==null?"":DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD),
+                        member==null?"":DateUtils.formatDate(member.getPositiveTime(), DateUtils.YYYY_MM_DD),
+                        teacherInfo==null?"":teacherInfo.getProPost(), // 专业技术职务
+                        teacherInfo==null?"":teacherInfo.getProPostLevel(), // 职称级别
+                        uv.getMobile(),
+                        uv.getEmail()
+                };
+                valuesList.add(values);
+            }
+        }
+        String fileName = "党支部书记(" + DateUtils.formatDate(new Date(), "yyyyMMdd") +")";
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }*/
 
     // 获取用户所在的学校人事库或学生库中的单位名称
     public String getUnit(int userId) {

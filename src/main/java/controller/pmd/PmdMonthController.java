@@ -274,6 +274,17 @@ public class PmdMonthController extends PmdBaseController {
         return resultMap;
     }
 
+    // 同步党员库
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping(value = "/pmdMonth_syncCurrentMonthPmdMembers", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMonth_syncCurrentMonthPmdMembers(HttpServletRequest request) {
+
+        pmdMemberService.syncCurrentMonthPmdMembers();
+
+        return success(FormUtils.SUCCESS);
+    }
+
     // 结算
     @RequiresPermissions("pmdMonth:end")
     @RequestMapping(value = "/pmdMonth_end", method = RequestMethod.POST)

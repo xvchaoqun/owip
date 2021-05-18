@@ -1,10 +1,16 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.member.Member;
+import domain.member.MemberView;
+import domain.member.MemberViewExample;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.pmd.*;
 import domain.sys.SysUserView;
 import ext.service.PmdExtService;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PmdMemberService extends PmdBaseMapper {
@@ -45,6 +54,79 @@ public class PmdMemberService extends PmdBaseMapper {
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
     private  PmdMemberPayService pmdMemberPayService;
+
+    /**
+     * 批量同步更新所有当月参与缴费党员
+     *
+     * 以当前党员库数据为基准进行更新，如果党员的所在支部在当月的缴费列表：
+     *  1如果还没有缴费党员则添加
+     *  2如果存在则更新所属党组织（仅针对还未缴费且为设置为延迟缴费的）
+     *  3如果党员库中不存在了则删除（仅删除还未缴费、未设置为延迟缴费的缴费记录）
+     */
+    public void syncCurrentMonthPmdMembers(){
+
+        PmdMonth pmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(pmdMonth==null) return;
+        int pmdMonthId = pmdMonth.getId();
+        Set<Integer> partyIdSet = new HashSet<>(); // 当月参与缴费的分党委和党支部
+        Set<Integer> branchIdSet = new HashSet<>();
+        {
+            PmdPartyExample example = new PmdPartyExample();
+            example.createCriteria().andMonthIdEqualTo(pmdMonthId);
+            List<PmdParty> pmdPartyList = pmdPartyMapper.selectByExample(example);
+            partyIdSet = pmdPartyList.stream().map(PmdParty::getPartyId).collect(Collectors.toSet());
+        }
+        {
+            PmdBranchExample example = new PmdBranchExample();
+            example.createCriteria().andMonthIdEqualTo(pmdMonthId);
+            List<PmdBranch> pmdBranchList = pmdBranchMapper.selectByExample(example);
+            branchIdSet = pmdBranchList.stream().map(PmdBranch::getBranchId).collect(Collectors.toSet());
+        }
+
+        List<Integer> needPayUserIdList = new ArrayList<>(); // 应参与缴费的党员USERID
+        {
+            MemberViewExample example = new MemberViewExample();
+            MemberViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
+            criteria.addPermits(new ArrayList<>(partyIdSet), new ArrayList<>(branchIdSet));
+            List<MemberView> memberViews = memberViewMapper.selectByExample(example); // 应参与缴费的党员
+
+            for (MemberView memberView : memberViews) {
+
+                int userId = memberView.getUserId();
+                needPayUserIdList.add(userId);
+                Member member = memberMapper.selectByPrimaryKey(userId);
+                PmdMember pmdMember = get(pmdMonthId, userId);
+                if(pmdMember==null){ // 不存在则添加
+                    pmdExtService.addOrResetMember(null, pmdMonth, member,false);
+                }else{
+                    if(!pmdMember.getHasPay() && !pmdMember.getIsDelay()) {
+                        // 针对还未缴费且为设置为延迟缴费的，更新所在党组织
+                        Integer partyId = member.getPartyId();
+                        Integer branchId = member.getBranchId();
+                        commonMapper.excuteSql("update pmd_member set party_id=" + partyId + ", branch_id=" + branchId
+                                + " where user_id=" + userId + " and month_id=" + pmdMonthId);
+
+                        if(!StringUtils.equals(partyId+"_"+branchId, pmdMember.getPartyId()+"_"+pmdMember.getBranchId())) {
+
+                            Party party = CmTag.getParty(pmdMember.getPartyId());
+                            Branch branch = CmTag.getBranch(pmdMember.getBranchId());
+                            String oldPartyName = party.getName() + ((branch==null)?"":("-"+branch.getName()));
+                            sysApprovalLogService.add(pmdMember.getId(), userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                                    "同步更新所在党组织", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, oldPartyName);
+                        }
+                    }
+                }
+            }
+        }
+        {
+            // 删除还未缴费、未设置为延迟缴费的缴费记录
+            PmdMemberExample example = new PmdMemberExample();
+            example.createCriteria().andUserIdNotIn(needPayUserIdList)
+                    .andHasPayEqualTo(false).andIsDelayEqualTo(false);
+            pmdMemberMapper.deleteByExample(example);
+        }
+    }
 
     // 检测支部或直属党支部的操作权限（允许上级分党委或组织部管理员操作）
     public PmdMember checkAdmin(int pmdMemberId) {

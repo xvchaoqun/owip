@@ -1,3 +1,12 @@
+
+20210518
+-- 西工大
+
+delete from pmd_member_pay where member_id not in(select id from pmd_member);
+ALTER TABLE `pmd_member_pay`
+	ADD CONSTRAINT `FK_pmd_member_pay_pmd_member` FOREIGN KEY (`member_id`) REFERENCES `pmd_member` (`id`) ON DELETE CASCADE;
+
+
 20210514
 -- 哈工大
 

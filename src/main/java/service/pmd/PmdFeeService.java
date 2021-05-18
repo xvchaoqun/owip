@@ -114,7 +114,7 @@ public class PmdFeeService extends PmdBaseMapper {
         }
 
         if(pmdFee.getHasPay()){
-            pmdFee.setAmt(null); // 已缴费记录不允许更新 金额
+            record.setAmt(null); // 已缴费记录不允许更新 金额
         }
 
         pmdFeeMapper.updateByPrimaryKeySelective(record);
