@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.cadre.Cadre;
 import domain.cadre.CadreParty;
 import domain.member.Member;
+import domain.member.MemberApply;
 import domain.member.MemberQuit;
 import domain.member.MemberQuitExample;
 import domain.pmd.PmdMemberPayViewExample;
@@ -357,6 +358,22 @@ public class MemberQuitService extends MemberBaseMapper {
             cadreParty.setRemark("组织关系已转出");
 
             cadrePartyService.addOrUpdateCadreParty(cadreParty);
+        }
+
+        // 将党员发展申请（预备党员阶段）转入已移除申请
+        MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
+        if(memberApply!=null && memberApply.getStage()==OwConstants.OW_APPLY_STAGE_GROW){
+
+            MemberApply record = new MemberApply();
+            record.setUserId(userId);
+            record.setIsRemove(true);
+            memberApplyMapper.updateByPrimaryKeySelective(record);
+
+            applyApprovalLogService.add(userId,
+                    memberApply.getPartyId(), memberApply.getBranchId(), userId,
+                    ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "移除",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "组织关系变更");
         }
 
         // 更新系统角色  党员->访客
