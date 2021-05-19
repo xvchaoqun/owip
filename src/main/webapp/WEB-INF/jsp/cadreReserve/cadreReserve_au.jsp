@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
                 <div class="col-xs-6">
                     <select ${isCadre?'required':''} data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects"
                             name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                        <option value="${cadre.userId}">${cadre.realname}-${cadre.code}</option>
+                        <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                     </select>
                 </div>
             </div>
