@@ -41,11 +41,10 @@ import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
 import sys.constants.*;
 import sys.tags.CmTag;
-import sys.utils.ContentUtils;
-import sys.utils.DateUtils;
-import sys.utils.JSONUtils;
-import sys.utils.PatternUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -1191,5 +1190,33 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
         }
         List<CadreView> list = cadreViewMapper.selectByExample(example);
         return list;
+    }
+
+    public void cadreExport(List<CadreView> records, HttpServletResponse response) {
+        String[] titles = {"工作证号|100", "姓名|100|", "所在单位|300|", "所在单位及职务|350", "行政级别|150", "职务属性|150", "性别|100", "民族|100", "出生时间|150", "政治面貌|150"};
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM");
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < records.size(); i++) {
+
+            CadreView record = records.get(i);
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getUserId(), record.getIsOw(), record.getOwGrowTime(), record.getOwPositiveTime(),
+                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String[] values = {
+                    record.getCode() != null ? record.getCode() : "",
+                    record.getRealname() != null ? record.getRealname() : "",
+                    record.getUnitName() != null ? record.getUnitName() : "",
+                    record.getTitle() != null ? record.getTitle() : "",
+                    record.getAdminLevel() != null ? CmTag.getMetaType(record.getAdminLevel()).getName() : "",
+                    record.getPostType() != null ? CmTag.getMetaType(record.getPostType()).getName() : "",
+                    record.getGender() != null ? SystemConstants.GENDER_MAP.get(record.getGender()): "",
+                    record.getNation() != null ? record.getNation() : "",
+                    record.getBirth() != null ? simpleDateFormat.format(record.getBirth()) : "",
+                    StringUtils.trimToEmpty(partyName)
+            };
+            valuesList.add(values);
+        }
+        String fileName = CmTag.getSysConfig().getSchoolName() + CadreConstants.CADRE_STATUS_MAP.get(CadreConstants.CADRE_STATUS_CJ) + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }
