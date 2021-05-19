@@ -5,6 +5,8 @@ import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.*;
+import domain.crp.CrpRecord;
+import domain.crp.CrpRecordExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.party.BranchMember;
@@ -77,6 +79,7 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CADRE_STATUS_CJ + "") Byte status,
+//                             dpTypes _birth  nation   gender  postTypes  adminLevels  title  unitIds
                              String[] nation,
                              Integer[] dpTypes,
                              Integer[] unitIds,
@@ -173,6 +176,7 @@ public class CadreController extends BaseController {
             List<String> selectNations = Arrays.asList(nation);
             modelMap.put("selectNations", selectNations);
         }
+
         if(labels!=null){
             modelMap.put("selectLabels", Arrays.asList(labels));
         }
@@ -204,6 +208,16 @@ public class CadreController extends BaseController {
         }
 
         return "cadre/cadre_page";
+    }
+
+    @RequiresPermissions("cadre:changeOrder")
+    @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        cadreService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部调序：%s, %s", id, addNum));
+        return success(FormUtils.SUCCESS);
     }
 
     @RequestMapping("/cadre_data")
@@ -1114,14 +1128,161 @@ public class CadreController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadre:changeOrder")
-    @RequestMapping(value = "/cadre_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    @RequiresPermissions("cadre:listStaff")
+    @RequestMapping(value = "/cadre_staff")
+    public String cadre_staff(Integer userId,
+                              String[] nation,
+                              Integer[] dpTypes,
+                                ModelMap modelMap,
+                              Integer[] unitIds,
+                              Integer[] adminLevels,
+                              Integer[] postTypes,
+                              HttpServletRequest request) {
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        if (userId != null) {
+            modelMap.put("sysUser", CmTag.getUserById(userId));
+        }
 
-        cadreService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "干部调序：%s, %s", id, addNum));
-        return success(FormUtils.SUCCESS);
+        for (Unit unit : unitMap.values()) {
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        if (dpTypes != null) {
+            modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
+        }
+        if (unitIds != null) {
+            modelMap.put("selectUnitIds", Arrays.asList(unitIds));
+        }
+
+        if (adminLevels != null) {
+            modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
+        }
+        if (nation != null) {
+            List<String> selectNations = Arrays.asList(nation);
+            modelMap.put("selectNations", selectNations);
+        }
+        if (postTypes != null) {
+            modelMap.put("selectPostTypes", Arrays.asList(postTypes));
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
+        return "cadre/cadre_present_page";
+    }
+
+
+    @RequiresPermissions("cadre:listStaff")
+    @RequestMapping("/cadre_present_data")
+    @ResponseBody
+    public void cadrePresentData(HttpServletResponse response,
+                                   Integer userId,
+                                Byte gender,
+                                String[] nation,
+                                Integer dpTypes, // 党派
+                                @RequestDateRange DateRange _birth,
+                                Integer[] unitIds, // 所在单位
+                                Integer[] adminLevels, // 行政级别
+                                Integer[] postTypes, // 职务属性
+                                String title,
+                               @RequestParam(required = false, defaultValue = "0") int export,
+                               Integer[] ids, // 导出的记录
+                               Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadreViewExample example = new CadreViewExample();
+        example.setOrderByClause("sort_order desc");
+        CadreViewExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_CJ);
+
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+        if (gender != null) {
+            criteria.andGenderEqualTo(gender);
+        }
+        if (nation != null) {
+
+            Map<Integer, MetaType> metaTypeMap = CmTag.getMetaTypes("mc_nation");
+            Set<String> nations = metaTypeMap.values()
+                    .stream().map(MetaType::getName).collect(Collectors.toSet());
+
+            criteria.andNationIn(Arrays.asList(nation), nations);
+        }
+        if (_birth.getStart() != null) {
+            criteria.andBirthGreaterThanOrEqualTo(_birth.getStart());
+        }
+
+        if (_birth.getEnd() != null) {
+            criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
+        }
+        if (unitIds != null) {
+            criteria.andUnitIdIn(Arrays.asList(unitIds));
+        }
+        if (adminLevels != null) {
+            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+        }
+        if (postTypes != null) {
+            criteria.andPostTypeIn(Arrays.asList(postTypes));
+        }
+        if (dpTypes != null) {
+            criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
+        }
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andTitleLike(SqlUtils.trimLike(title));
+        }
+        if (ids != null && ids.length > 0)
+            criteria.andIdIn(Arrays.asList(ids));
+
+        long count = cadreViewMapper.countByExample(example);
+
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreView> records = new ArrayList<>();
+
+        if (export == 1) {
+            records = cadreViewMapper.selectByExample(example);
+            cadreService.cadreExport(records, response);
+            return;
+        } else {
+            records = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        }
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(crpRecord.class, crpRecordMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
     @RequiresPermissions("cadre:import")
