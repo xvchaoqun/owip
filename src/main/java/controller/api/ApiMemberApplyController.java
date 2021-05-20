@@ -163,14 +163,14 @@ public class ApiMemberApplyController extends BaseController {
                     MemberApplyExample memberApplyExample = new MemberApplyExample();
                     memberApplyExample.createCriteria().andUserIdEqualTo(userId);
                     memberApplyMapper.updateByExampleSelective(_bean, memberApplyExample);
-                }
 
-                applyApprovalLogService.add(userId,
+                    applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
                         ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
                         OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         OwConstants.OW_APPLY_STAGE_MAP.get(_bean.getStage()),
-                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "学生党员发展系统数据推送");
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "学生党员发展系统数据推送");
+                }
 
                 if (hasChangeField.size() > 0){
 

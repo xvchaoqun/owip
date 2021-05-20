@@ -897,7 +897,7 @@ br.xs-100 {
     width: 100%;
     max-height: 740px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 .modal .modal-body.overflow-visible{
     overflow: visible;
