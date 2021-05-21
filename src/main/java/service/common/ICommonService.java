@@ -277,7 +277,7 @@ public abstract class ICommonService {
                             major,
                             "在职",
                             StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId(), true)),
-                            cadreEdu.getIsGraduated() ? "毕业" : "",
+                            BooleanUtils.isTrue(cadreEdu.getIsGraduated()) ? "毕业" : "",
                             (CmTag.getBoolProperty("ad_show_degree") && cadreEdu.getHasDegree()) ?
                                     StringUtils.appendIfMissing(String.format("，获%s", cadreEdu.getDegree()), "学位") : "",
                             note);

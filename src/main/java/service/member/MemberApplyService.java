@@ -88,6 +88,11 @@ public class MemberApplyService extends MemberBaseMapper {
                 // 确定申请不重复
                 enterApplyService.checkCurrentApply(userId, OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
 
+                // 新导入的默认都审核通过
+                if(record.getStage()<=OwConstants.OW_APPLY_STAGE_INIT){
+                    record.setStage(OwConstants.OW_APPLY_STAGE_PASS);
+                }
+
                 memberApplyMapper.insertSelective(record);
 
                 // 更新志愿书编码状态
@@ -371,15 +376,8 @@ public class MemberApplyService extends MemberBaseMapper {
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                        if (CmTag.getBoolProperty("ignore_plan_and_draw")) {
-                            if (status == -1)
-                                criteria.andGrowTimeIsNull();
-                            else if (status == 0)
-                                criteria.andGrowTimeIsNotNull().andGrowStatusEqualTo(status);
-                        }else {
-                            if (status == -1) criteria.andPlanStatusIsNull();
-                            else criteria.andPlanStatusEqualTo(status);
-                        }
+                        if (status == -1) criteria.andPlanStatusIsNull();
+                        else criteria.andPlanStatusEqualTo(status);
                         break;
                     case OwConstants.OW_APPLY_STAGE_PLAN:
                         /*if(status==-1) criteria.andDrawStatusIsNull();
@@ -771,7 +769,9 @@ public class MemberApplyService extends MemberBaseMapper {
         MemberApplyExample example = new MemberApplyExample();
         if (CmTag.getBoolProperty("ignore_plan_and_draw")){
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE)
+                    .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+
             record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
             record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
         }else {

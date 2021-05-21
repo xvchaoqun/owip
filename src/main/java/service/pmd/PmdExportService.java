@@ -479,8 +479,12 @@ public class PmdExportService extends PmdBaseMapper {
 
                 // 应补缴党费数
                 cell = row.getCell(column++);
-                cell.setCellValue(bean.getHistoryDelayPay().add(fee).toString());
-                historyDelayPayTotal = historyDelayPayTotal.add(bean.getHistoryDelayPay().add(fee));
+                BigDecimal delayPay = BigDecimal.ZERO;
+                if(bean.getHistoryDelayPay()!=null){
+                    delayPay = bean.getHistoryDelayPay().add(fee);
+                }
+                cell.setCellValue(delayPay.toString());
+                historyDelayPayTotal = historyDelayPayTotal.add(delayPay);
 
                 // 线上补缴党费数
                 cell = row.getCell(column++);
