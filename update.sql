@@ -1,10 +1,10 @@
 
+20210521
 
-INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`,
-                            `parent_id`, `parent_ids`, `is_leaf`, `permission`,
-                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-                             VALUES (5018, 0, '领导干部信息', '', 'function', '', '/cadre_staff', 88, '0/1/88/', 0, 'cadre:listStaff', 6, NULL, NULL, 1, 2000);
-
+-- 已更新哈工大
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`,
+                            `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+                             VALUES (5018, 0, '领导干部信息', '', 'url', 'fa fa-users', '/cadre_staff', 1, '0/1/', 1, 'cadre:listStaff', 6, NULL, NULL, 1, 6999);
 
 20210521
 -- 北师大

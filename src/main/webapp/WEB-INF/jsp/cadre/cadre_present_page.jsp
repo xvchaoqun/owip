@@ -10,7 +10,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
                    value="${not empty param.userId  ||not empty param.realname
-                   ||not empty param.unitIds ||not empty param.gender
+                   ||not empty param.unitIds ||not empty param.gender||not empty param.adminLevels
                    ||not empty param.nation||not empty param.dpTypes||not empty param._birth
                    ||not empty param.postTypes || not empty param.code || not empty param.title}"/>
             <div class="tabbable">
