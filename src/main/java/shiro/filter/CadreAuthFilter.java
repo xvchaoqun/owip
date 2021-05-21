@@ -34,9 +34,14 @@ public class CadreAuthFilter extends AuthorizationFilter{
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
 
+
         // 干部库特殊访问权限
         if(PatternUtils.match("/cadreCompany", WebUtils.getRequestUri((HttpServletRequest) request))
                 && ShiroHelper.isPermitted("cadreCompanyList:menu")){
+            return true;
+        }
+        if(PatternUtils.match("/cadre_staff|/cadre_present_data", WebUtils.getRequestUri((HttpServletRequest) request))
+                && ShiroHelper.isPermitted("cadre:listStaff")){
             return true;
         }
 
