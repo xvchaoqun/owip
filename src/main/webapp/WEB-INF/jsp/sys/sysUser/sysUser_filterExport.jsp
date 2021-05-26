@@ -31,7 +31,7 @@
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
                         <input checked type="radio" name="colType" id="colType0" value="0">
                         <label for="colType0">
-                            身份证号
+                            证件号码
                         </label>
                     </div>
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <c:if test="${_p_hasPartyModule}">
-                <span class="help-block">注：按身份证号查找时，按教职工、研究生、本科生的顺序读取第一个账号（如账号类型重复则忽略）</span>
+                <span class="help-block">注：按证件号码查找时，按教职工、研究生、本科生的顺序读取第一个账号（如账号类型重复则忽略）</span>
                 </c:if>
             </div>
         </div>

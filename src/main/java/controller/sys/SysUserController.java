@@ -72,7 +72,7 @@ public class SysUserController extends BaseController {
         Map<String, ColumnBean> columnBeanMap = null;
         Object bean = null;
         byte type = sysUser.getType();
-        if (type == SystemConstants.USER_TYPE_JZG) {
+        if (sysUser.isTeacher()) {
 
             bean = extJzgMapper.selectByPrimaryKey(code);
             columnBeanMap = dbServcie.getColumnBeanMap("ext_jzg");

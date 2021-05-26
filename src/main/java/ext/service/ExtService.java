@@ -180,7 +180,7 @@ public class ExtService extends BaseMapper {
         String code = userBean.getCode();
         Byte type = userBean.getType();
         String unit = null;
-        if (type == SystemConstants.USER_TYPE_JZG) {
+        if (type == SystemConstants.USER_TYPE_JZG || type == SystemConstants.USER_TYPE_RETIRE) {
             ExtJzg extJzg = getExtJzg(code);
             if (extJzg != null) {
                 unit = userBean.getUnit();

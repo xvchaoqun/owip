@@ -182,10 +182,10 @@
                                            placeholder="请输入姓名">
                                 </div>
                                 <div class="form-group">
-                                    <label>身份证号码</label>
+                                    <label>证件号码</label>
                                     <input class="form-control search-query" name="idcard" type="text"
                                            value="${param.idcard}"
-                                           placeholder="请输入身份证号码">
+                                           placeholder="请输入">
                                 </div>
                                 <div class="form-group">
                                     <label>所在单位</label>

@@ -152,7 +152,7 @@ public class DpMemberService extends DpBaseMapper {
         SysUserView uv = sysUserService.findById(userId);
         Byte type = uv.getType();
 
-        if (type == SystemConstants.USER_TYPE_JZG){
+        if (uv.isTeacher()){
             record.setType(DpConstants.DP_MEMBER_TYPE_TEACHER);
             syncService.snycTeacherInfo(userId, uv.getCode());
         }else {

@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="profile-info-row">
-                    <div class="profile-info-name"> 身份证</div>
+                    <div class="profile-info-name"> 证件号码</div>
 
                     <div class="profile-info-value">
                         <span class="editable"><t:mask src="${sysUser.idcard}" type="idCard"/></span>

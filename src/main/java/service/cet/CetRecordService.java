@@ -73,7 +73,7 @@ public class CetRecordService extends CetBaseMapper {
             }
 
             return String.format("DX%s%s%05d",
-                    userType == SystemConstants.USER_TYPE_JZG ? "T" : "S",
+                    (userType == SystemConstants.USER_TYPE_JZG||userType == SystemConstants.USER_TYPE_RETIRE) ? "T" : "S",
                     year, certNo);
         }else {
 
@@ -103,7 +103,7 @@ public class CetRecordService extends CetBaseMapper {
 
             return String.format("%s%s%s%s%05d",
                     specialType == CetConstants.CET_PROJECT_TYPE_SPECIAL ? "Z" : "R",
-                    userType == SystemConstants.USER_TYPE_JZG ? "T" : "S",
+                    (userType == SystemConstants.USER_TYPE_JZG||userType == SystemConstants.USER_TYPE_RETIRE) ? "T" : "S",
                     year,
                     projectTypeCode,
                     certNo);

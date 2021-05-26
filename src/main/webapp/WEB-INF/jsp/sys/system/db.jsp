@@ -42,6 +42,9 @@
                 </div>
             </form>
             <div class="modal-footer center">
+                <div style="text-align: left">
+                    校园账号表结构缓存：ColumnBeans#tablename
+                </div>
                 <button type="button" id="cacheBtn"
                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 操作中..."
                         class="btn btn-primary"><i class="fa fa-check"></i> 确定清除</button>

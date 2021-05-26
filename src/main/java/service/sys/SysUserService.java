@@ -951,10 +951,10 @@ public class SysUserService extends BaseMapper {
                             codeList.add(code + unit);
                         }
                     }
-                } else if (_type == SystemConstants.USER_TYPE_JZG) {
+                } else if (_type == SystemConstants.USER_TYPE_JZG || _type == SystemConstants.USER_TYPE_RETIRE) {
                     boolean hasUser = false;
                     for (SysUserView uv : uvs) {
-                        if (uv.getType() != SystemConstants.USER_TYPE_JZG)
+                        if (!uv.isTeacher())
                             continue;
                         unit = StringUtils.isBlank(uv.getUnit()) ? "" : "|" + uv.getUnit();
                         if (null != birthKey) {

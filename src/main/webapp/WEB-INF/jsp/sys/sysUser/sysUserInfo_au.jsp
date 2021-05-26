@@ -82,7 +82,7 @@
                 </c:if>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label"><c:if test="${!sync.idcard}"><span class="star">*</span></c:if> 身份证号码</label>
+                <label class="col-xs-4 control-label"><c:if test="${!sync.idcard}"><span class="star">*</span></c:if> 证件号码</label>
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="idcard" value="${ui.idcard}">
