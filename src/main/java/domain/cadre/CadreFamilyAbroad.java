@@ -36,6 +36,8 @@ public class CadreFamilyAbroad implements Serializable {
 
     private String city;
 
+    private String remark;
+
     private Byte status;
 
     private static final long serialVersionUID = 1L;
@@ -94,6 +96,14 @@ public class CadreFamilyAbroad implements Serializable {
 
     public void setCity(String city) {
         this.city = city == null ? null : city.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     public Byte getStatus() {

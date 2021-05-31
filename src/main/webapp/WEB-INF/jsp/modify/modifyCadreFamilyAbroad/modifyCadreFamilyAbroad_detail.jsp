@@ -62,7 +62,11 @@
                 </tr>
                 <tr>
                     <td data-code="city">现居住城市</td>
-                    <td colspan="5" class="bg-left">${modify.city}</td>
+                    <td class="bg-left">${modify.city}</td>
+                </tr>
+                <tr>
+                    <td data-code="remark">备注</td>
+                    <td colspan="3" class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>

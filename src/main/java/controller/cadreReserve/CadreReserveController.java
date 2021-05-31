@@ -5,10 +5,12 @@ import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
+import domain.cadre.CadreFamilyAbroadExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreReserve.CadreReserve;
+import domain.cadreReserve.CadreReserveExample;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.sys.SysUserView;
@@ -671,6 +673,23 @@ public class CadreReserveController extends BaseController {
                 // 干部信息表(简版)
                 cadreInfoFormService.export_simple(cadreIds, reserveType, request,response);
             }
+            return;
+        } else if (export == 7) {
+            CadreReserveExample cadreReserveExample = new CadreReserveExample();
+            CadreReserveExample.Criteria cr = cadreReserveExample.createCriteria();
+            if (ids != null && ids.length > 0) {
+                cr.andIdIn(Arrays.asList(ids));
+            } else {
+                if (reserveType != null) {
+                    cr.andTypeEqualTo(reserveType);
+                    cr.andStatusEqualTo(reserveStatus);
+                }
+            }
+            List<CadreReserve> list = cadreReserveMapper.selectByExample(cadreReserveExample);
+            List<Integer> cadreIds = list.stream().map(appPermissionVo->appPermissionVo.getCadreId()).collect(Collectors.toList());
+            CadreFamilyAbroadExample cadreFamilyAbroadExample = new CadreFamilyAbroadExample();
+            cadreFamilyAbroadExample.createCriteria().andCadreIdIn(cadreIds);
+            cadreFamilyAbroadService.cadreFamilyAbroadExport(cadreFamilyAbroadExample, cadreIds, request, response);
             return;
         }
 

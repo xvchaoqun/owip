@@ -9,6 +9,7 @@
     <result column="abroad_time" jdbcType="DATE" property="abroadTime" />
     <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, family_id, type, abroad_time, country, city, status
+    id, cadre_id, family_id, type, abroad_time, country, city, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreFamilyAbroadExample" resultMap="BaseResultMap">
     select
@@ -108,10 +109,10 @@
     </selectKey>
     insert into cadre_family_abroad (cadre_id, family_id, type, 
       abroad_time, country, city, 
-      status)
+      remark, status)
     values (#{cadreId,jdbcType=INTEGER}, #{familyId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{abroadTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreFamilyAbroad">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -137,6 +138,9 @@
       <if test="city != null">
         city,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="status != null">
         status,
       </if>
@@ -159,6 +163,9 @@
       </if>
       <if test="city != null">
         #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -195,6 +202,9 @@
       <if test="record.city != null">
         city = #{record.city,jdbcType=VARCHAR},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -212,6 +222,7 @@
       abroad_time = #{record.abroadTime,jdbcType=DATE},
       country = #{record.country,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -238,6 +249,9 @@
       <if test="city != null">
         city = #{city,jdbcType=VARCHAR},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -252,6 +266,7 @@
       abroad_time = #{abroadTime,jdbcType=DATE},
       country = #{country,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -2,10 +2,7 @@ package controller.cadre;
 
 import controller.BaseController;
 import controller.global.OpException;
-import domain.cadre.CadreFamily;
-import domain.cadre.CadreFamilyAbroad;
-import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -32,10 +29,8 @@ import sys.utils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class CadreFamilyAbroadController extends BaseController {
@@ -44,10 +39,13 @@ public class CadreFamilyAbroadController extends BaseController {
 
     @RequiresPermissions("cadreFamilyAbroad:list")
     @RequestMapping("/cadreFamilyAbroad_data")
-    public void cadreFamilyAbroad_data(HttpServletResponse response,
+    public void cadreFamilyAbroad_data(HttpServletRequest request, HttpServletResponse response,
                                     Integer cadreId,
                                     Integer pageSize, Integer pageNo,
-                                 @RequestParam(required = false, defaultValue = "0") int export) throws IOException {
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, defaultValue = "0") Byte status,// 干部状态,供导出使用 1: 现任处级干部 6：现任校领导 8：现任科级干部
+                                    Integer[] ids
+                                    ) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -58,8 +56,8 @@ public class CadreFamilyAbroadController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
-        CadreFamilyAbroadExample.Criteria criteria = example.createCriteria()
-                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        CadreFamilyAbroadExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
        // example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -67,7 +65,20 @@ public class CadreFamilyAbroadController extends BaseController {
         }
 
         if (export == 1) {
-            cadreFamilyAbroad_export(example, response);
+//            cadreFamilyAbroad_export(example, response);
+
+            List<Integer> cadreIds = new ArrayList<>();
+            if (ids != null && ids.length > 0) {
+                cadreIds.addAll(Arrays.asList(ids));
+                criteria.andCadreIdIn(Arrays.asList(ids));
+            } else {
+                CadreViewExample cadreViewExample = new CadreViewExample();
+                cadreViewExample.createCriteria().andStatusEqualTo(status);
+                List<CadreView> list = cadreViewMapper.selectByExample(cadreViewExample);
+                cadreIds = list.stream().map(appPermissionVo->appPermissionVo.getId()).collect(Collectors.toList());
+                criteria.andCadreIdIn(cadreIds);
+            }
+            cadreFamilyAbroadService.cadreFamilyAbroadExport(example, cadreIds, request, response);
             return;
         }
 

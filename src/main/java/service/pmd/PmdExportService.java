@@ -148,7 +148,7 @@ public class PmdExportService extends PmdBaseMapper {
 
         // 三、往月补缴党费详情
 
-        // 按月补缴统计
+        // 按月补缴统计（都是线上缴费）
         BigDecimal fee = BigDecimal.ZERO;
         Map<Byte, PmdFeeStatBean> feeStatMap = pmdFeeService.statPmdFee(null, pmdMonth.getPayMonth());
         for (PmdFeeStatBean statBean : feeStatMap.values()) {
@@ -180,7 +180,7 @@ public class PmdExportService extends PmdBaseMapper {
         // 线上缴纳党费总额
         row = sheet.getRow(16);
         cell = row.getCell(1);
-        cell.setCellValue((pmdMonth.getOnlineRealPay().add(pmdMonth.getOnlineRealDelayPay())).toString());
+        cell.setCellValue((pmdMonth.getOnlineRealPay().add(pmdMonth.getOnlineRealDelayPay()).add(fee)).toString());
 
         // 本月线上缴纳党费数
         row = sheet.getRow(16);
@@ -190,7 +190,7 @@ public class PmdExportService extends PmdBaseMapper {
         // 往月线上补缴党费数
         row = sheet.getRow(17);
         cell = row.getCell(5);
-        cell.setCellValue(pmdMonth.getOnlineRealDelayPay().toString());
+        cell.setCellValue(pmdMonth.getOnlineRealDelayPay().add(fee).toString());
 
 
         // 五、现金缴纳党费详情

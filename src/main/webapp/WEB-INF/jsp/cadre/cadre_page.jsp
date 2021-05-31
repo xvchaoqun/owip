@@ -233,7 +233,7 @@
                                                        data-url="${ctx}/batchSortByUnit?status=${status}">
                                                         <i class="fa fa-file-excel-o"></i> 按单位及岗位排序</a>
                                                 </li>
-                                                <li role="separator" class="divider"></li>
+                                                <%--<li role="separator" class="divider"></li>
                                                 <li>
                                                     <a href="javascript:;" class="jqRunBtn" data-grid-id="#jqGrid"
                                                        data-ids-name="cadreIds"
@@ -241,7 +241,7 @@
                                                        data-msg="确定更新这{0}条数据（<span class='text-danger'>更新所有的“无此类情况”为“是”</span>）？"
                                                        data-url="${ctx}/cadreInfoCheck_batchUpdate?status=${status}">
                                                         <i class="fa fa-check-circle-o"></i> 更新“无此类情况”为“是”</a>
-                                                </li>
+                                                </li>--%>
                                             </ul>
                                         </div>
                                     </shiro:hasPermission>
@@ -343,6 +343,16 @@
                                                             <i class="fa fa-file-excel-o"></i> 导出家庭成员（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>
+
+                                                <shiro:hasPermission name="cadreFamilyAbroad:export">
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreFamilyAbroad_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员海外情况（批量）</a>
+                                                    </li>
+                                                </shiro:hasPermission>
+
                                             </c:if>
                                             <li role="separator" class="divider"></li>
                                             <li>

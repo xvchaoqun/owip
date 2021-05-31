@@ -165,6 +165,16 @@
                                                             <i class="fa fa-file-excel-o"></i> 导出家庭成员（批量）</a>
                                                     </li>
                                                 </shiro:hasPermission>
+
+                                                <shiro:hasPermission name="cadreFamilyAbroad:export">
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreFamilyAbroad_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员海外情况（批量）</a>
+                                                    </li>
+                                                </shiro:hasPermission>
+
                                             </c:if>
                                             <li role="separator" class="divider"></li>
                                             <li>

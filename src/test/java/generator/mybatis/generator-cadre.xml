@@ -162,17 +162,17 @@
          </table>-->
         <!--<table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
         </table>-->
-        <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
+        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="cadre_family_abroad" domainObjectName="cadre.CadreFamilyAbroad"
+        <table tableName="cadre_family_abroad" domainObjectName="cadre.CadreFamilyAbroad"
                mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
                mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

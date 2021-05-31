@@ -5,8 +5,6 @@ import controller.analysis.CadreCategorySearchBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.*;
-import domain.crp.CrpRecord;
-import domain.crp.CrpRecordExample;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.party.BranchMember;
@@ -15,7 +13,6 @@ import domain.unit.Unit;
 import domain.unit.UnitExample;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
-import ext.service.Source;
 import freemarker.template.TemplateException;
 import mixin.CadreDispatchMixin;
 import mixin.CadreEduMixin;
@@ -1341,9 +1338,9 @@ public class CadreController extends BaseController {
             int remarkCol = 11;
 
             if(useCadreState) { // 有人员类别
-                stateCol = 2;
-                titleCol = 3;
-                remarkCol = 4;
+                stateCol = 3;
+                titleCol = 4;
+                remarkCol = 10;
             }else{ // 没有
                 titleCol = 3;
                 remarkCol = 9;
@@ -1360,9 +1357,11 @@ public class CadreController extends BaseController {
             record.setTitle(StringUtils.trimToNull(xlsRow.get(titleCol)));
 
             String _isDouble = StringUtils.trimToNull(xlsRow.get(titleCol+1));
-            record.setIsDouble(StringUtils.equals(_isDouble, "是"));
+            if(_isDouble!=null) {
+                record.setIsDouble(StringUtils.equals(_isDouble, "是"));
+            }
 
-            if (record.getIsDouble()) {
+            if (BooleanUtils.isTrue(record.getIsDouble())) {
 
                 List<Integer> doubleUnitIds = new ArrayList<>();
 

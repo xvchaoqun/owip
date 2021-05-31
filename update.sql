@@ -1,4 +1,10 @@
 
+
+
+ALTER TABLE `cadre_family_abroad`
+	ADD COLUMN `remark` VARCHAR(500) NOT NULL COMMENT '备注' AFTER `city`;
+
+
 20210521
 
 -- 已更新哈工大
@@ -37,7 +43,7 @@ INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_c
 -- 测试、哈工大
 
 20210501
--- 珠海、南航
+-- 珠海、南航（停止）
 
 -- 更新utils
 

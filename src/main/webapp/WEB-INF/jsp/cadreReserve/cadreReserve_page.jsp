@@ -228,6 +228,13 @@
                                         <li role="separator" class="divider"></li>
                                         <li>
                                             <a href="javascript:;" class="jqExportBtn"
+                                               data-need-id="false" data-url="${ctx}/cadreReserve_data?export=7">
+                                                <i class="fa fa-file-excel-o"></i> 导出家庭成员海外情况（批量）</a>
+                                        </li>
+
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="javascript:;" class="jqExportBtn"
                                                data-need-id="false" data-url="${ctx}/cadreParttime_data?exportType=1&reserveType=${reserveType}">
                                                 <i class="fa fa-file-excel-o"></i> 导出社会或学术兼职（批量）</a>
                                         </li>

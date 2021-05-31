@@ -545,12 +545,18 @@ public class MemberController extends MemberBaseController {
 
         if (StringUtils.isNotBlank(_applyTime)) {
             record.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+        }else{
+            commonMapper.excuteSql("update ow_member set apply_time=null where user_id=" + userId);
         }
         if (StringUtils.isNotBlank(_activeTime)) {
             record.setActiveTime(DateUtils.parseDate(_activeTime, DateUtils.YYYY_MM_DD));
+        }else{
+            commonMapper.excuteSql("update ow_member set active_time=null where user_id=" + userId);
         }
         if (StringUtils.isNotBlank(_candidateTime)) {
             record.setCandidateTime(DateUtils.parseDate(_candidateTime, DateUtils.YYYY_MM_DD));
+        }else{
+            commonMapper.excuteSql("update ow_member set candidate_time=null where user_id=" + userId);
         }
         if (StringUtils.isNotBlank(_growTime)) {
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
@@ -560,6 +566,8 @@ public class MemberController extends MemberBaseController {
         }
         if (StringUtils.isNotBlank(_transferTime)) {
             record.setTransferTime(DateUtils.parseDate(_transferTime, DateUtils.YYYY_MM_DD));
+        }else{
+            commonMapper.excuteSql("update ow_member set transfer_time=null where user_id=" + userId);
         }
         SysUserView sysUser = sysUserService.findById(record.getUserId());
         Member member = memberService.get(userId);

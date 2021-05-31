@@ -18,6 +18,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <c:if test="${param.stage>=OW_APPLY_STAGE_DRAW}">
+            <shiro:hasPermission name="applySnRange:*">
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span>编码处理方式</label>
             <div class="col-xs-6">
@@ -38,6 +39,7 @@ pageEncoding="UTF-8"%>
                 <span class="help-block">注：仅对已分配志愿书编码的申请有效</span>
             </div>
         </div>
+            </shiro:hasPermission>
         </c:if>
         <div class="form-group">
             <label class="col-xs-3 control-label"><span class="star">*</span> ${param.isRemove==0?'撤销':''}移除原因</label>

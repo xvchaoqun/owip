@@ -392,6 +392,7 @@ public class CadreService extends BaseMapper implements HttpResponseMethod {
                 addCount++;
             } else {
                 record.setId(cv.getId());
+                record.setStatus(null); // 导入更新时不更新干部的类别
                 updateByPrimaryKeySelective(record);
             }
 

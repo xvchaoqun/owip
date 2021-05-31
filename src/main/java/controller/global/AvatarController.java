@@ -200,6 +200,9 @@ public class AvatarController extends BaseController {
         String photoBase64 = null;
         try {
             photoBase64 = extCommonService.syncAvatar(userId);
+            if(photoBase64==null){
+                return failed("头像不存在");
+            }
         }catch (Exception ex){
             return failed("头像接口读取失败：" + ex.getMessage());
         }

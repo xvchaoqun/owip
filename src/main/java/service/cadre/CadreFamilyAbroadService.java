@@ -1,11 +1,10 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.CadreFamilyAbroad;
-import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreView;
+import domain.cadre.*;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -14,13 +13,15 @@ import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
-import sys.utils.ContextHelper;
-import sys.utils.IpUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CadreFamilyAbroadService extends BaseMapper {
@@ -211,4 +212,62 @@ public class CadreFamilyAbroadService extends BaseMapper {
         cadreFamilyAbroadMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
     }
+
+    public void cadreFamilyAbroadExport(CadreFamilyAbroadExample example, List<Integer> cadreIds,  HttpServletRequest request, HttpServletResponse response) {
+        List<CadreFamilyAbroad> records = cadreFamilyAbroadMapper.selectByExample(example);
+
+        String[] titles = {"工号|150", "姓名|150", "所在单位及职务|300", "称谓|150", "姓名|150",
+                "移居国家（地区）|200", "现居住城市|200", "移居时间|100", "移居类别|150", "备注|250"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < records.size(); i++) {
+            CadreFamilyAbroad record = records.get(i);
+            if (record != null) {
+                CadreView cadreView = CmTag.getCadreById(record.getCadreId());
+                CadreFamily cadreFamily = cadreFamilyMapper.selectByPrimaryKey(record.getFamilyId());
+                String[] values = {
+                        cadreView.getCode() != null ? cadreView.getCode() : "",
+                        cadreView.getRealname() != null ? cadreView.getRealname() : "",
+                        cadreView.getTitle() != null ? cadreView.getTitle() : "",
+                        cadreFamily.getTitle() != null ? CmTag.getMetaType(cadreFamily.getTitle()).getName() : "",
+                        cadreFamily.getRealname() != null ? cadreFamily.getRealname() : "",
+                        record.getCountry() != null ? record.getCountry() : "",
+                        record.getCity() != null ? record.getCity() : "",
+
+                        record.getAbroadTime() != null ? DateUtils.formatDate(record.getAbroadTime(), DateUtils.YYYYMM) : "",
+                        record.getType() != null ? CmTag.getMetaType(record.getType()).getName() : "",
+                        record.getRemark()
+                };
+                valuesList.add(values);
+            }
+        }
+        String fileName = "家庭成员海外情况" + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ").xlsx";
+        SXSSFWorkbook wb = new SXSSFWorkbook(500);
+
+        ExportHelper.createSheet("家庭成员海外情况", wb, titles, valuesList);
+
+        List<Integer> hasCadreIds = records.stream().map(CadreFamilyAbroad::getCadreId).collect(Collectors.toList());
+        cadreIds.removeAll(hasCadreIds); // 没有填写家庭成员海外情况的干部
+
+        String[] titles2 = {"工号|150", "姓名|150", "所在单位及职务|300", "无此类情况|150"};
+        List<String[]> valuesList2 = new ArrayList<>();
+        for (Integer cadreId : cadreIds) {
+
+            CadreInfoCheck cadreInfoCheck = cadreInfoCheckMapper.selectByPrimaryKey(cadreId);
+            CadreView cadreView = CmTag.getCadreById(cadreId);
+            String[] values = {
+                    cadreView.getCode() != null ? cadreView.getCode() : "",
+                    cadreView.getRealname() != null ? cadreView.getRealname() : "",
+                    cadreView.getTitle() != null ? cadreView.getTitle() : "",
+                    (cadreInfoCheck==null||cadreInfoCheck.getFamilyAbroad()==null)?"":"已确认"
+            };
+            valuesList2.add(values);
+        }
+
+        ExportHelper.createSheet("无此类情况", wb, titles2, valuesList2);
+
+        ExportHelper.output(wb, fileName, request, response);
+
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
 }
