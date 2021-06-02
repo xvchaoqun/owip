@@ -293,7 +293,7 @@ public class PartyController extends BaseController {
 
         Integer id = record.getId();
         if (partyService.idDuplicate(id, record.getCode())) {
-            return failed("添加重复");
+            return failed("二级党组织编号["+ record.getCode()+"]添加重复");
         }
 
         record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
