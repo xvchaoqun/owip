@@ -2,6 +2,7 @@ package controller.analysis;
 
 import controller.BaseController;
 import domain.base.MetaType;
+import domain.member.MemberApplyViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.PartyExample;
@@ -14,11 +15,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.member.common.MemberStatByBranchBean;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.tags.CmTag;
@@ -368,5 +371,24 @@ public class StatPartyController extends BaseController {
             return null;
         }
         return "analysis/ow/stat_ow_sum";
+    }
+
+    @RequiresPermissions("stat:party")
+    @RequestMapping(value = "/stat_party_member_remind", method = RequestMethod.POST)
+    @ResponseBody
+    public Map stat_party_member_remind(Integer partyId, ModelMap modelMap) {
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_PARTYADMIN)&&!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)) {
+            throw new UnauthorizedException();
+        }
+        Date before = DateUtils.getDateBeforeOrAfterYears(new Date(), -1);
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
+        criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW).andGrowTimeLessThanOrEqualTo(before)
+                .andPositiveStatusEqualTo((byte) 0).andIsRemoveEqualTo(false);
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        long count = memberApplyViewMapper.countByExample(example);
+        return success(String.valueOf(count));
     }
 }

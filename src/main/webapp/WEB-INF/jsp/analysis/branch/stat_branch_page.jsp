@@ -32,3 +32,19 @@
         </div><!-- /.col -->
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        var branchAdmin = ${cm:toJSONObject(cm:hasRole("branchAdmin"))};
+        if (branchAdmin) {
+            $.post("${ctx}/stat_branch_member_remind", {branchId: ${branchId}}, function(ret){
+                if (ret.success) {
+                    var count = ret.msg;
+                    if (count > 0) {
+                        SysMsg.confirm("您所在的党支部有" + count + "个人成为预备党员已超过一年，请及时审批","提示", function (ret) {
+                        });
+                    }
+                }
+            })
+        }
+    })
+</script>

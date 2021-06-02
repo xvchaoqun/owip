@@ -95,6 +95,19 @@
     </div>
 </div>
 <script>
+    $(document).ready(function(){
+        if (${cm:hasRole(ROLE_PARTYADMIN)}) {
+            $.post("${ctx}/stat_party_member_remind", {partyId: ${partyId}}, function(ret){
+                if (ret.success) {
+                    var count = ret.msg;
+                    if (count > 0) {
+                        SysMsg.confirm("您所在的分党委有" + count + "个人成为预备党员已超过一年，请及时审批","提示", function (ret) {
+                        });
+                    }
+                }
+            })
+        }
+    })
     $('[data-rel="select2"]').change(function () {
         $.post("${ctx}/stat_party_page", {partyId: this.value}, function (html) {
             $("#cartogram").replaceWith(html);

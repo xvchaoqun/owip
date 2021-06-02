@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -26,8 +27,10 @@ public class PmdPayPartyController extends PmdBaseController {
 
     @RequiresPermissions("pmdPayParty:list")
     @RequestMapping("/pmdPayParty")
-    public String pmdPayParty() {
-
+    public String pmdPayParty(Integer partyId, ModelMap modelMap) {
+        if (partyId != null) {
+            modelMap.put("party", partyService.findAll().get(partyId));
+        }
         return "pmd/pmdPayParty/pmdPayParty_page";
     }
 
@@ -35,6 +38,7 @@ public class PmdPayPartyController extends PmdBaseController {
     @RequestMapping("/pmdPayParty_data")
     public void pmdPayParty_data(HttpServletResponse response,
                                  Integer monthId,
+                                 Integer partyId,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -48,6 +52,9 @@ public class PmdPayPartyController extends PmdBaseController {
         PmdPayPartyViewExample example = new PmdPayPartyViewExample();
         PmdPayPartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
 
         if (monthId != null) {
             criteria.andMonthIdEqualTo(monthId);

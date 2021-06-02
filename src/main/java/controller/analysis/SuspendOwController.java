@@ -82,6 +82,26 @@ public class SuspendOwController extends MemberBaseController {
                 OwConstants.OW_APPLY_STAGE_GROW, (byte) 0));
         modelMap.put("teacherPositiveOdCheckCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
                 OwConstants.OW_APPLY_STAGE_GROW, (byte) 0));
+        //入党积极分子
+        modelMap.put("studentActivityCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_ACTIVE, (byte) 0));
+        modelMap.put("teacherActivityCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_ACTIVE, (byte) 0));
+        //发展对象
+        modelMap.put("studentObjectCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) 0));
+        modelMap.put("teacherObjectCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) 0));
+        //列入发展计划
+        modelMap.put("studentPlanCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
+        modelMap.put("teacherPlanCount", memberApplyService.count(partyId, null, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
+        //领取志愿书
+        modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
+                MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_DRAW, (byte) 0));
+        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, null, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_DRAW, (byte) 0));
 
         return "analysis/suspend/suspend_party";
     }
@@ -100,6 +120,32 @@ public class SuspendOwController extends MemberBaseController {
                 MemberConstants.MEMBER_STAY_TYPE_ABROAD, null));//新申请+返回修改
         modelMap.put("memberStayCount_internal", memberStayService.count(null, branchId, (byte) 1,
                 MemberConstants.MEMBER_STAY_TYPE_INTERNAL, null));//新申请+返回修改
+
+        //入党申请人
+        modelMap.put("studentApplyCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_INIT, (byte) -1));
+        modelMap.put("teacherApplyCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_INIT, (byte) -1));
+        //入党积极分子
+        modelMap.put("studentActivityCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_ACTIVE, (byte) -1));
+        modelMap.put("teacherActivityCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_ACTIVE, (byte) -1));
+        //发展对象
+        modelMap.put("studentObjectCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) -1));
+        modelMap.put("teacherObjectCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_CANDIDATE, (byte) -1));
+        //列入发展计划
+        modelMap.put("studentPlanCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_STUDENT,
+                OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
+        modelMap.put("teacherPlanCount", memberApplyService.count(null, branchId, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_PLAN, (byte) -1));
+        //领取志愿书
+        modelMap.put("studentGrowOdCheckCount", memberApplyService.count(null, null,
+                MemberConstants.MEMBER_TYPE_STUDENT, OwConstants.OW_APPLY_STAGE_DRAW, (byte) 2));
+        modelMap.put("teacherGrowOdCheckCount", memberApplyService.count(null, null, MemberConstants.MEMBER_TYPE_TEACHER,
+                OwConstants.OW_APPLY_STAGE_DRAW, (byte) 2));
 
         return "analysis/suspend/suspend_branch";
     }

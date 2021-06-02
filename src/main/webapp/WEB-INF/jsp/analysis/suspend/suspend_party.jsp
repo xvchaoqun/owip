@@ -52,11 +52,11 @@
                                 </div>
                                 <div class="infobox-data">
                                     <span class="infobox-data-number">
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1">
+                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1&growStatus=0">
                                             <span class="count">${studentGrowOdCheckCount}</span>
                                             <span style="font-size: 10pt;">学生</span>
                                         </span>
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1">
+                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1&growStatus=0">
                                             <span class="count">${teacherGrowOdCheckCount}</span>
                                             <span style="font-size: 10pt;">教职工</span>
                                         </span>
@@ -65,6 +65,58 @@
                                 </div>
                             </div>
                         </c:if>
+
+                            <div class="infobox infobox-green2">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-users"></i>
+                                </div>
+                                <div class="infobox-data">
+                              <span class="infobox-data-number">
+                                    <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_ACTIVE}&type=${MEMBER_TYPE_STUDENT}&activityStatus=0">
+                                        <span class="count">${studentActivityCount}</span><span
+                                            style="font-size: 10pt;">学生</span></span>
+                                     <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_ACTIVE}&type=${MEMBER_TYPE_TEACHER}&activityStatus=0">
+                                        <span class="count">${teacherActivityCount}</span><span
+                                             style="font-size: 10pt;">教职工</span></span>
+                              </span>
+                                    <div class="infobox-content">入党积极分子审批</div>
+                                </div>
+                            </div>
+
+
+                            <div class="infobox infobox-orange2">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-id-card"></i>
+                                </div>
+                                <div class="infobox-data">
+                                  <span class="infobox-data-number">
+                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_CANDIDATE}&type=${MEMBER_TYPE_STUDENT}&planStatus=0">
+                                            <span class="count">${studentObjectCount}</span><span
+                                                style="font-size: 10pt;">学生</span></span>
+                                         <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_CANDIDATE}&type=${MEMBER_TYPE_TEACHER}&planStatus=0">
+                                            <span class="count">${teacherObjectCount}</span><span
+                                                 style="font-size: 10pt;">教职工</span></span>
+                                  </span>
+                                    <div class="infobox-content">发展对象审批</div>
+                                </div>
+                            </div>
+
+                            <div class="infobox infobox-blue">
+                                <div class="infobox-icon">
+                                    <i class="ace-icon fa fa-street-view"></i>
+                                </div>
+                                <div class="infobox-data">
+                                      <span class="infobox-data-number">
+                                            <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1">
+                                                <span class="count">${studentPlanCount}</span><span
+                                                    style="font-size: 10pt;">学生</span></span>
+                                             <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_PLAN}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1">
+                                                <span class="count">${teacherPlanCount}</span><span
+                                                     style="font-size: 10pt;">教职工</span></span>
+                                      </span>
+                                    <div class="infobox-content">列入发展计划审批</div>
+                                </div>
+                            </div>
 
                             <div class="infobox infobox-red">
                                 <div class="infobox-icon">

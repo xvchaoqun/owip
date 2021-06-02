@@ -4,7 +4,8 @@
 <%@ include file="/WEB-INF/jsp/member/constants.jsp" %>
 
 <c:set var="_query" value="${not empty param.userId
-            ||not empty param.partyId ||not empty param.branchId ||not empty param.applyStatus  ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort}"/>
+            ||not empty param.partyId ||not empty param.branchId ||not empty param.applyStatus  ||not empty param.growStatus ||not empty param.positiveStatus || not empty param.code || not empty param.sort
+            || not empty param.drawStatus || not empty param.planStatus || not empty param.activityStatus}"/>
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${stage>OW_APPLY_STAGE_REMOVE }">
         <button class="jqEditBtn btn btn-primary btn-sm"
@@ -362,6 +363,7 @@
                     $.register.party_branch_select($("#searchForm"), "branchDiv",
                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                 </script>
+
                 <c:if test="${stage==OW_APPLY_STAGE_INIT}">
                     <div class="form-group">
                         <label>状态</label>
@@ -414,6 +416,67 @@
                                placeholder="请输入">
                     </div>
                 </c:if>
+
+                <c:if test="${stage==OW_APPLY_STAGE_ACTIVE}">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <div class="input-group">
+                            <select name="activityStatus"
+                                    data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="-1">待支部确定为发展对象
+                                </option>
+                                <option value="0">
+                                    支部已提交，待${_p_partyName}审核
+                                </option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=activityStatus]").val("${param.activityStatus}");
+                            </script>
+                        </div>
+                    </div>
+                </c:if>
+
+                <c:if test="${stage==OW_APPLY_STAGE_CANDIDATE}">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <div class="input-group">
+                            <select name="planStatus"
+                                    data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="-1">待支部列入发展计划
+                                </option>
+                                <option value="0">
+                                    支部已提交，待${_p_partyName}审核
+                                </option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=planStatus]").val("${param.planStatus}");
+                            </script>
+                        </div>
+                    </div>
+                </c:if>
+
+                <c:if test="${stage==OW_APPLY_STAGE_PLAN}">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <div class="input-group">
+                            <select name="drawStatus"
+                                    data-rel="select2"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <option value="-1">待分党委提交领取志愿书
+                                </option>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=drawStatus]").val("${param.drawStatus}");
+                            </script>
+                        </div>
+                    </div>
+                </c:if>
+
                 <c:if test="${stage==OW_APPLY_STAGE_GROW}">
                     <div class="form-group">
                         <label>状态</label>

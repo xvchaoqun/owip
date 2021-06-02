@@ -392,6 +392,10 @@ public class MemberApplyService extends MemberBaseMapper {
                         if (status == -1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
+                    case OwConstants.OW_APPLY_STAGE_INIT:
+                        if (status == -1) criteria.andPositiveStatusIsNull();
+                        else criteria.andPositiveStatusEqualTo(status);
+                        break;
                 }
             }
 

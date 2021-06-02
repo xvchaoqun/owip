@@ -3,6 +3,7 @@ package controller.analysis;
 import controller.BaseController;
 import controller.global.OpException;
 import domain.member.Member;
+import domain.member.MemberApplyViewExample;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -10,10 +11,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
+import sys.utils.DateUtils;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,5 +100,24 @@ public class StatBranchController extends BaseController {
         modelMap.put("statApplyMap", statService.applyMap(type, null, branchId));
         modelMap.put("type", type);
         return "analysis/branch/stat_branch_member_apply";
+    }
+
+    @RequiresPermissions("stat:branch")
+    @RequestMapping(value = "/stat_branch_member_remind", method = RequestMethod.POST)
+    @ResponseBody
+    public Map stat_branch_member_remind(Integer branchId, ModelMap modelMap) {
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_BRANCHADMIN)) {
+            throw new UnauthorizedException();
+        }
+        Date before = DateUtils.getDateBeforeOrAfterYears(new Date(), -1);
+        MemberApplyViewExample example = new MemberApplyViewExample();
+        MemberApplyViewExample.Criteria criteria = example.createCriteria();
+        criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW).andGrowTimeLessThanOrEqualTo(before)
+                .andPositiveStatusIsNull().andIsRemoveEqualTo(false);
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        long count = memberApplyViewMapper.countByExample(example);
+        return success(String.valueOf(count));
     }
 }

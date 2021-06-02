@@ -3,6 +3,7 @@ package service;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.cadre.common.StatCadreMapper;
 import persistence.crp.CrpRecordMapper;
+import persistence.member.MemberApplyViewMapper;
 import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
@@ -69,5 +70,6 @@ public class BaseMapper extends CoreBaseMapper{
     protected ModifyBaseItemMapper modifyBaseItemMapper;
     @Autowired(required = false)
     protected ModifyTableApplyMapper modifyTableApplyMapper;
-
+    @Autowired
+    protected MemberApplyViewMapper memberApplyViewMapper;
 }

@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
@@ -28,14 +29,21 @@ public class PmdPayBranchController extends PmdBaseController {
 
     @RequiresPermissions("pmdPayBranch:list")
     @RequestMapping("/pmdPayBranch")
-    public String pmdPayBranch() {
-
+    public String pmdPayBranch(Integer partyId, Integer branchId, ModelMap modelMap) {
+        if (partyId != null) {
+            modelMap.put("party", partyService.findAll().get(partyId));
+        }
+        if (branchId != null) {
+            modelMap.put("branch", branchService.findAll().get(branchId));
+        }
         return "pmd/pmdPayBranch/pmdPayBranch_page";
     }
 
     @RequiresPermissions("pmdPayBranch:list")
     @RequestMapping("/pmdPayBranch_data")
     public void pmdPayBranch_data(HttpServletResponse response,
+                                 Integer partyId,
+                                 Integer branchId,
                                  Integer monthId,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -50,6 +58,12 @@ public class PmdPayBranchController extends PmdBaseController {
         PmdPayBranchViewExample example = new PmdPayBranchViewExample();
         PmdPayBranchViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("party_sort_order desc, branch_id desc");
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
 
         if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMDVIEWALL)) {
             int userId = ShiroHelper.getCurrentUserId();

@@ -433,6 +433,8 @@ public class MemberApplyController extends MemberBaseController {
                                  Byte growStatus, // 领取志愿书阶段查询
                                  Byte positiveStatus, // 预备党员阶段查询
                                  String applySn, // 志愿书编码
+                                 Byte activityStatus, // 入党积极分子阶段查询
+                                 Byte planStatus, // 发展对象阶段查询
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -485,6 +487,20 @@ public class MemberApplyController extends MemberBaseController {
                     criteria.andPositiveStatusEqualTo(positiveStatus);
                 if (positiveStatus != null && positiveStatus == -1)
                     criteria.andPositiveStatusIsNull(); // 待支部提交预备党员转正
+            } else if (stage == OwConstants.OW_APPLY_STAGE_ACTIVE) {
+                if (activityStatus != null && activityStatus == -1) {
+                    criteria.andCandidateStatusIsNull();
+                }
+                if (activityStatus != null && activityStatus == 0) {
+                    criteria.andCandidateStatusEqualTo(activityStatus);
+                }
+            } else if (stage == OwConstants.OW_APPLY_STAGE_CANDIDATE) {
+                if (planStatus != null && planStatus == -1) {
+                    criteria.andPlanStatusIsNull();
+                }
+                if (planStatus != null && planStatus == 0) {
+                    criteria.andPlanStatusEqualTo(planStatus);
+                }
             }
 
             // 已移除的记录
