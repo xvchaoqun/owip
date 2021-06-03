@@ -45,26 +45,6 @@
                                 </div>
                             </div>
                         </c:if>
-                        <c:if test="${!_ignore_plan_and_draw}">
-                            <div class="infobox infobox-pink">
-                                <div class="infobox-icon">
-                                    <i class="ace-icon fa fa-hand-lizard-o"></i>
-                                </div>
-                                <div class="infobox-data">
-                                    <span class="infobox-data-number">
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1&growStatus=0">
-                                            <span class="count">${studentGrowOdCheckCount}</span>
-                                            <span style="font-size: 10pt;">学生</span>
-                                        </span>
-                                        <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1&growStatus=0">
-                                            <span class="count">${teacherGrowOdCheckCount}</span>
-                                            <span style="font-size: 10pt;">教职工</span>
-                                        </span>
-                                    </span>
-                                    <div class="infobox-content">领取志愿书审批</div>
-                                </div>
-                            </div>
-                        </c:if>
 
                             <div class="infobox infobox-green2">
                                 <div class="infobox-icon">
@@ -117,6 +97,27 @@
                                     <div class="infobox-content">列入发展计划审批</div>
                                 </div>
                             </div>
+
+                            <c:if test="${!_ignore_plan_and_draw}">
+                                <div class="infobox infobox-pink">
+                                    <div class="infobox-icon">
+                                        <i class="ace-icon fa fa-hand-lizard-o"></i>
+                                    </div>
+                                    <div class="infobox-data">
+                                        <span class="infobox-data-number">
+                                            <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_STUDENT}&drawStatus=-1&growStatus=0">
+                                                <span class="count">${studentGrowOdCheckCount}</span>
+                                                <span style="font-size: 10pt;">学生</span>
+                                            </span>
+                                            <span data-url="${ctx}/memberApply_layout?partyId=${param.partyId}&stage=${OW_APPLY_STAGE_DRAW}&type=${MEMBER_TYPE_TEACHER}&drawStatus=-1&growStatus=0">
+                                                <span class="count">${teacherGrowOdCheckCount}</span>
+                                                <span style="font-size: 10pt;">教职工</span>
+                                            </span>
+                                        </span>
+                                        <div class="infobox-content">领取志愿书审批</div>
+                                    </div>
+                                </div>
+                            </c:if>
 
                             <div class="infobox infobox-red">
                                 <div class="infobox-icon">
