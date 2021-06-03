@@ -35,6 +35,9 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label"><span class="star">*</span>单位名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${unit.name}">
+					<c:if test="${not empty unit}">
+					<span class="note">注：为了保留系统完整的历史记录，单位更名、合并等情况请勿直接修改原单位名称，请将该单位转移至“历史单位”后再添加更名或成立后的新单位。</span>
+						</c:if>
 				</div>
 			</div>
 			<div class="form-group">

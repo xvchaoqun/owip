@@ -221,6 +221,8 @@ public class CetTrainDetailController extends CetBaseController {
             record.setId(projectId);
             record.setStartTime(startTime);
             record.setEndTime(endTime);
+
+            record.setHasArchive(false);
             cetProjectMapper.updateByPrimaryKeySelective(record);
 
             logger.info(addLog(LogConstants.LOG_CET, "更新培训项目[{%s}]选课时间：%s~%s",

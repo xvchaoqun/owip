@@ -211,6 +211,8 @@ public class BranchMemberController extends BaseController {
             groupId = branchMember.getGroupId();
         }
         modelMap.put("groupId", groupId);
+        BranchMemberGroup branchMemberGroup = branchMemberGroupMapper.selectByPrimaryKey(groupId);
+        modelMap.put("branchMemberGroup", branchMemberGroup);
 
         return "party/branchMember/branchMember_au";
     }

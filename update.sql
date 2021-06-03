@@ -1,5 +1,6 @@
 
-
+20210603
+-- 珠海
 
 ALTER TABLE `cadre_family_abroad`
 	ADD COLUMN `remark` VARCHAR(500) NOT NULL COMMENT '备注' AFTER `city`;

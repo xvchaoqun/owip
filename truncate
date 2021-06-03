@@ -48,6 +48,14 @@ update pcs_pr_candidate set mobile=null,email=null,vote3=null,is_chosen=null,rea
 delete from pcs_pr_recommend where stage=3;
 ============
 
+== 清空两委的三下三上数据（回退到下发三下名单前的状态）
+delete from pcs_candidate where config_id=1 and stage=3;
+delete from pcs_recommend where config_id=1 and stage=3;
+delete from pcs_admin_report where config_id=1 and stage=3;
+delete from pcs_candidate_chosen where config_id=1 and stage=2;
+delete from pcs_issue where config_id=1 and stage=2;
+==
+
 SET FOREIGN_KEY_CHECKS=0;
 truncate base_cadre;
 

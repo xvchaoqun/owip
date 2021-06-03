@@ -12,7 +12,7 @@
     <label class="col-xs-3 control-label"><span class="star">*</span>账号</label>
         <c:if test="${partyMember==null}">
           <div class="col-xs-6">
-              <select required ${partyMember!=null?"disabled":""} data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects" data-width="260"
+              <select required ${partyMember!=null?"disabled":""} data-rel="select2-ajax" data-ajax-url="${ctx}/member_selects?partyId=${partyMemberGroup.partyId}" data-width="260"
                       name="userId" data-placeholder="请输入账号或姓名或学工号">
                 <option value="${uv.id}">${uv.realname}-${uv.code}</option>
               </select>

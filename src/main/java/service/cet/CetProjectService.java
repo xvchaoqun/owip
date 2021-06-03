@@ -88,6 +88,7 @@ public class CetProjectService extends CetBaseMapper {
     @Transactional
     public void updateWithTraineeTypes(CetProject record, List<Integer> traineeTypeIdList){
 
+        record.setHasArchive(false);
         cetProjectMapper.updateByPrimaryKeySelective(record);
 
         updateTrainTypes(record.getId(), traineeTypeIdList);
