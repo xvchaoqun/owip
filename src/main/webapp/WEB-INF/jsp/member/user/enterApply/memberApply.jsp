@@ -19,7 +19,7 @@
         </h1>
     </div>
 
-    <form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post"
+    <form class="form-horizontal" autocomplete="off" disableautocomplete id="applyAuForm" method="post"
           action="${ctx}/user/memberApply">
 
         <div class="form-group">
@@ -31,7 +31,7 @@
 
         <c:if test="${_memberApply_needContinueDevelop}">
             <div class="form-group">
-                <label class="col-xs-4 control-label no-padding-right">申请类型</label>
+                <label class="col-xs-4 control-label no-padding-right"><span class="star">*</span>申请类型</label>
                 <div class="col-xs-6 ">
                     <div class="input-group">
                         <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
@@ -50,7 +50,7 @@
         </c:if>
 
         <c:if test="${_memberApply_needContinueDevelop}">
-            <div class="form-group" hidden id="appiyStageDiv">
+            <div class="form-group" hidden id="applyStageDiv">
                 <label class="col-xs-4 control-label no-padding-right"><span class="star">*</span>请选择培养阶段</label>
                 <div class="col-xs-6 ">
                     <select required name="applyStage" data-rel="select2" data-placeholder="请选择" data-width="150">
@@ -60,7 +60,7 @@
                         </c:forEach>
                     </select>
                     <script>
-                        $("#modalForm select[name=applyStage]").val("${memberApply.applyStage}")
+                        $("#applyAuForm select[name=applyStage]").val("${memberApply.applyStage}")
                     </script>
                 </div>
             </div>
@@ -84,7 +84,7 @@
             </div>
         </div>
         <script>
-            $.register.party_branch_select($("#modalForm"), "branchDiv",
+            $.register.party_branch_select($("#applyAuForm"), "branchDiv",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
         </script>
         <div class="form-group">
@@ -296,24 +296,24 @@
 </script>
 
 <script>
-    $('#modalForm input[name=applyType]').on('change', function () {
-        $("#appiyStageDiv").hide();
-        $("#modalForm select[name=appiyStage]").removeAttr("required", "required");
+    $('#applyAuForm input[name=applyType]').on('change', function () {
+        $("#applyStageDiv").hide();
+        $("#applyAuForm select[name=applyStage]").removeAttr("required", "required");
         var type = $(this).val();
         if (type == 2) {
-            $("#modalForm select[name=appiyStage]").attr("required", "required");
-            $("#appiyStageDiv").show();
+            $("#applyAuForm select[name=applyStage]").attr("required", "required");
+            $("#applyStageDiv").show();
         }
-        $("#modalForm select[name=applyStage]").change();
+        $("#applyAuForm select[name=applyStage]").change();
     });
 
     var applyStageMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
 
-    $("#modalForm select[name=applyStage]").on('change', function () {
+    $("#applyAuForm select[name=applyStage]").on('change', function () {
 
         var applyStage = $(this).val();
         var codes = [];
-        var applyType = $('#modalForm input[name=applyType]:checked').val();
+        var applyType = $('#applyAuForm input[name=applyType]:checked').val();
         if(applyStage>0 && applyType==2) {
             for (var key in applyStageMap) {
                 codes.push(key);
@@ -325,13 +325,13 @@
     }).change();
 
     $.register.date($('.date-picker'));
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#applyAuForm [data-rel="select2"]').select2();
 
     $("#submitBtn").click(function () {
-        $("#modalForm").submit();
+        $("#applyAuForm").submit();
         return false;
     });
-    $("#modalForm").validate({
+    $("#applyAuForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({

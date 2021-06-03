@@ -7,7 +7,7 @@ pageEncoding="UTF-8"%>
     <h3>确定入党介绍人</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/apply_candidate_sponsor" autocomplete="off" disableautocomplete id="applyForm" method="post">
+    <form class="form-horizontal" action="${ctx}/${param.isMobile==1?'m/':''}apply_candidate_sponsor" autocomplete="off" disableautocomplete id="applyForm" method="post">
         <input type="hidden" name="ids" value="${param.ids}">
         <c:set var="count" value="${fn:length(fn:split(param.ids,\",\"))}"/>
         <c:if test="${count>1}">
@@ -42,8 +42,8 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-4 control-label">入党介绍人1</label>
             <div class="col-xs-6 required">
                 <c:set var="sysUser" value="${cm:getUserById(bean.userId1)}"/>
-                <select name="userId1" data-rel="select2-ajax" data-width="270"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
+                <select name="userId1" data-rel="select2-ajax"
+                        data-ajax-url="${ctx}/${param.isMobile==1?'m/':''}member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
                         data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>
@@ -80,8 +80,8 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-4 control-label">入党介绍人2</label>
             <div class="col-xs-6 ${_p_sponsorUsers_count==2?'required':''}">
                 <c:set var="sysUser" value="${cm:getUserById(bean.userId2)}"/>
-                <select name="userId2" data-rel="select2-ajax" data-width="270"
-                        data-ajax-url="${ctx}/member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
+                <select name="userId2" data-rel="select2-ajax"
+                        data-ajax-url="${ctx}/${param.isMobile==1?'m/':''}member_selects?noAuth=1&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${MEMBER_STATUS_NORMAL},${MEMBER_STATUS_OUT}"
                         data-placeholder="请输入账号或姓名或学工号">
                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                 </select>

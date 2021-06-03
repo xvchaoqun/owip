@@ -101,7 +101,7 @@
                 if (ret.success) {
                     var count = ret.msg;
                     if (count > 0) {
-                        SysMsg.confirm("您所在的分党委有" + count + "个人成为预备党员已超过一年，请及时审批","提示", function (ret) {
+                        SysMsg.confirm("党员发展中存在" + count + "位预备党员入党时间已超过一年，请及时进行转正审批操作","提示", function (ret) {
                         });
                     }
                 }

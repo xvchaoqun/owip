@@ -18,7 +18,7 @@
         党员发展申请
       </h1>
     </div>
-<form class="form-horizontal" autocomplete="off" disableautocomplete id="modalForm" method="post"
+<form class="form-horizontal" autocomplete="off" disableautocomplete id="applyAuForm" method="post"
       action="${ctx}/m/memberApply">
     <c:if test="${_memberApply_needContinueDevelop}">
         <div class="form-group">
@@ -26,11 +26,11 @@
             <div class="col-sm-9">
                 <div class="input-group">
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required checked type="radio" name="applyType" id="type1" value="1">
+                        <input required ${(empty memberApply || memberApply.applyStage==0)?'checked':''} type="radio" name="applyType" id="type1" value="1">
                         <label for="type1">申请入党</label>
                     </div>
                     <div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
-                        <input required type="radio" name="applyType" id="type2" value="2">
+                        <input required ${memberApply.applyStage>0?'checked':''} type="radio" name="applyType" id="type2" value="2">
                         <label for="type2">申请继续培养</label>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     </c:forEach>
                 </select>
                 <script>
-                    $("#modalForm select[name=applyStage]").val("${memberApply.applyStage}")
+                    $("#applyAuForm select[name=applyStage]").val("${memberApply.applyStage}")
                 </script>
             </div>
         </div>
@@ -93,7 +93,7 @@
             </div>
         </div>
         <script>
-            $.register.party_branch_select($("#modalForm"), "branchDiv",
+            $.register.party_branch_select($("#applyAuForm"), "branchDiv",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", "partyId", "branchId", true);
         </script>
 
@@ -136,6 +136,19 @@
             </div>
         </div>
     </div>
+    <c:if test="${_p_contactUsers_count>0}">
+                <div class="form-group">
+                    <label class="col-xs-5 control-label">培养联系人
+                    <button type="button" class="popupBtn btn btn-xs btn-warning"
+                                data-url="${ctx}/m/apply_active_contact?ids=${_user.id}&gotoNext=2&isMobile=1"><i class="fa fa-edit"></i></button>
+                    </label>
+                    <div class="col-xs-7 label-text">
+                        <input type="hidden" name="contactUsers" value="${memberApply.contactUsers}">
+                        <input type="hidden" name="contactUserIds" value="${memberApply.contactUserIds}">
+                       <label class="contactUsers">${memberApply.contactUsers}</label>
+                    </div>
+                </div>
+                    </c:if>
     <c:if test="${_pMap['memberApply_needActiveTrain']=='true'}">
         <div class="form-group">
             <label class="col-xs-5 control-label no-padding-right">积极分子参加培训时间</label>
@@ -179,6 +192,19 @@
             </div>
         </div>
     </div>
+    <c:if test="${_p_sponsorUsers_count>0}">
+    <div class="form-group">
+        <label class="col-xs-5 control-label">入党介绍人
+        <button type="button" class="popupBtn btn btn-xs btn-warning"
+                    data-url="${ctx}/m/apply_candidate_sponsor?ids=${_user.id}&gotoNext=2&isMobile=1"><i class="fa fa-edit"></i></button>
+        </label>
+        <div class="col-xs-7 label-text">
+           <input type="hidden" name="sponsorUsers" value="${memberApply.sponsorUsers}">
+           <input type="hidden" name="sponsorUserIds" value="${memberApply.sponsorUserIds}">
+           <label class="sponsorUsers">${memberApply.sponsorUsers}</label>
+        </div>
+    </div>
+        </c:if>
     <div class="form-group">
         <label class="col-xs-5 control-label no-padding-right">发展对象参加培训时间</label>
 
@@ -244,25 +270,25 @@
 </script>
 
 <script>
-    $('#modalForm [data-rel="select2"]').select2();
+    $('#applyAuForm [data-rel="select2"]').select2();
 
-    $('#modalForm input[name=applyType]').on('change', function () {
+    $('#applyAuForm input[name=applyType]').on('change', function () {
         $("#appiyStageDiv").hide();
-        $("#modalForm select[name=appiyStage]").removeAttr("required", "required");
+        $("#applyAuForm select[name=appiyStage]").removeAttr("required", "required");
         var type = $(this).val();
         if (type == 2) {
-            $("#modalForm select[name=appiyStage]").attr("required", "required");
+            $("#applyAuForm select[name=appiyStage]").attr("required", "required");
             $("#appiyStageDiv").show();
         }
-        $("#modalForm select[name=applyStage]").change();
+        $("#applyAuForm select[name=applyStage]").change();
     });
 
     var applyMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
 
-    $("#modalForm select[name=applyStage]").on('change', function () {
+    $("#applyAuForm select[name=applyStage]").on('change', function () {
         var applyStage = $(this).val();
         var codes = [];
-        var applyType = $('#modalForm input[name=applyType]:checked').val();
+        var applyType = $('#applyAuForm input[name=applyType]:checked').val();
         if(applyStage>0 && applyType==2) {
             for (var key in applyMap) {
                 codes.push(key);
@@ -275,8 +301,8 @@
     }).change();
 
     $.register.date($('.date-picker'));
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#submitBtn").click(function(){$("#applyAuForm").submit();return false;});
+    $("#applyAuForm").validate({
         submitHandler: function (form) {
             if (!$("#party").is(":hidden")) {
                 if ($('select[name=partyId]').val() == '') {
@@ -305,4 +331,9 @@
             });
         }
     });
+    <c:if test="${memberApply.stage>=0 && memberApply.applyStage>0}">
+        $("#submitBtn").hide();
+        $(".popupBtn").removeClass("popupBtn");
+        $(":radio, select, input[type=text], .popupBtn, textarea").attr("disabled", "disabled");
+    </c:if>
 </script>

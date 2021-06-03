@@ -202,6 +202,16 @@
 		<to>/user/memberApply</to>
 	</rule>
 	<rule>
+		<note>培养联系人</note>
+		<from>^/m/apply_active_contact</from>
+		<to>/apply_active_contact</to>
+	</rule>
+	<rule>
+		<note>入党介绍人</note>
+		<from>^/m/apply_candidate_sponsor</from>
+		<to>/apply_candidate_sponsor</to>
+	</rule>
+	<rule>
 		<note>撤销申请入党</note>
 		<condition type="method">POST</condition>
 		<from>^/m/applyBack</from>

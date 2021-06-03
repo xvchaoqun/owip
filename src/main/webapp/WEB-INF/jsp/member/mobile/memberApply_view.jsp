@@ -5,6 +5,7 @@
 
 <div class="row">
     <div class="col-xs-12">
+        <div id="body-content">
         <div class="profile-user-info profile-user-info-striped">
             <div class="profile-info-row">
                 <div class="profile-info-name td"> ${(_user.type==USER_TYPE_JZG)?"工作证号":"学号"} </div>
@@ -53,6 +54,18 @@
                     </div>
                 </div>
             </c:if>
+            <c:if test="${_memberApply_needContinueDevelop && memberApply.applyStage>0}">
+                        <div class="profile-info-row" >
+                            <div class="profile-info-name" style="color: red"> 申请继续培养</div>
+
+                            <div class="profile-info-value">
+                                <a href="javascript:;" data-url="${ctx}/m/apply_page?isMobile=1&preview=1"
+                                   data-open-by="page"
+                                   class="openView btn btn-warning btn-xs">
+                                    <i class="fa fa-search"></i> 详情</a>
+                            </div>
+                        </div>
+                    </c:if>
             <div class="profile-info-row">
                 <div class="profile-info-name"> 备注</div>
 
@@ -76,6 +89,9 @@
             </div>
         </div>
 
+        </div>
+    <div id="body-content-view"></div>
+    </div>
     </div>
 </div>
 <script>
