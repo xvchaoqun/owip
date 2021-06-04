@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                 <div class="input-group" style="width: 150px">
                     <input required class="form-control date-picker" placeholder="请选择任职日期" type="text"
                            name="_appointDate" data-date-format="yyyy.mm.dd"
-                           value="${empty cadre?_today:cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}"/>
+                           value="${empty cadre?_today_dot:cm:formatDate(cadre.lpWorkTime,'yyyy.MM.dd')}"/>
                     <span class="input-group-addon">
                         <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
