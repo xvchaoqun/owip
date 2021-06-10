@@ -15,6 +15,7 @@
             <form class="form-horizontal" action="${ctx}/user/oa/oaTaskUser_report" autocomplete="off" disableautocomplete id="modalForm" method="post">
                 <input type="hidden" name="taskId" value="${oaTaskUser.taskId}">
                 <input type="hidden" name="userId" value="${oaTaskUser.userId}">
+                <input type="hidden" name="taskUserId" value="${oaTaskUser.id}">
                 <table class="table table-bordered table-unhover">
                     <tr>
                         <td width="100">标题</td>

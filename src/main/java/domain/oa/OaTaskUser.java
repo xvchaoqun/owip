@@ -18,6 +18,8 @@ public class OaTaskUser implements Serializable {
 
     private String assignUserMobile;
 
+    private Date browseTime;
+
     private String content;
 
     private String remark;
@@ -94,6 +96,14 @@ public class OaTaskUser implements Serializable {
 
     public void setAssignUserMobile(String assignUserMobile) {
         this.assignUserMobile = assignUserMobile == null ? null : assignUserMobile.trim();
+    }
+
+    public Date getBrowseTime() {
+        return browseTime;
+    }
+
+    public void setBrowseTime(Date browseTime) {
+        this.browseTime = browseTime;
     }
 
     public String getContent() {

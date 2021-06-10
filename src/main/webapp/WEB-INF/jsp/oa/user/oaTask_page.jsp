@@ -36,6 +36,12 @@
                                    data-id-name="taskId"
                                    ><i class="fa fa-send"></i>
                                     通知指定负责人</button>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/user/oa/oaTaskApprovalLog"
+                                        data-width="850"
+                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_WORK%>&userId=${userId}">
+                                    <i class="fa fa-history"></i> 操作记录
+                                </button>
                             </div>
                         </c:if>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -110,8 +116,8 @@
                 label: '详情', name: '_detail', formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="openView btn btn-primary btn-xs"' +
-                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.taskId)
+                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}&taskUserId={1}"><i class="fa fa-search"></i> 查看</button>'
+                                .format(rowObject.taskId, rowObject.id)
             }
             },
             {
@@ -121,10 +127,10 @@
                 if(hasChecked) return '已审批'
 
                 return ('<button class="openView btn {2} btn-xs"' +
-                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}&type=report"><i class="fa {3}"></i> {1}</button>')
+                        'data-url="${ctx}/user/oa/oaTaskUser_report?taskId={0}&type=report&taskUserId={4}"><i class="fa {3}"></i> {1}</button>')
                                 .format(rowObject.taskId, (rowObject.hasReport?'修改':'报送'),
                                     (rowObject.hasReport?'btn-primary':'btn-success'),
-                                    (rowObject.hasReport?'fa-edit':'fa-check'))
+                                    (rowObject.hasReport?'fa-edit':'fa-check'), rowObject.id)
             }
             },
            /*
@@ -148,6 +154,13 @@
             }
             },
             </c:if>
+            {
+                label: '最后浏览时间',
+                name: 'browseTime',
+                width: 140,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
+            },
             {
                 label: '应完成时间',
                 name: 'taskDeadline',

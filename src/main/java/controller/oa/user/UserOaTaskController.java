@@ -37,6 +37,7 @@ public class UserOaTaskController extends OaBaseController {
     public String oaTask(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("userId", ShiroHelper.getCurrentUserId());
         return "oa/user/oaTask_page";
     }
 
