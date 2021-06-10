@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="userId" value="${memberReg.userId}">
 
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>联系${_p_partyName}</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>联系${_p_partyName}</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
 							data-width="273"
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<c:if test="${empty memberReg}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label"><span class="star">*</span>类别</label>
+					<label class="col-xs-3 control-label"><span class="star">*</span>类别</label>
 					<div class="col-xs-6 label-text">
 						<div class="input-group">
 							<c:forEach var="_userType" items="${USER_TYPE_MAP}">
@@ -45,39 +45,45 @@ pageEncoding="UTF-8"%>
 
 			<c:if test="${not empty memberReg}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">类别</label>
+					<label class="col-xs-3 control-label">类别</label>
 					<div class="col-xs-6 label-text">
 						${USER_TYPE_MAP.get(uv.type)}
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">用户名</label>
+					<label class="col-xs-3 control-label">用户名</label>
 					<div class="col-xs-6 label-text">
 						${memberReg.username}
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-4 control-label">学工号</label>
+					<label class="col-xs-3 control-label">学工号</label>
 					<div class="col-xs-6 label-text">
 						${memberReg.code}
 					</div>
 				</div>
 			</c:if>
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>真实姓名</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>真实姓名</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="realname" value="${memberReg.realname}">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-4 control-label"><span class="star">*</span>身份证号码</label>
+				<label class="col-xs-3 control-label"><span class="star">*</span>身份证号码</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="idcard" value="${memberReg.idcard}">
+					<div style="position: absolute;left: 290px;top: 0px;">
+						<a href="javascript:;" id="checkBtn"
+						   class="btn btn-success btn-sm">
+							<i class="fa fa-search"></i> 检测身份证关联账号
+						</a>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">手机号码</label>
+				<label class="col-xs-3 control-label">手机号码</label>
 				<div class="col-xs-6">
                         <input class="form-control mobile" type="text" name="phone" value="${memberReg.phone}">
 						<%--<span class="help-block">手机号码用于账号本人进行密码找回操作，请正确填写</span>--%>
@@ -95,6 +101,32 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+	$("#modalForm #checkBtn").click(function () {
+
+		var $this = $(this);
+		var idcard = $("#modalForm input[name=idcard]").val();
+		if (idcard == '') {
+			$.tip({$form: $("#modalForm"), field: "idcard", msg: "请填写身份证号", my: 'bottom center', at: 'top center'});
+			return;
+		}
+		$.post("${ctx}/memberReg_checkUser", {idcard: idcard}, function (ret) {
+
+			if (ret.success) {
+				var codeList = ret.result;
+				var msg = "<span class='text-success'><i class='fa fa-check'></i> 身份证号未绑定账号<span>";
+				if (codeList!=null&&codeList.length>0){
+					msg = "<span class='text-warning'> 身份证号已绑定用户账号"+codeList+"<span>";
+				}
+
+				$.tip({
+					$target: $this, $container: $("#pageContent"),
+					msg: msg, my: 'bottom center', at: 'top center'
+				})
+			}
+		});
+	})
+
 	$("#submitBtn").click(function () {
         $("#modalForm").submit();
         return false;
