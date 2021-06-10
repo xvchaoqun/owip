@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.oa.OaTaskUserView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="browse_time" jdbcType="TIMESTAMP" property="browseTime" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -97,8 +98,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
-    remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
+    id, task_id, browse_time, user_id, mobile, title, assign_user_id, assign_user_mobile, 
+    content, remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
     sort_order, status, code, realname, task_name, task_content, task_user_id, task_user_ids, 
     task_deadline, user_file_count, task_contact, task_is_delete, task_is_publish, task_status, 
     task_pub_date, task_type, assign_code, assign_realname, report_code, report_realname
@@ -124,30 +125,32 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.oa.OaTaskUserView">
-    insert into oa_task_user_view (id, task_id, user_id, 
-      mobile, title, assign_user_id, 
-      assign_user_mobile, content, remark, 
-      has_report, report_user_id, report_time, 
-      is_back, is_delete, check_remark, 
-      sort_order, status, code, 
-      realname, task_name, task_content, 
-      task_user_id, task_user_ids, task_deadline, 
-      user_file_count, task_contact, task_is_delete, 
-      task_is_publish, task_status, task_pub_date, 
-      task_type, assign_code, assign_realname, 
-      report_code, report_realname)
-    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
-      #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
-      #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{code,jdbcType=VARCHAR}, 
-      #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, #{taskContent,jdbcType=VARCHAR}, 
-      #{taskUserId,jdbcType=INTEGER}, #{taskUserIds,jdbcType=VARCHAR}, #{taskDeadline,jdbcType=TIMESTAMP}, 
-      #{userFileCount,jdbcType=INTEGER}, #{taskContact,jdbcType=VARCHAR}, #{taskIsDelete,jdbcType=BIT}, 
-      #{taskIsPublish,jdbcType=BIT}, #{taskStatus,jdbcType=TINYINT}, #{taskPubDate,jdbcType=DATE}, 
-      #{taskType,jdbcType=INTEGER}, #{assignCode,jdbcType=VARCHAR}, #{assignRealname,jdbcType=VARCHAR}, 
-      #{reportCode,jdbcType=VARCHAR}, #{reportRealname,jdbcType=VARCHAR})
+    insert into oa_task_user_view (id, task_id, browse_time, 
+      user_id, mobile, title, 
+      assign_user_id, assign_user_mobile, content, 
+      remark, has_report, report_user_id, 
+      report_time, is_back, is_delete, 
+      check_remark, sort_order, status, 
+      code, realname, task_name, 
+      task_content, task_user_id, task_user_ids, 
+      task_deadline, user_file_count, task_contact, 
+      task_is_delete, task_is_publish, task_status, 
+      task_pub_date, task_type, assign_code, 
+      assign_realname, report_code, report_realname
+      )
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{browseTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{assignUserId,jdbcType=INTEGER}, #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{hasReport,jdbcType=BOOLEAN}, #{reportUserId,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{isBack,jdbcType=BOOLEAN}, #{isDelete,jdbcType=BIT}, 
+      #{checkRemark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{code,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=VARCHAR}, #{taskUserId,jdbcType=INTEGER}, #{taskUserIds,jdbcType=VARCHAR}, 
+      #{taskDeadline,jdbcType=TIMESTAMP}, #{userFileCount,jdbcType=INTEGER}, #{taskContact,jdbcType=VARCHAR}, 
+      #{taskIsDelete,jdbcType=BIT}, #{taskIsPublish,jdbcType=BIT}, #{taskStatus,jdbcType=TINYINT}, 
+      #{taskPubDate,jdbcType=DATE}, #{taskType,jdbcType=INTEGER}, #{assignCode,jdbcType=VARCHAR}, 
+      #{assignRealname,jdbcType=VARCHAR}, #{reportCode,jdbcType=VARCHAR}, #{reportRealname,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUserView">
     insert into oa_task_user_view
@@ -157,6 +160,9 @@
       </if>
       <if test="taskId != null">
         task_id,
+      </if>
+      <if test="browseTime != null">
+        browse_time,
       </if>
       <if test="userId != null">
         user_id,
@@ -264,6 +270,9 @@
       </if>
       <if test="taskId != null">
         #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="browseTime != null">
+        #{browseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -381,6 +390,9 @@
       <if test="record.taskId != null">
         task_id = #{record.taskId,jdbcType=INTEGER},
       </if>
+      <if test="record.browseTime != null">
+        browse_time = #{record.browseTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
@@ -489,6 +501,7 @@
     update oa_task_user_view
     set id = #{record.id,jdbcType=INTEGER},
       task_id = #{record.taskId,jdbcType=INTEGER},
+      browse_time = #{record.browseTime,jdbcType=TIMESTAMP},
       user_id = #{record.userId,jdbcType=INTEGER},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},

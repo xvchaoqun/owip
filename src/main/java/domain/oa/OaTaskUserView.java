@@ -8,6 +8,8 @@ public class OaTaskUserView implements Serializable {
 
     private Integer taskId;
 
+    private Date browseTime;
+
     private Integer userId;
 
     private String mobile;
@@ -90,6 +92,14 @@ public class OaTaskUserView implements Serializable {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Date getBrowseTime() {
+        return browseTime;
+    }
+
+    public void setBrowseTime(Date browseTime) {
+        this.browseTime = browseTime;
     }
 
     public Integer getUserId() {

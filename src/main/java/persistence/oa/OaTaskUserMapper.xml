@@ -9,6 +9,7 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="assign_user_id" jdbcType="INTEGER" property="assignUserId" />
     <result column="assign_user_mobile" jdbcType="VARCHAR" property="assignUserMobile" />
+    <result column="browse_time" jdbcType="TIMESTAMP" property="browseTime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="has_report" jdbcType="BIT" property="hasReport" />
@@ -79,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, content, 
-    remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
+    id, task_id, user_id, mobile, title, assign_user_id, assign_user_mobile, browse_time, 
+    content, remark, has_report, report_user_id, report_time, is_back, is_delete, check_remark, 
     sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.oa.OaTaskUserExample" resultMap="BaseResultMap">
@@ -116,16 +117,18 @@
   <insert id="insert" parameterType="domain.oa.OaTaskUser">
     insert into oa_task_user (id, task_id, user_id, 
       mobile, title, assign_user_id, 
-      assign_user_mobile, content, remark, 
-      has_report, report_user_id, report_time, 
-      is_back, is_delete, check_remark, 
-      sort_order, status)
+      assign_user_mobile, browse_time, content, 
+      remark, has_report, report_user_id, 
+      report_time, is_back, is_delete, 
+      check_remark, sort_order, status
+      )
     values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{assignUserId,jdbcType=INTEGER}, 
-      #{assignUserMobile,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, #{reportTime,jdbcType=TIMESTAMP}, 
-      #{isBack,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, #{checkRemark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+      #{assignUserMobile,jdbcType=VARCHAR}, #{browseTime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{hasReport,jdbcType=BIT}, #{reportUserId,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{isBack,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, 
+      #{checkRemark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.oa.OaTaskUser">
     insert into oa_task_user
@@ -150,6 +153,9 @@
       </if>
       <if test="assignUserMobile != null">
         assign_user_mobile,
+      </if>
+      <if test="browseTime != null">
+        browse_time,
       </if>
       <if test="content != null">
         content,
@@ -203,6 +209,9 @@
       </if>
       <if test="assignUserMobile != null">
         #{assignUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="browseTime != null">
+        #{browseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -266,6 +275,9 @@
       <if test="record.assignUserMobile != null">
         assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
       </if>
+      <if test="record.browseTime != null">
+        browse_time = #{record.browseTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
@@ -310,6 +322,7 @@
       title = #{record.title,jdbcType=VARCHAR},
       assign_user_id = #{record.assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{record.assignUserMobile,jdbcType=VARCHAR},
+      browse_time = #{record.browseTime,jdbcType=TIMESTAMP},
       content = #{record.content,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       has_report = #{record.hasReport,jdbcType=BIT},
@@ -344,6 +357,9 @@
       </if>
       <if test="assignUserMobile != null">
         assign_user_mobile = #{assignUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="browseTime != null">
+        browse_time = #{browseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -386,6 +402,7 @@
       title = #{title,jdbcType=VARCHAR},
       assign_user_id = #{assignUserId,jdbcType=INTEGER},
       assign_user_mobile = #{assignUserMobile,jdbcType=VARCHAR},
+      browse_time = #{browseTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       has_report = #{hasReport,jdbcType=BIT},
