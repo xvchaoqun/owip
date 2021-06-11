@@ -508,9 +508,7 @@ public class StatCadreController extends BaseController {
     @ResponseBody
     public Map stat_cadre_count_data(Byte cadreCategory) {
 
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
-
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int adminLevelCount=0;
         // 行政级别
@@ -539,8 +537,7 @@ public class StatCadreController extends BaseController {
     @ResponseBody
     public Map stat_cadreOther_count(Integer type ,Byte cadreCategory) {
 
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
         Map map = new LinkedHashMap();
         Map otherMap = new LinkedHashMap();
         int cadreCount  = statCadreMapper.countCadre(searchBean);
@@ -602,8 +599,7 @@ public class StatCadreController extends BaseController {
     @RequestMapping("/stat_cadreDp_count_data")
     @ResponseBody
     public Map stat_cadreDp_count(Byte cadreCategory) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
 
         MetaType metaType = CmTag.getMetaTypeByCode("mt_dp_qz");  //群众
         int crowdId = metaType.getId();
@@ -626,8 +622,7 @@ public class StatCadreController extends BaseController {
     @RequestMapping("/stat_cadre_age_data")
     @ResponseBody
     public Map stat_cadreAge_count(Byte cadreCategory) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int ageCount = 0;
         Map cadreAgeMap = new LinkedHashMap();
@@ -668,9 +663,7 @@ public class StatCadreController extends BaseController {
     @RequestMapping("/stat_cadrePost_count_data")
     @ResponseBody
     public Map stat_cadrePost_count(Byte cadreCategory) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
-
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
         Map cadrePostMap = new LinkedHashMap();
 
         StatCadreBean totalBean = statCadreMapper.cadre_stat_post(searchBean);
@@ -692,8 +685,7 @@ public class StatCadreController extends BaseController {
     @RequestMapping("/stat_cadreDegree_count_data")
     @ResponseBody
     public Map stat_cadreDegree_count_data(Byte cadreCategory) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
 
         Map cadreDegreeMap = new LinkedHashMap();
         int bs = 0, ss = 0, xs = 0, otherDegree=0;
@@ -730,8 +722,7 @@ public class StatCadreController extends BaseController {
     @RequestMapping("/stat_cadreEdu_count_data")
     @ResponseBody
     public Map stat_cadreEdu_count_data(Byte cadreCategory, ModelMap modelMap) {
-        CadreSearchBean searchBean = new CadreSearchBean();
-        searchBean.setCadreType(cadreCategory);
+        CadreSearchBean searchBean = statCadreService.cadreSearchBean(cadreCategory);
         int cadreCount  = statCadreMapper.countCadre(searchBean);
         int eduCount = 0;
         Map cadreEduMap = new LinkedHashMap();

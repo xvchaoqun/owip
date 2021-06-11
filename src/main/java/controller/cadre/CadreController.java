@@ -76,7 +76,6 @@ public class CadreController extends BaseController {
 
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CADRE_STATUS_CJ + "") Byte status,
-//                             dpTypes _birth  nation   gender  postTypes  adminLevels  title  unitIds
                              String[] nation,
                              Integer[] dpTypes,
                              Integer[] unitIds,
@@ -225,8 +224,7 @@ public class CadreController extends BaseController {
                            String realname,
                            Byte gender,
                            String _type, //点击echarts跳转页面
-                           @RequestParam(required = false, defaultValue = "0") Integer otherAge,//echarts是否点击其他年龄 0 否 1 是
-                           Integer[] genders, //查询其他性别
+                           Byte[] genders, //查询其他性别
                            Integer startAge,
                            Integer endAge,
                            Integer startDpAge, // 党龄
@@ -384,6 +382,9 @@ public class CadreController extends BaseController {
         if (gender != null) {
             criteria.andGenderEqualTo(gender);
         }
+        if (genders != null) {
+            criteria.andGenderIsNull();
+        }
         if (_birth.getStart() != null) {
             criteria.andBirthGreaterThanOrEqualTo(_birth.getStart());
         }
@@ -399,18 +400,35 @@ public class CadreController extends BaseController {
             criteria.andGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
         }
 
+        Date brith_start = null;
+        //是否精确到天
+        boolean birthToDay = CmTag.getBoolProperty("birthToDay");
         if (endAge != null) {
-            //  >= 不含（减一）
-            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1));
-            Date brith_start=DateUtils.getFirstDayOfMonth(brith);
-            criteria.andBirthGreaterThanOrEqualTo(brith_start);
+            if (StringUtils.isBlank(_type)) {
+                //  >= 不含（减一）
+                Date brith = DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endAge + 1));
+                if (birthToDay) {
+                    brith_start=brith;
+                } else {
+                    brith_start=DateUtils.getFirstDayOfMonth(brith);
+                }
+                criteria.andBirthGreaterThanOrEqualTo(brith_start);
+            }
         }
+        Date brith_end = null;
         if (startAge != null) {
-            // <= 包含
-            Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge);
-            Date brith_end=DateUtils.getLastDayOfMonth(brith);
-            criteria.andBirthLessThanOrEqualTo(brith_end);
+            if (StringUtils.isBlank(_type)) {
+                // <= 包含
+                Date brith= DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge);
+                if (birthToDay) {
+                    brith_end=brith;
+                } else {
+                    brith_end=DateUtils.getLastDayOfMonth(brith);
+                }
+                criteria.andBirthLessThanOrEqualTo(brith_end);
+            }
         }
+
         if (endDpAge != null) {
             criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * (endDpAge + 1)));
         }
@@ -444,7 +462,15 @@ public class CadreController extends BaseController {
             criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }
         if (adminLevels != null) {
-            criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+            if ((StringUtils.isNotBlank(_type) && StringUtils.equals("其他", _type))) {
+                if (startAge == null && endAge == null) {
+                    criteria.andAdminLevel(adminLevels);
+                } else {
+                    criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+                }
+            } else {
+                criteria.andAdminLevelIn(Arrays.asList(adminLevels));
+            }
         }
         if (maxEdus != null) {
             if(new HashSet<>(Arrays.asList(maxEdus)).contains(-1)){
@@ -477,7 +503,19 @@ public class CadreController extends BaseController {
             }
         }
         if (proPostLevels != null) {
-            criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+            if (proPostLevels[0].equals("其他")) {
+                criteria.andProPostLevelIsNull();
+            } else {
+                List<String> list = Arrays.asList(proPostLevels);
+                if (list.contains("初级") || list.contains("中级")) {
+                    criteria.andProPostLevel();
+                } else {
+                    for (String l: list) {
+                        criteria.andProPostLevelLike("%" + l + "%");
+                    }
+                }
+//                criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
+            }
         }
         if (nation != null) {
 
@@ -590,30 +628,19 @@ public class CadreController extends BaseController {
         long count = 0;
         List<CadreView> cadres = new ArrayList<>();
         //echarts跳转页面查询其他条件
-        if ((StringUtils.isNotBlank(_type) && StringUtils.equals("其他", _type)) || (startAge != null && startAge == 55)) {
-            boolean isOtherAge = (otherAge == 1);
-            if (startAge != null && endAge != null && !isOtherAge) {
+        if ((StringUtils.isNotBlank(_type) && StringUtils.equals("其他", _type))) {
+            if (startAge != null || endAge != null) {
                 //年龄分布数据
-                count = iCadreMapper.countCadreAgeRange(status, startAge, endAge);
-                if ((pageNo - 1) * pageSize >= count) {
-                    pageNo = Math.max(1, pageNo - 1);
-                }
-                cadres = iCadreMapper.selectCadreAgeRange(status, startAge, endAge, new RowBounds((pageNo - 1) * pageSize, pageSize));
-            } else {
-                //其他分布数据
-                count = iCadreMapper.countCadreByOthers(status, adminLevels, genders, isOtherAge, nation, proPostLevels, startAge);
-                if ((pageNo - 1) * pageSize >= count) {
-                    pageNo = Math.max(1, pageNo - 1);
-                }
-                cadres = iCadreMapper.selectCadreByOthers(status, adminLevels, genders, isOtherAge, nation, proPostLevels, startAge, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                criteria.andAgeRange(status, startAge, endAge, birthToDay);
             }
-        } else {
-            count = cadreViewMapper.countByExample(example);
-            if ((pageNo - 1) * pageSize >= count) {
-                pageNo = Math.max(1, pageNo - 1);
-            }
-            cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
+        //其他分布数据
+        count = cadreViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        cadres = cadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         Map resultMap = new HashMap();
         resultMap.put("rows", cadres);
