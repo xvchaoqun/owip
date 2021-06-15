@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.sc.ScBaseMapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ScMatterItemService extends ScBaseMapper {
@@ -16,6 +17,33 @@ public class ScMatterItemService extends ScBaseMapper {
     public void insertSelective(ScMatterItem record){
 
         scMatterItemMapper.insertSelective(record);
+    }
+
+    @Transactional
+    public int bacthImport(List<ScMatterItem> records) {
+
+        int addCount = 0;
+        for (ScMatterItem record : records) {
+
+            ScMatterItem scMatterItem = get(record.getMatterId(), record.getUserId());
+            if(scMatterItem==null){
+                insertSelective(record);
+                addCount++;
+            }else{
+                record.setId(scMatterItem.getId());
+                updateByPrimaryKeySelective(record);
+            }
+        }
+
+        return addCount;
+    }
+
+    private ScMatterItem get(Integer matterId, Integer userId) {
+
+        ScMatterItemExample example = new ScMatterItemExample();
+        example.createCriteria().andMatterIdEqualTo(matterId).andUserIdEqualTo(userId);
+        List<ScMatterItem> scMatterItems = scMatterItemMapper.selectByExample(example);
+        return scMatterItems.size()>0?scMatterItems.get(0):null;
     }
 
     @Transactional

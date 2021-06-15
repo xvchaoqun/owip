@@ -1,11 +1,17 @@
 package controller.sc.scMatter;
 
 import bean.UserBean;
+import controller.global.OpException;
 import controller.sc.ScBaseController;
 import domain.sc.scMatter.*;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -150,6 +158,70 @@ public class ScMatterItemController extends ScBaseController {
             modelMap.put("scMatterItem", scMatterItem);
         }
         return "sc/scMatter/scMatterItem/scMatterItem_au";
+    }
+    
+    @RequiresPermissions("scMatterItem:import")
+    @RequestMapping("/scMatterItem_import")
+    public String scMatterItem_import(ModelMap modelMap) {
+
+        return "sc/scMatter/scMatterItem/scMatterItem_import";
+    }
+
+    @RequiresPermissions("scMatterItem:import")
+    @RequestMapping(value = "/scMatterItem_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scMatterItem_import(int matterId, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+        List<ScMatterItem> records = new ArrayList<>();
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            ScMatterItem record = new ScMatterItem();
+            row++;
+
+            String code = StringUtils.trimToNull(xlsRow.get(0));
+            if (StringUtils.isBlank(code)) {
+                throw new OpException("第{0}行工作证号为空", row);
+            }
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null){
+                throw new OpException("第{0}行工作证号[{1}]不存在", row, code);
+            }
+            record.setUserId(uv.getUserId());
+            
+            record.setTitle(StringUtils.trimToNull(xlsRow.get(2)));
+
+            String realHandTime = StringUtils.trimToNull(xlsRow.get(3));
+            record.setRealHandTime(DateUtils.parseStringToDate(realHandTime));
+
+            String fillTime = StringUtils.trimToNull(xlsRow.get(4));
+            record.setFillTime(DateUtils.parseStringToDate(fillTime));
+
+            record.setMatterId(matterId);
+            records.add(record);
+        }
+
+        Collections.reverse(records); // 逆序排列，保证导入的顺序正确
+
+        int addCount = scMatterItemService.bacthImport(records);
+        int totalCount = records.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("addCount", addCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "导入填报对象成功，总共{0}条记录，其中成功导入{1}条记录，{2}条覆盖",
+                totalCount, addCount, totalCount - addCount));
+
+        return resultMap;
     }
 
     @RequiresPermissions("scMatterItem:del")

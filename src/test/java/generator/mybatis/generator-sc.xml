@@ -328,14 +328,14 @@
             <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="hand_item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <!--<table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
-        </table>-->
-        <table tableName="sc_matter_item_view"
+        <table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
+        </table>
+        <!--<table tableName="sc_matter_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterItemView" mapperName="sc.scMatter.ScMatterItemViewMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_matter_user_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -349,12 +349,12 @@
 
         <!--<table tableName="sc_matter_access_item" domainObjectName="sc.scMatter.ScMatterAccessItem" mapperName="sc.scMatter.ScMatterAccessItemMapper">
         </table>-->
-        <table tableName="sc_matter_access_item_view"
+        <!--<table tableName="sc_matter_access_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterAccessItemView" mapperName="sc.scMatter.ScMatterAccessItemViewMapper">
-        </table>
+        </table>-->
          <!--<table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck"
                 mapperName="sc.scMatter.ScMatterCheckMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -372,13 +372,13 @@
         </table>-->
         <!--<table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
         </table>-->
-        <table tableName="sc_matter_check_item_view"
+        <!--<table tableName="sc_matter_check_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterCheckItemView" mapperName="sc.scMatter.ScMatterCheckItemViewMapper">
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="sc_matter_transfer" domainObjectName="sc.scMatter.ScMatterTransfer" mapperName="sc.scMatter.ScMatterTransferMapper">
         </table>-->
         <!--<table tableName="sc_border" domainObjectName="sc.scBorder.ScBorder" mapperName="sc.scBorder.ScBorderMapper">

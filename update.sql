@@ -11,6 +11,13 @@ ALTER TABLE `oa_task_user`
 	ADD COLUMN `browse_time` DATETIME NULL DEFAULT NULL COMMENT '最后浏览时间' AFTER `assign_user_mobile`;
 -- 更新 oa_task_user_view
 
+ALTER TABLE `sc_matter_item`
+	ADD COLUMN `title` VARCHAR(100) NULL COMMENT '所在单位及职务' AFTER `user_id`;
+-- 更新 sc_matter_item_view  sc_matter_access_item_view
+update sc_matter_item smi, cadre c set smi.title=c.title where smi.user_id=c.user_id;
+
+
+
 20210604
 -- 北师大
 20210603
