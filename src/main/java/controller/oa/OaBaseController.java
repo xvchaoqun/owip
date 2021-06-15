@@ -7,6 +7,7 @@ import service.SpringProps;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
 import service.oa.*;
+import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import sys.HttpResponseMethod;
 
@@ -42,4 +43,6 @@ public class OaBaseController extends OaBaseMapper implements HttpResponseMethod
     protected OaTaskUserService oaTaskUserService;
     @Autowired
     protected OaTaskRemindService oaTaskRemindService;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
 }

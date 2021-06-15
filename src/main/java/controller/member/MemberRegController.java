@@ -5,6 +5,7 @@ import domain.member.MemberReg;
 import domain.member.MemberRegExample;
 import domain.party.Party;
 import domain.sys.SysUserView;
+import domain.sys.SysUserViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +30,6 @@ import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.*;
@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class MemberRegController extends MemberBaseController {
@@ -316,6 +317,26 @@ public class MemberRegController extends MemberBaseController {
         }
 
         return "member/memberReg/memberReg_au";
+    }
+
+    @RequiresPermissions("memberReg:edit")
+    @RequestMapping(value = "/memberReg_checkUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map memberReg_checkUser(String idcard) {
+
+        Map<String, Object> resultMap = success();
+
+        List<String> codeList = new ArrayList<>();
+        SysUserViewExample example = new SysUserViewExample();
+        example.createCriteria().andIdcardEqualTo(idcard);
+        List<SysUserView> sysUserList = sysUserViewMapper.selectByExample(example);
+        if (sysUserList != null && sysUserList.size() > 0) {
+            codeList = sysUserList.stream().map(SysUserView::getCode).collect(Collectors.toList());
+        }
+
+        resultMap.put("result", codeList);
+
+        return resultMap;
     }
 
     @RequiresPermissions("memberReg:import")

@@ -126,14 +126,14 @@
                         var genderId = map[params.data._type];
                         var url = "";
                         if (genderId != undefined) {
-                            url = "#${ctx}/cadre?gender={0}&status={1}".format($.trim(genderId), status);
+                            url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&gender={0}&status={1}".format($.trim(genderId), status);
                         } else {
                             var genderMap = _cMap.GENDER_MAP;
                             var data = [];
                             for (var i in genderMap) {
                                 data.push(i);
                             }
-                            url = "#${ctx}/cadre?genders={0}&_type={1}&status={2}".format($.trim(data), "其他", status);
+                            url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&genders={0}&_type={1}&status={2}".format($.trim(data), "其他", status);
                         }
                         window.open(url, "_blank");
                     }
@@ -154,13 +154,13 @@
                                 }
                                 ids.push(nationsName[j]);
                             }
-                            url = "#${ctx}/cadre?nation={0}_type={1}&status={2}".format(ids, "其他", status);
+                            url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&nation={0}_type={1}&status={2}".format(ids, "其他", status);
                             window.open(url, "_blank");
                             return;
                         } else {
                             nation = type;
                         }
-                        url = "#${ctx}/cadre?nation={0}&status={1}".format($.trim(nation), status);
+                        url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&nation={0}&status={1}".format($.trim(nation), status);
                         window.open(url, "_blank");
                     }
                 });

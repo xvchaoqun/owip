@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.oa.common.TaskUser;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
@@ -28,6 +29,7 @@ import sys.utils.FormUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -40,18 +42,28 @@ public class UserOaTaskUserController extends OaBaseController {
     @RequestMapping(value = "/oaTaskUser_report", method = RequestMethod.POST)
     @ResponseBody
     public Map do_oaTaskUser_report(int taskId,Integer userId, String content,
-                             MultipartFile[] _files,
+                             MultipartFile[] _files,Integer taskUserId,
                              String remark, HttpServletRequest request) throws IOException, InterruptedException {
 
         oaTaskUserService.report(taskId,userId,content, _files, remark);
         logger.info(addLog(LogConstants.LOG_OA, "报送任务：%s", taskId));
-
+        if (taskUserId != null) {
+            OaTaskUser taskUser = new OaTaskUser();
+            taskUser.setId(taskUserId);
+            taskUser.setTaskId(taskId);
+            taskUser.setBrowseTime(new Date());
+            oaTaskUserMapper.updateByPrimaryKeySelective(taskUser);
+        }
+        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_OA_LOG_TYPE_WORK,
+                "提交报送协同办公任务内容", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("userOaTask:report")
     @RequestMapping("/oaTaskUser_report")
-    public String oaTaskUser_report(int taskId,Integer userId, ModelMap modelMap) {
+    public String oaTaskUser_report(int taskId,Integer userId, String type, Integer taskUserId, ModelMap modelMap) {
 
         OaTask oaTask = oaTaskMapper.selectByPrimaryKey(taskId);
         modelMap.put("oaTask", oaTask);
@@ -63,6 +75,18 @@ public class UserOaTaskUserController extends OaBaseController {
         modelMap.put("oaTaskUser", oaTaskUser);
         modelMap.put("oaTaskUserFiles", oaTaskUserService.getUserFiles(taskId, userId));
 
+        if (taskUserId != null) {
+            modelMap.put("taskUserId", taskUserId);
+            OaTaskUser taskUser = new OaTaskUser();
+            taskUser.setId(taskUserId);
+            taskUser.setTaskId(taskId);
+            taskUser.setBrowseTime(new Date());
+            oaTaskUserMapper.updateByPrimaryKeySelective(taskUser);
+        }
+        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_OA_LOG_TYPE_WORK,
+                (StringUtils.isNotBlank(type) ? "报送" :"查看") + "协同办公任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return "oa/user/oaTaskUser_report";
     }
 
@@ -108,6 +132,10 @@ public class UserOaTaskUserController extends OaBaseController {
         if(assignUserId!=null)
             modelMap.put("sysUser", sysUserService.findById(assignUserId));
 
+        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_OA_LOG_TYPE_WORK,
+                "指定负责人", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return "oa/user/oaTaskUser_assign";
     }
 
@@ -123,6 +151,10 @@ public class UserOaTaskUserController extends OaBaseController {
         oaTaskUserService.assign(taskId, userId, mobile);
         logger.info(addLog(LogConstants.LOG_OA, "指定负责人：%s, %s", taskId, userId));
 
+        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_OA_LOG_TYPE_WORK,
+                "提交指定负责人数据", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return success(FormUtils.SUCCESS);
     }
 

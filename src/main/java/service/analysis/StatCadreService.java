@@ -1373,4 +1373,11 @@ public class StatCadreService extends BaseMapper {
         }
         return cadreViews;
     }
+
+    public CadreSearchBean cadreSearchBean(Byte cadreCategory) {
+        CadreSearchBean searchBean = new CadreSearchBean();
+        searchBean.setCadreType(cadreCategory);
+        searchBean.setBirthToDay(CmTag.getBoolProperty("birthToDay"));//是否精确到天
+        return searchBean;
+    }
 }

@@ -118,12 +118,15 @@
                             }
                         }
                     }
+                    url = "#${ctx}/cadre?isEngage=${param.isEngage}&dpTypes=" + ids + "&status=" + status;
                 } else if (type == '中共党员') {
                     ids.push(0);
                 } else {
                     ids.push(-1);
                 }
-                url = "#${ctx}/cadre?dpTypes=" + ids + "&status=" + status;
+                if (url == "") {
+                    url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&dpTypes=" + ids + "&status=" + status;
+                }
                 window.open(url, "_blank");
             });
             </shiro:hasPermission>

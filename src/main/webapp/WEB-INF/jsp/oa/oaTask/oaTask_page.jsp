@@ -78,7 +78,14 @@
                                    data-url="${ctx}/oa/oaTask_finish"
                                    data-msg="确定任务完结？（转移至已完成列表）"data-callback="_reload"
                                    data-open-by="page"><i class="fa fa-check-square-o"></i> 任务完结</button>
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/sysApprovalLog"
+                                        data-width="850"
+                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_WORK%>">
+                                    <i class="fa fa-history"></i> 操作记录
+                                </button>
                             </c:if>
+
                             <c:if test="${cls==2}">
                                 <button class="jqItemBtn btn btn-success btn-sm"
                                    data-url="${ctx}/oa/oaTask_finish?isFinish=0"

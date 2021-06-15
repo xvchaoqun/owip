@@ -252,6 +252,66 @@ public class OaTaskUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andBrowseTimeIsNull() {
+            addCriterion("browse_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeIsNotNull() {
+            addCriterion("browse_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeEqualTo(Date value) {
+            addCriterion("browse_time =", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeNotEqualTo(Date value) {
+            addCriterion("browse_time <>", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeGreaterThan(Date value) {
+            addCriterion("browse_time >", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("browse_time >=", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeLessThan(Date value) {
+            addCriterion("browse_time <", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeLessThanOrEqualTo(Date value) {
+            addCriterion("browse_time <=", value, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeIn(List<Date> values) {
+            addCriterion("browse_time in", values, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeNotIn(List<Date> values) {
+            addCriterion("browse_time not in", values, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeBetween(Date value1, Date value2) {
+            addCriterion("browse_time between", value1, value2, "browseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBrowseTimeNotBetween(Date value1, Date value2) {
+            addCriterion("browse_time not between", value1, value2, "browseTime");
+            return (Criteria) this;
+        }
+
         public Criteria andUserIdIsNull() {
             addCriterion("user_id is null");
             return (Criteria) this;
