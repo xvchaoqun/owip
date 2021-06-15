@@ -89,8 +89,8 @@ public class CadreController extends BaseController {
                              Integer[] labels, // 标签
                              String[] staffTypes,
                             String[] authorizedTypes,
-                             @RequestParam(required = false, defaultValue = "0")Boolean isEngage, //是否聘任制干部，指无行政级别的干部
-                             @RequestParam(required = false, defaultValue = "0")Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
+                             Boolean isEngage, //是否聘任制干部，指无行政级别的干部
+                             Boolean isKeepSalary,//是否为保留待遇干部信息，指第一主职无关联岗位的干部
                              Integer[] workTypes,
                              Integer cadreId, ModelMap modelMap) {
 
@@ -199,7 +199,7 @@ public class CadreController extends BaseController {
 
         modelMap.put("titles", titles);
 
-        if (isEngage || isKeepSalary) {
+        if (BooleanUtils.isTrue(isEngage) || BooleanUtils.isTrue(isKeepSalary)) {
             return "cadre/cadre_engage_page";
         }
 
@@ -265,9 +265,9 @@ public class CadreController extends BaseController {
                            String sortBy, // 自定义排序
                            Byte firstUnitPost, // 第一主职是否已关联岗位（1：关联 0： 没关联 -1：缺第一主职）
                            //是否为保留待遇干部信息，指第一主职无关联岗位的干部
-                           @RequestParam(required = false, defaultValue = "0") Boolean isKeepSalary,
+                           Boolean isKeepSalary,
                            //是否聘任制干部，指无行政级别的干部
-                           @RequestParam(required = false, defaultValue = "0") Boolean isEngage,
+                           Boolean isEngage,
                            String remark,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
@@ -323,12 +323,20 @@ public class CadreController extends BaseController {
         }
         example.setOrderByClause(sortStr);
 
-        if (isEngage) {
+        if(isEngage!=null) {
             Integer adminLevel = CmTag.getMetaTypeByCode("mt_admin_level_none").getId();
-            criteria.andAdminLevelEqualTo(adminLevel);
+            if (isEngage) {
+                criteria.andAdminLevelEqualTo(adminLevel);
+            }else{
+                criteria.andAdminLevelNotEqualTo(adminLevel);
+            }
         }
-        if (isKeepSalary) { // 保留待遇干部，即第一主职已关联岗位
-           criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
+        if(isKeepSalary!=null) {
+            if (isKeepSalary) { // 保留待遇干部，即第一主职没有关联岗位
+                criteria.andMainCadrePostIdGreaterThan(0).andUnitPostIdIsNull();
+            } else {
+                firstUnitPost = 1;
+            }
         }
         if (firstUnitPost != null) {
             if(firstUnitPost==-1){ // 缺第一主职

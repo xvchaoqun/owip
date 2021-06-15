@@ -101,6 +101,8 @@ public class PartyService extends BaseMapper {
 
             Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
             MetaType directBranchType = codeKeyMap.get("mt_direct_branch");
+
+            if(party.getClassId()==null) return false;
             // 直属党支部返回true
             return (party.getClassId() == directBranchType.getId().intValue());
         }
@@ -110,6 +112,8 @@ public class PartyService extends BaseMapper {
     public boolean isDirectBranch(int partyId) {
 
         Party party = findAll().get(partyId);
+        if(party.getClassId()==null) return false;
+
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_direct_branch");
     }
@@ -126,6 +130,8 @@ public class PartyService extends BaseMapper {
     public boolean isPartyGeneralBranch(int partyId) {
 
         Party party = findAll().get(partyId);
+        if(party.getClassId()==null) return false;
+
         MetaType metaType = metaTypeService.findAll().get(party.getClassId());
         return StringUtils.equalsIgnoreCase(metaType.getCode(), "mt_party_general_branch");
     }

@@ -1,4 +1,18 @@
 
+ALTER TABLE `ow_party`
+	CHANGE COLUMN `class_id` `class_id` INT(10) UNSIGNED NULL COMMENT '党总支类别，关联元数据，分党委、党总支、直属党支部' AFTER `unit_ids`,
+	CHANGE COLUMN `type_id` `type_id` INT(10) UNSIGNED NULL COMMENT '组织类别，关联元数据，院系党组织、机关后勤直属单位党组织、附属学校党组织' AFTER `class_id`,
+	CHANGE COLUMN `unit_type_id` `unit_type_id` INT(10) UNSIGNED NULL COMMENT '关联单位属性，关联元数据，企业，事业单位' AFTER `type_id`,
+	CHANGE COLUMN `is_enterprise_big` `is_enterprise_big` TINYINT(1) UNSIGNED NULL COMMENT '是否大中型，针对企业单位' AFTER `branch_type`,
+	CHANGE COLUMN `is_enterprise_nationalized` `is_enterprise_nationalized` TINYINT(1) UNSIGNED NULL COMMENT '是否国有独资，针对企业单位，否：国有控股' AFTER `is_enterprise_big`,
+	CHANGE COLUMN `is_separate` `is_separate` TINYINT(1) UNSIGNED NULL COMMENT '所在单位是否独立法人' AFTER `is_enterprise_nationalized`;
+
+ALTER TABLE `oa_task_user`
+	ADD COLUMN `browse_time` DATETIME NULL DEFAULT NULL COMMENT '最后浏览时间' AFTER `assign_user_mobile`;
+-- 更新 oa_task_user_view
+
+20210604
+-- 北师大
 20210603
 -- 珠海
 

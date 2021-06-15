@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
 					<div style="position: absolute;left: 290px;top: 0px;">
 						<a href="javascript:;" id="checkBtn"
 						   class="btn btn-success btn-sm">
-							<i class="fa fa-search"></i> 检测身份证关联账号
+							<i class="fa fa-search"></i> 检测是否已注册账号
 						</a>
 					</div>
 				</div>
@@ -114,9 +114,9 @@ pageEncoding="UTF-8"%>
 
 			if (ret.success) {
 				var codeList = ret.result;
-				var msg = "<span class='text-success'><i class='fa fa-check'></i> 身份证号未绑定账号<span>";
+				var msg = "<span class='text-success'><i class='fa fa-check'></i> 未注册<span>";
 				if (codeList!=null&&codeList.length>0){
-					msg = "<span class='text-warning'> 身份证号已绑定用户账号"+codeList+"<span>";
+					msg = "<span class='text-warning'> 已注册账号："+codeList+"<span>";
 				}
 
 				$.tip({

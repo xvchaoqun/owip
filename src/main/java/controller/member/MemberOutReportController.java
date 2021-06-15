@@ -1,6 +1,5 @@
 package controller.member;
 
-import bean.UserBean;
 import domain.base.MetaType;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;
@@ -167,20 +166,20 @@ public class MemberOutReportController extends MemberBaseController {
     // 获取组织关系转出相关信息
     public Map<String, Object> getMemberOutInfoMap(MemberOut memberOut) {
 
-        UserBean userBean = userBeanService.get(memberOut.getUserId());
+        SysUserView uv = memberOut.getUser();
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", userBean.getRealname());
+        map.put("name", uv.getRealname());
         map.put("fromUnit", memberOut.getFromUnit());
         map.put("fromAddress", memberOut.getFromAddress());
         map.put("to", memberOut.getToUnit());
         map.put("toTitle", memberOut.getToTitle());
-        map.put("check1", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
-        map.put("check2", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
-        map.put("male", (userBean.getGender() != null && userBean.getGender() == SystemConstants.GENDER_MALE) ? "√" : "");
-        map.put("female", (userBean.getGender() != null && userBean.getGender() == SystemConstants.GENDER_FEMALE) ? "√" : "");
-        map.put("age", (userBean.getBirth() != null) ? DateUtils.intervalYearsUntilNow(userBean.getBirth()) : "");
-        map.put("nation", StringUtils.trimToEmpty(userBean.getNation()));
+        map.put("check1", (memberOut.getPoliticalStatus() != null && memberOut.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
+        map.put("check2", (memberOut.getPoliticalStatus() != null && memberOut.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
+        map.put("male", (memberOut.getGender() != null && memberOut.getGender() == SystemConstants.GENDER_MALE) ? "√" : "");
+        map.put("female", (memberOut.getGender() != null && memberOut.getGender() == SystemConstants.GENDER_FEMALE) ? "√" : "");
+        map.put("age", (memberOut.getAge() != null) ? memberOut.getAge() : "");
+        map.put("nation", StringUtils.trimToEmpty(memberOut.getNation()));
         map.put("payYear", DateUtils.getYear(memberOut.getPayTime()));
         map.put("payMonth", DateUtils.getMonth(memberOut.getPayTime()));
         map.put("validDays", memberOut.getValidDays());
@@ -188,9 +187,9 @@ public class MemberOutReportController extends MemberBaseController {
         map.put("phone", memberOut.getFromPhone()); // 原组织关系联系方式
         map.put("fax", memberOut.getFromFax()); //
         map.put("postCode", memberOut.getFromPostCode());
-        map.put("idcard", userBean.getIdcard());
+        map.put("idcard", memberOut.getIdcard());
         if (CmTag.getBoolProperty("use_code_as_identify")){
-            map.put("code", userBean.getCode());
+            map.put("code", uv.getCode());
         }else {
             map.put("code", StringUtils.trimToEmpty(memberOut.getCode()));
         }

@@ -1,9 +1,7 @@
 package domain.cadre;
 
 import domain.base.MetaType;
-import domain.member.MemberViewExample;
 import org.apache.commons.lang3.StringUtils;
-import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.SqlUtils;
@@ -2312,9 +2310,9 @@ public class CadreViewExample {
             Integer currentMonth = DateUtils.getMonth(date);
             if (startAge != -1) {//startAge=-1表示查询其他
                 addCriterion(" birth is not null ");
-                if (status != CadreConstants.CADRE_STATUS_KJ) {
+                /*if (status != CadreConstants.CADRE_STATUS_KJ) {
                     addCriterion("(main_cadre_post_id is null or unit_post_id > 0) ");
-                }
+                }*/
                 if (startAge != null) {
                     String range = (startAge >= 55 ? "" : "=") + startAge;
                     if (birthToDay) {
