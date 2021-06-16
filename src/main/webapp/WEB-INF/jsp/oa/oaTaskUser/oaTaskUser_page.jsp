@@ -182,13 +182,13 @@
             {
                 label: '操作记录',
                 name: 'record',
-                width: 140,
+                width: 80,
                 formatter: function(cellvalue, options, rowObject){
                     var html = '<button class="jqOpenViewBtn btn btn-warning btn-xs"'+
                                        'data-url="${ctx}/user/oa/oaTaskApprovalLog"'+
                                        'data-width="850"'+
                                        'data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_OA%>&userId='+rowObject.userId+'">'+
-                        '<i class="fa fa-history"></i> 操作记录'
+                        '<i class="fa fa-history"></i> 查看'
                     '</button>';
                     return html;
                 }

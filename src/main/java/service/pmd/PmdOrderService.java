@@ -814,7 +814,7 @@ public class PmdOrderService extends PmdBaseMapper {
         if (pmdMemberPayView == null) {
 
             logger.error("[党费收缴]处理支付通知失败，缴费记录不存在，订单号：{}", orderNo);
-            throw new RuntimeException("支付接口通知异常。");
+            throw new OpException("支付接口通知异常。");
         }
 
         Boolean hasPay = pmdMemberPayView.getHasPay();
@@ -847,7 +847,7 @@ public class PmdOrderService extends PmdBaseMapper {
         PmdMonth payMonth = pmdMonthService.getMonth(DateUtils.parseDate(orderNo.substring(0, 6), "yyyyMM"));
         if (payMonth == null) {
             logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：{}", orderNo);
-            throw new RuntimeException("支付接口通知异常。");
+            throw new OpException("支付接口通知异常。");
         } else {
 
             int needPayMonthId = payMonth.getId();
@@ -855,7 +855,7 @@ public class PmdOrderService extends PmdBaseMapper {
             if (currentPmdMonth == null) { // 再次确定当月还未结算
                 logger.error("[党费收缴]缴费已关闭，但是收到了缴费成功的通知，订单号：{}", orderNo);
                 //return ; // 因为数据已报送，所以不允许更新??? 但是不更新的话，用户看不到成功的结果
-                throw new RuntimeException("支付接口通知异常。");
+                throw new OpException("支付接口通知异常。");
             }
 
             // 此笔账单是否补缴
@@ -863,12 +863,12 @@ public class PmdOrderService extends PmdBaseMapper {
             if (isDelay && payStatus != 2) { // isDelay=false时，可能也是补缴，因为当月生成了订单号之后，没有缴费，但是补缴时订单号不会变更。
                 // 按理不会发生此情况？
                 logger.error("[党费收缴]处理支付结果异常，补缴状态异常，订单号：{}", orderNo);
-                throw new RuntimeException("支付接口通知异常。");
+                throw new OpException("支付接口通知异常。");
             } else {
                 
                 if (payStatus == 0) {
                     logger.error("[党费收缴]处理支付结果异常，订单不允许缴费(当月已关闭缴费或当月已设置为延迟缴费)，订单号：{}", orderNo);
-                    throw new RuntimeException("支付接口通知异常。");
+                    //throw new OpException("支付接口通知异常。"); // 为了本人页面正常显示支付成功，这里需要放行
                 }
                 
                 // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
@@ -900,7 +900,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     if (pmdMemberMapper.updateByExampleSelective(record, example) == 0) {
                         
                         logger.error("[党费收缴]处理支付结果异常，更新快照失败，订单号：{}", orderNo);
-                        throw new RuntimeException("支付接口通知异常。");
+                        throw new OpException("支付接口通知异常。");
                     }
                 }
                 
@@ -947,7 +947,7 @@ public class PmdOrderService extends PmdBaseMapper {
         if (pmdFee == null) {
 
             logger.error("[党费收缴]处理支付通知失败，缴费记录不存在，订单号：{}", orderNo);
-            throw new RuntimeException("支付接口通知异常。");
+            throw new OpException("支付接口通知异常。");
         }
 
         if (BooleanUtils.isTrue(pmdFee.getHasPay())) {
@@ -1008,7 +1008,7 @@ public class PmdOrderService extends PmdBaseMapper {
         if (duePay.compareTo(realPay) != 0) {
             logger.error("批量缴费通知异常，总额校验失败。订单号：{}, 通知总额：{}，应交总额：{}",
                     orderNo, realPay, duePay);
-            throw new RuntimeException("支付接口通知异常。");
+            throw new OpException("支付接口通知异常。");
         }
     }
     

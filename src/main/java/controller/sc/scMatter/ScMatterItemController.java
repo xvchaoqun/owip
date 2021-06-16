@@ -205,6 +205,8 @@ public class ScMatterItemController extends ScBaseController {
             String fillTime = StringUtils.trimToNull(xlsRow.get(4));
             record.setFillTime(DateUtils.parseStringToDate(fillTime));
 
+            record.setRemark(StringUtils.trimToNull(xlsRow.get(5)));
+
             record.setMatterId(matterId);
             records.add(record);
         }

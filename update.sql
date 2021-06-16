@@ -1,3 +1,5 @@
+20210616
+-- 北师大
 
 ALTER TABLE `ow_party`
 	CHANGE COLUMN `class_id` `class_id` INT(10) UNSIGNED NULL COMMENT '党总支类别，关联元数据，分党委、党总支、直属党支部' AFTER `unit_ids`,
