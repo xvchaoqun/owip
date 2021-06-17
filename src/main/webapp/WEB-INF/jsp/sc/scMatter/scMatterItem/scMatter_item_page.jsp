@@ -22,6 +22,11 @@
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
+                    <button class="popupBtn btn btn-info btn-sm tooltip-info"
+                        data-url="${ctx}/sc/scMatterItem_import?matterId=${param.matterId}"
+                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                    批量导入
+                    </button>
                     <a class="jqOpenViewBtn btn btn-success btn-sm"
                        data-url="${ctx}/sc/scMatterAccess"
                        data-grid-id="#jqGrid2"

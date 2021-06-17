@@ -1004,9 +1004,11 @@ public class SysUserService extends BaseMapper {
         SysUserView user = findById(oldUserId);
         String oldCode = user.getCode();
         String oldUsername = user.getUsername();
+        byte oldSource = user.getSource();
         SysUserView newUser = findById(newUserId);
         String newCode = newUser.getCode();
         String newUsername = newUser.getUsername();
+        byte newSource = newUser.getSource();
 
         // 仅更换两个账号的code和username
         SysUser record = new SysUser();
@@ -1019,12 +1021,14 @@ public class SysUserService extends BaseMapper {
         record.setId(newUserId);
         record.setUsername(oldUsername);
         record.setCode(oldCode);
+        record.setSource(oldSource);
         sysUserMapper.updateByPrimaryKeySelective(record);
 
         record = new SysUser();
         record.setId(oldUserId);
         record.setUsername(newUsername);
         record.setCode(newCode);
+        record.setSource(newSource);
         sysUserMapper.updateByPrimaryKeySelective(record);
 
         // 重新同步教职工信息

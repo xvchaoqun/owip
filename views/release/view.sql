@@ -191,18 +191,16 @@ from sc_matter m left join sc_matter_item mi on mi.matter_id=m.id group by m.id 
 
 DROP VIEW IF EXISTS `sc_matter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_item_view` AS
-select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, sm.is_deleted as matter_is_deleted, u.code, u.realname, c.title,
+select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, sm.is_deleted as matter_is_deleted, u.code, u.realname,
 smt.transfer_date, smt.location as transfer_location, smt.reason as transfer_reason  from sc_matter_item smi
 left join sc_matter sm on sm.id=smi.matter_id
 left join sys_user_view u on smi.user_id = u.id
-left join cadre_view c on c.user_id=smi.user_id
 left join sc_matter_transfer smt on smt.id=smi.transfer_id;
 
 DROP VIEW IF EXISTS `sc_matter_access_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_access_item_view` AS
-select smai.*, smi.code, smi.realname, smi.type, smi.year,smi.fill_time, smi.matter_is_deleted, c.title from sc_matter_access_item smai
-left join sc_matter_item_view smi on smi.id=smai.matter_item_id
-left join cadre_view c on c.user_id=smi.user_id;
+select smai.*, smi.code, smi.realname, smi.type, smi.year,smi.fill_time, smi.matter_is_deleted, smi.title from sc_matter_access_item smai
+left join sc_matter_item_view smi on smi.id=smai.matter_item_id;
 
 DROP VIEW IF EXISTS `sc_matter_check_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_item_view` AS

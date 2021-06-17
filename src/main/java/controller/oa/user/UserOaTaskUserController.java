@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import persistence.oa.common.TaskUser;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
@@ -56,8 +55,8 @@ public class UserOaTaskUserController extends OaBaseController {
         }
         sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_OA_LOG_TYPE_WORK,
-                "提交报送协同办公任务内容", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                SystemConstants.SYS_OA_LOG_TYPE_OA,
+                "报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return success(FormUtils.SUCCESS);
     }
 
@@ -85,8 +84,8 @@ public class UserOaTaskUserController extends OaBaseController {
         }
         sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_OA_LOG_TYPE_WORK,
-                (StringUtils.isNotBlank(type) ? "报送" :"查看") + "协同办公任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                SystemConstants.SYS_OA_LOG_TYPE_OA,
+                "查看任务", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return "oa/user/oaTaskUser_report";
     }
 
@@ -98,6 +97,11 @@ public class UserOaTaskUserController extends OaBaseController {
 
         oaTaskUserService.selfBack(taskId);
         logger.info(addLog(LogConstants.LOG_OA, "撤回报送：%s", taskId));
+
+        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                SystemConstants.SYS_OA_LOG_TYPE_OA,
+                "撤回报送", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -132,10 +136,6 @@ public class UserOaTaskUserController extends OaBaseController {
         if(assignUserId!=null)
             modelMap.put("sysUser", sysUserService.findById(assignUserId));
 
-        sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
-                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_OA_LOG_TYPE_WORK,
-                "指定负责人", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return "oa/user/oaTaskUser_assign";
     }
 
@@ -153,8 +153,8 @@ public class UserOaTaskUserController extends OaBaseController {
 
         sysApprovalLogService.add(taskId, ShiroHelper.getCurrentUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.SYS_OA_LOG_TYPE_WORK,
-                "提交指定负责人数据", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                SystemConstants.SYS_OA_LOG_TYPE_OA,
+                "指定负责人", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         return success(FormUtils.SUCCESS);
     }
 

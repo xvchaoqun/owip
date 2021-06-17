@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="matter_id" jdbcType="INTEGER" property="matterId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="real_hand_time" jdbcType="DATE" property="realHandTime" />
     <result column="fill_time" jdbcType="DATE" property="fillTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, matter_id, user_id, real_hand_time, fill_time, remark, transfer_id
+    id, matter_id, user_id, title, real_hand_time, fill_time, remark, transfer_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterItemExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.scMatter.ScMatterItem">
     insert into sc_matter_item (id, matter_id, user_id, 
-      real_hand_time, fill_time, remark, 
-      transfer_id)
+      title, real_hand_time, fill_time, 
+      remark, transfer_id)
     values (#{id,jdbcType=INTEGER}, #{matterId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{realHandTime,jdbcType=DATE}, #{fillTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
-      #{transferId,jdbcType=INTEGER})
+      #{title,jdbcType=VARCHAR}, #{realHandTime,jdbcType=DATE}, #{fillTime,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{transferId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scMatter.ScMatterItem">
     insert into sc_matter_item
@@ -120,6 +121,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="realHandTime != null">
         real_hand_time,
@@ -143,6 +147,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="realHandTime != null">
         #{realHandTime,jdbcType=DATE},
@@ -176,6 +183,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.realHandTime != null">
         real_hand_time = #{record.realHandTime,jdbcType=DATE},
       </if>
@@ -198,6 +208,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       matter_id = #{record.matterId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       real_hand_time = #{record.realHandTime,jdbcType=DATE},
       fill_time = #{record.fillTime,jdbcType=DATE},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -214,6 +225,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="realHandTime != null">
         real_hand_time = #{realHandTime,jdbcType=DATE},
@@ -234,6 +248,7 @@
     update sc_matter_item
     set matter_id = #{matterId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       real_hand_time = #{realHandTime,jdbcType=DATE},
       fill_time = #{fillTime,jdbcType=DATE},
       remark = #{remark,jdbcType=VARCHAR},

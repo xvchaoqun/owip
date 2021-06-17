@@ -172,6 +172,27 @@
                             (rowObject.hasReport?'fa-edit':'fa-check'),rowObject.userId)
                 }
             },
+            {
+                label: '最后浏览时间',
+                name: 'browseTime',
+                width: 140,
+                formatter: $.jgrid.formatter.date,
+                formatoptions: {srcformat: 'Y.m.d H:i', newformat: 'Y-m-d H:i'}
+            },
+            {
+                label: '操作记录',
+                name: 'record',
+                width: 80,
+                formatter: function(cellvalue, options, rowObject){
+                    var html = '<button class="jqOpenViewBtn btn btn-warning btn-xs"'+
+                                       'data-url="${ctx}/user/oa/oaTaskApprovalLog"'+
+                                       'data-width="850"'+
+                                       'data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_OA%>&userId='+rowObject.userId+'">'+
+                        '<i class="fa fa-history"></i> 查看'
+                    '</button>';
+                    return html;
+                }
+            },
             {label: '报送情况', name: 'hasReport', formatter: function (cellvalue, options, rowObject) {
 
                 if(!cellvalue) return '未报送';
@@ -214,7 +235,8 @@
                 return ('<button class="confirm btn btn-danger btn-xs" data-callback="_oaTaskUser_reload"  data-title="退回"  data-msg="确定退回“{1}”的报送？"' +
                 'data-url="${ctx}/oa/oaTaskUser_back?id={0}"><i class="fa fa-reply"></i> 退回</button>')
                         .format(rowObject.id, rowObject.realname);
-            }},{hidden:true, name: 'userId', key:true},
+            }},
+            {hidden:true, name: 'userId', key:true},
             {label: '指定负责人', name: 'assignRealname', width:180, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '--';
                 return cellvalue + "({0})".format(rowObject.assignCode)

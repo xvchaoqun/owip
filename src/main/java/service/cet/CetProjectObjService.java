@@ -91,6 +91,9 @@ public class CetProjectObjService extends CetBaseMapper {
 
         iCetMapper.refreshObjCount(projectId);
         iCetMapper.refreshQuitCount(projectId);
+
+        // 更新签到人数
+        iCetMapper.refreshAllTrainCourseSelectedCount(projectId);
     }
 
     @Transactional

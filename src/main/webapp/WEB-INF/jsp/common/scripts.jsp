@@ -14,3 +14,8 @@
 <t:script src="/js/metadata.js"/>
 <t:script src="/js/jquery.extend.js"/>
 <t:script src="/js/setup.js"/>
+<script>
+	if(typeof _cMap == "undefined"){
+		$.reloadMetaData();
+	}
+</script>

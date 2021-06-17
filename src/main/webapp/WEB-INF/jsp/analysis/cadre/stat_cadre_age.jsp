@@ -113,11 +113,11 @@
                 }
                 var url = ""
                 if (startAge == 55) {
-                    url = "#${ctx}/cadre?startAge=" + startAge + "&status=" + status;
+                    url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&startAge=" + startAge + "&status=" + status + "&_type=其他";
                 } else if (startAge == 0 && endAge == 0){
-                    url = "#${ctx}/cadre?otherAge=1" + "&_type=其他" + "&status=" + status;
+                    url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}" + "&_type=其他" + "&status=" + status + "&startAge=-1";//startAge=-1表示查询其他
                 } else {
-                    url = "#${ctx}/cadre?startAge=" + startAge + "&endAge=" + endAge + "&_type=其他" + "&status=" + status;
+                    url = "#${ctx}/cadre?isEngage=${param.isEngage}&isKeepSalary=${param.isKeepSalary}&startAge=" + startAge + "&endAge=" + endAge + "&_type=其他" + "&status=" + status;
                 }
                 window.open(url, "_blank");
             });

@@ -1,5 +1,6 @@
 package service.sc.scMatter;
 
+import domain.cadre.Cadre;
 import domain.sc.scMatter.ScMatter;
 import domain.sc.scMatter.ScMatterExample;
 import domain.sc.scMatter.ScMatterItem;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.sc.ScBaseMapper;
 import service.sys.SysUserService;
+import sys.tags.CmTag;
 
 import java.util.*;
 
@@ -108,6 +110,10 @@ public class ScMatterService extends ScBaseMapper {
             ScMatterItem record = new ScMatterItem();
             record.setMatterId(id);
             record.setUserId(userId);
+            Cadre cadre = CmTag.getCadre(userId);
+            if(cadre!=null) {
+                record.setTitle(cadre.getTitle());
+            }
             if(existUserIdSet.contains(userId)){
                 scMatterItemMapper.updateByPrimaryKeySelective(record);
             }else{

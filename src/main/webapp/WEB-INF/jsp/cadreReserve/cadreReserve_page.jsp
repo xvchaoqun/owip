@@ -147,9 +147,11 @@
                             </shiro:lacksPermission>
 
                             <c:if test="${reserveStatus==CADRE_RESERVE_STATUS_NORMAL || reserveStatus==5}">
+                                <shiro:hasPermission name="cadreReserve:edit">
                                 <button type="button" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                             data-url="${ctx}/cadreReserve_transfer"><i class="fa fa-recycle"></i> 批量转移
                                     </button>
+                                </shiro:hasPermission>
                                 <div class="btn-group">
                                 <button data-toggle="dropdown"
                                         data-rel="tooltip" data-placement="top" data-html="true"

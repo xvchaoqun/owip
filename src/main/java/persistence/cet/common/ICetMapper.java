@@ -187,6 +187,14 @@ public interface ICetMapper {
             "set ctc.selected_count=tmp.selected_count, ctc.finish_count = tmp.finish_count where ctc.id=#{trainCourseId}")
     int refreshTrainCourseSelectedCount(@Param("trainCourseId") Integer trainCourseId);
 
+     // 更新所有培训课程 已选课人数 和 签到人数
+    @Update("update cet_train_course ctc " +
+            "left join " +
+            "(select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count " +
+            "from  cet_train_obj group by train_course_id)tmp on tmp.train_course_id=ctc.id " +
+            "set ctc.selected_count=tmp.selected_count, ctc.finish_count = tmp.finish_count where ctc.project_id=#{projectId}")
+    int refreshAllTrainCourseSelectedCount(@Param("projectId") Integer projectId);
+
     // 更新培训课程 已评课人数
     @Update("update cet_train_course ctc left join " +
             "(select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course " +

@@ -12,6 +12,9 @@ public class ScMatterItem implements Serializable {
     private Integer matterId;
 
     private Integer userId;
+
+    private String title;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date realHandTime;
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
@@ -45,6 +48,14 @@ public class ScMatterItem implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Date getRealHandTime() {

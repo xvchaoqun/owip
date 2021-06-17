@@ -1,6 +1,7 @@
 2021.6.9 xcq
 ALTER TABLE `oa_task_user`
 	ADD COLUMN `browse_time` DATETIME NULL DEFAULT NULL COMMENT '最后浏览时间' AFTER `assign_user_mobile`;
+-- 更新 oa_task_user_view
 
 -- 2020.9.23 ly
 

@@ -77,6 +77,7 @@
         //forceFit:true,
         url: '${ctx}/metaType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: 'ID', name: 'id', width: 50, frozen: true},
             {label: '名称', name: 'name', width: 250, frozen: true, align: 'left'},
             {label: '布尔属性', name: 'boolAttr', width: 120},
             <shiro:hasPermission name="metaClass:viewAll">

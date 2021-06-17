@@ -1,7 +1,6 @@
 package domain.cadre;
 
 import domain.base.MetaType;
-import domain.member.MemberViewExample;
 import org.apache.commons.lang3.StringUtils;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -2302,6 +2301,48 @@ public class CadreViewExample {
             }
 
             addCriterion("(" + searchSql + ")");
+            return (Criteria) this;
+        }
+
+        public Criteria andAgeRange(Byte status, Integer startAge, Integer endAge, Boolean birthToDay) {
+            Date date = new Date();
+            Integer currentYear = DateUtils.getCurrentYear();
+            Integer currentMonth = DateUtils.getMonth(date);
+            if (startAge != -1) {//startAge=-1表示查询其他
+                addCriterion(" birth is not null ");
+                /*if (status != CadreConstants.CADRE_STATUS_KJ) {
+                    addCriterion("(main_cadre_post_id is null or unit_post_id > 0) ");
+                }*/
+                if (startAge != null) {
+                    String range = (startAge >= 55 ? "" : "=") + startAge;
+                    if (birthToDay) {
+                        addCriterion("TIMESTAMPDIFF(YEAR, birth, '" + DateUtils.formatDate(date, "yyyy-MM-dd") + "') >" + range);
+                    } else {
+                        addCriterion(" ("+ currentYear + "- year(birth) + if(month(birth)>" + currentMonth + ", -1, 0)) >" + range);
+                    }
+                }
+                if (endAge != null) {
+                    if (birthToDay) {
+                        addCriterion("TIMESTAMPDIFF(YEAR, birth, '" + DateUtils.formatDate(date, "yyyy-MM-dd") + "') <= " + endAge);
+                    } else {
+                        addCriterion(" ("+ currentYear + "- year(birth) + if(month(birth)>" + currentMonth + ", -1, 0)) <= " + endAge);
+                    }
+                }
+            } else {
+                addCriterion("birth is null");
+            }
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevel(Integer[] adminLevels) {
+            if (adminLevels != null) {
+                addCriterion("(admin_level in (" + StringUtils.join(adminLevels, ",") + ") OR admin_level IS NULL");
+            }
+            return (Criteria) this;
+        }
+
+        public Criteria andProPostLevel() {
+            addCriterion("pro_post_level REGEXP '(中|初)级'");
             return (Criteria) this;
         }
 

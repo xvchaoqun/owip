@@ -22,9 +22,10 @@
 
                 <div class="tab-content">
                     <div class="tab-pane in active">
-                        <c:if test="${cls==1}">
+
                             <div class="jqgrid-vertical-offset buttons">
-                                <button id="assinBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                <c:if test="${cls==1}">
+                                <button id="assinBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/user/oa/oaTaskUser_assign"
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"
@@ -36,14 +37,15 @@
                                    data-id-name="taskId"
                                    ><i class="fa fa-send"></i>
                                     通知指定负责人</button>
-                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                    </c:if>
+                                <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/user/oa/oaTaskApprovalLog"
                                         data-width="850"
-                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_WORK%>&userId=${userId}">
+                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_OA%>&userId=${userId}">
                                     <i class="fa fa-history"></i> 操作记录
                                 </button>
                             </div>
-                        </c:if>
+
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4><span class="widget-note">${note_searchbar}</span>

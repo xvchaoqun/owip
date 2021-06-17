@@ -81,7 +81,7 @@
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/sysApprovalLog"
                                         data-width="850"
-                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_WORK%>">
+                                        data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_OA_LOG_TYPE_OA%>">
                                     <i class="fa fa-history"></i> 操作记录
                                 </button>
                             </c:if>
