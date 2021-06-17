@@ -8,19 +8,33 @@
     </resultMap>
     <!-- 查询支付记录 -->
     <select id="selectPayList" parameterType="map" resultMap="IPmdOrderBaseResultMap">
-        select po.*, pm.user_id as member_user_id from pmd_order po
+        select * from (select po.*, pm.user_id as member_user_id from pmd_order po
         left join pmd_member pm on po.record_id = pm.id
         where po.type=1 and (po.user_id=#{userId} or pm.user_id=#{userId}
         or exists(select 1 from pmd_order_item poi, pmd_member pm
         where poi.sn=po.sn and poi.record_id=pm.id and pm.user_id=#{userId}))
-        order by po.create_time desc
+
+        union all
+
+        select po.*, pf.order_user_id as member_user_id from pmd_order po
+        left join pmd_fee pf on pf.order_no=po.sn
+        where po.type=2 and po.user_id=#{userId}
+        )tmp
+        order by create_time desc
     </select>
     <select id="countPayList" parameterType="map" resultType="java.lang.Integer">
-        select count(po.sn) from pmd_order po
+        select count(*) from (select po.*, pm.user_id as member_user_id from pmd_order po
         left join pmd_member pm on po.record_id = pm.id
         where po.type=1 and (po.user_id=#{userId} or pm.user_id=#{userId}
         or exists(select 1 from pmd_order_item poi, pmd_member pm
         where poi.sn=po.sn and poi.record_id=pm.id and pm.user_id=#{userId}))
+
+        union all
+
+        select po.*, pf.order_user_id as member_user_id from pmd_order po
+        left join pmd_fee pf on pf.order_no=po.sn
+        where po.type=2 and po.user_id=#{userId}
+        ) tmp
     </select>
 
 

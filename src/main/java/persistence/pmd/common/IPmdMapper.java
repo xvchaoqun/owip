@@ -1,10 +1,10 @@
 package persistence.pmd.common;
 
-import ext.domain.ExtJzgSalary;
-import ext.domain.ExtRetireSalary;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdOrder;
+import ext.domain.ExtJzgSalary;
+import ext.domain.ExtRetireSalary;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
@@ -46,7 +46,7 @@ public interface IPmdMapper {
     @Select("select * from pmd_order where type=#{type} and record_id=#{recordId} union " +
             "select po.* from pmd_order po, pmd_order_item poi where po.type=#{type} and poi.record_id=#{recordId} and po.sn=poi.sn " +
             "order by create_time desc")
-    public List<PmdOrder> findRelateOrders(@Param("recordId") byte type, @Param("recordId") int recordId);
+    public List<PmdOrder> findRelateOrders(@Param("type") byte type, @Param("recordId") int recordId);
 
     // 查询用户缴费记录
     public List<IPmdOrder> selectPayList(@Param("userId") Integer userId, RowBounds rowBounds);
