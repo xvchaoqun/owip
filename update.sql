@@ -1,3 +1,8 @@
+
+20210617
+ALTER TABLE `oa_grid`
+	CHANGE COLUMN `readonly_pos` `readonly_pos` TEXT NULL COMMENT '只读单元格坐标，即不需要填写数据的单元格坐标。格式：D9-D13;K8-K18;V9-V13;F8-F18;O8-O18;' COLLATE 'utf8_general_ci' AFTER `end_pos`;
+
 20210616
 -- 北师大
 

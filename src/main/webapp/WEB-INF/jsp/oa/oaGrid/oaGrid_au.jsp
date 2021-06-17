@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label"> 只读单元格坐标</label>
 				<div class="col-xs-6">
-					<textarea class="form-control limited" name="readonlyPos" rows="3">${oaGrid.readonlyPos}</textarea>
+					<textarea class="form-control" name="readonlyPos" rows="3">${oaGrid.readonlyPos}</textarea>
 					<span style="color: red">即不需要填写数据的单元格坐标。格式：D9-D13;K8-K18;V9-V13;F8-F18;O8-O18;</span>
 				</div>
 			</div>
@@ -146,7 +146,7 @@ pageEncoding="UTF-8"%>
     //$.register.user_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
-    $('textarea.limited').inputlimiter();
+    //$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
     $.register.datetime($('.datetime-picker'));
 </script>
