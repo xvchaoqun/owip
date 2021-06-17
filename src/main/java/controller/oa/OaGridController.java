@@ -221,7 +221,7 @@ public class OaGridController extends OaBaseController {
                     cellLabel = data.get("cell_label").toString();
                     dataRow = sheet.getRow(ExcelUtils.getRowIndex(cellLabel) - 1);
                     dataCell = dataRow.getCell(ExcelUtils.getColIndex(cellLabel) - 1);
-                    dataCell.setCellValue(data.get("sum").toString());
+                    dataCell.setCellValue(Double.parseDouble(data.get("sum").toString()));
                 }
 
                 sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
@@ -259,7 +259,7 @@ public class OaGridController extends OaBaseController {
                 cellLabel = data.get("cell_label").toString();
                 row = sheet.getRow(ExcelUtils.getRowIndex(cellLabel) - 1);
                 cell = row.getCell(ExcelUtils.getColIndex(cellLabel) - 1);
-                cell.setCellValue(StringUtils.defaultIfBlank(data.get("sum").toString(), "0"));
+                cell.setCellValue(Double.parseDouble(StringUtils.defaultIfBlank(data.get("sum").toString(), "0")));
             }
 
             sheet.setForceFormulaRecalculation(true);//强制执行sheet的函数
