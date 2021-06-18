@@ -136,7 +136,7 @@ pageEncoding="UTF-8" %>
                 return str;
                 },frozen:true},
             </shiro:hasPermission>
-            { label: '表格名称',name: 'name',width:252,align:'left',frozen:true},
+            { label: '表格名称',name: 'name',width:382,align:'left',frozen:true},
             {label: '表格模板', name: '_file',width:130, formatter: function (cellvalue, options, rowObject) {
                 var str='';
                     if(rowObject.templateFilePath!=undefined){

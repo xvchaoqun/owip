@@ -132,7 +132,7 @@ pageEncoding="UTF-8" %>
                     }, frozen:true},
             </c:if>
             { label: '所属年度',name: 'year',frozen:true},
-            { label: '表格名称',name: 'gridName',align:'left', width: 252,frozen:true,formatter: function (cellvalue, options, rowObject) {
+            { label: '表格名称',name: 'gridName',align:'left', width: 382,frozen:true,formatter: function (cellvalue, options, rowObject) {
 
                 return '<a href="javascript:void(0)" data-url="${ctx}/oa/oaGridParty_preview?id={0}&type=3"  title="表格模板预览" data-width="1100" data-height="850" class="openUrl"><i class="fa fa-search"></i> {1}</button>'
                         .format(rowObject.id,rowObject.gridName)
