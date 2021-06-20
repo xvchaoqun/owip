@@ -1,5 +1,6 @@
 
 20210620
+-- 北师大
 
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
                             `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (10, 0, '党建管理员', '', 'function', '', NULL, 260, '0/1/260/', 1, 'ow:admin', NULL, NULL, NULL, 1, NULL);
@@ -23,7 +24,7 @@ update sys_role set resource_ids=concat(resource_ids, ',14') where code='cet_adm
 INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`,
                         `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`)
                         VALUES ('role_oa_share', '共享任务', '560,561,563,13', '-1', '-1', '-1', NULL, 0, 0, 72, '');
--- 执行 /test/oa.jsp
+-- 执行 /test/oa_share.jsp
 -- 清空缓存
 
 INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
