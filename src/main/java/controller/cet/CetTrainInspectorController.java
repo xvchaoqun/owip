@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
@@ -180,7 +178,7 @@ public class CetTrainInspectorController extends CetBaseController {
 
             if(cetTrain.getEvaAnonymous()) {
                 String passwd = cetTrainInspector.getPasswd();
-                if (!ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+                if (!RoleConstants.isCetAdmin()) {
                     if (cetTrainInspector.getPasswdChangeType() != null) {
                         passwd = "******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
                     }
@@ -205,7 +203,7 @@ public class CetTrainInspectorController extends CetBaseController {
         ExportHelper.export(titles, valuesList, filename, response);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CETADMIN)
     @RequestMapping(value="/cetTrainInspector_abolish", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_abolish(int id, HttpServletRequest request){
@@ -217,7 +215,7 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CETADMIN)
     @RequestMapping(value="/cetTrainInspector_password_reset", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_password_reset(int id, HttpServletRequest request){
@@ -232,7 +230,7 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CETADMIN)
     @RequestMapping(value="/cetTrainInspector_delAbolished", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_del(int id, HttpServletRequest request){
@@ -244,7 +242,7 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_CETADMIN)
     @RequestMapping(value="/cetTrainInspector_batchDel", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_batchDel(int trainId,Integer[] ids, HttpServletRequest request){

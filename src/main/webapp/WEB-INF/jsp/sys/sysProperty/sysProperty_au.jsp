@@ -58,7 +58,7 @@ pageEncoding="UTF-8"%>
 </div>
 <script type="text/template" id="content_tpl">
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_STRING%>){}}
-	<textarea class="form-control limited noEnter" name="content">${sysProperty.content}</textarea>
+	<textarea class="form-control limited canEnter" name="content" rows="10">${sysProperty.content}</textarea>
 	{{}}}
 	{{if(type==<%=SystemConstants.SYS_PROPERTY_TYPE_INT%>){}}
 	<input class="form-control num" type="text" name="content" value="${sysProperty.content}"/>

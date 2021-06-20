@@ -7,7 +7,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.*;
+import sys.utils.DateUtils;
+import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -184,7 +186,7 @@ public class PcsPollInspectorController extends PcsBaseController {
     }
 
     // 投票详情，仅允许组织部人查看
-    @RequiresRoles(RoleConstants.ROLE_PCS_ADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_PCSADMIN)
     @RequestMapping("/pcspollInspector_Result")
     public String pcspollInspector_Result(Integer id,
                                          ModelMap modelMap,

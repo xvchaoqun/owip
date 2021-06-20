@@ -21,25 +21,14 @@
 
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="dropdown <c:if test="${cls==1||cls==4||cls==5}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                <i class="fa fa-circle-o"></i> 支部审核${cls==1?"(新申请)":(cls==4)?"(返回修改)":(cls==5)?"(已审核)":""}
-                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=4"><i class="fa fa-hand-o-right"></i> 返回修改</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=5"><i class="fa fa-hand-o-right"></i> 已审核</a>
-                                </li>
-                            </ul>
+                        <li class="${cls==1?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=1"}><i class="fa fa-circle-o"></i> 支部待审核</a>
+                        </li>
+                        <li class="${cls==5?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=5"}><i class="fa fa-check-circle-o"></i> 支部已审核</a>
                         </li>
                         <li class="${cls==6?'active':''}">
-                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=6"}><i class="fa fa-circle-o"></i> ${_p_partyName}审核</a>
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=6"}><i class="fa fa-stop-circle-o"></i> ${_p_partyName}待审核</a>
                         </li>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOutflow?cls=2"}><i class="fa fa-times"></i> 未通过/已撤销</a>
@@ -69,7 +58,7 @@
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
-                                    <c:if test="${cls==1||cls==4}">
+                                    <c:if test="${cls==1}">
                                     <button id="branchApprovalBtn" ${branchApprovalCount>0?'':'disabled'} class="jqOpenViewBtn btn btn-success btn-sm"
                                             data-url="${ctx}/memberOutflow_approval"
                                             data-open-by="page"
@@ -312,9 +301,12 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true  },
             { label: '状态', name: 'statusName', width: 150, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.isBack) return '返回修改';
                 return _cMap.MEMBER_OUTFLOW_STATUS_MAP[rowObject.status];
-            }, frozen:true }<c:if test="${cls==4}">
-            ,{label: '返回修改原因', name: 'reason', width: 180}</c:if>,
+            }, frozen:true },
+            <c:if test="${cls==1}">
+            {label: '返回修改原因', name: 'remark', width: 180},
+                </c:if>
             { label:'原职业',  name:'originalJob',width: 200 , formatter: $.jgrid.formatter.MetaType},
             { label: '外出流向',   name: 'direction', width: 150 , formatter: $.jgrid.formatter.MetaType},
             { label: '流出时间',   name: 'flowTime' , formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
@@ -361,7 +353,7 @@
     $(window).triggerHandler('resize.jqGrid');
 
     $.initNavGrid("jqGrid", "jqGridPager");
-    <c:if test="${cls==1||cls==4}">
+    <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"支部批量审核",
         btnbase:"jqBatchBtn btn btn-success btn-xs",
@@ -377,7 +369,7 @@
         props:'data-url="${ctx}/memberOutflow_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
     </c:if>
-    <c:if test="${cls==1||cls==4||cls==6}">
+    <c:if test="${cls==1||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量退回申请",
         btnbase:"btn btn-danger btn-xs",

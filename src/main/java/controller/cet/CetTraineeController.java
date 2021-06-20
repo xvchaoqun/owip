@@ -153,7 +153,7 @@ public class CetTraineeController extends CetBaseController {
                 .andIsPartyProjectEqualTo(true);
 
         example.setOrderByClause("start_date desc, end_date desc, obj_id desc");
-        boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+        boolean addPermits = !RoleConstants.isCetAdmin();
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
 

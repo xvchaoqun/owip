@@ -83,7 +83,7 @@
                                    data-open-by="page"><i class="fa fa-download"></i>
                                     导出工作记录</a>--%>
 
-                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
+                                <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                                 <button data-url="${ctx}/pmMeeting_del"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
@@ -91,7 +91,7 @@
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
-                                </shiro:hasAnyRoles>
+                                </c:if>
                             </shiro:hasPermission>
                             <button class="jqOpenViewBtn btn btn-info btn-sm"
                                     data-url="${ctx}/sysApprovalLog"

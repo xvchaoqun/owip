@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
             { label: '创建时间',name: 'createTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
             { label: '是否完成投票',name: 'isFinished',formatter:$.jgrid.formatter.TRUEFALSE},
 
-            <shiro:hasRole name="${ROLE_PCS_ADMIN}">
+            <shiro:hasPermission name="${PERMISSION_PCSADMIN}">
             { label: '投票详情',name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.isFinished) return '--'
@@ -121,7 +121,7 @@ pageEncoding="UTF-8" %>
                     'data-url="${ctx}/pcs/pcspollInspector_Result?id={0}"><i class="fa fa-search"></i> 查看</button>'
                         .format(rowObject.id)
                 }},
-            </shiro:hasRole>
+            </shiro:hasPermission>
             { label: '投票人身份',name: 'isPositive', formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on: '正式党员', off: '预备党员'}},
             { label: '提交时间',name: 'submitTime', width: 150, formatter: $.jgrid.formatter.date, formatoptions: {srcformat:'Y.m.d H:i:s',newformat: 'Y.m.d H:i:s'}},
         ]

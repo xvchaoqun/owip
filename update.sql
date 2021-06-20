@@ -1,8 +1,43 @@
 
-20210617
-ALTER TABLE `oa_grid`
-	CHANGE COLUMN `readonly_pos` `readonly_pos` TEXT NULL COMMENT '只读单元格坐标，即不需要填写数据的单元格坐标。格式：D9-D13;K8-K18;V9-V13;F8-F18;O8-O18;' COLLATE 'utf8_general_ci' AFTER `end_pos`;
+20210620
 
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (10, 0, '党建管理员', '', 'function', '', NULL, 260, '0/1/260/', 1, 'ow:admin', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (11, 0, '统战管理员', '', 'function', '', NULL, 2574, '0/1/2574/', 1, 'dp:admin', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (12, 0, '党代会管理员', '', 'function', '', NULL, 469, '0/1/469/', 1, 'pcs:admin', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (13, 0, '协同办公管理员', '', 'function', '', NULL, 560, '0/1/560/', 1, 'oa:admin', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`,
+                            `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (14, 0, '培训管理员', '', 'function', '', NULL, 384, '0/1/384/', 1, 'cet:admin', NULL, NULL, NULL, 1, NULL);
+
+update sys_role set resource_ids=concat(resource_ids, ',10') where code='odAdmin';
+update sys_role set resource_ids=concat(resource_ids, ',11') where code='role_dp_admin';
+update sys_role set resource_ids=concat(resource_ids, ',12') where code='role_pcs_admin1';
+update sys_role set resource_ids=concat(resource_ids, ',12') where code='role_pcs_admin2';
+update sys_role set resource_ids=concat(resource_ids, ',13') where code='role_oa_admin';
+update sys_role set resource_ids=concat(resource_ids, ',14') where code='cet_admin';
+
+-- 增加角色 role_oa_share
+INSERT INTO `sys_role` (`code`, `name`, `resource_ids`, `m_resource_ids`, `resource_ids_minus`,
+                        `m_resource_ids_minus`, `user_count`, `available`, `is_sys_hold`, `sort_order`, `remark`)
+                        VALUES ('role_oa_share', '共享任务', '560,561,563,13', '-1', '-1', '-1', NULL, 0, 0, 72, '');
+-- 执行 /test/oa.jsp
+-- 清空缓存
+
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('valid_ips', '访问限制IP地址', '', 1, 104, '每行一个地址或一个地址范围，忽略非数字/./-字符');
+INSERT INTO `sys_property` (`code`, `name`, `content`, `type`, `sort_order`, `remark`)
+VALUES ('valid_users', '忽略访问限制IP地址的账号', '', 1, 105, '忽略访问限制IP地址的账号，逗号隔开；如果设置了“访问限制ip”时生效');
+
+
+20210617
+-- ALTER TABLE `oa_grid`
+	-- CHANGE COLUMN `readonly_pos` `readonly_pos` TEXT NULL COMMENT '只读单元格坐标，即不需要填写数据的单元格坐标。格式：D9-D13;K8-K18;V9-V13;F8-F18;O8-O18;' COLLATE 'utf8_general_ci' AFTER `end_pos`;
+
+20210617
+-- 珠海（断开）
 20210616
 -- 北师大
 

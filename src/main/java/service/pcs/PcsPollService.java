@@ -60,7 +60,7 @@ public class PcsPollService extends PcsBaseMapper {
 
     public void checkPollEditAuth(List<Integer> ids){
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_PCS_ADMIN)){
+        if (!ShiroHelper.isPermitted(RoleConstants.PERMISSION_PCSADMIN)){
 
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             List<Integer> branchIdList = loginUserService.adminBranchIdList();

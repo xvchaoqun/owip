@@ -32,7 +32,7 @@
                         <i class="fa fa-hand-paper-o"></i> 报送
                     </button>
 
-                    <shiro:hasRole name="${ROLE_ODADMIN}">
+                    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                         <button id="backBtn" data-url="${ctx}/member/memberReport_report?back=1"
                                 data-title="退回"
                                 data-msg="确定退回这{0}条数据？"
@@ -40,7 +40,7 @@
                                 class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-reply"></i> 退回
                         </button>
-                    </shiro:hasRole>
+                    </shiro:hasPermission>
 
                     <button id="delBtn" data-url="${ctx}/member/memberReport_batchDel"
                             data-title="删除"
@@ -228,7 +228,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
 
     function _onSelectRow(grid) {
-        <shiro:lacksRole name="${ROLE_ODADMIN}">
+        <shiro:lacksPermission name="${PERMISSION_OWADMIN}">
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
@@ -242,7 +242,7 @@
                 $("#reportBtn").removeAttr("disabled");
             }
         }
-        </shiro:lacksRole>
+        </shiro:lacksPermission>
     }
     /*$("#searchForm select[name=partyId]").change(function () {
         var partyId = $("#searchForm select[name=partyId]").val();

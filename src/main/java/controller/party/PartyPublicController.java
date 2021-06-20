@@ -255,7 +255,7 @@ public class PartyPublicController extends BaseController {
 
         Integer id = record.getId();
         Date pubDate;
-        if(ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)){
+        if(RoleConstants.isOwAdmin()){
             pubDate = record.getPubDate(); // 只有组织部管理员才允许更新公示日期
         }else {
             if(id==null){

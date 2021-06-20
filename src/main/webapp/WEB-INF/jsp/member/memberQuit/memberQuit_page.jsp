@@ -89,7 +89,7 @@
                                         </button>
                                 </c:if>
                                 <c:if test="${cls==3}">
-                                    <shiro:hasRole name="${ROLE_ODADMIN}">
+                                    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                                         <button data-url="${ctx}/memberQuit_abolish"
                                                 data-title="撤销减员"
                                                 data-msg="确定撤销减员？<br/>（已选{0}条数据，撤销后相关审批记录将删除，所选党员将重新返回党员库）"
@@ -97,7 +97,7 @@
                                                 class="jqBatchBtn btn btn-danger btn-sm">
                                             <i class="fa fa-reply"></i> 撤销减员
                                         </button>
-                                    </shiro:hasRole>
+                                    </shiro:hasPermission>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"

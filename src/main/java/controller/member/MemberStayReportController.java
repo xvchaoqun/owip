@@ -9,7 +9,6 @@ import domain.sys.StudentInfo;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.jasper.ReportUtils;
 import sys.spring.UserRes;
@@ -45,12 +43,6 @@ public class MemberStayReportController extends MemberBaseController {
                               @RequestParam(required = false, defaultValue = "0") Byte print,
                               @RequestParam(defaultValue = "pdf") String format,
                               Model model) throws IOException, JRException {
-
-        // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
-            throw new UnauthorizedException();
-        }
 
         UserRes verify = UserResUtils.verify(ids);
         String res = verify.getRes();

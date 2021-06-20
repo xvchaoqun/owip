@@ -20,12 +20,12 @@
             <tbody>
             <c:forEach items="${filePaths}" var="filePath" varStatus="vs">
                 <tr>
-                    <shiro:hasRole name="${ROLE_ODADMIN}">
+                    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                         <td nowrap width="400">
-                    </shiro:hasRole>
-                    <shiro:lacksRole name="${ROLE_ODADMIN}">
+                    </shiro:hasPermission>
+                    <shiro:lacksPermission name="${PERMISSION_OWADMIN}">
                         <td nowrap width=450">
-                    </shiro:lacksRole>
+                    </shiro:lacksPermission>
                         ${fileNames.get(vs.index)}
                     </td>
                     <td nowrap>

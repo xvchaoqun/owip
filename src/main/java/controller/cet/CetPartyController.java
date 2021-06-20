@@ -238,7 +238,7 @@ public class CetPartyController extends CetBaseController {
 
         //===========权限
         if(BooleanUtils.isTrue(auth)) {
-            if (!ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (!RoleConstants.isCetAdmin()) {
                 List<Integer> cetPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (cetPartyIdList.size() > 0)
                     criteria.andIdIn(cetPartyIdList);

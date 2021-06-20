@@ -86,7 +86,7 @@ public class CetProjectController extends CetBaseController {
             if(cls==4) {
                 type = CetConstants.CET_PROJECT_TYPE_DAILY;
             }
-            boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+            boolean addPermits = !RoleConstants.isCetAdmin();
             List<Integer> adminPartyIdList = new ArrayList<>();
             if(addPermits) {
                 adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -155,7 +155,7 @@ public class CetProjectController extends CetBaseController {
                 .andIsPartyProjectEqualTo(isPartyProject).andTypeEqualTo(type).andIsDeletedEqualTo(false);
         example.setOrderByClause("year desc, id desc");
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if(!RoleConstants.isCetAdmin()) {
             if (isPartyProject) {
 
                 List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -240,7 +240,7 @@ public class CetProjectController extends CetBaseController {
         record.setIsPartyProject(isPartyProject);
         record.setType(type);
 
-        if(isPartyProject && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+        if(isPartyProject && !RoleConstants.isCetAdmin()){
 
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             HashSet<Integer> adminPartyIdSet = new HashSet<>(adminPartyIdList);
@@ -392,7 +392,6 @@ public class CetProjectController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_check")
     public String cetProject_check(Integer[] ids, ModelMap modelMap) {
@@ -403,7 +402,6 @@ public class CetProjectController extends CetBaseController {
         return "cet/cetProject/cetProject_check";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetProject:edit")
     @RequestMapping(value = "/cetProject_check", method = RequestMethod.POST)
     @ResponseBody

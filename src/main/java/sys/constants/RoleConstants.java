@@ -10,29 +10,40 @@ public class RoleConstants {
     // 后台赋予的角色（与数据库对应的角色字符串不可以修改！）
     public static final String ROLE_SUPER = "super"; // 控制台
     public static final String ROLE_ADMIN = "admin"; // 系统管理员
-    public static final String ROLE_ODADMIN = "odAdmin"; // 党建管理员
-    public static final String ROLE_CET_ADMIN = "cet_admin"; // 培训管理员
-    public static final String ROLE_PMD_OW = "role_pmd_ow"; // 党费管理员
-    public static final String ROLE_OA_ADMIN = "role_oa_admin"; // 协同办公管理员
-    public static final String ROLE_PM_ADMIN = "role_pm_admin"; // 组织生活管理员
-    public static final String ROLE_DP_ADMIN = "role_dp_admin"; // 统战管理员
-    public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
-    public static final String ROLE_UNIT_ADMIN = "role_unit_admin"; // 班子负责人
+    //public static final String ROLE_ODADMIN = "odAdmin"; // 党建管理员
+    //public static final String ROLE_CET_ADMIN = "cet_admin"; // 培训管理员
+    //public static final String ROLE_PMD_OW = "role_pmd_ow"; // 党费管理员
+    //public static final String ROLE_OA_ADMIN = "role_oa_admin"; // 协同办公管理员
+    //public static final String ROLE_PM_ADMIN = "role_pm_admin"; // 组织生活管理员
+    //public static final String ROLE_DP_ADMIN = "role_dp_admin"; // 统战管理员
+    //public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会管理员
 
     public static boolean isCadreAdmin(){
         return ShiroHelper.isPermitted(RoleConstants.PERMISSION_CADREADMIN);
     }
-/*
     public static boolean isOwAdmin(){
-        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL);
+        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_OWADMIN);
+    }
+    public static boolean isCetAdmin(){
+        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_CETADMIN);
+    }
+    public static boolean isOaAdmin(){
+        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_OAADMIN);
     }
     public static boolean isDpAdmin(){
-        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPPARTYVIEWALL);
+        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_DPADMIN);
     }
-*/
+    public static boolean isPcsAdmin(){
+        return ShiroHelper.isPermitted(RoleConstants.PERMISSION_PCSADMIN);
+    }
 
     // 系统特殊的权限（与数据库对应）
+    public static final String PERMISSION_OWADMIN = "ow:admin"; // 党建管理员
     public static final String PERMISSION_CADREADMIN = "cadre:admin"; // 干部管理员
+    public static final String PERMISSION_CETADMIN = "cet:admin"; // 培训管理员
+    public static final String PERMISSION_OAADMIN = "oa:admin"; // 协同办公管理员
+    public static final String PERMISSION_DPADMIN = "dp:admin"; // 民主党派管理员
+    public static final String PERMISSION_PCSADMIN = "pcs:admin"; // 党代会管理员
     public static final String PERMISSION_CADREARCHIVE = "cadre:archive"; // 干部档案查看权限
     public static final String PERMISSION_CADREONLYVIEW = "cadre:onlyView"; // 仅允许查看干部信息的权限
     public static final String PERMISSION_CADREADMINSELF = "cadre:adminSelf"; // 仅允许管理本人干部信息的权限
@@ -63,8 +74,10 @@ public class RoleConstants {
     public static final String ROLE_DP_PARTY = "role_dp_party";
     public static final String ROLE_DP_MEMBER = "dp_member";
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
+    public static final String ROLE_OA_SHARE = "role_oa_share"; // 协同任务共享人员
 
-    public static final String ROLE_PCS_ADMIN2 = "role_pcs_admin2"; // 党代会-组织部管理员（党代表）
+    public static final String ROLE_UNIT_ADMIN = "role_unit_admin"; // 班子负责人
+
     public static final String ROLE_PCS_BRANCH = "role_pcs_branch"; // 党代会-支部管理员
     public static final String ROLE_PCS_PR = "role_pcs_pr"; // 党代表
     public static final String ROLE_PCS_VOTE_DW = "role_pcs_vote_dw"; // 党代会-两委选举-党委录入

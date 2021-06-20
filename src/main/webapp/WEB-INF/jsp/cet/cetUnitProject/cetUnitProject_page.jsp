@@ -42,13 +42,13 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/cet/cetUnitProject?cls=4"><i
                             class="fa fa-times"></i> 未通过审核(${cm:trimToZero(statusCountMap.get(_UNPASS))})</a>
                 </li>
-                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                 <li class="<c:if test="${cls==5}">active</c:if>">
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/cet/cetUnitProject?cls=5"><i
                             class="fa fa-trash"></i> 已删除(${cm:trimToZero(statusCountMap.get(_DELETE))})</a>
                 </li>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <div class="buttons pull-left" style="left:20px; position: relative">
                 <button class="popupBtn btn btn-success btn-sm" data-width="900"
                             data-url="${ctx}/cet/cetUnitProject_au?addType=${param.addType}">
@@ -68,7 +68,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </c:if>
 
-                <c:if test="${cls!=5 && (cm:hasRole(ROLE_CET_ADMIN) || (cls==2))}">
+                <c:if test="${cls!=5 && (cm:isPermitted(PERMISSION_CETADMIN) || (cls==2))}">
                 <shiro:hasPermission name="cetUnitProject:edit">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
                        data-url="${ctx}/cet/cetUnitProject_au"
@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
                         修改</button>
                 </shiro:hasPermission>
                 </c:if>
-                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                 <c:if test="${cls!=2}">
                 <shiro:hasPermission name="cetUnitProject:edit">
                     <button class="jqBatchBtn btn btn-warning btn-sm"
@@ -94,12 +94,12 @@ pageEncoding="UTF-8" %>
                                     审批
                     </button>
                 </c:if>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetUnitProject_data"
                         data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-                <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+                <shiro:lacksPermission name="${PERMISSION_CETADMIN}">
                 <c:if test="${cls==2}">
                     <button data-url="${ctx}/cet/cetUnitProject_del"
                             data-title="删除"
@@ -109,8 +109,8 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </c:if>
-                </shiro:lacksRole>
-                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                </shiro:lacksPermission>
+                <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                     <c:if test="${cls!=5}">
                     <button data-url="${ctx}/cet/cetUnitProject_batchDel"
                             data-title="删除"
@@ -120,7 +120,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                     </c:if>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-url="${ctx}/sysApprovalLog"
                         data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_UNIT_TRAIN%>"
@@ -160,7 +160,7 @@ pageEncoding="UTF-8" %>
                         <div class="form-group">
                             <label>培训主办方</label>
 
-                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:isPermitted(PERMISSION_CETADMIN)?0:1}"
                                          data-width="308" name="cetPartyId" data-placeholder="请选择">
                                 <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                             </select>

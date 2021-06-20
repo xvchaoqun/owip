@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.*;
+import sys.constants.LogConstants;
+import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
+import sys.constants.RoleConstants;
 import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -288,7 +290,7 @@ public class MemberQuitController extends MemberBaseController {
     }
 
     // 撤销已减员记录
-    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
+    @RequiresPermissions(RoleConstants.PERMISSION_OWADMIN)
     @RequestMapping(value = "/memberQuit_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberQuit_abolish(Integer[] ids) {

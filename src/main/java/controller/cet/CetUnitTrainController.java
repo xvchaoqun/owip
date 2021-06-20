@@ -91,7 +91,7 @@ public class CetUnitTrainController extends CetBaseController {
         if (null == reRecord)
             modelMap.put("cls", cls);
 
-        boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+        boolean addPermits = !RoleConstants.isCetAdmin();
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
             adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -151,7 +151,7 @@ public class CetUnitTrainController extends CetBaseController {
         List<Integer> projectIds = new ArrayList<>();
         if (null != projectId) {
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (!RoleConstants.isCetAdmin()) {
                 List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (adminPartyIdList.size() == 0 || !adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                     throw new UnauthorizedException();
@@ -159,9 +159,9 @@ public class CetUnitTrainController extends CetBaseController {
             }
         }else {//参训人员信息汇总
             if (cls == null) {
-                cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
+                cls = RoleConstants.isCetAdmin() ? (byte) 1 : 2;
             }
-            boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+            boolean addPermits = !RoleConstants.isCetAdmin();
             List<Integer> adminPartyIdList = new ArrayList<>();
             if(addPermits) {
                 adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -291,7 +291,7 @@ public class CetUnitTrainController extends CetBaseController {
         int projectId = record.getProjectId();
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
 
-        if (BooleanUtils.isNotTrue(apply) && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (BooleanUtils.isNotTrue(apply) && !RoleConstants.isCetAdmin()) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 return failed("没有权限。");

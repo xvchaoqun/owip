@@ -50,8 +50,6 @@
 
 <c:set var="ROLE_SUPER" value="<%=RoleConstants.ROLE_SUPER%>"/>
 <c:set var="ROLE_ADMIN" value="<%=RoleConstants.ROLE_ADMIN%>"/>
-<c:set var="ROLE_ODADMIN" value="<%=RoleConstants.ROLE_ODADMIN%>"/>
-<c:set var="ROLE_CET_ADMIN" value="<%=RoleConstants.ROLE_CET_ADMIN%>"/>
 <c:set var="ROLE_PARTYADMIN" value="<%=RoleConstants.ROLE_PARTYADMIN%>"/>
 <c:set var="ROLE_BRANCHADMIN" value="<%=RoleConstants.ROLE_BRANCHADMIN%>"/>
 <c:set var="ROLE_LEADER" value="<%=RoleConstants.ROLE_LEADER%>"/>
@@ -67,6 +65,11 @@
 <c:set var="PERMISSION_CADREONLYVIEW" value="<%=RoleConstants.PERMISSION_CADREONLYVIEW%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=RoleConstants.PERMISSION_CADREADMINSELF%>"/>
 <c:set var="PERMISSION_CADREADMIN" value="<%=RoleConstants.PERMISSION_CADREADMIN%>"/>
+<c:set var="PERMISSION_CETADMIN" value="<%=RoleConstants.PERMISSION_CETADMIN%>"/>
+<c:set var="PERMISSION_OWADMIN" value="<%=RoleConstants.PERMISSION_OWADMIN%>"/>
+<c:set var="PERMISSION_OAADMIN" value="<%=RoleConstants.PERMISSION_OAADMIN%>"/>
+<c:set var="PERMISSION_DPADMIN" value="<%=RoleConstants.PERMISSION_DPADMIN%>"/>
+<c:set var="PERMISSION_PCSADMIN" value="<%=RoleConstants.PERMISSION_PCSADMIN%>"/>
 
 
 <c:set var="USER_SOURCE_JZG" value="<%=SystemConstants.USER_SOURCE_JZG%>"/>

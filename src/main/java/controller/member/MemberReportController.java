@@ -87,9 +87,7 @@ public class MemberReportController extends MemberBaseController {
         Criteria criteria = example.createCriteria();
         criteria.addPermits(loginUserService.adminPartyIdList(),loginUserService.adminBranchIdList());
         example.setOrderByClause("id desc");
-       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
-            criteria.andStatusEqualTo(OW_REPORT_STATUS_REPORT);
-        }*/
+
         if (year != null) {
             criteria.andYearEqualTo(year);
         }

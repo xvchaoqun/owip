@@ -65,7 +65,7 @@
                         </c:if>
                     </c:if>
                         <c:if test="${cls==4}">
-                        <shiro:hasRole name="${ROLE_ODADMIN}">
+                        <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                     <button id="odApprovalBtn" ${odApprovalCount>0?'':'disabled'}
                             class="jqOpenViewBtn btn btn-danger btn-sm"
                             data-url="${ctx}/memberIn_approval"
@@ -75,7 +75,7 @@
                             data-count="${odApprovalCount}">
                         <i class="fa fa-sign-in"></i> 组织部审核（${odApprovalCount}）
                     </button>
-                        </shiro:hasRole>
+                        </shiro:hasPermission>
                         </c:if>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/applyApprovalLog"
@@ -371,14 +371,14 @@
         });
         </c:if>
         <c:if test="${cls==4}">
-        <shiro:hasRole name="${ROLE_ODADMIN}">
+        <shiro:hasPermission name="${PERMISSION_OWADMIN}">
         $("#jqGrid").navButtonAdd('#jqGridPager',{
             caption:"组织部批量审核",
             btnbase:"jqBatchBtn btn btn-warning btn-xs",
             buttonicon:"fa fa-check-circle-o",
             props:'data-url="${ctx}/memberIn_check" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
         });
-        </shiro:hasRole>
+        </shiro:hasPermission>
         </c:if>
         <c:if test="${cls==1}">
         $("#jqGrid").navButtonAdd('#jqGridPager',{
@@ -404,7 +404,7 @@
         });
         </c:if>
         <c:if test="${cls==4}">
-        <shiro:hasRole name="${ROLE_ODADMIN}">
+        <shiro:hasPermission name="${PERMISSION_OWADMIN}">
         $("#jqGrid").navButtonAdd('#jqGridPager',{
             caption:"批量退回申请",
             btnbase:"btn btn-danger btn-xs",
@@ -426,7 +426,7 @@
                 $.loadModal("${ctx}/memberIn_back?ids={0}&status={1}".format(ids, minStatus))
             }
         });
-        </shiro:hasRole>
+        </shiro:hasPermission>
         </c:if>
     </c:if>
     $('[data-rel="select2"]').select2();

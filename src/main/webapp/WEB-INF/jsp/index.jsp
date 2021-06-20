@@ -70,11 +70,11 @@
                             test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
             <c:if test="${!_p_hideHelp}">
-                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+                <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                     <li class="<c:if test="${_path=='/help'}">active</c:if>">
                         <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
                     </li>
-                </shiro:hasAnyRoles>
+                </c:if>
             </c:if>
             <shiro:hasPermission name="shortMsgTpl:*">
                 <li>
@@ -99,11 +99,11 @@
                         </a>
                     </li>
                     <c:if test="${!_p_hideHelp}">
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+                        <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                             <li class="<c:if test="${_path=='/help'}">active</c:if>">
                                 <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
                             </li>
-                        </shiro:hasAnyRoles>
+                        </c:if>
                     </c:if>
                     <shiro:hasPermission name="shortMsgTpl:*">
                         <li>

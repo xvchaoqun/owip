@@ -17,40 +17,19 @@
                 ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="dropdown <c:if test="${cls==1||cls==5}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                <i class="fa fa-circle-o"></i> ${_p_partyName}审核${cls==1?"(申请记录)":(cls==5)?"(已审核)":""}
-                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1"><i class="fa fa-hand-o-right"></i> 申请记录</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=5"><i class="fa fa-hand-o-right"></i> 已审核</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <c:if test="${_p_memberOutNeedOwCheck}">
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                            <%--<li class="dropdown <c:if test="${cls==6||cls==7}">active</c:if>" >
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                    <i class="fa fa-circle-o"></i> 组织部审核${cls==6?"(新申请)":(cls==7)?"(返回修改)":""}
-                                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                    <li>
-                                        <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=6"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=7"><i class="fa fa-hand-o-right"></i> 返回修改</a>
-                                    </li>
-                                </ul>
-                            </li>--%>
-                            <li class="${cls==6?'active':''}">
-                                <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=6"}><i class="fa fa-times"></i> 组织部审核</a>
+
+                        <li class="${cls==1?'active':''}">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=1"}><i class="fa fa-circle-o"></i> ${_p_partyName}待审核</a>
                             </li>
-                        </shiro:hasAnyRoles>
+                        <li class="${cls==5?'active':''}">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=5"}><i class="fa fa-check-circle-o"></i> ${_p_partyName}已审核</a>
+                            </li>
+                        <c:if test="${_p_memberOutNeedOwCheck}">
+                            <shiro:hasPermission name="${PERMISSION_OWADMIN}">
+                            <li class="${cls==6?'active':''}">
+                                <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=6"}><i class="fa fa-stop-circle-o"></i> 组织部待审核</a>
+                            </li>
+                            </shiro:hasPermission>
                             </c:if>
                         <li class="${cls==2?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/memberOut?cls=2"}><i class="fa fa-times"></i> 未通过/已撤销</a>
@@ -547,14 +526,14 @@
     });
     </c:if>
     <c:if test="${cls==6}">
-    <shiro:hasRole name="${ROLE_ODADMIN}">
+    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"组织部批量审核",
         btnbase:"jqBatchBtn btn btn-warning btn-xs",
         buttonicon:"fa fa-check-circle-o",
         props:'data-url="${ctx}/memberOut_check" data-querystr="&type=2" data-title="通过" data-msg="确定通过这{0}个申请吗？" data-callback="page_reload"'
     });
-    </shiro:hasRole>
+    </shiro:hasPermission>
     </c:if>
     <c:if test="${cls==1||cls==6}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{

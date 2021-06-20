@@ -13,6 +13,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import service.global.CacheService;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.helper.CetHelper;
 import sys.tags.CmTag;
@@ -38,13 +39,20 @@ public class SessionInterceptor implements AsyncHandlerInterceptor {
                              HttpServletResponse response, Object handler) throws Exception {
 
         String userAgent = RequestUtils.getUserAgent(request);
+        String ip = IpUtils.getRealIp(request);
         logger.debug("request {}, {}, {}, {}, {},request.getContentType()={}, request.getHeader(\"Cookie\")={}", new Object[]{
-                IpUtils.getRealIp(request), userAgent,
+                ip, userAgent,
                 request.getMethod(),
                 request.getRequestURL(), RequestUtils.getQueryString(request),
                 request.getContentType(),
                 request.getHeader("Cookie")
         });
+
+        // 网站访问IP控制
+        if(ShiroHelper.ipAccessLimited(request)){
+            response.sendRedirect("/page/not_allowed.jsp");
+            return false;
+        }
 
         // 隐私数据是否脱敏
         request.setAttribute("_p_privateDataMask", CmTag.getBoolProperty("privateDataMask"));

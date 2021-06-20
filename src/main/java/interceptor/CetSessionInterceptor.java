@@ -32,7 +32,7 @@ public class CetSessionInterceptor implements AsyncHandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         boolean adminProject = true;
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if(!RoleConstants.isCetAdmin()) {
 
             String servletPath = request.getServletPath();
             if(!StringUtils.containsAny(servletPath, "/cet/cetUnitTrain")){

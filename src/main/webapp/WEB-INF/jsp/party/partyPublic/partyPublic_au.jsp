@@ -59,17 +59,17 @@
                                             <label class="col-xs-3 control-label">公示日期</label>
                                             <div class="col-xs-8 label-text">
                                                 <c:set var="pubDate" value="${empty partyPublic?_today_dot:cm:formatDate(partyPublic.pubDate,'yyyy.MM.dd')}"/>
-                                                <shiro:hasRole name="${ROLE_ODADMIN}">
+                                                <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                                                 <div class="input-group date" data-date-format="yyyy.mm.dd" style="width: 130px">
                                                     <input required class="form-control" name="pubDate" type="text"
                                                             value="${pubDate}" />
                                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                 </div>
                                                     <script>$.register.date($('.input-group.date'));</script>
-                                                </shiro:hasRole>
-                                                <shiro:lacksRole name="${ROLE_ODADMIN}">
+                                                </shiro:hasPermission>
+                                                <shiro:lacksPermission name="${PERMISSION_OWADMIN}">
                                                     ${pubDate}
-                                                </shiro:lacksRole>
+                                                </shiro:lacksPermission>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -140,7 +140,7 @@
 
                     <div style="clear: both"></div>
                     <div class="clearfix form-actions center" style="margin-top: 5px">
-                        <c:if test="${cm:hasRole(ROLE_ODADMIN) || !partyPublic.isPublish}">
+                        <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || !partyPublic.isPublish}">
                         <button class="submitBtn btn btn-primary" type="button"
                                 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
                                 data-publish="${partyPublic.isPublish?1:0}">

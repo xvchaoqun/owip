@@ -18,12 +18,12 @@
            data-url="${ctx}/orgAdmin?type=<%=OwConstants.OW_ORG_ADMIN_PARTY%>&cls=3"><i class="fa fa-user-circle-o"></i> 管理员列表</a>
     </li>
     <c:if test="${cls==1&&type==0}">
-    <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
+    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px;">
             <a class="downloadBtn btn btn-success btn-sm"
                href="javascript:;" data-url="${ctx}/party?export=2">
                 <i class="fa fa-download"></i> 汇总导出基本情况表</a>
         </div>
-    </shiro:hasAnyRoles>
+    </shiro:hasPermission>
     </c:if>
 </ul>

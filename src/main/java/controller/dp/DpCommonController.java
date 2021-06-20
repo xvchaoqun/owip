@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
 import java.io.IOException;
@@ -88,7 +87,7 @@ public class DpCommonController extends DpBaseController {
         }
         List<SysUserView> uvs = iDpMemberMapper.selectUserList(searchStr, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        boolean isDpAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_DP_ADMIN);
+        boolean isDpAdmin = RoleConstants.isDpAdmin();
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {

@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
@@ -43,8 +42,6 @@ public class CetReportController extends CetBaseController {
                                Model model) {
 
         int currentUserId = ShiroHelper.getCurrentUserId();
-        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_ADMIN);
-
         UserRes verify = UserResUtils.verify(ids);
         String res = verify.getRes();
         Set<Integer> idSet = NumberUtils.toIntSet(res, ",");
@@ -63,9 +60,9 @@ public class CetReportController extends CetBaseController {
                 }
             }
 
-            // 本人、培训管理员、系统管理员、二级党委管理员
-            if(currentUserId!=cetRecord.getUserId() && !isAdmin
-                && cetPartyAdminService.get(cetRecord.getCetPartyId(), currentUserId)==null){
+            // 本人、管理员
+            if(currentUserId!=cetRecord.getUserId()
+                    && cetPartyAdminService.get(cetRecord.getCetPartyId(), currentUserId)==null){
 
                 throw new UnauthorizedException();
             }

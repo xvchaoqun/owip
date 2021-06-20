@@ -41,9 +41,7 @@ public class PartyReportService extends BaseMapper {
             throw new UnauthorizedException();
         }
         Assert.isTrue(!idDuplicate(null, record.getPartyId(),record.getBranchId(), record.getYear()), "党支部重复");
-       /* if (ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)) {
-            record.setStatus(OW_REPORT_STATUS_REPORT);
-        }*/
+
         partyReportMapper.insertSelective(record);
     }
 

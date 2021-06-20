@@ -24,46 +24,29 @@
                 ||not empty param.branchId || not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
-                            <li class="dropdown <c:if test="${cls==1||cls==12}">active</c:if>">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                    <i class="fa fa-circle-o"></i>
-                                    支部审核${cls==1?"(申请记录)":(cls==12)?"(已审核)":""}
-                                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=1"><i class="fa fa-hand-o-right"></i> 申请记录</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=12"><i class="fa fa-hand-o-right"></i> 已审核</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </shiro:hasAnyRoles>
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
-                            <li class="dropdown <c:if test="${cls==2||cls==22}">active</c:if>">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                    <i class="fa fa-circle-o"></i>
-                                    ${_p_partyName}审核${cls==2?"(申请记录)":(cls==22)?"(已审核)":""}
-                                    <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=2"><i class="fa fa-hand-o-right"></i> 申请记录</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="hashchange" data-querystr="cls=22"><i class="fa fa-hand-o-right"></i> 已审核</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </shiro:hasAnyRoles>
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+
+                        <li class="${cls==1?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberStay?type=${param.type}&cls=1"}><i class="fa fa-circle-o"></i> 支部待审核</a>
+                        </li>
+                        <li class="${cls==12?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberStay?type=${param.type}&cls=12"}><i class="fa fa-check-circle-o"></i> 支部已审核</a>
+                        </li>
+                        <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
+
+                        <li class="${cls==2?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberStay?type=${param.type}&cls=2"}><i class="fa fa-circle-o"></i> ${_p_partyName}待审核</a>
+                        </li>
+                        <li class="${cls==22?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/memberStay?type=${param.type}&cls=22"}><i class="fa fa-check-circle-o"></i> ${_p_partyName}已审核</a>
+                        </li>
+
+                        </c:if>
+                        <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                             <li class="${cls==3?'active':''}">
                                 <a href="javascript:;" class="hashchange" data-querystr="cls=3"><i
                                         class="fa fa-circle-o"></i> 组织部审核</a>
                             </li>
-                        </shiro:hasAnyRoles>
+                        </shiro:hasPermission>
 
                         <li class="${cls==4?'active':''}">
                             <a href="javascript:;" class="hashchange" data-querystr="cls=4"><i
@@ -90,11 +73,11 @@
                                        data-url="${ctx}/memberStay_au?type=${param.type}">
                                         <i class="fa fa-plus"></i> 添加</a>
                              </shiro:hasPermission>
-                            <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
+                            <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                                 <a class="downloadBtn btn btn-success btn-sm"
                                    href="javascript:;" data-url="${ctx}/memberStay?export=2&type=${param.type}">
                                     <i class="fa fa-download"></i> 汇总导出</a>
-                                </shiro:hasAnyRoles>
+                            </shiro:hasPermission>
                         </div>
 
                         <c:if test="${(cls==1||cls==2||cls==3) && (approvalCountNew+approvalCountBack)>0}">
@@ -117,14 +100,14 @@
                                         </button>
                                     </c:if>
                                 </shiro:hasPermission>
-                                <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
+                                <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                                     <c:if test="${cls==5||cls==6}">
                                         <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-url="${ctx}/memberStay_transfer_au">
                                             <i class="fa fa-edit"></i> 修改暂留党支部
                                         </button>
                                     </c:if>
-                                </shiro:hasAnyRoles>
+                                </c:if>
                                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>

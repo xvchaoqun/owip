@@ -171,12 +171,8 @@ public class MemberInflowOutController extends MemberBaseController {
         }
 
 
-        if(cls==1){ // 支部审核（新申请）
-            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-                    .andOutIsBackNotEqualTo(true);
-        }else if(cls==4){ // 支部审核(返回修改)
-            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-                    .andOutIsBackEqualTo(true);
+        if(cls==1){ // 支部审核
+            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过

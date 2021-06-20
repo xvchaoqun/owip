@@ -63,10 +63,8 @@ public class CommonController extends BaseController {
         List<SysUserView> uvs = iSysMapper.selectUserList(searchStr, types, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
-                RoleConstants.ROLE_OA_ADMIN,
-                RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_CET_ADMIN,
-                RoleConstants.ROLE_PARTYADMIN) || RoleConstants.isCadreAdmin();
+                RoleConstants.ROLE_PARTYADMIN) || RoleConstants.isOaAdmin() || RoleConstants.isOwAdmin()
+                ||  RoleConstants.isCetAdmin() || RoleConstants.isCadreAdmin();
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
@@ -332,7 +330,7 @@ public class CommonController extends BaseController {
             CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr.trim() + "%");
             CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr.trim() + "%");
-            if (reserveStatus != null && reserveStatus != 5) {
+            if (reserveStatus != null) {
                 criteria1.andReserveStatusEqualTo(reserveStatus);
                 criteria2.andReserveStatusEqualTo(reserveStatus);
                 criteria3.andReserveStatusEqualTo(reserveStatus);
@@ -342,7 +340,7 @@ public class CommonController extends BaseController {
                 criteria2.andReserveTypeEqualTo(reserveType);
                 criteria3.andReserveTypeEqualTo(reserveType);
             }
-        } else if (reserveStatus != 5){
+        } else{
             CadreReserveViewExample.Criteria criteria = example.createCriteria();
             if (reserveStatus != null) criteria.andReserveStatusEqualTo(reserveStatus);
             if (reserveType != null) criteria.andReserveTypeEqualTo(reserveType);

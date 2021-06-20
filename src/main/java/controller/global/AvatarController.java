@@ -3,8 +3,6 @@ package controller.global;
 import bean.AvatarImportResult;
 import controller.BaseController;
 import ext.service.ExtCommonService;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,13 +18,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.LogConstants;
 import sys.spring.UserRes;
 import sys.spring.UserResUtils;
+import sys.tool.graphicsmagick.GmTool;
 import sys.utils.*;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -84,23 +80,16 @@ public class AvatarController extends BaseController {
         if(!m){
             return FileUtils.getBytes(_path);
         }else{
-            BufferedImage bi = ImageIO.read(new File(_path));
-            int srcWidth = bi.getWidth();      // 源图宽度
-            int srcHeight = bi.getHeight();    // 源图高度
-
-            int region = srcWidth<srcHeight?srcWidth:srcHeight;
-            int tmp = srcWidth<srcHeight?(128*srcWidth/srcHeight):(128*srcHeight/srcWidth);
-            int size = tmp<128?tmp:128;
-
-            BufferedImage bufferedImage = Thumbnails.of(_path)
-                    .sourceRegion(Positions.CENTER, region, region)
-                    .size(size, size)
-                    .keepAspectRatio(true).asBufferedImage();
-            //.toOutputStream(response.getOutputStream());
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "jpeg", baos);
-            return baos.toByteArray();
+            try {
+                String _sPath = System.getProperty("java.io.tmpdir") + FILE_SEPARATOR + "avatar" + path;
+                FileUtils.mkdirs(_sPath);
+                GmTool gmTool = GmTool.getInstance(PropertiesUtils.getString("gm.command"));
+                gmTool.scaleResize(_path, _sPath, 128, 128);
+                return FileUtils.getBytes(_sPath);
+            }catch (Exception ex){
+                logger.error("头像压缩失败", ex);
+                return FileUtils.getBytes(_path);
+            }
         }
     }
 

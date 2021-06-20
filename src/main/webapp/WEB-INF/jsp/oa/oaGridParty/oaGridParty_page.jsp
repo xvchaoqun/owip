@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                                        data-url="${ctx}/oa/oaGridParty_au" data-open-by="page"
                                        data-grid-id="#jqGrid"><i class="fa fa-upload"></i>
                                         上传文件</button>--%>
-                                    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_SUPER},${ROLE_ODADMIN}">
+                                    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                                         <c:if test="${cls==OA_GRID_PARTY_REPORT}">
                                             <button data-url="${ctx}/oa/oaGridParty_report?report=${OA_GRID_PARTY_BACK}"
                                                     data-title="退回"
@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                                                 <i class="fa fa-reply"></i> 退回
                                             </button>
                                         </c:if>
-                                    </shiro:hasAnyRoles>
+                                    </shiro:hasPermission>
                                 </shiro:hasPermission>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/sysApprovalLog"

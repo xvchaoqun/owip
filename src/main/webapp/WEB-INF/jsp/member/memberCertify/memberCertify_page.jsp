@@ -12,29 +12,19 @@ pageEncoding="UTF-8" %>
             || not empty param.year || not empty param.partyId || not empty param.branchId}"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <li class="dropdown <c:if test="${cls==1||cls==2||cls==3}">active</c:if>" >
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                <i class="fa fa-circle-o"></i> ${_p_partyName}审核${cls==1?"(新申请)":(cls==2)?"(返回修改)":(cls==3)?"(已审核)":""}
-                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=1"><i class="fa fa-hand-o-right"></i> 新申请</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=2"><i class="fa fa-hand-o-right"></i> 返回修改</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=3"><i class="fa fa-hand-o-right"></i> 已审核</a>
-                                </li>
 
-                            </ul>
+                        <li class="${cls==1?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=1"}><i class="fa fa-circle-o"></i> ${_p_partyName}待审核</a>
                         </li>
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
+                        <li class="${cls==3?'active':''}">
+                            <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=3"}><i class="fa fa-check-circle-o"></i> ${_p_partyName}已审核</a>
+                        </li>
+
+                        <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_ADMIN)}">
                             <li class="<c:if test="${cls==4||cls==5}">active</c:if>" >
                                 <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=4"><i class="fa fa-circle-o"></i> 组织部审核</a>
                             </li>
-                        </shiro:hasAnyRoles>
+                        </c:if>
                         <li class="${cls==6?'active':''}">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/member/memberCertify?cls=6"}><i class="fa fa-times"></i> 未通过/已撤销</a>
                         </li>
@@ -49,7 +39,7 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-plus"></i> 添加</button>
                             </shiro:hasPermission>
                         </div>
-                        <c:if test="${(cls==1 || cls==2 || cls==4 || cls==5) && (approvalCountNew+approvalCountBack)>0}">
+                        <c:if test="${(cls==1 || cls==4 || cls==5) && (approvalCountNew+approvalCountBack)>0}">
                             <div class="pull-right"  style="top: 3px; right:10px; position: relative; color: red;  font-weight: bolder">
                                 有${approvalCountNew+approvalCountBack}条待审核记录（其中新申请：共${approvalCountNew}条，返回修改：共${approvalCountBack}条）
                             </div>
@@ -80,7 +70,7 @@ pageEncoding="UTF-8" %>
                                             重新申请</button>
                                     </c:if>
                                 </shiro:hasPermission>
-                                <c:if test="${cls==1||cls==2}">
+                                <c:if test="${cls==1}">
                                     <c:if test="${cm:isPermitted(PERMISSION_PARTYVIEWALL) || cm:hasRole(ROLE_PARTYADMIN)}">
                                         <button data-url="${ctx}/member/memberCertify_check"
                                                 data-grid-id="#jqGrid"
@@ -112,7 +102,7 @@ pageEncoding="UTF-8" %>
                                         <i class="fa fa-reply-all"></i> 批量退回
                                     </button>
                                 </c:if>
-                                <c:if test="${cls!=3&&cls!=7||(cls==7&&cm:hasRole(ROLE_ODADMIN))}">
+                                <c:if test="${cls!=3&&cls!=7||(cls==7&&cm:isPermitted(PERMISSION_OWADMIN))}">
                                     <shiro:hasPermission name="memberCertify:del">
                                         <button data-url="${ctx}/member/memberCertify_batchDel"
                                                 data-title="删除"

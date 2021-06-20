@@ -31,24 +31,6 @@
               ${_sysConfig.mobilePlantformName}
           </span>
         </div>
-        <%--<div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
-            <ul class="nav nav-pills">
-                    <li class="<c:if test="${_path=='/profile'}">active</c:if>">
-                        <a href="${ctx}/#/profile"><i class="fa fa-user"></i>
-                                ${_user.realname}（${_user.code}）</a>
-                    </li>
-                    <c:if test="${!_p_hideHelp}">
-                        <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
-                            <li class="<c:if test="${_path=='/help'}">active</c:if>">
-                                <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
-                            </li>
-                        </shiro:hasAnyRoles>
-                    </c:if>
-                    <li>
-                        <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
-                    </li>
-            </ul>
-        </div>--%>
     </div>
 </div>
 <div style="padding-top: 150px"></div>

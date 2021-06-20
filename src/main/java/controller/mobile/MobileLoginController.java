@@ -3,7 +3,6 @@ package controller.mobile;
 import controller.BaseController;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -67,6 +66,10 @@ public class MobileLoginController extends BaseController {
 		}
 
 		sysLoginLogService.setTimeout(ShiroHelper.getSubject());
+
+		if(ShiroHelper.ipAccessLimited(request)){
+            return failed("禁止访问，请联系管理员");
+		}
 
 		logger.info(sysLoginLogService.log(ShiroHelper.getCurrentUserId(), username,
 				SystemConstants.LOGIN_TYPE_MOBILE, true, "登录成功"));

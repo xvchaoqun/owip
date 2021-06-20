@@ -91,13 +91,13 @@
                 党员信息一张表导入</a>
             </li>
             </shiro:hasRole>
-            <shiro:hasRole name="${ROLE_ODADMIN}">
+            <shiro:hasPermission name="${PERMISSION_OWADMIN}">
             <li>
               <a href="javascript:;" class="popupBtn"
                  data-url="${ctx}/member_update"><i class="fa fa-arrow-right"></i>
                 组织关系批量调整</a>
             </li>
-            </shiro:hasRole>
+            </shiro:hasPermission>
         </ul>
     </div>
     </shiro:hasPermission>

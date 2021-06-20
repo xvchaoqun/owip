@@ -101,12 +101,12 @@
                         data-grid-id="#jqGrid"
                         data-rel="tooltip" data-placement="top"
                         title="上传培训总结"><i class="fa fa-upload"></i> 上传培训总结</button>
-                    <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                    <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                     <c:if test="${param.type!=CET_UPPER_TRAIN_TYPE_SCHOOL}">
                         <a href="javascript:;" data-width="700" class="jqOpenViewBatchBtn btn btn-danger btn-sm" data-url="${ctx}/cet/cetUpperTrain_batchTransfer?addType=${param.addType}">
                             <i class="fa fa-random"></i> 批量转移</a>
                     </c:if>
-                    </shiro:hasRole>
+                    </shiro:hasPermission>
                 </c:if>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                         data-url="${ctx}/cet/cetUpperTrain_data?addType=${param.addType}&type=${param.type}"

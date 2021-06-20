@@ -33,7 +33,7 @@
                  || not empty param.postType || not empty param.identities || not empty param.prePeriod || not empty param.subPeriod || not empty param.score}"/>
                 <div class="jqgrid-vertical-offset buttons">
                     <c:if test="${empty reRecord}">
-                    <c:if test="${cm:hasRole(ROLE_CET_ADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
+                    <c:if test="${cm:isPermitted(PERMISSION_CETADMIN) || cetUnitProject.status!=CET_UNIT_PROJECT_STATUS_PASS}">
                     <shiro:hasPermission name="cetUnitProject:edit">
                         <button class="popupBtn btn btn-success btn-sm" data-width="1000"
                                 data-url="${ctx}/cet/cetUnitTrain_au?projectId=${param.projectId}">
@@ -44,12 +44,12 @@
                                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                             修改
                         </button>
-                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                        <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                             <button class="popupBtn btn btn-info btn-sm tooltip-success"
                             data-url="${ctx}/cet/cetUnitTrain_import?projectId=${param.projectId}"
                             data-rel="tooltip" data-placement="top"
                             title="从Excel中导入培训记录"><i class="fa fa-upload"></i> 批量导入</button>
-                        </shiro:hasRole>
+                        </shiro:hasPermission>
                         <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                 data-url="${ctx}/cet/cetUnitTrain_data?projectId=${param.projectId}"
                                 data-grid-id="#jqGrid2"

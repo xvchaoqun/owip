@@ -687,7 +687,7 @@ public class CetUpperTrainController extends CetBaseController {
     public Map do_cetUpperTrain_import(Byte type, HttpServletRequest request) throws InvalidFormatException, IOException {
 
         Boolean isUnitAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UNIT_PARTY);
-        Boolean isCetAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN);
+        Boolean isCetAdmin= RoleConstants.isCetAdmin();
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");
@@ -867,7 +867,7 @@ public class CetUpperTrainController extends CetBaseController {
     public Map do_cetOtherTrain_import(HttpServletRequest request) throws InvalidFormatException, IOException {
 
         Boolean isUnitAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN_UNIT_PARTY);
-        Boolean isCetAdmin= ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN);
+        Boolean isCetAdmin= RoleConstants.isCetAdmin();
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         MultipartFile xlsx = multipartRequest.getFile("xlsx");

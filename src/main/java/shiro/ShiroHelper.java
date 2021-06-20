@@ -12,8 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
+import sys.ip.IPSeeker;
 import sys.shiro.BaseShiroHelper;
 import sys.shiro.IncorrectCaptchaException;
+import sys.tags.CmTag;
+import sys.utils.IpUtils;
+import sys.utils.PatternUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +30,56 @@ public class ShiroHelper extends BaseShiroHelper{
 
 	private static SysUserService userService;
 	private static SysRoleService roleService;
+
+	// 判断IP访问是否受限
+	public static boolean ipAccessLimited(HttpServletRequest request){
+
+		String ip = IpUtils.getRealIp(request);
+		String loginUsername = ShiroHelper.getCurrentUsername();
+        String validIps = CmTag.getStringProperty("valid_ips");
+        String switchUser = (String) request.getSession().getAttribute("_switchUser");
+        if(StringUtils.isNotBlank(loginUsername)
+                && StringUtils.isBlank(switchUser)
+                && !CmTag.isSuperAccount(loginUsername)
+                && StringUtils.isNotBlank(validIps)){ // 如有设置了IP限制，用户登录后进行判断
+
+            IPSeeker ipSeeker = IPSeeker.getInstance();
+            String country = ipSeeker.getCountry(ip);
+            if(!PatternUtils.match("局域网|IANA", country)) {
+
+                String validUsers = CmTag.getStringProperty("valid_users"); // 放行的账号
+                if(!PatternUtils.match(validUsers.replaceAll("\\s*", "")
+                        .replaceAll(",|，", "|"), loginUsername)) {
+
+                        boolean isValidIp = false;
+                        String[] ipRanges = validIps.split("\n");
+                        for (String ipRange : ipRanges) {
+                            ipRange = ipRange.replaceAll("\\s*", "")
+                                    .replaceAll("[^0-9\\-－~～\\.]", "");
+                            if (StringUtils.isBlank(ipRange)) continue;
+                            //System.out.println("ipRange = " +ipRange);
+                            String[] ips = ipRange.split("-|－|~|～");
+                            if (ips.length == 1) {
+                                if (StringUtils.equals(ip, ips[0])) {
+                                    isValidIp = true;
+                                    break;
+                                }
+                            } else {
+                                if (IpUtils.validIpRange(ip, ips[0], ips[1])) {
+                                    isValidIp = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(!isValidIp) return true;
+                }
+            }
+        }
+
+        return false;
+	}
+
 
 	public static Boolean hasAnyRoles(String roleIds){
 

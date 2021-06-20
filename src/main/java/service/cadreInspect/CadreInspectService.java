@@ -26,6 +26,7 @@ import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -92,7 +93,16 @@ public class CadreInspectService extends BaseMapper {
             throw new OpException("考察对象"+cadre.getUser().getRealname() +"状态异常，存在多条记录");
         }
 
-        return (cadreInspects.size()==0)?null:cadreInspects.get(0);
+        CadreInspect cadreInspect = (cadreInspects.size() == 0) ? null : cadreInspects.get(0);
+        if(cadreInspect!=null){
+            // 如果设置了有效期，已经过期了
+            Date validTime = cadreInspect.getValidTime();
+            if(validTime!=null && validTime.before(new Date())){
+                return null;
+            }
+        }
+
+        return cadreInspect;
     }
 
     /**

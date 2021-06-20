@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
                                data-rel="tooltip" data-placement="top"
                                title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
 
-                            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
+                            <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                                 <button data-url="${ctx}/pmMeeting2_batchDel"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？<br/>（删除后无法恢复，请谨慎操作！！）"
@@ -81,7 +81,7 @@ pageEncoding="UTF-8" %>
                                         class="jqBatchBtn btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
-                            </shiro:hasAnyRoles>
+                            </c:if>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmMeeting2:back">
                             <c:if test="${cls==1}">

@@ -73,7 +73,7 @@ public class CetUnitTrainService extends CetBaseMapper {
         if (ids == null || ids.length == 0) return;
 
         Set<Integer> projectIdSet = new HashSet<>();
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (!RoleConstants.isCetAdmin()) {
 
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             for (Integer id : ids) {
@@ -118,7 +118,7 @@ public class CetUnitTrainService extends CetBaseMapper {
     public void batchAdd(int projectId, int traineeTypeId, Integer[] userIds) {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(projectId);
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (!RoleConstants.isCetAdmin()) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());;
             if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                 throw new OpException("没有权限。");
@@ -275,7 +275,7 @@ public class CetUnitTrainService extends CetBaseMapper {
                 CetUnitTrain record = cetUnitTrainMapper.selectByPrimaryKey(id);
                 projectId=record.getProjectId();
                 if (pass) {
-                    if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)) {
+                    if(RoleConstants.isCetAdmin()) {
                         // 组织部审批
                         record.setStatus(CetConstants.CET_UNITTRAIN_RERECORD_PASS);
                     } else {

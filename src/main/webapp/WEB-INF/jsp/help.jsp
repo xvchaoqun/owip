@@ -41,11 +41,11 @@
         <a href="${ctx}/#${ctx}/profile"><i class="fa fa-user"></i>
           <shiro:principal property="realname"/>（<shiro:principal property="code"/>）</a>
       </li>
-      <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+      <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
         <li class="<c:if test="${_path=='/help'}">active</c:if>">
           <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
         </li>
-      </shiro:hasAnyRoles>
+      </c:if>
       <li>
         <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
       </li>

@@ -61,7 +61,7 @@ pageEncoding="UTF-8" %>
                                 </shiro:hasPermission>
                             </c:if>
                             <c:if test="${cls==PM_3_STATUS_PASS}">
-                                <shiro:hasRole name="${ROLE_ODADMIN}">
+                                <shiro:hasPermission name="${PERMISSION_OWADMIN}">
                                     <button data-url="${ctx}/pm/pm3Meeting_back"
                                             data-title="退回"
                                             data-msg="确定退回这{0}条数据？"
@@ -69,7 +69,7 @@ pageEncoding="UTF-8" %>
                                             class="jqBatchBtn btn btn-warning btn-sm">
                                         <i class="fa fa-reply"></i> 退回
                                     </button>
-                                </shiro:hasRole>
+                                </shiro:hasPermission>
                             </c:if>
                             <c:if test="${(cls==PM_3_STATUS_PARTY&&(isOw||isPa))||((cls==PM_3_STATUS_OW||cls==PM_3_STATUS_STU)&&isOw)}">
                                 <shiro:hasPermission name="pm3Meeting:check">

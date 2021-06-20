@@ -59,7 +59,7 @@ pageEncoding="UTF-8" %>
                                     报送
                     </button>
                 </c:if>
-                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                 <c:if test="${status==_REPORT}">
                     <button class="jqOpenViewBatchBtn btn btn-success btn-sm"
                                     data-url="${ctx}/cet/cetProject_check"
@@ -75,8 +75,8 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-reply"></i>
                         返回待报送</button>
                 </c:if>
-                </shiro:hasRole>
-                <c:if test="${cls==1||cls==2|| cm:hasRole(ROLE_CET_ADMIN) ||status==_UNREPORT||status==_UNPASS}">
+                </shiro:hasPermission>
+                <c:if test="${cls==1||cls==2|| cm:isPermitted(PERMISSION_CETADMIN) ||status==_UNREPORT||status==_UNPASS}">
                 <shiro:hasPermission name="cetProject:edit">
                     <c:if test="${cls==1||cls==2}">
                     <button class="openView btn btn-info btn-sm"

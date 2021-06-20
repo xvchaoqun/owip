@@ -111,7 +111,7 @@
                              <div class="form-group">
                                 <label class="col-xs-3 control-label"><span class="star">*</span>培训班主办方</label>
                                 <div class="col-xs-8">
-                                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:isPermitted(PERMISSION_CETADMIN)?0:1}"
                                              data-width="308" name="cetPartyId" data-placeholder="请选择">
                                         <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                                     </select>
@@ -193,14 +193,14 @@
                                                name="requirePeriod" value="${cetProject.requirePeriod}" maxlength="5" style="width: 80px">
                                 </div>
                             </div>
-                            <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                            <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                             <div class="form-group">
                                 <label class="col-xs-5 control-label">是否计入年度学习任务</label>
                                 <div class="col-xs-6">
                                     <input type="checkbox" class="big" name="isValid" ${(empty cetProject || cetProject.isValid)?"checked":""}/>
                                 </div>
                             </div>
-                            </shiro:hasRole>
+                            </shiro:hasPermission>
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">备注</label>
                                 <div class="col-xs-8">

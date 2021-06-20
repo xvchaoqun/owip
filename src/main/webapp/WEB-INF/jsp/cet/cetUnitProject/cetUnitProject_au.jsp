@@ -137,7 +137,7 @@
                 <div class="form-group">
                     <label class="col-xs-4 control-label"><span class="star">*</span>培训班主办方</label>
                     <div class="col-xs-7">
-                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                        <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:isPermitted(PERMISSION_CETADMIN)?0:1}"
                                  data-width="223" name="cetPartyId" data-placeholder="请选择">
                             <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                         </select>
@@ -202,14 +202,14 @@
 							  name="address">${cetUnitProject.address}</textarea>
                     </div>
                 </div>
-                <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                 <div class="form-group">
                     <label class="col-xs-5 control-label">是否计入年度学习任务</label>
                     <div class="col-xs-3">
                         <input type="checkbox" class="big" name="isValid" ${cetUnitProject.isValid?"checked":""}/>
                     </div>
                 </div>
-                </shiro:hasRole>
+                </shiro:hasPermission>
                 <div class="form-group">
                     <label class="col-xs-4 control-label">备注</label>
                     <div class="col-xs-6">
@@ -222,11 +222,11 @@
     </form>
 </div>
 <div class="modal-footer" style="clear:both">
-    <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+    <shiro:lacksPermission name="${PERMISSION_CETADMIN}">
         <c:if test="${empty cetUnitProject || cetUnitProject.status==CET_UNIT_PROJECT_STATUS_UNREPORT}">
             <div class="note">提醒：添加后请继续添加参训人，完成后请及时报送</div>
         </c:if>
-    </shiro:lacksRole>
+    </shiro:lacksPermission>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
@@ -246,12 +246,12 @@
                     if (ret.success) {
                         $("#modal").modal('hide');
 
-                        <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                        <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                         $("#jqGrid").trigger("reloadGrid");
-                        </shiro:hasRole>
-                        <shiro:lacksRole name="${ROLE_CET_ADMIN}">
+                        </shiro:hasPermission>
+                        <shiro:lacksPermission name="${PERMISSION_CETADMIN}">
                         $.loadPage({url:"${ctx}/cet/cetUnitProject?cls=2&addType=${param.addType}"})
-                        </shiro:lacksRole>
+                        </shiro:lacksPermission>
                     }
                     $btn.button('reset');
                 }

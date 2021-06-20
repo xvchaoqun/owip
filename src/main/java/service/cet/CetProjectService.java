@@ -32,7 +32,7 @@ public class CetProjectService extends CetBaseMapper {
 
         record.setCreateTime(new Date());
 
-        if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)){
+        if(RoleConstants.isCetAdmin()){
             record.setStatus(CetConstants.CET_PROJECT_STATUS_PASS);
         }else{
             record.setStatus(CetConstants.CET_PROJECT_STATUS_UNREPORT);
@@ -54,7 +54,7 @@ public class CetProjectService extends CetBaseMapper {
         if(ids==null || ids.length==0) return;
 
         HashSet<Integer> adminPartyIdSet = new HashSet<>();
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+        if(!RoleConstants.isCetAdmin()){
 
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             adminPartyIdSet.addAll(adminPartyIdList);
@@ -65,7 +65,7 @@ public class CetProjectService extends CetBaseMapper {
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
             boolean isPartyProject = cetProject.getIsPartyProject();
 
-            if(isPartyProject && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)){
+            if(isPartyProject && !RoleConstants.isCetAdmin()){
 
                 if(!adminPartyIdSet.contains(cetProject.getCetPartyId())){
                     throw new UnauthorizedException();
@@ -128,7 +128,7 @@ public class CetProjectService extends CetBaseMapper {
         for (int id : ids) {
 
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (!RoleConstants.isCetAdmin()) {
                 List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (!adminPartyIdList.contains(cetProject.getCetPartyId())) {
                     throw new OpException("没有权限。");

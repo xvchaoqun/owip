@@ -246,8 +246,7 @@ public class OaTaskService extends OaBaseMapper {
         updateByPrimaryKeySelective(record);
 
         if (share) {
-
-            sysUserService.addRole(userId, RoleConstants.ROLE_OA_ADMIN);
+            sysUserService.addRole(userId, RoleConstants.ROLE_OA_SHARE);
         }
     }
 }

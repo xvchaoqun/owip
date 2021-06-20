@@ -50,13 +50,13 @@ pageEncoding="UTF-8" %>
                            data-url="${ctx}/cet/cetUnitTrain_info?cls=3"><i
                                 class="fa fa-times"></i> 未通过审核(${cm:trimToZero(statusCountMap.get(_UNPASS))})</a>
                     </li>
-                    <shiro:hasRole name="${ROLE_CET_ADMIN}">
+                    <shiro:hasPermission name="${PERMISSION_CETADMIN}">
                     <li class="<c:if test="${cls==4}">active</c:if>">
                         <a href="javascript:;" class="loadPage"
                            data-url="${ctx}/cet/cetUnitTrain_info?cls=4"><i
                                 class="fa fa-trash"></i> 已删除(${cm:trimToZero(statusCountMap.get(_DELETE))})</a>
                     </li>
-                    </shiro:hasRole>
+                    </shiro:hasPermission>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane in active rownumbers">
@@ -110,7 +110,7 @@ pageEncoding="UTF-8" %>
                                         </div>
                                         <div class="form-group">
                                             <label>培训主办方</label>
-                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:hasRole(ROLE_CET_ADMIN)?0:1}"
+                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects?auth=${cm:isPermitted(PERMISSION_CETADMIN)?0:1}"
                                                          data-width="308" name="cetPartyId" data-placeholder="请选择">
                                                 <option value="${cetParty.id}" delete="${cetParty.isDeleted}">${cetParty.name}</option>
                                             </select>

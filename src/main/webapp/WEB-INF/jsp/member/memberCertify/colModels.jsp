@@ -24,6 +24,7 @@
         <c:if test="${cls==0}">
         { label: '申请状态',name: 'status', width: 140, formatter: function (cellvalue, options, rowObject) {
 
+                if(rowObject.isBack) return '返回修改'
                 return ('<font color="{0}">{1}</font>').format(cellvalue == ${MEMBER_CERTIFY_STATUS_BACK}?"orange":"green",
                     _cMap.MEMBER_CERTIFY_STATUS_MAP[rowObject.status])
             }},
@@ -39,7 +40,7 @@
         { label: '原单位',name: 'fromUnit', width:200, align:'left'},
         { label: '介绍信抬头',name: 'toTitle', width:200, align:'left'},
         { label: '拟去往的工作学习单位',name: 'toUnit', width:200, align:'left'},
-        <c:if test="${cls==2||cls==5}">
+        <c:if test="${cls==1}">
         { label: '返回修改原因',name: 'reason', width:200, align: 'left'},
         </c:if>
         { label: '介绍信日期',name: 'certifyDate', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},

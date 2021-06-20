@@ -262,7 +262,7 @@ public class PcsPollController extends PcsBaseController {
     @ResponseBody
     public Map pcsPoll_open(int partyId, ModelMap modelMap) {
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_ODADMIN)){
+        if(!RoleConstants.isOwAdmin()){
 
             PcsAdmin pcsAdmin = pcsAdminService.getPartyAdmin(ShiroHelper.getCurrentUserId());
             if(pcsAdmin==null ||pcsAdmin.getPartyId()!=partyId){

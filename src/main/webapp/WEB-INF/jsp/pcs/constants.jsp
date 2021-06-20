@@ -19,8 +19,6 @@
 <c:set var="prTypes" value="${cm:getMetaTypes('mc_pcs_pr_type')}"/>
 <c:set var="prTypeNum" value="${fn:length(prTypes)}"/>
 
-<c:set value="<%=RoleConstants.ROLE_PCS_ADMIN%>" var="ROLE_PCS_ADMIN"/>
-
 <c:set value="<%=PcsConstants.RESULT_STATUS_MAP%>" var="RESULT_STATUS_MAP"/>
 <c:set value="<%=PcsConstants.RESULT_STATUS_AGREE%>" var="RESULT_STATUS_AGREE"/>
 <c:set value="<%=PcsConstants.RESULT_STATUS_DISAGREE%>" var="RESULT_STATUS_DISAGREE"/>

@@ -58,7 +58,7 @@ public class MemberCertifyController extends MemberBaseController {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
         }
-        if (cls == 1 || cls == 2){
+        if (cls == 1){
             modelMap.put("approvalCountNew", memberCertifyService.count((byte)1, (byte)1));
             modelMap.put("approvalCountBack", memberCertifyService.count((byte)1, (byte)2));
         }else if (cls == 4 || cls == 5){
@@ -127,11 +127,7 @@ public class MemberCertifyController extends MemberBaseController {
             criteria.andToTitleLike(SqlUtils.trimLike(toTitle));
         }
         if (cls == 1){
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_CERTIFY_STATUS_APPLY)
-                    .andIsBackNotEqualTo(true);
-        }else if (cls == 2){
-            criteria.andStatusEqualTo(MemberConstants.MEMBER_CERTIFY_STATUS_APPLY)
-                    .andIsBackEqualTo(true);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_CERTIFY_STATUS_APPLY);
         }else if (cls == 3){
             criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_CERTIFY_STATUS_PARTY_VERIFY);
         }else if (cls == 4){

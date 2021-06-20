@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +58,7 @@ public class CetUnitProjectController extends CetBaseController {
             modelMap.put("cetParty", cetPartyMapper.selectByPrimaryKey(cetPartyId));
         }
 
-        boolean addPermits = ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN);
+        boolean addPermits = !RoleConstants.isCetAdmin();
         List<Integer> adminPartyIdList = new ArrayList<>();
         if(addPermits) {
             adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
@@ -77,7 +76,7 @@ public class CetUnitProjectController extends CetBaseController {
 
         if (cls == null) {
             Integer unReportCount = statusCountMap.get(CetConstants.CET_UNIT_PROJECT_STATUS_UNREPORT);
-            if (unReportCount != null && unReportCount > 0 && ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (unReportCount != null && unReportCount > 0 && !RoleConstants.isCetAdmin()) {
                 cls = 2;
             } else {
                 cls = 1;
@@ -118,7 +117,7 @@ public class CetUnitProjectController extends CetBaseController {
                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (cls == null) {
-            cls = ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN) ? (byte) 1 : 2;
+            cls = RoleConstants.isCetAdmin() ? (byte) 1 : 2;
         }
 
         if (null == pageSize) {
@@ -179,7 +178,7 @@ public class CetUnitProjectController extends CetBaseController {
             criteria.andAddressLike(SqlUtils.like(address));
         }
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (!RoleConstants.isCetAdmin()) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 criteria.andIdIsNull();
@@ -238,7 +237,7 @@ public class CetUnitProjectController extends CetBaseController {
             oldRecord = cetUnitProjectMapper.selectByPrimaryKey(id);
         }
 
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (!RoleConstants.isCetAdmin()) {
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (adminPartyIdList.size() == 0) {
                 throw new UnauthorizedException();
@@ -306,7 +305,6 @@ public class CetUnitProjectController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping("/cetUnitProject_check")
     public String cetUnitProject_check(Integer[] ids, ModelMap modelMap) {
@@ -317,7 +315,6 @@ public class CetUnitProjectController extends CetBaseController {
         return "cet/cetUnitProject/cetUnitProject_check";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequiresPermissions("cetUnitProject:edit")
     @RequestMapping(value = "/cetUnitProject_check", method = RequestMethod.POST)
     @ResponseBody
@@ -359,7 +356,7 @@ public class CetUnitProjectController extends CetBaseController {
     @ResponseBody
     public Map do_cetUnitProject_batchDel(HttpServletRequest request, Integer[] ids, ModelMap modelMap) {
 
-        ShiroHelper.checkRole(RoleConstants.ROLE_CET_ADMIN);
+        ShiroHelper.checkPermission(RoleConstants.PERMISSION_CETADMIN);
 
         if (null != ids && ids.length > 0) {
             cetUnitProjectService.batchDel(ids);

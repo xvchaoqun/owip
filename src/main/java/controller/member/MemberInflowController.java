@@ -154,12 +154,8 @@ public class MemberInflowController extends MemberBaseController {
             criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
         }
 
-        if(cls==1){ // 支部审核（新申请）
-            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
-                    .andIsBackNotEqualTo(true);
-        }else if(cls==4){ // 支部审核(返回修改)
-            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
-                    .andIsBackEqualTo(true);
+        if(cls==1){ // 支部审核
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
         }else if(cls==5 || cls==6){ // 支部已审核
             criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过

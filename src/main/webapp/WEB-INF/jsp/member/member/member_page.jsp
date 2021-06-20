@@ -656,7 +656,7 @@
         }
     });
     </shiro:hasRole>
-    <shiro:hasRole name="${ROLE_ODADMIN}">
+    <shiro:hasPermission name="${PERMISSION_OWADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager', {
         caption: "校内组织关系转移",
         btnbase: "partyChangeBtn btn btn-danger btn-xs",
@@ -670,5 +670,5 @@
             $.loadModal("${ctx}/member_changeParty?ids={0}".format(ids))
         }
     });
-    </shiro:hasRole>
+   </shiro:hasPermission>
 </script>

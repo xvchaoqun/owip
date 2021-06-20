@@ -49,7 +49,7 @@ public class CetUnitProjectService extends CetBaseMapper {
     public void del(Integer id) {
 
         CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
-        if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+        if (!RoleConstants.isCetAdmin()) {
 
             List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
@@ -92,7 +92,7 @@ public class CetUnitProjectService extends CetBaseMapper {
 
         for (Integer id : ids) {
 
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (!RoleConstants.isCetAdmin()) {
                 CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
                 List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
@@ -131,7 +131,7 @@ public class CetUnitProjectService extends CetBaseMapper {
         for (int id : ids) {
 
             CetUnitProject cetUnitProject = cetUnitProjectMapper.selectByPrimaryKey(id);
-            if (ShiroHelper.lackRole(RoleConstants.ROLE_CET_ADMIN)) {
+            if (!RoleConstants.isCetAdmin()) {
                 List<Integer> adminPartyIdList = iCetMapper.getAdminPartyIds(ShiroHelper.getCurrentUserId());
                 if (!adminPartyIdList.contains(cetUnitProject.getCetPartyId())) {
                     throw new OpException("没有权限。");

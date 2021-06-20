@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="ROLE_DP_PARTY" value="<%=RoleConstants.ROLE_DP_PARTY%>"/>
-<c:set var="ROLE_DP_ADMIN" value="<%=RoleConstants.ROLE_DP_ADMIN%>"/>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <li class="${cls==2?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/dp/dpMember?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 在职党派成员(${cm:trimToZero(teacher_normalCount)})</a>

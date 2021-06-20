@@ -9,14 +9,14 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId||not empty param.sendUserId||not empty param.title||not empty param.content
             ||not empty param.status}"/>
-            <shiro:hasAnyRoles name="${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+           <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
                 <c:if test="${cls==2}">
                     <div class="tabbable">
                         <jsp:include page="menu.jsp"/>
                         <div class="tab-content multi-row-head-table">
                             <div class="tab-pane in active">
                 </c:if>
-            </shiro:hasAnyRoles>
+                                </c:if>
                             <c:if test="${cls==2&&page==1}">
                                 <div class="jqgrid-vertical-offset buttons">
                                     <shiro:hasPermission name="sysMsg:list">
@@ -122,13 +122,13 @@ pageEncoding="UTF-8" %>
                             <div id="jqGridPager"></div>
                         </div>
                         <div id="body-content-view"></div>
-        <shiro:hasAnyRoles name="${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
+        <c:if test="${cm:isPermitted(PERMISSION_OWADMIN) || cm:hasRole(ROLE_PARTYADMIN)}">
             <c:if test="${cls==2}">
                             </div>
                         </div>
                 </div>
             </c:if>
-        </shiro:hasAnyRoles>
+        </c:if>
     </div>
 </div>
 <script>
