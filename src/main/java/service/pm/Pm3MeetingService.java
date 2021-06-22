@@ -512,7 +512,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         List<Party> partyList = partyMapper.selectByExample(example);
 
         List<PmStat> pmStatList = new ArrayList<>();
-        List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,DateUtils.getCurrentYear(),null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null, null);
+        List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,DateUtils.getCurrentYear(),null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null, new ArrayList<>());
         for (Party party : partyList) {
             Integer partyId = party.getId();
 
