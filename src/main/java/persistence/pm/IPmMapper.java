@@ -91,8 +91,7 @@ public interface IPmMapper {
                                               @Param("status") Byte status,
                                               @Param("addPermits") Boolean addPermits,
                                               @Param("adminPartyIdList") List<Integer> adminPartyIdList,
-                                              @Param("adminBranchIdList") List<Integer> adminBranchIdList,
-                                             @Param("ids") List<Integer> ids);
+                                              @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     int countPm3MeetingStat(@Param("display") Byte display,
                             @Param("year") Integer year,
@@ -103,8 +102,7 @@ public interface IPmMapper {
                             @Param("status") Byte status,
                             @Param("addPermits") Boolean addPermits,
                             @Param("adminPartyIdList") List<Integer> adminPartyIdList,
-                            @Param("adminBranchIdList") List<Integer> adminBranchIdList,
-                            @Param("ids") List<Integer> ids);
+                            @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
 //    Map selectPmBackCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
 //                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);

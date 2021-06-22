@@ -135,6 +135,7 @@
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
+        multiselect:false,
         url: '${ctx}/pm/pm3MeetingStat_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
 
