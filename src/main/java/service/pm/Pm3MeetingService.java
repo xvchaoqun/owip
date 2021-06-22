@@ -1,12 +1,14 @@
 package service.pm;
 
 import bean.PmStat;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import controller.global.OpException;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.party.*;
 import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
+import domain.pm.PmMeeting;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -557,21 +559,25 @@ public class Pm3MeetingService extends PmBaseMapper {
     public void getStatData(Integer year, ModelMap modelMap) {
 
         PartyExample example = new PartyExample();
-        example.createCriteria().andIsDeletedEqualTo(false);
+        example.createCriteria();
         example.setOrderByClause("sort_order desc");
         List<Party> partyList = partyMapper.selectByExample(example);
 
-        List<PmStat> pmStatList = new ArrayList<>();
+        List<PmStat> pmStatList = new ArrayList<>(); // 页面展示的数据
         List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,year==null?DateUtils.getCurrentYear():year,null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null);
         for (Party party : partyList) {
             Integer partyId = party.getId();
 
             if (!PartyHelper.isDirectBranch(partyId)) {
                 BranchViewExample branchExample = new BranchViewExample();
-                branchExample.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
+                branchExample.createCriteria().andPartyIdEqualTo(partyId);
                 branchExample.setOrderByClause("party_sort_order desc, sort_order desc");
                 List<BranchView> branchList = branchViewMapper.selectByExample(branchExample);
                 for (BranchView branch : branchList) {
+
+                    // 判断是否将组织生活添加到pmStatList中
+                    if (!checkAdd(year, partyId, branch.getId()))
+                        continue;
                     PmStat pmStat = new PmStat();
                     pmStat.setPartyId(partyId);
                     pmStat.setPartyName(party.getName());
@@ -587,6 +593,9 @@ public class Pm3MeetingService extends PmBaseMapper {
                     pmStatList.add(pmStat);
                 }
             }else {
+                // 判断是否将组织生活添加到pmStatList中
+                if (!checkAdd(year, partyId, null))
+                    continue;
                 PmStat pmStat = new PmStat();
                 pmStat.setPartyId(partyId);
                 pmStat.setPartyName(party.getName());
@@ -599,6 +608,36 @@ public class Pm3MeetingService extends PmBaseMapper {
             }
         }
         modelMap.put("pmStatList", pmStatList);
+    }
+
+    // 判断是否将组织生活添加到pmStatList中
+    private boolean checkAdd(Integer year, Integer partyId, Integer branchId) {
+
+        Pm3MeetingExample example = new Pm3MeetingExample();
+        Pm3MeetingExample.Criteria criteria = example.createCriteria().andYearEqualTo(year).andStatusEqualTo(Pm3Constants.PM_3_STATUS_PASS);
+        if (partyId != null) {
+            criteria.andPartyIdEqualTo(partyId);
+        }
+        if (branchId != null) {
+            criteria.andBranchIdEqualTo(branchId);
+        }
+        boolean isAdd = pm3MeetingMapper.selectByExample(example).size() > 0;
+
+        if (!year.equals(DateUtils.getCurrentYear())) {
+            return isAdd;
+        }else {
+            if (branchId != null) {
+                Branch branch = branchMapper.selectByPrimaryKey(branchId);
+                if (branch.getIsDeleted()&&!isAdd)
+                    return false;
+            }
+            if (partyId != null) {
+                Party party = partyMapper.selectByPrimaryKey(partyId);
+                if (party.getIsDeleted()&&!isAdd)
+                    return false;
+            }
+        }
+        return true;
     }
 
     // 处理每个月份的会议次数

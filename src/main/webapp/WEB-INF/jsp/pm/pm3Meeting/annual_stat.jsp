@@ -6,7 +6,7 @@
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:20px; position: relative">
                     <button style="margin-right: 10px;vertical-align: top!important;" class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                            data-url="${ctx}/pm/annualStat"
+                            data-url="${ctx}/pm/annualStat?year=${year}"
                             data-rel="tooltip" data-placement="top" title="导出组织生活年度统计">
                         <i class="fa fa-download"></i> 导出组织生活年度统计</button>
                     <select data-rel="select2" name="year" data-width="120px">
