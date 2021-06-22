@@ -17,6 +17,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pm.common.PmMeetingStat;
+import service.global.CacheHelper;
 import shiro.ShiroHelper;
 import sys.constants.*;
 import sys.helper.PartyHelper;
@@ -367,11 +369,14 @@ public class Pm3MeetingController extends PmBaseController {
         for (Integer i = 1; i <= month; i++) {
             monthList.add(i);
         }
+        if (year == null) {
+            year = DateUtils.getCurrentYear();
+        }
         modelMap.put("year", year);
         modelMap.put("yearList", iPmMapper.getAllYear());
         modelMap.put("month", month);
         modelMap.put("monthList", monthList);
-        pm3MeetingService.getstatData(year, modelMap);
+        pm3MeetingService.getStatData(year, modelMap);
 
         if (export==1) {
             XSSFWorkbook wb = pm3MeetingService.annualStatExport(modelMap);

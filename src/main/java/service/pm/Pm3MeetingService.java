@@ -380,115 +380,167 @@ public class Pm3MeetingService extends PmBaseMapper {
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcJau()==null?"":record.getBcJau()));
+                if (record.getBcJau()!=null) {
+                    cell.setCellValue(record.getBcJau());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcFeb()==null?"":record.getBcFeb()));
+                if (record.getBcFeb()!=null) {
+                    cell.setCellValue(record.getBcFeb());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcMar()==null?"":record.getBcMar()));
+                if (record.getBcMar()!=null) {
+                    cell.setCellValue(record.getBcMar());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcApr()==null?"":record.getBcApr()));
+                if (record.getBcApr()!=null) {
+                    cell.setCellValue(record.getBcApr());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcMay()==null?"":record.getBcMay()));
+                if (record.getBcMay()!=null) {
+                    cell.setCellValue(record.getBcMay());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcJun()==null?"":record.getBcJun()));
+                if (record.getBcJun()!=null) {
+                    cell.setCellValue(record.getBcJun());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcJul()==null?"":record.getBcJul()));
+                if (record.getBcJul()!=null) {
+                    cell.setCellValue(record.getBcJul());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcAug()==null?"":record.getBcAug()));
+                if (record.getBcAug()!=null) {
+                    cell.setCellValue(record.getBcAug());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcSept()==null?"":record.getBcSept()));
+                if (record.getBcSept()!=null) {
+                    cell.setCellValue(record.getBcSept());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcOct()==null?"":record.getBcOct()));
+                if (record.getBcOct()!=null) {
+                    cell.setCellValue(record.getBcOct());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcNov()==null?"":record.getBcNov()));
+                if (record.getBcNov()!=null) {
+                    cell.setCellValue(record.getBcNov());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcDec()==null?"":record.getBcDec()));
+                if (record.getBcDec() != null ) {
+                    cell.setCellValue(record.getBcDec());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcHoldTime()==null?"":record.getBcHoldTime()));
+                if (record.getBcHoldTime()!=null) {
+                    cell.setCellValue(record.getBcHoldTime());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcFinishPercent()==null?"":record.getBcFinishPercent()));
+                cell.setCellValue(record.getBcFinishPercent()==null?"":record.getBcFinishPercent());
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaJau()==null?"":record.getGaJau()));
+                if (record.getGaJau()!=null) {
+                    cell.setCellValue(record.getGaJau());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaFeb()==null?"":record.getGaFeb()));
+                if (record.getGaFeb()!=null) {
+                    cell.setCellValue(record.getGaFeb());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaMar()==null?"":record.getGaMar()));
+                if (record.getGaMar()!=null) {
+                    cell.setCellValue(record.getGaMar());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaApr()==null?"":record.getGaApr()));
+                if (record.getGaApr()!=null) {
+                    cell.setCellValue(record.getGaApr());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaMay()==null?"":record.getGaMay()));
+                if (record.getGaMay()!=null) {
+                    cell.setCellValue(record.getGaMay());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaJun()==null?"":record.getGaJun()));
+                if (record.getGaJun()!=null) {
+                    cell.setCellValue(record.getGaJun());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaJul()==null?"":record.getGaJul()));
+                if (record.getGaJul()!=null) {
+                    cell.setCellValue(record.getGaJul());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaAug()==null?"":record.getGaAug()));
+                if (record.getGaAug()!=null) {
+                    cell.setCellValue(record.getGaAug());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaSept()==null?"":record.getGaSept()));
+                if (record.getGaSept()!=null) {
+                    cell.setCellValue(record.getGaSept());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getBcOct()==null?"":record.getBcOct()));
+                if (record.getBcOct()!=null) {
+                    cell.setCellValue(record.getBcOct());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaNov()==null?"":record.getGaNov()));
+                if (record.getGaNov()!=null){
+                    cell.setCellValue(record.getGaNov());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaDec()==null?"":record.getGaDec()));
+                if (record.getGaDec()!=null) {
+                    cell.setCellValue(record.getGaDec());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaHoldTime()==null?"":record.getGaHoldTime()));
+                if (record.getGaHoldTime()!=null) {
+                    cell.setCellValue(record.getGaHoldTime());
+                }
 
                 cell = row.createCell(startCol++);
                 cell.setCellStyle(style2);
-                cell.setCellValue(String.valueOf(record.getGaFinishPercent()==null?"":record.getGaFinishPercent()));
+                cell.setCellValue(record.getGaFinishPercent()==null?"":record.getGaFinishPercent());
 
                 startRow++;
             }
@@ -502,7 +554,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         return null;
     }
 
-    public void getstatData(Integer year, ModelMap modelMap) {
+    public void getStatData(Integer year, ModelMap modelMap) {
 
         PartyExample example = new PartyExample();
         example.createCriteria().andIsDeletedEqualTo(false);
@@ -605,7 +657,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         }
 
         DecimalFormat df = new DecimalFormat("0.00");
-        BigDecimal num2 = new BigDecimal(DateUtils.getMonth(new Date()));
+        BigDecimal num2 = new BigDecimal(12);
         if (bc > 0) {
             pmStat.setBcHoldTime(pmStat.getBcHoldTime()==null?1: pmStat.getBcHoldTime()+1);
             BigDecimal num1 = new BigDecimal(pmStat.getBcHoldTime());
