@@ -1,14 +1,12 @@
 package service.pm;
 
 import bean.PmStat;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import controller.global.OpException;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
 import domain.party.*;
 import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
-import domain.pm.PmMeeting;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

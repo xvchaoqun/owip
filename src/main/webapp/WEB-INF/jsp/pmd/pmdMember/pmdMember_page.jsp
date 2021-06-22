@@ -180,7 +180,7 @@
                         </button>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="pmdMember:setIsOnlinePay">
-                        <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                        <button id="selectPayTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-edit"></i> 变更缴费方式

@@ -78,7 +78,7 @@
                         <i class="fa fa-rmb"></i> 批量代缴党费
                     </button>
                     <shiro:hasPermission name="pmdMember:setIsOnlinePay">
-                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                    <button id="selectPayTypeBtn" class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-edit"></i> 修改缴费方式
