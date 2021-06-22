@@ -1,5 +1,6 @@
 package service.pm;
 
+import bean.PmStat;
 import controller.global.OpException;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
@@ -12,11 +13,15 @@ import domain.pm.Pm3MeetingExample;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import service.LoginUserService;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.ResourceUtils;
+import persistence.pm.common.PmMeetingStat;
 import service.common.FreemarkerService;
 import service.party.PartyAdminService;
 import service.sys.SysApprovalLogService;
@@ -31,16 +36,16 @@ import sys.utils.DownloadUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class Pm3MeetingService extends PmBaseMapper {
 
-    @Autowired
-    private LoginUserService loginUserService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
@@ -333,5 +338,285 @@ public class Pm3MeetingService extends PmBaseMapper {
             partyIdList = partyList.stream().map(Party::getId).collect(Collectors.toList());
         }
         return partyIdList;
+    }
+
+    public XSSFWorkbook annualStatExport(ModelMap modelMap) {
+
+        InputStream is = null;
+        try {
+            int startRow = 3;
+            is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pm/annual_stat.xlsx"));
+            XSSFWorkbook wb = new XSSFWorkbook(is);
+            XSSFSheet sheet = wb.getSheetAt(0);
+
+            XSSFRow row = sheet.getRow(3);
+            XSSFCell cell = row.getCell(0);
+
+            XSSFCellStyle style2 = wb.createCellStyle();// 设置这些样式
+            style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style2.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+            style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+            XSSFFont font2 = wb.createFont();// 生成一个字体
+            font2.setFontHeightInPoints((short) 11);
+            font2.setFontName("宋体");
+            style2.setFont(font2);// 把字体应用到当前的样式
+
+            List<PmStat> pmStatList = (List<PmStat>) modelMap.get("pmStatList");
+            for (PmStat record : pmStatList) {
+                int startCol = 0;
+                row = sheet.createRow(startRow);
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(record.getPartyName());
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(record.getBranchName());
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(record.getType());
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcJau()==null?"":record.getBcJau()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcFeb()==null?"":record.getBcFeb()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcMar()==null?"":record.getBcMar()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcApr()==null?"":record.getBcApr()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcMay()==null?"":record.getBcMay()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcJun()==null?"":record.getBcJun()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcJul()==null?"":record.getBcJul()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcAug()==null?"":record.getBcAug()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcSept()==null?"":record.getBcSept()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcOct()==null?"":record.getBcOct()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcNov()==null?"":record.getBcNov()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcDec()==null?"":record.getBcDec()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcHoldTime()==null?"":record.getBcHoldTime()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcFinishPercent()==null?"":record.getBcFinishPercent()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaJau()==null?"":record.getGaJau()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaFeb()==null?"":record.getGaFeb()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaMar()==null?"":record.getGaMar()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaApr()==null?"":record.getGaApr()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaMay()==null?"":record.getGaMay()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaJun()==null?"":record.getGaJun()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaJul()==null?"":record.getGaJul()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaAug()==null?"":record.getGaAug()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaSept()==null?"":record.getGaSept()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getBcOct()==null?"":record.getBcOct()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaNov()==null?"":record.getGaNov()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaDec()==null?"":record.getGaDec()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaHoldTime()==null?"":record.getGaHoldTime()));
+
+                cell = row.createCell(startCol++);
+                cell.setCellStyle(style2);
+                cell.setCellValue(String.valueOf(record.getGaFinishPercent()==null?"":record.getGaFinishPercent()));
+
+                startRow++;
+            }
+
+            return wb;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void getstatData(ModelMap modelMap) {
+
+        PartyExample example = new PartyExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        List<Party> partyList = partyMapper.selectByExample(example);
+
+        List<PmStat> pmStatList = new ArrayList<>();
+        List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,DateUtils.getCurrentYear(),null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null, null);
+        for (Party party : partyList) {
+            Integer partyId = party.getId();
+
+            if (!PartyHelper.isDirectBranch(partyId)) {
+                BranchExample branchExample = new BranchExample();
+                branchExample.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
+                List<Branch> branchList = branchMapper.selectByExample(branchExample);
+                for (Branch branch : branchList) {
+                    PmStat pmStat = new PmStat();
+                    pmStat.setPartyId(partyId);
+                    pmStat.setPartyName(party.getName());
+                    for (PmMeetingStat record : records) {
+                        if (record.getBranchId()==null||!record.getBranchId().equals(branch.getId())) continue;
+                        pmStat.setBranchId(branch.getId());
+                        pmStat.setBranchName(branch.getName());
+                        if (StringUtils.isNotBlank(branch.getTypes())) {
+                            pmStat.setType(CmTag.getMetaTypeName(Integer.valueOf(branch.getTypes())));
+                        }
+                        dealPmStat(pmStat, record);
+                    }
+                    if (pmStat.getBranchId()==null)continue;
+                    pmStatList.add(pmStat);
+                }
+            }else {
+                PmStat pmStat = new PmStat();
+                pmStat.setPartyId(partyId);
+                pmStat.setPartyName(party.getName());
+                for (PmMeetingStat record : records) {
+                    if (!record.getPartyId().equals(partyId)) continue;
+                    pmStat.setType(CmTag.getMetaTypeName(party.getBranchType()));
+                    dealPmStat(pmStat, record);
+                }
+                pmStatList.add(pmStat);
+            }
+        }
+        modelMap.put("pmStatList", pmStatList);
+    }
+
+    // 处理每个月份的会议次数
+    public void dealPmStat(PmStat pmStat, PmMeetingStat record){
+        Integer bc = record.getCount1();// 支委会次数
+        Integer ga = record.getCount2()+record.getCount3()+record.getCount4()+record.getCount5()+record.getCount6();//党员集体活动次数
+        switch (record.getMonth()){
+            case 1:
+                pmStat.setBcJau(bc);
+                pmStat.setGaJau(ga);
+                break;
+            case 2:
+                pmStat.setBcFeb(bc);
+                pmStat.setGaFeb(ga);
+                break;
+            case 3:
+                pmStat.setBcMar(bc);
+                pmStat.setGaMar(ga);
+                break;
+            case 4:
+                pmStat.setBcApr(bc);
+                pmStat.setGaApr(ga);
+                break;
+            case 5:
+                pmStat.setBcMay(bc);
+                pmStat.setGaMay(ga);
+                break;
+            case 6:
+                pmStat.setBcJun(bc);
+                pmStat.setGaJun(ga);
+                break;
+            case 7:
+                pmStat.setBcJul(bc);
+                pmStat.setGaJul(ga);
+                break;
+            case 8:
+                pmStat.setBcAug(bc);
+                pmStat.setGaAug(ga);
+                break;
+            case 9:
+                pmStat.setBcSept(bc);
+                pmStat.setGaSept(ga);
+                break;
+            case 10:
+                pmStat.setBcOct(bc);
+                pmStat.setGaOct(ga);
+                break;
+            case 11:
+                pmStat.setBcNov(bc);
+                pmStat.setGaNov(ga);
+                break;
+            case 12:
+                pmStat.setBcDec(bc);
+                pmStat.setGaDec(ga);
+                break;
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        BigDecimal num2 = new BigDecimal(DateUtils.getMonth(new Date()));
+        if (bc > 0) {
+            pmStat.setBcHoldTime(pmStat.getBcHoldTime()==null?1: pmStat.getBcHoldTime()+1);
+            BigDecimal num1 = new BigDecimal(pmStat.getBcHoldTime());
+            pmStat.setBcFinishPercent(df.format((num1.divide(num2, 10, RoundingMode.HALF_UP).doubleValue() * 100)) + "%");
+        }
+        if (ga > 0) {
+            pmStat.setGaHoldTime(pmStat.getGaHoldTime()==null?1:pmStat.getGaHoldTime()+1);
+            BigDecimal num1 = new BigDecimal(pmStat.getGaHoldTime());
+            pmStat.setGaFinishPercent(df.format((num1.divide(num2, 10, RoundingMode.HALF_UP).doubleValue() * 100)) + "%");
+        }
     }
 }

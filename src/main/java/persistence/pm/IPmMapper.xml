@@ -168,6 +168,13 @@
         count(case when pm.type='1' then 1 end) count1,count(case when pm.type='2' then 1 end) count2,count(case when pm.type='3' then 1 end) count3,
         count(case when pm.type='4' then 1 end) count4,count(case when pm.type='5' then 1 end) count5,count(case when pm.type='6' then 1 end) count6 from pm3_meeting pm
         where status = #{status} and is_delete=0
+        <if test="ids.size>0">
+            and id in
+            <foreach collection="ids" item="id"
+                     index="index" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
         <if test="year!=null">
             and year =#{year}
         </if>
@@ -193,6 +200,13 @@
         select count(*) from(
         select count(*) from pm3_meeting pm
         where status = #{status} and is_delete=0
+        <if test="ids!=null and ids.size>0">
+            and id in
+            <foreach collection="ids" item="id"
+                     index="index" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
         <if test="year!=null">
             and year =#{year}
         </if>

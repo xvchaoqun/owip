@@ -1,5 +1,6 @@
 package controller.pm;
 
+import bean.PmStat;
 import domain.base.MetaType;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
@@ -11,6 +12,7 @@ import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -354,6 +356,30 @@ public class Pm3MeetingController extends PmBaseController {
         pm3MeetingService.download(id, request, response);
     }
 
+    @RequiresPermissions("annualStat:list")
+    @RequestMapping("/annualStat")
+    public String annualStat(@RequestParam(required = false, defaultValue = "0") int export,
+                             ModelMap modelMap, HttpServletResponse response) {
+
+        Integer month = DateUtils.getMonth(new Date());
+        List<Integer> monthList = new ArrayList<>();
+        for (Integer i = 1; i <= month; i++) {
+            monthList.add(i);
+        }
+        modelMap.put("month", month);
+        modelMap.put("monthList", monthList);
+        pm3MeetingService.getstatData(modelMap);
+
+        if (export==1) {
+            XSSFWorkbook wb = pm3MeetingService.annualStatExport(modelMap);
+            String filename = String.format("组织生活年度统计.xlsx");
+            ExportHelper.output(wb, filename, response);
+            return null;
+        }
+
+        return "pm/pm3Meeting/annual_stat";
+    }
+
     @RequiresPermissions("pm3MeetingStat:list")
     @RequestMapping("/pm3MeetingStat")
     public String pm3MeetingStat(@RequestParam(required = false, defaultValue = "1") Byte cls,
@@ -397,14 +423,19 @@ public class Pm3MeetingController extends PmBaseController {
         boolean needPermits = !ShiroHelper.isPermitted(RoleConstants.PERMISSION_PMVIEWALL);
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
+        List<Integer> idList = new ArrayList<>();
+        if (ids!=null) {
+            idList.addAll(Arrays.asList(ids));
+        }
 
-        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList);
+        int count = iPmMapper.countPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList, idList);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList,new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PmMeetingStat> records= iPmMapper.selectPm3MeetingStat(cls,year,quarter,month,partyId,branchId,Pm3Constants.PM_3_STATUS_PASS, needPermits, adminPartyIdList, adminBranchIdList, idList);
         if (export==1){
             pm3MeetingStat_export(records, cls, response);
+            return;
         }
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -472,13 +503,15 @@ public class Pm3MeetingController extends PmBaseController {
             String type = "";
             if (branchId != null) {
                 String types = CmTag.getBranch(branchId).getTypes();
-                String[] _types = types.split(",");
-                for (String s : _types) {
-                    MetaType metaType = CmTag.getMetaType(Integer.valueOf(s));
-                    if (StringUtils.isBlank(type)){
-                        type = metaType.getName();
-                    }else {
-                        type += "," + metaType.getName();
+                if (StringUtils.isNotBlank(types)) {
+                    String[] _types = types.split(",");
+                    for (String s : _types) {
+                        MetaType metaType = CmTag.getMetaType(Integer.valueOf(s));
+                        if (StringUtils.isBlank(type)) {
+                            type = metaType.getName();
+                        } else {
+                            type += "," + metaType.getName();
+                        }
                     }
                 }
             }else {
