@@ -104,6 +104,9 @@ public interface IPmMapper {
                             @Param("adminPartyIdList") List<Integer> adminPartyIdList,
                             @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
+    @Select("select distinct year from pm3_meeting where status=3 order by year desc")
+    public List<Integer> getAllYear();
+
 //    Map selectPmBackCount(@Param("adminPartyIdList") List<Integer> adminPartyIdList,
 //                          @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 //

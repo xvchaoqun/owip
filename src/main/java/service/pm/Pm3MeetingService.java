@@ -4,10 +4,7 @@ import bean.PmStat;
 import controller.global.OpException;
 import domain.member.MemberView;
 import domain.member.MemberViewExample;
-import domain.party.Branch;
-import domain.party.BranchExample;
-import domain.party.Party;
-import domain.party.PartyExample;
+import domain.party.*;
 import domain.pm.Pm3Meeting;
 import domain.pm.Pm3MeetingExample;
 import freemarker.template.TemplateException;
@@ -505,35 +502,36 @@ public class Pm3MeetingService extends PmBaseMapper {
         return null;
     }
 
-    public void getstatData(ModelMap modelMap) {
+    public void getstatData(Integer year, ModelMap modelMap) {
 
         PartyExample example = new PartyExample();
         example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause("sort_order desc");
         List<Party> partyList = partyMapper.selectByExample(example);
 
         List<PmStat> pmStatList = new ArrayList<>();
-        List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,DateUtils.getCurrentYear(),null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null);
+        List<PmMeetingStat> records = iPmMapper.selectPm3MeetingStat((byte) 1,year==null?DateUtils.getCurrentYear():year,null,null,null,null,Pm3Constants.PM_3_STATUS_PASS, false, null, null);
         for (Party party : partyList) {
             Integer partyId = party.getId();
 
             if (!PartyHelper.isDirectBranch(partyId)) {
-                BranchExample branchExample = new BranchExample();
+                BranchViewExample branchExample = new BranchViewExample();
                 branchExample.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
-                List<Branch> branchList = branchMapper.selectByExample(branchExample);
-                for (Branch branch : branchList) {
+                branchExample.setOrderByClause("party_sort_order desc, sort_order desc");
+                List<BranchView> branchList = branchViewMapper.selectByExample(branchExample);
+                for (BranchView branch : branchList) {
                     PmStat pmStat = new PmStat();
                     pmStat.setPartyId(partyId);
                     pmStat.setPartyName(party.getName());
+                    pmStat.setBranchId(branch.getId());
+                    pmStat.setBranchName(branch.getName());
+                    if (StringUtils.isNotBlank(branch.getTypes())) {
+                        pmStat.setType(CmTag.getMetaTypeName(Integer.valueOf(branch.getTypes())));
+                    }
                     for (PmMeetingStat record : records) {
                         if (record.getBranchId()==null||!record.getBranchId().equals(branch.getId())) continue;
-                        pmStat.setBranchId(branch.getId());
-                        pmStat.setBranchName(branch.getName());
-                        if (StringUtils.isNotBlank(branch.getTypes())) {
-                            pmStat.setType(CmTag.getMetaTypeName(Integer.valueOf(branch.getTypes())));
-                        }
                         dealPmStat(pmStat, record);
                     }
-                    if (pmStat.getBranchId()==null)continue;
                     pmStatList.add(pmStat);
                 }
             }else {

@@ -358,7 +358,8 @@ public class Pm3MeetingController extends PmBaseController {
 
     @RequiresPermissions("annualStat:list")
     @RequestMapping("/annualStat")
-    public String annualStat(@RequestParam(required = false, defaultValue = "0") int export,
+    public String annualStat(Integer year,
+                             @RequestParam(required = false, defaultValue = "0") int export,
                              ModelMap modelMap, HttpServletResponse response) {
 
         Integer month = DateUtils.getMonth(new Date());
@@ -366,9 +367,11 @@ public class Pm3MeetingController extends PmBaseController {
         for (Integer i = 1; i <= month; i++) {
             monthList.add(i);
         }
+        modelMap.put("year", year);
+        modelMap.put("yearList", iPmMapper.getAllYear());
         modelMap.put("month", month);
         modelMap.put("monthList", monthList);
-        pm3MeetingService.getstatData(modelMap);
+        pm3MeetingService.getstatData(year, modelMap);
 
         if (export==1) {
             XSSFWorkbook wb = pm3MeetingService.annualStatExport(modelMap);
