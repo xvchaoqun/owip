@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-4 control-label">审核意见</label>
             <div class="col-xs-6">
-                <textarea class="form-control limited" rows="4" type="text" name="checkOpinoin"></textarea>
+                <textarea class="form-control limited" rows="4" type="text" name="checkOpinion"></textarea>
             </div>
         </div>
     </form>

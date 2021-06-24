@@ -228,6 +228,15 @@ pageEncoding="UTF-8" %>
                     },frozen: true},
                 </shiro:hasPermission>
             </c:if>
+            <c:if test="${cls==0}">
+            { label: '状态',name: 'status',width:70, formatter:function (cellvalue, options, rowObject){
+                    if (cellvalue == undefined) return '--';
+                    if (rowObject.isBack==1)
+                        return "已退回";
+                    else
+                        return _cMap.PM_3_STATUS_MAP[cellvalue];
+                }},
+            </c:if>
             { label: '审核意见',name: 'checkOpinion',width:175},
             {
                 label: '年份', name: 'year', width:60, frozen:true
@@ -252,15 +261,6 @@ pageEncoding="UTF-8" %>
                     return '<a href="javascript:;" class="openView" data-url="${ctx}/pm/pm3Meeting_au?edit=false&id={0}">{1}</a>'.format( rowObject.id,cellvalue);
                 }
             },
-            <c:if test="${cls==0}">
-            { label: '状态',name: 'status',width:70, formatter:function (cellvalue, options, rowObject){
-                    if (cellvalue == undefined) return '--';
-                    if (rowObject.isBack==1)
-                        return "已退回";
-                    else
-                        return _cMap.PM_3_STATUS_MAP[cellvalue];
-                }},
-            </c:if>
             { label: '下载',name: 'operation',width:70,formatter:function (cellvalue,options,rowObject){
                     var str = '<button href="javascript:void(0)" data-url="${ctx}/pm/pm3Meeting_download?id={0}"  title="下载" class="downloadBtn btn btn-xs btn-primary"><i class="fa fa-download"></i> 下载</button>'
                             .format(rowObject.id);

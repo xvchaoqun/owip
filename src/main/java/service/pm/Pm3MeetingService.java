@@ -127,6 +127,7 @@ public class Pm3MeetingService extends PmBaseMapper {
         }else {
             record.setStatus(Pm3Constants.PM_3_STATUS_PARTY);
         }
+        record.setCheckOpinion("");
         pm3MeetingMapper.updateByPrimaryKeySelective(record);
 
         sysApprovalLogService.add(id, ShiroHelper.getCurrentUserId(),
