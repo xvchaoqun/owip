@@ -57,6 +57,7 @@ pageEncoding="UTF-8" %>
                             <shiro:hasPermission name="pmdFee:edit">
                         <div class="form-group">
                             <label>姓名</label>
+                            <c:set var="sysUser" value="${cm:getUserById(param.userId)}"/>
                             <select name="userId"  class="form-control"
                                     data-rel="select2-ajax" data-width="264"
                                     data-ajax-url="${ctx}/member_selects?noAuth=1&status=${MEMBER_STATUS_NORMAL}"

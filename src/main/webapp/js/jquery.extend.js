@@ -676,6 +676,29 @@ var _modal_width;
                 });
             });
         },
+        loadModal2: function (url, width, direction, dragTarget) { // 加载url内容，dragTarget：拖拽位置
+            //$("#modal").modal('hide');
+            //console.log("width="+width + " _modal_width=" + _modal_width);
+            if (width > 0) {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
+                _modal_width = width;
+            } else {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                _modal_width = undefined;
+            }
+            dragTarget = dragTarget || ".modal-header,.modal-footer";
+            if (direction) {
+                $("#modal2").addClass(direction);
+            }
+            $('#modal2 .modal-content').load(url, function (data) {
+                if (!data.startWith("{")) $("#modal").modal('show').draggable({
+                    handle: dragTarget,
+                    start: function () {
+                        WebuiPopovers.hideAll();
+                    }
+                });
+            });
+        },
         loadPdfModal: function (path, pages, width, direction, dragTarget) { // 加载pdf图片预览，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);

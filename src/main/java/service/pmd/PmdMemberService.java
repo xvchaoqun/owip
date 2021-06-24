@@ -87,7 +87,7 @@ public class PmdMemberService extends PmdBaseMapper {
         {
             MemberViewExample example = new MemberViewExample();
             MemberViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
-            criteria.addPermits(new ArrayList<>(partyIdSet), new ArrayList<>(branchIdSet));
+            criteria.in(new ArrayList<>(partyIdSet), new ArrayList<>(branchIdSet));
             List<MemberView> memberViews = memberViewMapper.selectByExample(example); // 应参与缴费的党员
 
             for (MemberView memberView : memberViews) {

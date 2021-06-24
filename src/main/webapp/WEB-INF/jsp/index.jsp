@@ -212,6 +212,12 @@
         </div>
     </div>
 </div>
+<div id="modal2" class="modal fade" data-backdrop="static" tabindex="-1" data-keyboard="false">
+    <div class="modal-dialog" role="document" <%--style="min-width: 650px;"--%>>
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 <script src="${ctx}/js/extra.js"></script>
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script type="text/javascript">

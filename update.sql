@@ -1,4 +1,9 @@
 
+20210622
+-- 北师大
+-- INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
+ --   VALUES (2637, 0, '年度统计表', '', 'url', '', '/pm/annualStat', 2555, '0/1/2555/', 1, 'annualStat:list', NULL, NULL, NULL, 1, 800);
+
 20210620
 -- 北师大
 

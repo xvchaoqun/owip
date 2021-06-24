@@ -1,7 +1,7 @@
 
 -- 20210622 ly
 INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `role_count`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`)
-    VALUES (2637, 0, '组织生活年度统计', '', 'url', '', '/pm/annualStat', 2555, '0/1/2555/', 1, 'annualStat:list', NULL, NULL, NULL, 1, 800);
+    VALUES (2637, 0, '年度统计表', '', 'url', '', '/pm/annualStat', 2555, '0/1/2555/', 1, 'annualStat:list', NULL, NULL, NULL, 1, 800);
 
 -- 2021.3.29 ly
 ALTER TABLE `pm3_meeting`

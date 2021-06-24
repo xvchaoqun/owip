@@ -50,7 +50,7 @@ pageEncoding="UTF-8" %>
                     </button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="pmdMember:setIsOnlinePay">
-                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                    <button id="selectPayTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                             data-querystr="auth=1"
                             data-grid-id="#jqGrid">
