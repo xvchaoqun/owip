@@ -434,7 +434,8 @@ public class PmdMemberService extends PmdBaseMapper {
             Boolean isRetire = false; // 是否由离退休计算党费
             Boolean needSetSalary = false;
             if(setType==PmdConstants.PMD_NORM_SET_TYPE_FORMULA) {
-                if(pmdConfigMember.getConfigMemberTypeId().equals(configMemberTypeId)){
+                if(pmdConfigMember.getConfigMemberTypeId()!=null
+                        && pmdConfigMember.getConfigMemberTypeId().equals(configMemberTypeId)){
                     //如果党员分类型的缴费类型为公式，且党员分类型未改变
                     return;
                 }
