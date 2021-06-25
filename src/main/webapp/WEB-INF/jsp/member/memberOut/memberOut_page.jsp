@@ -12,7 +12,7 @@
                  data-url-export="${ctx}/memberOut_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.userType||not empty param.type
-                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isSelfPrint
+                || not empty param.status ||not empty param.isBack||not empty param.isModify||not empty param.hasReceipt || not empty param.isPrint || not empty param.isSelfPrint
                 || not empty param.toUnit ||not empty param.toTitle||not empty param.fromUnit||not empty param._handleTime
                 ||not empty param.partyId ||not empty param.branchId || not empty param._acceptReceiptTime|| not empty param.code || not empty param.sort}"/>
                 <div class="tabbable">
@@ -286,11 +286,26 @@
                                                         </script>
                                                     </div>
                                                 </div>
+                                                <shiro:hasPermission name="memberOut:print">
+                                                <div class="form-group">
+                                                    <label>是否已打印</label>
+                                                    <div class="input-group">
+                                                        <select data-width="100" name="isPrint" data-rel="select2" data-placeholder="请选择">
+                                                            <option></option>
+                                                            <option value="0">否</option>
+                                                            <option value="1">是</option>
+                                                        </select>
+                                                        <script>
+                                                            $("#searchForm select[name=isPrint]").val("${param.isPrint}");
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                </shiro:hasPermission>
                                                 <shiro:hasPermission name="memberOutSelfPrint:edit">
                                                 <div class="form-group">
                                                     <label>是否已自助打印打印</label>
                                                     <div class="input-group">
-                                                        <select name="isSelfPrint" data-rel="select2" data-placeholder="请选择">
+                                                        <select data-width="100" name="isSelfPrint" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="0">否</option>
                                                             <option value="1">是</option>
@@ -304,7 +319,7 @@
                                                 <div class="form-group">
                                                     <label>是否有回执</label>
                                                     <div class="input-group">
-                                                        <select name="hasReceipt" data-rel="select2" data-placeholder="请选择">
+                                                        <select data-width="100" name="hasReceipt" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
                                                             <option value="0">否</option>
                                                             <option value="1">是</option>
@@ -432,6 +447,9 @@
                     return html;
                 }
             }},
+            {label: '打印次数', name: 'printCount'},
+            {label: '最近打印时间', width: 150, name: 'lastPrintTime'},
+            {label: '最近打印人', name: 'lastPrintUser.realname'},
             </shiro:hasPermission>
             <shiro:hasPermission name="memberOutSelfPrint:edit">
             {label: '自助打印状态', name: 'isSelfPrint', formatter: function (cellvalue, options, rowObject) {
