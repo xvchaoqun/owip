@@ -278,7 +278,7 @@ public class CetTrainCourseController extends CetBaseController {
             criteria.andUserIdEqualTo(userId);
         }
         if(isFinished!=null){
-            criteria.andIsFinishedEqualTo(isFinished);
+            criteria.andIsFinishedEqualTo(isFinished ? CetConstants.CET_FINISHED_STATUS_YES : CetConstants.CET_FINISHED_STATUS_NOT);
         }
 
         long count = cetTrainObjViewMapper.countByExample(example);

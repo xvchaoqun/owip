@@ -7,7 +7,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
-    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="is_finished" jdbcType="TINYINT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_out_time" jdbcType="TIMESTAMP" property="signOutTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
@@ -118,7 +118,7 @@
       choose_user_id, ip, remark
       )
     values (#{objId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
-      #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=TINYINT}, #{signTime,jdbcType=TIMESTAMP}, 
       #{signOutTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, #{chooseTime,jdbcType=TIMESTAMP}, 
       #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
@@ -180,7 +180,7 @@
         #{canQuit,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
-        #{isFinished,jdbcType=BIT},
+        #{isFinished,jdbcType=TINYINT},
       </if>
       <if test="signTime != null">
         #{signTime,jdbcType=TIMESTAMP},
@@ -230,7 +230,7 @@
         can_quit = #{record.canQuit,jdbcType=BIT},
       </if>
       <if test="record.isFinished != null">
-        is_finished = #{record.isFinished,jdbcType=BIT},
+        is_finished = #{record.isFinished,jdbcType=TINYINT},
       </if>
       <if test="record.signTime != null">
         sign_time = #{record.signTime,jdbcType=TIMESTAMP},
@@ -265,7 +265,7 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
       can_quit = #{record.canQuit,jdbcType=BIT},
-      is_finished = #{record.isFinished,jdbcType=BIT},
+      is_finished = #{record.isFinished,jdbcType=TINYINT},
       sign_time = #{record.signTime,jdbcType=TIMESTAMP},
       sign_out_time = #{record.signOutTime,jdbcType=TIMESTAMP},
       sign_type = #{record.signType,jdbcType=TINYINT},
@@ -293,7 +293,7 @@
         can_quit = #{canQuit,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
-        is_finished = #{isFinished,jdbcType=BIT},
+        is_finished = #{isFinished,jdbcType=TINYINT},
       </if>
       <if test="signTime != null">
         sign_time = #{signTime,jdbcType=TIMESTAMP},
@@ -325,7 +325,7 @@
       user_id = #{userId,jdbcType=INTEGER},
       train_course_id = #{trainCourseId,jdbcType=INTEGER},
       can_quit = #{canQuit,jdbcType=BIT},
-      is_finished = #{isFinished,jdbcType=BIT},
+      is_finished = #{isFinished,jdbcType=TINYINT},
       sign_time = #{signTime,jdbcType=TIMESTAMP},
       sign_out_time = #{signOutTime,jdbcType=TIMESTAMP},
       sign_type = #{signType,jdbcType=TINYINT},

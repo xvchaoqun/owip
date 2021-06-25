@@ -39,8 +39,8 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <table tableName="cet_project_file" domainObjectName="cet.CetProjectFile" mapperName="cet.CetProjectFileMapper">
-        </table>
+        <!--<table tableName="cet_project_file" domainObjectName="cet.CetProjectFile" mapperName="cet.CetProjectFileMapper">
+        </table>-->
 
         <!--干部教育培训系统-->
         <!--<table tableName="cet_annual" domainObjectName="cet.CetAnnual" mapperName="cet.CetAnnualMapper">
@@ -178,16 +178,16 @@
         <!--<table tableName="cet_code_wx_sign" domainObjectName="cet.CetCodeWxSign" mapperName="cet.CetCodeWxSignMapper">
         </table>-->
 
-        <!--<table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
-               mapperName="cet.CetTrainObjViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>
-        <table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
+        <table tableName="cet_train_obj" domainObjectName="cet.CetTrainObj" mapperName="cet.CetTrainObjMapper">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
+         <table tableName="cet_train_obj_view" domainObjectName="cet.CetTrainObjView"
+                mapperName="cet.CetTrainObjViewMapper"
+                enableInsert="false" enableUpdateByPrimaryKey="false"
+                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                enableDeleteByExample="false">
+         </table>
+        <!--<table tableName="cet_trainee_view" domainObjectName="cet.CetTraineeView"
                mapperName="cet.CetTraineeViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

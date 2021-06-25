@@ -11,7 +11,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +99,7 @@ public class CetTrainObjController extends CetBaseController {
     @RequiresPermissions("cetTrainObj:edit")
     @RequestMapping(value = "/cetTrainObj_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainObj_au(CetTrainObj record, HttpServletRequest request) {
+    public Map do_cetTrainObj_au(CetTrainObj record, Byte status, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -108,12 +107,27 @@ public class CetTrainObjController extends CetBaseController {
             cetTrainObjService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "添加参训情况：%s", record.getId()));
         } else {
-
-            cetTrainObjService.updateByPrimaryKeySelective(record);
+            CetTrainObj cetTrainObj = new CetTrainObj();
+            boolean isRest = (status != null && status == CetConstants.CET_FINISHED_STATUS_REST);
+            if (isRest) {
+                cetTrainObj.setId(record.getId());
+                cetTrainObj.setIsFinished(status);
+                cetTrainObj.setRemark(record.getRemark());
+            }
+            cetTrainObjService.updateByPrimaryKeySelective(isRest ? cetTrainObj : record);
             logger.info(addLog(LogConstants.LOG_CET, "更新参训情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrainObj:edit")
+    @RequestMapping("/cetTrainObj_leave")
+    public String cetTrainObj_leave(
+            Integer cetTrainObjId,
+            ModelMap modelMap) {
+        modelMap.put("cetTrainObjId", cetTrainObjId);
+        return "cet/cetTrainObj/cetTrainObj_leave";
     }
 
     @RequiresPermissions("cetTrainObj:edit")
@@ -186,7 +200,7 @@ public class CetTrainObjController extends CetBaseController {
             // 已刷卡签到的学员
             CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(id)
-                    .andIsFinishedEqualTo(true)
+                    .andIsFinishedEqualTo(CetConstants.CET_FINISHED_STATUS_YES)
                     .andSignTypeEqualTo(CetConstants.CET_TRAINEE_SIGN_TYPE_CARD);
             example.setOrderByClause("sign_time desc");
             List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);
@@ -233,7 +247,7 @@ public class CetTrainObjController extends CetBaseController {
         }
 
         Date signTime = null;
-        if(BooleanUtils.isTrue(cetTrainObjView.getIsFinished())){
+        if(cetTrainObjView.getIsFinished() == CetConstants.CET_FINISHED_STATUS_YES){
             // 以第一次签到时间为准
             signTime = cetTrainObjView.getSignTime();
         }else {
@@ -350,7 +364,7 @@ public class CetTrainObjController extends CetBaseController {
             // 已签到的学员
             CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(id)
-                    .andIsFinishedEqualTo(true)
+                    .andIsFinishedEqualTo(CetConstants.CET_FINISHED_STATUS_YES)
                     .andSignTypeEqualTo(CetConstants.CET_TRAINEE_SIGN_TYPE_CARD);
             example.setOrderByClause("sign_time desc");
             List<CetTrainObjView> cetTrainObjViews = cetTrainObjViewMapper.selectByExample(example);

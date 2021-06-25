@@ -453,11 +453,11 @@ public class CetCourseController extends CetBaseController {
             if(userId!=null) {
                 CetTrainObjView cetTrainObjView = cetTrainObjService.get(userId, trainCourseId);
 
-                if(cetTrainObjView!=null && BooleanUtils.isNotTrue(cetTrainObjView.getIsFinished())){
+                if(cetTrainObjView!=null && cetTrainObjView.getIsFinished() == CetConstants.CET_FINISHED_STATUS_YES){
 
                     CetTrainObj record = new CetTrainObj();
                     record.setId(cetTrainObjView.getId());
-                    record.setIsFinished(true);
+                    record.setIsFinished(CetConstants.CET_FINISHED_STATUS_YES);
                     record.setSignTime(new Date());
 
                     cetTrainObjMapper.updateByPrimaryKeySelective(record);

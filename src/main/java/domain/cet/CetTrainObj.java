@@ -14,7 +14,7 @@ public class CetTrainObj implements Serializable {
 
     private Boolean canQuit;
 
-    private Boolean isFinished;
+    private Byte isFinished;
 
     private Date signTime;
 
@@ -72,11 +72,11 @@ public class CetTrainObj implements Serializable {
         this.canQuit = canQuit;
     }
 
-    public Boolean getIsFinished() {
+    public Byte getIsFinished() {
         return isFinished;
     }
 
-    public void setIsFinished(Boolean isFinished) {
+    public void setIsFinished(Byte isFinished) {
         this.isFinished = isFinished;
     }
 

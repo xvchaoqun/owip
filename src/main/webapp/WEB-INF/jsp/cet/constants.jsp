@@ -73,3 +73,6 @@
 <c:set var="CET_TYPE_T_MAP" value="<%=CetConstants.CET_TYPE_T_MAP%>"/>
 <c:set var="CET_TYPE_T_PARTY_SCHOOL" value="<%=CetConstants.CET_TYPE_T_PARTY_SCHOOL%>"/>
 <c:set var="CET_TYPE_T_PARTY" value="<%=CetConstants.CET_TYPE_T_PARTY%>"/>
+
+<c:set var="CET_FINISHED_STATUS_REST" value="<%=CetConstants.CET_FINISHED_STATUS_REST%>"/>
+
