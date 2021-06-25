@@ -680,10 +680,10 @@ var _modal_width;
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
-                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
+                $('#modal2 .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
                 _modal_width = width;
             } else {
-                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                $('#modal2 .modal-dialog').removeClass("width" + _modal_width);
                 _modal_width = undefined;
             }
             dragTarget = dragTarget || ".modal-header,.modal-footer";
@@ -691,7 +691,7 @@ var _modal_width;
                 $("#modal2").addClass(direction);
             }
             $('#modal2 .modal-content').load(url, function (data) {
-                if (!data.startWith("{")) $("#modal").modal('show').draggable({
+                if (!data.startWith("{")) $("#modal2").modal('show').draggable({
                     handle: dragTarget,
                     start: function () {
                         WebuiPopovers.hideAll();

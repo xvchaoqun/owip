@@ -15,6 +15,7 @@ import service.base.ContentTplService;
 import service.sys.SysUserService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -55,7 +56,7 @@ public class CetShortMsgService extends CetBaseMapper {
 
         CetTrainObjView cetTrainObj = cetTrainObjService.get(userId, trainCourseId);
         // 已签到则不发
-        if(cetTrainObj==null || cetTrainObj.getIsFinished()) return false;
+        if(cetTrainObj==null || cetTrainObj.getIsFinished() == CetConstants.CET_FINISHED_STATUS_YES) return false;
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(cetTrainObj.getTrainCourseId());
         if(cetTrainCourse==null && cetTrainCourse.getStartTime().after(new Date())) return false;
@@ -241,7 +242,7 @@ public class CetShortMsgService extends CetBaseMapper {
             int trainCourseId = cetTrainCourse.getId();
             CetTrainObjViewExample example = new CetTrainObjViewExample();
             example.createCriteria().andTrainCourseIdEqualTo(trainCourseId)
-                    .andIsFinishedEqualTo(false);
+                    .andIsFinishedEqualTo(CetConstants.CET_FINISHED_STATUS_NOT);
             List<CetTrainObjView> cetTrainObjs = cetTrainObjViewMapper.selectByExample(example);
 
             for (CetTrainObjView cetTrainObj : cetTrainObjs) {

@@ -171,7 +171,7 @@ public class CetTrainObjService extends CetBaseMapper {
             record.setObjId(objId);
             record.setUserId(userId);
             record.setTrainCourseId(trainCourseId);
-            record.setIsFinished(false);
+            record.setIsFinished(CetConstants.CET_FINISHED_STATUS_NOT);
             record.setCanQuit(canQuit);
             record.setChooseTime(now);
             record.setChooseUserId(ShiroHelper.getCurrentUserId());
@@ -192,7 +192,7 @@ public class CetTrainObjService extends CetBaseMapper {
             }
 
             String courseName = cetTrainCourse.getName();
-            if (cetTrainObj.getIsFinished()) {
+            if (cetTrainObj.getIsFinished() == CetConstants.CET_FINISHED_STATUS_YES) {
                 throw new OpException("[{0}]已完成，不可退课。", courseName);
             }
 
@@ -245,15 +245,16 @@ public class CetTrainObjService extends CetBaseMapper {
             trainCourseId = cetTrainObj.getTrainCourseId();
 
             CetTrainObj record = new CetTrainObj();
-            record.setIsFinished(sign);
+            record.setIsFinished(sign?CetConstants.CET_FINISHED_STATUS_YES:CetConstants.CET_FINISHED_STATUS_NOT);
             record.setSignType(signType);
             record.setSignTime(signTime);
 
             CetTrainObjExample example = new CetTrainObjExample();
             example.createCriteria().andIdEqualTo(trainObjId)
-                    .andIsFinishedNotEqualTo(sign); // 只对未签到/已签到的进行操作
+                    .andIsFinishedNotEqualTo(sign?CetConstants.CET_FINISHED_STATUS_YES:CetConstants.CET_FINISHED_STATUS_NOT); // 只对未签到/已签到的进行操作
 
             cetTrainObjMapper.updateByExampleSelective(record, example);
+            commonMapper.excuteSql("update cet_train_obj set remark = null where id=" + trainObjId);
 
             if (!sign) {
                 commonMapper.excuteSql("update cet_train_obj set sign_time=null, sign_type=null where id=" + trainObjId);
@@ -297,7 +298,7 @@ public class CetTrainObjService extends CetBaseMapper {
             }
 
             CetTrainObj record = new CetTrainObj();
-            record.setIsFinished(true);
+            record.setIsFinished(CetConstants.CET_FINISHED_STATUS_YES);
             record.setSignType(CetConstants.CET_TRAINEE_SIGN_TYPE_IMPORT);
             record.setSignTime(new Date());
 

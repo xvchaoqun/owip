@@ -7,7 +7,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="can_quit" jdbcType="BIT" property="canQuit" />
-    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="is_finished" jdbcType="TINYINT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_out_time" jdbcType="TIMESTAMP" property="signOutTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />

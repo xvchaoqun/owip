@@ -283,4 +283,16 @@ public class CetConstants {
         CET_USER_TYPE_MAP.put(CET_USER_TYPE_TEACHER, "教职工");
         CET_USER_TYPE_MAP.put(CET_USER_TYPE_STUDENT, "学生");
     }
+
+    //选课人员签到情况
+    public final static byte CET_FINISHED_STATUS_NOT = 0;//未签到
+    public final static byte CET_FINISHED_STATUS_YES = 1;//已签到
+    public final static byte CET_FINISHED_STATUS_REST = 2;//已请假
+    public final static Map<Byte, String> CET_FINISHED_STATUS_MAP = new LinkedHashMap<>();
+
+    static {
+        CET_FINISHED_STATUS_MAP.put(CET_FINISHED_STATUS_NOT, "未签到");
+        CET_FINISHED_STATUS_MAP.put(CET_FINISHED_STATUS_YES, "已签到");
+        CET_FINISHED_STATUS_MAP.put(CET_FINISHED_STATUS_REST, "已请假");
+    }
 }

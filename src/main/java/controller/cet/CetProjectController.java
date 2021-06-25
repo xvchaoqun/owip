@@ -164,9 +164,10 @@ public class CetProjectController extends CetBaseController {
                 } else {
                     criteria.andCetPartyIdIn(adminPartyIdList);
                 }
-            }else{
-                criteria.andIdIsNull();
             }
+//            else{
+//                criteria.andIdIsNull();
+//            }
         }
         if(isPartyProject){
             if(status==null) status=0;

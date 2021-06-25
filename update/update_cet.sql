@@ -1,4 +1,6 @@
-
+2021.6.24 xcq
+ALTER TABLE `cet_train_obj`
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否实际完成，签到即完成(等于2表示已请假)' AFTER `can_quit`;
 
 -- 2021.4.9 ly
 ALTER TABLE `cet_project_file`

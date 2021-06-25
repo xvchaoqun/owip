@@ -85,7 +85,7 @@
                                        data-title="签到"
                                        data-msg="已选{0}位参训人员，确定签到？（已上课）"
                                        data-grid-id="#jqGrid_popup"
-                                       data-querystr="sign=1"
+                                       data-querystr="sign=1"cetTrainObj_sign
                                        data-callback="_popupReload"
                                        class="jqBatchBtn"><i class="fa fa-arrow-right"></i> 批量签到</a>
                                 </li>
@@ -112,6 +112,10 @@
                                        data-callback="_popupReload"
                                        data-title="全部还原"
                                        data-msg="确定全部还原？（上课情况将全部重置为未上课）"><i class="fa fa-arrow-right"></i> 全部还原（未签到）</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:;" onclick="getRowData()"><i class="fa fa-arrow-right"></i> 请假</a>
                                 </li>
                             </ul>
                         </div>
@@ -175,9 +179,14 @@
             </div>
         </div>
     </div>
-
-
 </div>
+
+<%--<div id="modal2" class="modal fade" data-backdrop="static" tabindex="-1" data-keyboard="false">--%>
+<%--    <div class="modal-dialog" role="document" &lt;%&ndash;style="min-width: 650px;"&ndash;%&gt;>--%>
+<%--        <div class="modal-content">--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 <style>
     #popup_uploadForm label{
         margin-bottom: 0;
@@ -265,6 +274,13 @@
         colModel: [
             {name:'isFinished', hidden:true},
               { label: '上课情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
+                  if (rowObject.isFinished == 0) {
+                      return '<span class="text-danger">未上课</span>';
+                  } else if (rowObject.isFinished == 1) {
+                      return '<span class="text-success">已上课</span>';
+                  } else {
+                      return '<span class="text-warning">已请假</span>';
+                  }
                   return rowObject.isFinished?'<span class="text-success">已上课</span>':'<span class="text-danger">未上课</span>'
               }},
               {label: '签到时间', name: 'signTime', width: 160},
@@ -279,6 +295,8 @@
               }},
               {label: '工作证号', name: 'user.code', width: 110, frozen: true},
               {label: '姓名', name: 'user.realname', width: 120, frozen: true},
+              {label: '请假原因', name: 'remark', width: 200, frozen: true},
+              {hidden: true, name: 'id'}
         ],
         onSelectRow: function (id, status) {
             //saveJqgridSelected("#" + this.id, id, status);
@@ -348,5 +366,14 @@
             });
         }
     });
+
+    function getRowData() {
+        var ids=$("#jqGrid_popup").jqGrid("getGridParam","selarrrow");
+        if (ids.length!=1) {
+            SysMsg.error("请选择一行");
+        } else {
+            $.loadModal2("${ctx}/cet/cetTrainObj_leave?cetTrainObjId=" + ids[0]);
+        }
+    }
 
 </script>

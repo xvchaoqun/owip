@@ -415,52 +415,52 @@ public class CetTrainObjExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedEqualTo(Boolean value) {
+        public Criteria andIsFinishedEqualTo(Byte value) {
             addCriterion("is_finished =", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotEqualTo(Boolean value) {
+        public Criteria andIsFinishedNotEqualTo(Byte value) {
             addCriterion("is_finished <>", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedGreaterThan(Boolean value) {
+        public Criteria andIsFinishedGreaterThan(Byte value) {
             addCriterion("is_finished >", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andIsFinishedGreaterThanOrEqualTo(Byte value) {
             addCriterion("is_finished >=", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedLessThan(Boolean value) {
+        public Criteria andIsFinishedLessThan(Byte value) {
             addCriterion("is_finished <", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedLessThanOrEqualTo(Boolean value) {
+        public Criteria andIsFinishedLessThanOrEqualTo(Byte value) {
             addCriterion("is_finished <=", value, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedIn(List<Boolean> values) {
+        public Criteria andIsFinishedIn(List<Byte> values) {
             addCriterion("is_finished in", values, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotIn(List<Boolean> values) {
+        public Criteria andIsFinishedNotIn(List<Byte> values) {
             addCriterion("is_finished not in", values, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsFinishedBetween(Byte value1, Byte value2) {
             addCriterion("is_finished between", value1, value2, "isFinished");
             return (Criteria) this;
         }
 
-        public Criteria andIsFinishedNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsFinishedNotBetween(Byte value1, Byte value2) {
             addCriterion("is_finished not between", value1, value2, "isFinished");
             return (Criteria) this;
         }
