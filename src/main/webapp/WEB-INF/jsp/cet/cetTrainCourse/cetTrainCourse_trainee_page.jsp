@@ -85,7 +85,7 @@
                                        data-title="签到"
                                        data-msg="已选{0}位参训人员，确定签到？（已上课）"
                                        data-grid-id="#jqGrid_popup"
-                                       data-querystr="sign=1"cetTrainObj_sign
+                                       data-querystr="sign=1"
                                        data-callback="_popupReload"
                                        class="jqBatchBtn"><i class="fa fa-arrow-right"></i> 批量签到</a>
                                 </li>
