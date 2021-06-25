@@ -57,14 +57,22 @@
                             <label>姓名：</label>
                            <span> ${cetAnnualObj.user.realname}
                            </span>
-                            <label>时任单位及职务：</label>
-                            <span>${cetAnnualObj.title}</span>
-                            <label>行政级别：</label>
-                            <span>${cm:getMetaType(cetAnnualObj.adminLevel).name}</span>
-                            <label>职务属性：</label>
-                            <span>${cm:getMetaType(cetAnnualObj.postType).name}</span>
-                            <label>任现职时间：</label>
-                            <span>${cm:formatDate(cetAnnualObj.lpWorkTime, "yyyy-MM-dd")}</span>
+                            <c:if test="${not empty cetAnnualObj.title}">
+                                <label>时任职务：</label>
+                                <span>${cetAnnualObj.title}</span>
+                            </c:if>
+                            <c:if test="${not empty cetAnnualObj.adminLevel}">
+                                <label>行政级别：</label>
+                                <span>${cm:getMetaType(cetAnnualObj.adminLevel).name}</span>
+                            </c:if>
+                            <c:if test="${not empty cetAnnualObj.postType}">
+                                <label>职务属性：</label>
+                                <span>${cm:getMetaType(cetAnnualObj.postType).name}</span>
+                            </c:if>
+                            <c:if test="${not empty cetAnnualObj.lpWorkTime}">
+                                <label>任现职时间：</label>
+                                <span>${cm:formatDate(cetAnnualObj.lpWorkTime, "yyyy-MM-dd")}</span>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -91,20 +99,22 @@
                                 <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
                             </div>
                             </div>
-                            <div>
-                            <label>年度学习任务（网络）：</label>
-                            <span class="result">${cetAnnualObj.periodOnline}</span>
-                            <label>已完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetAnnualObj.finishPeriodOnline)}</span>
-                            <label>完成百分比：</label>
-                            <c:set var="progress" value="0%"/>
-                            <c:if test="${cetAnnualObj.finishPeriodOnline>0 && cetAnnualObj.periodOnline>0}">
-                                <fmt:formatNumber var="progress" value="${(cm:divide((cetAnnualObj.finishPeriodOnline>cetAnnualObj.periodOnline?cetAnnualObj.periodOnline:cetAnnualObj.finishPeriodOnline), cetAnnualObj.periodOnline, 3))}"
-                                                  type="percent" pattern="#0.0%"/>
+                            <c:if test="${not empty cetAnnualObj.periodOnline}">
+                                <div>
+                                <label>年度学习任务（网络）：</label>
+                                <span class="result">${cetAnnualObj.periodOnline}</span>
+                                <label>已完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetAnnualObj.finishPeriodOnline)}</span>
+                                <label>完成百分比：</label>
+                                <c:set var="progress" value="0%"/>
+                                <c:if test="${cetAnnualObj.finishPeriodOnline>0 && cetAnnualObj.periodOnline>0}">
+                                    <fmt:formatNumber var="progress" value="${(cm:divide((cetAnnualObj.finishPeriodOnline>cetAnnualObj.periodOnline?cetAnnualObj.periodOnline:cetAnnualObj.finishPeriodOnline), cetAnnualObj.periodOnline, 3))}"
+                                                      type="percent" pattern="#0.0%"/>
+                                </c:if>
+                                <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
+                                    <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
+                                </div>
+                                </div>
                             </c:if>
-                            <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
-                                <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
-                            </div>
-                            </div>
                         </div>
                     </div>
                 </div>
