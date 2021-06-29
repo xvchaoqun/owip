@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
 import sys.security.Base64Utils;
+import sys.spring.UserResUtils;
 import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.text.MessageFormat;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/system")
@@ -47,35 +51,13 @@ public class SystemController extends BaseController {
     @RequiresPermissions("system:cmd")
     @RequestMapping(value = "cmd", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cmd(String cmd, ModelMap modelMap) throws Exception {
-
-        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if (!superAccount) {
-            return failed("没有权限。");
-        }*/
+    public Map do_cmd(String cmd) throws Exception {
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
+        List<String> returnLines = CMDUtils.run(cmd);
 
-        List<String> returnLines = new ArrayList<>();
-        try {
-            logger.debug("start cmd:{}", cmd.trim());
+        logger.info(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
 
-            Process process = Runtime.getRuntime().exec(
-                    new String[]{"/bin/sh", "-c", cmd.trim()});
-
-            //启动两个线程，一个线程负责读标准输出流，另一个负责读标准错误流
-            StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), returnLines);
-            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), returnLines);
-            errorGobbler.start();
-            outputGobbler.start();
-
-            process.waitFor();
-            logger.debug(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
-        } catch (IOException e) {
-            returnLines.add(e.getMessage());
-        } catch (InterruptedException e) {
-            returnLines.add(e.getMessage());
-        }
         Map<String, Object> resultMap = success();
         resultMap.put("cmd", cmd);
         resultMap.put("lines", returnLines);
@@ -86,11 +68,6 @@ public class SystemController extends BaseController {
     @RequiresPermissions("system:cmd")
     @RequestMapping(value = "cmd_export")
     public void cmd_export(String cmd, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if (!superAccount) {
-            return;
-        }*/
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
 
@@ -130,86 +107,51 @@ public class SystemController extends BaseController {
     @RequiresPermissions("system:sql")
     @RequestMapping(value = "sql", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sql(String sql, ModelMap modelMap) throws Exception {
+    public Map do_sql(String sql) throws Exception {
 
-        /*boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if (!superAccount) {
-            return failed("没有权限。");
-        }*/
         sql = new String(Base64Utils.decode(sql), "utf-8");
 
         if(SystemInfo.isOSLinux()) {
             sql = sql.replaceAll("`", "\\\\`");
         }
-        //sql = sql.replaceAll("\"", "\\\\\"");
+
         String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
+        String user = PropertiesUtils.getString("jdbc_user");
+        String password = PropertiesUtils.getString("jdbc_password");
+        String schema = PropertiesUtils.getString("db.schema");
+        List<String> returnLines = MySqlUtils.excuteSql(host, user, password, schema, sql);
 
-        String cmd = MessageFormat.format("mysql -h{4} -u{0} -p\"{1}\" -e\"use {2};{3}\"",
-                PropertiesUtils.getString("jdbc_user"),
-                PropertiesUtils.getString("jdbc_password"),
-                PropertiesUtils.getString("db.schema"), sql, host);
-
-        List<String> returnLines = new ArrayList<>();
-        try {
-            logger.debug("start cmd:{}", cmd.trim());
-
-            Process proc = null;
-            if(SystemInfo.isOSLinux()){
-                proc = Runtime.getRuntime().exec(
-                        new String[]{"/bin/sh", "-c", cmd});
-            }else {
-                proc = Runtime.getRuntime().exec(cmd);
-            }
-            StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), returnLines);
-            StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), returnLines);
-            errorGobbler.start();
-            outputGobbler.start();
-
-            /*BufferedReader inputBufferedReader = new BufferedReader(
-                    new InputStreamReader(proc.getInputStream(), "UTF-8"));
-            String line = null;
-            while ((line = inputBufferedReader.readLine()) != null) {
-                returnLines.add(line);
-            }*/
-            try {
-                proc.waitFor();
-            } catch (InterruptedException e) {
-                returnLines.add(e.getMessage());
-            }
-
-            logger.info(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
-        } catch (IOException e) {
-            returnLines.add(e.getMessage());
-        }
+        logger.info(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
 
         Map<String, Object> resultMap = success();
-        resultMap.put("sql", sql);
         resultMap.put("lines", returnLines);
         return resultMap;
     }
+    @RequiresPermissions("system:sql")
+    @RequestMapping(value = "sql_export", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_sql_export(String sql) throws Exception {
 
-    public class StreamGobbler extends Thread {
+        sql = new String(Base64Utils.decode(sql), "utf-8");
 
-        InputStream is;
-        List<String> returnLines;
-
-        public StreamGobbler(InputStream is, List<String> returnLines) {
-            this.is = is;
-            this.returnLines = returnLines;
+        if(SystemInfo.isOSLinux()) {
+            sql = sql.replaceAll("`", "\\\\`");
         }
 
-        public void run() {
-            try {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    returnLines.add(line);
-                }
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
+        String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
+        String user = PropertiesUtils.getString("jdbc_user");
+        String password = PropertiesUtils.getString("jdbc_password");
+        String schema = PropertiesUtils.getString("db.schema");
+        MySqlUtils.Response response = MySqlUtils.exportAsCsv(host, user, password, schema, springProps.uploadPath, sql);
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "导出sql:%s", sql));
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("ret", response.success);
+        resultMap.put("filePath", UserResUtils.sign(response.filePath));
+        resultMap.put("lines", response.lines);
+
+        return resultMap;
     }
 
     @RequiresPermissions("properties:*")
@@ -265,7 +207,7 @@ public class SystemController extends BaseController {
         FileUtils.mkdirs(tmpdir, false);
         String host = PatternUtils.withdraw("//(.*):", PropertiesUtils.getString("jdbc_url"));
 
-        MySqlUtils.BackupResult backupResult = MySqlUtils.dbBackup(host, PropertiesUtils.getString("jdbc_user"),
+        MySqlUtils.Response resp = MySqlUtils.dbBackup(host, PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"), tmpdir, fileName, db);
 
         // 打成压缩包下载
@@ -278,6 +220,6 @@ public class SystemController extends BaseController {
         FileUtils.deleteDir(new File(tmpdir));
 
         logger.info(log(LogConstants.LOG_ADMIN, "下载备份数据库：{0}，结果：{1}，{2}",
-                db, backupResult.success, backupResult.msg));
+                db, resp.success, StringUtils.join(resp.lines, "\n")));
     }
 }

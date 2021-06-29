@@ -297,15 +297,17 @@
 
 <script>
     $('#applyAuForm input[name=applyType]').on('change', function () {
-        $("#applyStageDiv").hide();
-        $("#applyAuForm select[name=applyStage]").removeAttr("required", "required");
-        var type = $(this).val();
-        if (type == 2) {
-            $("#applyAuForm select[name=applyStage]").attr("required", "required");
-            $("#applyStageDiv").show();
+        if($(this).is(":checked")) {
+            if ($(this).val() == 2) {
+                $("#applyAuForm select[name=applyStage]").attr("required", "required");
+                $("#applyStageDiv").show();
+            }else{
+                $("#applyAuForm select[name=applyStage]").removeAttr("required");
+                $("#applyStageDiv").hide();
+            }
+            $("#applyAuForm select[name=applyStage]").change();
         }
-        $("#applyAuForm select[name=applyStage]").change();
-    });
+    }).change();
 
     var applyStageMap = ${cm:toJSONObject(OW_APPLY_CONTINUE_MAP)};
 

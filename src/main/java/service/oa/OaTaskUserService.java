@@ -245,10 +245,12 @@ public class OaTaskUserService extends OaBaseMapper implements HttpResponseMetho
             OaTaskUserFile oaTaskUserFile = oaTaskUserFileMapper.selectByPrimaryKey(id);
             OaTaskUserView oaTaskUser = getRealTaskUser(oaTaskUserFile.getTaskId(), userId);
 
-            if (oaTaskUser == null || (oaTaskUser.getStatus() != null &&
-                    oaTaskUser.getStatus() == OaConstants.OA_TASK_USER_STATUS_PASS)) {
+            if(!ShiroHelper.isPermitted(RoleConstants.PERMISSION_OAADMIN)) {
+                if (oaTaskUser == null || (oaTaskUser.getStatus() != null &&
+                        oaTaskUser.getStatus() == OaConstants.OA_TASK_USER_STATUS_PASS)) {
 
-                throw new OpException("任务已报送，无法删除附件。");
+                    throw new OpException("任务已报送，无法删除附件。");
+                }
             }
 
             oaTaskUserFileMapper.deleteByPrimaryKey(id);

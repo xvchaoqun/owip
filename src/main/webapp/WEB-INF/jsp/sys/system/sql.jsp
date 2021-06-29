@@ -11,7 +11,10 @@
                 <i class="ace-icon fa fa-check bigger-110"></i>
                 执行
             </button>
-            &nbsp; &nbsp; &nbsp;
+            <button id="exportBtn" class="btn btn-success" type="button">
+                <i class="ace-icon fa fa-file-excel-o bigger-110"></i>
+                导出
+            </button>
             <button class="btn btn-default" type="reset">
                 <i class="ace-icon fa fa-undo bigger-110"></i>
                 重置
@@ -25,17 +28,11 @@
 </div>
 <script type="text/template" id="result_tpl">
     <div class="space-4"></div>
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
-        <tbody>
+    <pre>
         {{_.each(lines, function(line, idx){ }}
-        <tr>
-            <td>{{=line}}</td>
-        </tr>
+        {{=line}}<br/>
         {{});}}
-
-        </tbody>
-    </table>
-    <div class="bg-info"><xmp style="white-space:normal;">{{=sql}}</xmp></div>
+    </pre>
 </script>
 <script>
     $("#submitBtn").click(function () {
@@ -49,11 +46,35 @@
         $.post("${ctx}/system/sql",{sql:$.base64.encode($.trim(sql))},function(ret){
             if (ret.msg == "success") {
                 $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
-                    lines: ret.lines, sql:ret.sql
+                    lines: ret.lines
                 }));
             }
         })
 
         return false;
     });
+
+    $("#exportBtn").click(function () {
+        $("#result").html("");
+
+        var sql = $("#modalForm textarea[name=sql]").val();
+        if($.trim(sql)==''){
+            $("#modalForm textarea[name=sql]").focus();
+            return;
+        }
+        var $btn = $("#exportBtn").button('loading');
+        $.post("${ctx}/system/sql_export",{sql:$.base64.encode($.trim(sql))},function(ret){
+            $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
+                lines: ret.lines
+            }));
+            if (ret.ret) {
+                var url = ("${ctx}/attach_download?path={0}").format(ret.filePath)
+                $btn.download(url);
+            }else{
+                $btn.button('reset');
+            }
+        });
+        return false;
+    });
+
 </script>

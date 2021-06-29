@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.*;
@@ -114,6 +115,7 @@ public class EnterApplyController extends MemberBaseController {
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply(Integer partyId, MemberApply memberApply,
+                              @RequestParam(required = false, defaultValue = "1") Byte applyType,
                               Integer branchId, String remark, HttpServletRequest request) {
 
         int userId = ShiroHelper.getCurrentUserId();
@@ -139,7 +141,7 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setCreateTime(new Date());
         memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
 
-        if(memberApply.getApplyStage()==null){
+        if(memberApply.getApplyStage()==null || applyType==1){
             memberApply.setApplyStage(OwConstants.OW_APPLY_STAGE_INIT);
         }
 
