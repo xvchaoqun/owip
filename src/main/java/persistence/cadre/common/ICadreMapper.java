@@ -24,11 +24,11 @@ import java.util.Set;
 public interface ICadreMapper {
 
     @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
-    @Select("select * from cadre_view where id=#{cadreId}")
+    @Select("select * from cadre_view where id=#{cadreId} limit 1")
     CadreView getCadre(@Param("cadreId") int cadreId);
 
     @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
-    @Select("select * from cadre_view where code=#{code}")
+    @Select("select * from cadre_view where code=#{code} limit 1")
     CadreView getCadreByCode(@Param("code") String code);
     
     // 无此记录

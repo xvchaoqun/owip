@@ -77,7 +77,7 @@ pageEncoding="UTF-8"%>
 					<div style="position: absolute;left: 290px;top: 0px;">
 						<a href="javascript:;" id="checkBtn"
 						   class="btn btn-success btn-sm">
-							<i class="fa fa-search"></i> 检测是否已注册账号
+							<i class="fa fa-search"></i> 检测是否已存在账号
 						</a>
 					</div>
 				</div>

@@ -139,7 +139,7 @@
     </c:if>
   </c:forEach>
   <tr height=38 style='mso-height-source:userset;height:28.5pt'>
-    <td colspan=18 height=38 class=xl852001 width=1107 style='height:28.5pt;
+    <td colspan=14 height=38 class=xl852001 width=1107 style='height:28.5pt;
   width:839pt'>注：“在职岗位数”中的“兼职”是指占干部职数的兼职干部。</td>
 
   </tr>

@@ -795,29 +795,27 @@ public class CadreEduService extends BaseMapper {
     }
 
     @Transactional
-    public void checkHighEdu(Integer cadreId, Boolean flag) {
+    public void checkHighEdu(Integer cadreId, Boolean hasDegree) {
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId).andHasDegreeEqualTo(flag)
-                .andIsGraduatedEqualTo(true);
+        example.createCriteria().andCadreIdEqualTo(cadreId).andHasDegreeEqualTo(hasDegree)
+                .andIsGraduatedEqualTo(true).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("finish_time asc");
 
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
         if (cadreEdus.size() > 0){
             CadreEdu cadreEdu = new CadreEdu();
-            cadreEdu.setIsHighDegree(!flag);
+            cadreEdu.setIsHighDegree(false);
             cadreEdu.setIsHighEdu(false);
             cadreEduMapper.updateByExampleSelective(cadreEdu, example);
 
             CadreEdu record = new CadreEdu();
             record.setId(cadreEdus.get(cadreEdus.size() - 1).getId());
-            record.setIsHighDegree(flag);
+            record.setIsHighDegree(hasDegree);
             record.setIsHighEdu(true);
             cadreEduMapper.updateByPrimaryKeySelective(record);
-            if (!flag){
-                return;
-            }
-        }else if (cadreEdus.size() <= 0 && flag){
+
+        }else if (cadreEdus.size() <= 0 && hasDegree){
             checkHighEdu(cadreId, false);
         }
     }
