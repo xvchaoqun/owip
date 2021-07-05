@@ -154,9 +154,7 @@
                                         data-open-by="page">
                                     <i class="fa fa-search"></i> 审批记录
                                 </button>
-                                <c:if test="${cls==3}">
-                                注：审批通过后，将转移至暂留党员库
-                                </c:if>
+
                                 <c:if test="${cls==5}">
                                     <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                     data-url="${ctx}/memberStay_abolish">

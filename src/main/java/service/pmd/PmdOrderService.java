@@ -465,15 +465,20 @@ public class PmdOrderService extends PmdBaseMapper {
 
                             logger.warn("当前缴费记录已由{}支付成功，支付订单号{}，请不要重复支付。",
                                     payer, sn);
-                            throw new OpException("当前缴费记录已由{0}支付成功，支付订单号{1}，请不要重复支付。",
-                                    payer, sn);
+
+                            // 补通知一下
+                            processQuery(sn);
+
+                            throw new OpException("当前缴费记录已支付成功，支付订单号{0}，请不要重复支付。", sn);
                         }
                     }
                 }
             } catch (Exception ex) {
 
                 logger.error(String.format("支付平台错误, sn=%s, ret=%s", sn, JSONUtils.toString(queryRet,false)), ex);
-                throw new OpException("支付平台错误，请稍后再试。");
+                if(!(ex instanceof OpException)){
+                    throw new OpException("支付平台错误，请稍后再试：" + ex.getMessage());
+                }
             }
         }
     }
@@ -932,7 +937,7 @@ public class PmdOrderService extends PmdBaseMapper {
                     throw new OpException("更新账单失败");
                 }
                 
-                sysApprovalLogService.add(pmdMember.getId(), userId,
+                sysApprovalLogService.add(recordId, userId,
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                         "线上缴费成功通知", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, orderNo);

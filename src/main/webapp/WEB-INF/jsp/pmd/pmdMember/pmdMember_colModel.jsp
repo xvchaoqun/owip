@@ -108,9 +108,9 @@
     <c:if test="${param.type!='admin'}">
     { label: '应交金额',name: 'duePay'},
     </c:if>
-    { label: '实交金额',name: 'realPay'},
-    { label: '线上缴费方式',name: 'isSelfPay', width: 120, formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '--'
+    { label: '实交金额',name: 'pmdMemberPayView.realPay'},
+    { label: '线上缴费方式',name: 'pmdMemberPayView.isSelfPay', width: 120, formatter: function (cellvalue, options, rowObject) {
+      if(!rowObject.pmdMemberPayView.hasPay || !rowObject.pmdMemberPayView.isOnlinePay) return '--'
       return cellvalue?"线上缴费":"代缴党费";
     }},
     <c:if test="${param.type!='admin' && cls==6}">
@@ -141,7 +141,7 @@
       return str;
     }},
     </c:if>
-    { label: '缴费日期',name: 'payTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
+    { label: '缴费日期',name: 'pmdMemberPayView.payTime', formatter: $.jgrid.formatter.date, formatoptions: {newformat: 'Y.m.d'}},
     { label: '代缴人',name: 'chargeUser.realname', formatter: function (cellvalue, options, rowObject) {
       if(!rowObject.hasPay) return '--'
       if(rowObject.isSelfPay) return '--'
