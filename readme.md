@@ -115,6 +115,11 @@ update pmd_member set user_id=@destUserId where user_id=@origUserId;
 
 
 ############
+
+## 授权普通用户，用于登录mysql
+GRANT all privileges ON db_owip.* to jixian@localhost identified by 'Jxkj!21^QAz';
+# GRANT SELECT, INSERT, UPDATE, DELETE,LOCK TABLES,SHOW VIEW ON db_owip.* to jixian@localhost identified by 'Jxkj!41^QAz';
+
 ## 视图权限
 drop user data@219.224.19.33;
 revoke select on db_owip.ext_branch_view from data@219.224.19.33;

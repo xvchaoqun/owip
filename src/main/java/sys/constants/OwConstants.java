@@ -136,11 +136,6 @@ public class OwConstants {
     public final static byte OW_APPLY_STATUS_CHECKED = 1; // 已审核
     public final static byte OW_APPLY_STATUS_OD_CHECKED = 2; // 组织部已审核，成为预备党员和正式党员时
 
-
-    // 党员退休审核状态
-    public final static byte OW_RETIRE_APPLY_STATUS_UNCHECKED = 0; // 未审核
-    public final static byte OW_RETIRE_APPLY_STATUS_CHECKED = 1; // 已审核
-
     // 党员公示类别 1 发展党员公示 2 党员转正公示
     public final static byte OW_PARTY_PUBLIC_TYPE_GROW = 1;
     public final static byte OW_PARTY_PUBLIC_TYPE_POSITIVE = 2;

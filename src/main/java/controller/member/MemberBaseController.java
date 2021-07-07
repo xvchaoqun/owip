@@ -84,8 +84,6 @@ public class MemberBaseController extends MemberBaseMapper  implements HttpRespo
     protected MemberStayService memberStayService;
     @Autowired
     protected MemberQuitService memberQuitService;
-    @Autowired
-    protected RetireApplyService retireApplyService;
 
     @Autowired
     protected MemberApplyService memberApplyService;

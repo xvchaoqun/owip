@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadre.CadrePartyService;
 import service.global.CacheHelper;
+import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.HttpResponseMethod;
@@ -47,6 +48,8 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
     private CadrePartyService cadrePartyService;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private MemberService memberService;
 
     // 查找当前申请的所有修改项
     public List<ModifyBaseItem> list(int applyId) {
@@ -200,7 +203,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                             {
                                 Member _member = memberMapper.selectByPrimaryKey(userId);
                                 if (_member != null) {
-                                    memberMapper.deleteByPrimaryKey(userId);
+                                    memberService.batchDel(new Integer[]{userId}, true);
 
                                     logger.info(log(LogConstants.LOG_ADMIN,"审批修改党派申请，从党员库中删除党员{0}",
                                             JSONUtils.toString(_member, false)));
@@ -248,7 +251,7 @@ public class ModifyBaseItemService extends BaseMapper implements HttpResponseMet
                                 if (_member != null) {
 
                                     growTime = _member.getGrowTime(); // 以党员库的时间为准
-                                    memberMapper.deleteByPrimaryKey(userId);
+                                    memberService.batchDel(new Integer[]{userId}, true);
 
                                     logger.info(log(LogConstants.LOG_ADMIN,"审批修改党派申请，从党员库中删除党员{0}",
                                             JSONUtils.toString(_member, false)));

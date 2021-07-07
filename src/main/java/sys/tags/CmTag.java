@@ -11,7 +11,6 @@ import domain.member.Member;
 import domain.modify.ModifyCadreAuth;
 import domain.party.Branch;
 import domain.party.Party;
-import domain.party.RetireApply;
 import domain.ps.PsInfo;
 import domain.sys.*;
 import domain.unit.Unit;
@@ -37,7 +36,6 @@ import service.dispatch.DispatchTypeService;
 import service.global.CacheHelper;
 import service.global.CacheService;
 import service.leader.LeaderService;
-import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchService;
 import service.party.MemberService;
@@ -556,13 +554,6 @@ public class CmTag {
         MetaClass metaClass = metaClassMap.get(classId);
 
         return StringUtils.equalsIgnoreCase(metaClass.getCode(), code);
-    }
-
-    public static RetireApply getRetireApply(Integer userId) {
-
-        RetireApplyService retireApplyService = getBean(RetireApplyService.class);
-
-        return retireApplyService.get(userId);
     }
 
     public static Dispatch getDispatch(Integer dispatchId) {

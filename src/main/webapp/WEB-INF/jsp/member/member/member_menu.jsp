@@ -36,7 +36,7 @@
     <shiro:hasPermission name="memberOut:list">
   <li class="dropdown <c:if test="${cls>=6}">active</c:if>" >
     <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-      <i class="fa fa-sign-out"></i> 已转移党员${cls>=6?"(":""}${cls==6?"转出学生":cls==7?"转出教职工":cls==8?"历史党员":cls==9?"暂留党员":""}${cls>=6?")":""}
+      <i class="fa fa-sign-out"></i> 已转移党员${cls>=6?"(":""}${cls==6?"转出学生":cls==7?"转出教职工":cls==8?"历史党员":cls==9?"暂留党员":cls==19?"已删除":""}${cls>=6?")":""}
       <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
     </a>
     <ul class="dropdown-menu dropdown-info" style="min-width: 100px"  role="menu">
@@ -56,6 +56,9 @@
         <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=9"><i class="fa fa-hand-o-right"></i>  已转移至暂留党员库</a>
       </li>
         </c:if>
+        <li>
+        <a href="javascript:;" class="loadPage" data-url="${ctx}/member?cls=19"><i class="fa fa-hand-o-right"></i>  已删除党员</a>
+      </li>
     </ul>
   </li>
         </shiro:hasPermission>

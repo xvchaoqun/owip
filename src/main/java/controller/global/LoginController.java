@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
@@ -20,8 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     @RequestMapping(value = "/login")
-    public String showLoginForm(HttpServletRequest request, Model model) {
+    public String login(HttpServletRequest request, Model model) {
 
         String ex = (String)request.getAttribute("shiroLoginFailure");
         String error = null;
@@ -38,5 +40,13 @@ public class LoginController {
         model.addAttribute("error", error);
 
         return "login";
+    }
+
+    @RequestMapping(value = "/logout_quiet")
+    @ResponseBody
+    public void logout_quiet(HttpServletRequest request, Model model) {
+
+        request.getSession().invalidate();
+        ShiroHelper.logout();
     }
 }

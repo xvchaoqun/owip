@@ -79,9 +79,6 @@
         <columnOverride column="remark" jdbcType="VARCHAR"/>
         </table>-->
 
-        <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
-        </table>-->
-
         <!--<table tableName="ow_member" domainObjectName="member.Member">
              <ignoreColumn column="update_time"/>
              <columnOverride column="profile" jdbcType="VARCHAR"></columnOverride>

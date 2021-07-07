@@ -78,7 +78,7 @@ public class BranchService extends BaseMapper {
                 "ow_member_in", "ow_member_inflow",
                 /*"ow_member_in_modify", "ow_member_modify",*/
                 "ow_member_out", "ow_member_outflow", "ow_member_quit",
-                "ow_member_return", "ow_member_transfer", "ow_org_admin"/*, "ow_retire_apply"*/};
+                "ow_member_return", "ow_member_transfer", "ow_org_admin"};
 
         for (String tableName : tableNameList) {
 

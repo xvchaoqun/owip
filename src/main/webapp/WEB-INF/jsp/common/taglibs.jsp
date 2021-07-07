@@ -30,7 +30,7 @@
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
 <fmt:message key="global.session.timeout" bundle="${spring}" var="_global_session_timeout"/>
-
+<c:set var="_defaultTimeOut" value="${not empty _sysConfig.loginTimeout?_sysConfig.loginTimeout:cm:stripTrailingZeros(_global_session_timeout/(60*1000))}"/>
 <c:set value="${_pMap['siteHome']}" var="_p_siteHome"/>
 <c:set value="${_pMap['host']}" var="_p_host"/>
 <c:set value="${_pMap['hideHelp']=='true'}" var="_p_hideHelp"/>

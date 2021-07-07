@@ -14,7 +14,6 @@ import service.party.PartyMemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.OwConstants;
-import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.lang.reflect.InvocationTargetException;
@@ -54,8 +53,7 @@ public class PartyHelper {
 
     public static Boolean hasBranchAuth(Integer userId, Integer partyId, Integer branchId) {
 
-        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL)
-                || partyMemberService.isPresentAdmin(userId, partyId))
+        if (partyMemberService.isPresentAdmin(userId, partyId))
             return true;
 
         return branchMemberService.isPresentAdmin(userId, partyId, branchId);

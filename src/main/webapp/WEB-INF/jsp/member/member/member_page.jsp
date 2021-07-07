@@ -118,7 +118,7 @@
                                 <shiro:hasPermission name="member:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/member_batchDel" data-title="删除"
-                                       data-msg="确定删除这{0}位党员吗？<br/>（相关党员数据将全部删除，请谨慎操作！）"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}位党员吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </c:if>
                         </div>

@@ -19,6 +19,7 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请输入账号或姓名或学工号">
 						<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 					</select>
+						<span class="help-inline">注：此处从党员库中查找，请确认您是基层党组织或党支部管理员</span>
 					</c:if>
 					<c:if test="${pmdFee!=null}">
 						<input type="hidden" name="userId" value="${pmdFee.userId}">

@@ -134,6 +134,7 @@
             <value>
                 /test/** = authc, currentUser, roles[admin]
                 /page/** = anon
+                /logout_quiet = anon
 
                 /mobile/fonts/** = anon
                 /mobile/js/** = anon

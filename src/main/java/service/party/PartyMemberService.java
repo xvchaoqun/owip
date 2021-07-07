@@ -191,15 +191,15 @@ public class PartyMemberService extends BaseMapper {
     // 查询用户是否是现任分党委、党总支、直属党支部班子的管理员
     public boolean isPresentAdmin(Integer userId, Integer partyId) {
 
+        if (CmTag.userIsPermitted(userId, RoleConstants.PERMISSION_PARTYVIEWALL))
+            return true;
+
         if (userId == null || partyId == null) return false;
 
         return partyAdminService.adminParty(userId, partyId);
     }
 
     public boolean hasAdminAuth(Integer userId, Integer partyId) {
-
-        if (ShiroHelper.isPermitted(RoleConstants.PERMISSION_PARTYVIEWALL))
-            return true;
 
         return isPresentAdmin(userId, partyId);
     }

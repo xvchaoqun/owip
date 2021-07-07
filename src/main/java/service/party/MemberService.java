@@ -199,7 +199,7 @@ public class MemberService extends MemberBaseMapper {
         sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
 
         // 记录修改日志
-        addModify(userId, remark);
+        addModify(userId, StringUtils.defaultIfBlank(remark, "添加/更新"));
 
         return isAdd;
     }
@@ -284,6 +284,7 @@ public class MemberService extends MemberBaseMapper {
         }
     }
 
+    // 批量删除（假删除）
     @Transactional
     public void batchDel(Integer[] userIds, boolean denyApply) {
 
@@ -297,7 +298,10 @@ public class MemberService extends MemberBaseMapper {
         {
             MemberExample example = new MemberExample();
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            memberMapper.deleteByExample(example);
+
+            Member record = new Member();
+            record.setStatus(MemberConstants.MEMBER_STATUS_DELETE);
+            memberMapper.updateByExampleSelective(record, example);
         }
 
         if (denyApply) {
@@ -308,45 +312,9 @@ public class MemberService extends MemberBaseMapper {
             }
         }
 
-        // 删除组织关系转出、出国党员暂留、校内转接、党员流出
-        {
-            MemberOutExample example = new MemberOutExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
-            if (memberOuts.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts, false)));
-                memberOutMapper.deleteByExample(example);
-            }
-        }
-        {
-            MemberStayExample example = new MemberStayExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
-            if (memberStays.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays, false)));
-                memberStayMapper.deleteByExample(example);
-            }
-        }
-        {
-            MemberTransferExample example = new MemberTransferExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
-            if (memberTransfers.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers, false)));
-                memberTransferMapper.deleteByExample(example);
-            }
-        }
-        {
-            MemberOutflowExample example = new MemberOutflowExample();
-            example.createCriteria().andUserIdIn(Arrays.asList(userIds));
-            List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
-            if (memberOutflows.size() > 0) {
-                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows, false)));
-                memberOutflowMapper.deleteByExample(example);
-            }
-        }
-
         for (Integer userId : userIds) {
+
+            addModify(userId, "删除");
             // 更新系统角色  党员->访客
             sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
         }

@@ -63,7 +63,7 @@
             <label class="col-xs-3 control-label">登录超时(单位分钟)</label>
             <div class="col-xs-6">
                 <input class="form-control digits" type="text" name="timeout" value="${sysUser.timeout}">
-                <span class="help-block">* 留空则使用系统默认的时间（${not empty _sysConfig.loginTimeout?_sysConfig.loginTimeout:cm:stripTrailingZeros(_global_session_timeout/(60*1000))}分钟）</span>
+                <span class="help-block">* 留空则使用系统默认的时间（${_defaultTimeOut}分钟）</span>
             </div>
         </div>
         <c:if test="${not empty sysUser}">

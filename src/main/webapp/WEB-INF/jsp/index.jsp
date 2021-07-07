@@ -286,6 +286,24 @@
             })
         })
     </shiro:lacksRole>
+
+    var showLoginAlert = false;
+    var lastOpTime = new Date().getTime();
+    var opTimeOut = ${empty _user.timeout?_defaultTimeOut:_user.timeout} * 60 * 1000;
+    $(document).mouseover(function(){
+        lastOpTime = new Date().getTime(); //更新操作时间
+    });
+    window.setInterval(function(){
+       var currentTime = new Date().getTime();
+       //console.log("==" + new Date().getTime())
+        if(!showLoginAlert && currentTime - lastOpTime > opTimeOut){
+            showLoginAlert = true;
+            $.get("${ctx}/logout_quiet");
+            SysMsg.warning("您因长时间未操作导致页面过期，请重新登录。", function(){
+                location.href="${ctx}/logout";
+            });
+        }
+    }, 1000);
 </script>
 <script src="${ctx}/assets/js/ace/elements.scroller.js"></script>
 <script type="text/javascript" src="${ctx}/js/echarts.min.js"></script>

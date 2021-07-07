@@ -84,6 +84,7 @@ public class MemberConstants {
     public final static byte MEMBER_STATUS_QUIT = 3; // 已减员
     public final static byte MEMBER_STATUS_OUT = 4; // 已转出
     public final static byte MEMBER_STATUS_STAY = 5; // 暂留
+    public final static byte MEMBER_STATUS_DELETE = 9; // 已删除
     public final static Map<Byte, String> MEMBER_STATUS_MAP = new LinkedHashMap<>();
 
     static {
@@ -92,6 +93,7 @@ public class MemberConstants {
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_QUIT, "已减员");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_OUT, "已转出");
         MEMBER_STATUS_MAP.put(MEMBER_STATUS_STAY, "暂留");
+        MEMBER_STATUS_MAP.put(MEMBER_STATUS_DELETE, "已删除");
     }
 
     // 党员来源

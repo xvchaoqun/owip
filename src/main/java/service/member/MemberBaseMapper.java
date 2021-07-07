@@ -3,7 +3,6 @@ package service.member;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.member.*;
-import persistence.party.RetireApplyMapper;
 import service.CoreBaseMapper;
 import shiro.ShiroHelper;
 import sys.helper.PartyHelper;
@@ -55,8 +54,6 @@ public class MemberBaseMapper extends CoreBaseMapper {
     protected MemberStayViewMapper memberStayViewMapper;
     @Autowired(required = false)
     protected MemberQuitMapper memberQuitMapper;
-    @Autowired(required = false)
-    protected RetireApplyMapper retireApplyMapper;
     @Autowired(required = false)
     protected ApplySnMapper applySnMapper;
     @Autowired(required = false)
