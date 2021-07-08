@@ -1,6 +1,6 @@
 package domain.party;
 
-import domain.member.MemberViewExample;
+import org.apache.commons.lang.StringEscapeUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 
@@ -370,7 +370,7 @@ public class PartyViewExample {
 
         public Criteria andNameLike(String value) {
             addCriterion(MessageFormat.format("(name like {0} or short_name like {0})",
-                    "'"+value + "%'"));
+                    "'"+ StringEscapeUtils.escapeSql(value) + "%'"));
             return (Criteria) this;
         }
 

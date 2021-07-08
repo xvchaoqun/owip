@@ -1,5 +1,6 @@
 package domain.party;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
@@ -307,7 +308,7 @@ public class BranchViewExample {
 
         public Criteria andNameLike(String value) {
             addCriterion(MessageFormat.format("(name like {0} or short_name like {0})",
-                    "'"+value + "%'"));
+                    "'"+ StringEscapeUtils.escapeSql(value) + "%'"));
             return (Criteria) this;
         }
 

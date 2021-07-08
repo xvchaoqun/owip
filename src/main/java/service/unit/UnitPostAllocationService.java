@@ -834,6 +834,8 @@ public class UnitPostAllocationService extends BaseMapper {
             if (unit.getStatus() == SystemConstants.UNIT_STATUS_RUN
                     && !(hasSetCpc && !_unitAdminLevelMap.containsKey(unitId))) {
 
+                if (unit.getNotStatPost()) continue;
+
                 UnitPostAllocationInfoBean bean = new UnitPostAllocationInfoBean();
                 bean.setUnit(unit);
 

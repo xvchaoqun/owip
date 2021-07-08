@@ -1,5 +1,6 @@
 package domain.member;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
@@ -2210,7 +2211,7 @@ public class MemberViewExample {
 
         public Criteria andUserLike(String search) {
             addCriterion(MessageFormat.format("(username like {0} or code like {0} or realname like {0})",
-                    "'"+search + "%'"));
+                    "'"+ StringEscapeUtils.escapeSql(search) + "%'"));
             return (Criteria) this;
         }
 

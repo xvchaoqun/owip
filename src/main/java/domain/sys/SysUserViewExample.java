@@ -1,5 +1,7 @@
 package domain.sys;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -945,7 +947,7 @@ public class SysUserViewExample {
 
         public SysUserViewExample.Criteria andUserLike(String search) {
             addCriterion(MessageFormat.format("(username like {0} or code like {0} or realname like {0})",
-                    "'"+search + "%'"));
+                    "'"+ StringEscapeUtils.escapeSql(search) + "%'"));
             return (SysUserViewExample.Criteria) this;
         }
 
