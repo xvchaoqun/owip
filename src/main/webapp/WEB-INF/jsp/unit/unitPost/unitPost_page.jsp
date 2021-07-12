@@ -60,11 +60,18 @@
                 <div class="btn-group">
                     <button data-toggle="dropdown"
                             data-rel="tooltip" data-placement="top" data-html="true"
-                            title="<div style='width:180px'>按指定条件进行批量排序</div>"
+                            title="批量操作"
                             class="btn btn-success btn-sm dropdown-toggle tooltip-success">
-                        <i class="fa fa-sort"></i> 批量排序 <span class="caret"></span>
+                        <i class="fa fa-sort"></i> 批量操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-success" role="menu">
+                        <c:if test="${cls==1}">
+                            <li>
+                                <a href="javascript:;" class="popupBtn"
+                                   data-url="${ctx}/unitPost_importCodes">
+                                    <i class="fa fa-refresh"></i> 批量更新岗位编码</a>
+                            </li>
+                        </c:if>
                         <li>
                             <a href="javascript:;" class="runBtn"
                                     data-url="${ctx}/unitPost_sortByCode?asc=1"

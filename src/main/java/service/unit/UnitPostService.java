@@ -8,6 +8,7 @@ import domain.dispatch.DispatchCadreView;
 import domain.dispatch.DispatchCadreViewExample;
 import domain.sys.SysUserView;
 import domain.unit.*;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -558,5 +559,49 @@ public class UnitPostService extends BaseMapper {
         List<UnitPostView> unitPosts = unitPostViewMapper.selectByExample(example);
 
         return unitPosts.stream().map(UnitPostView::getUnitId).collect(Collectors.toList());
+    }
+
+    // 批量导入更新岗位编码
+    @Transactional
+    public Map<String, Object> batchImportCodes(List<Map<Integer, String>> xlsRows) {
+
+        int success = 0;
+        int row = 1;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            row++;
+            String code = StringUtils.trim(xlsRow.get(0));
+            String newCode = StringUtils.trim(xlsRow.get(2));
+            if (StringUtils.isBlank(code) || StringUtils.isBlank(newCode)) {
+
+                throw new OpException("第{0}行数据有误[编码为空]", row);
+            }
+
+            UnitPost unitPost = findUnitPostByCode(code);
+            if (unitPost != null) {
+                UnitPost _unitPost = findUnitPostByCode(newCode);
+                if (_unitPost != null) {
+                    throw new OpException("第{0}行数据有误，编码重复[{1}]。", row, newCode);
+                }
+                UnitPost record = new UnitPost();
+                record.setId(unitPost.getId());
+                record.setCode(newCode);
+                unitPostMapper.updateByPrimaryKeySelective(record);
+                success++;
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        return resultMap;
+    }
+
+    public UnitPost findUnitPostByCode(String code) {
+
+        UnitPostExample example = new UnitPostExample();
+        example.createCriteria().andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL).andCodeEqualTo(code);
+        List<UnitPost> unitPosts = unitPostMapper.selectByExample(example);
+        if (unitPosts.size() > 0) return unitPosts.get(0);
+        return null;
     }
 }

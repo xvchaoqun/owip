@@ -1061,4 +1061,40 @@ public class UnitPostController extends BaseController {
 
         return "unit/unitPost/unitPost_label";
     }
+
+    // 批量导入更新岗位编码
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping("/unitPost_importCodes")
+    public String unitPost_importCodes() {
+
+        return "unit/unitPost/unitPost_importCodes";
+    }
+
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping(value = "/unitPost_importCodes", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_importCodes(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = ExcelUtils.getRowData(sheet);
+
+
+        Map<String, Object> retMap = unitPostService.batchImportCodes(xlsRows);
+        int successCount = (int) retMap.get("success");
+        int totalCount = xlsRows.size();
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", totalCount);
+
+        logger.info(log(LogConstants.LOG_ADMIN,
+                "批量更新岗位编码成功，总共{0}条记录，其中成功导入{1}条记录",
+                totalCount, successCount));
+
+        return resultMap;
+    }
 }
