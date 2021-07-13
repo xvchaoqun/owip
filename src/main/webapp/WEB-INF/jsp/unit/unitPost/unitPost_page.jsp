@@ -71,6 +71,7 @@
                                    data-url="${ctx}/unitPost_importCodes">
                                     <i class="fa fa-refresh"></i> 批量更新岗位编码</a>
                             </li>
+                            <li role="separator" class="divider"></li>
                         </c:if>
                         <li>
                             <a href="javascript:;" class="runBtn"

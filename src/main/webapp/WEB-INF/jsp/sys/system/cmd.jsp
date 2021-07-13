@@ -55,6 +55,11 @@
                                     <div class="cmd">tail -n20 /opt/logs/catalina.out</div>
                                     <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
                                 </div>
+                                <div class="sample">
+                                    <div class="label">删除ehcache文件缓存</div>
+                                    <div class="cmd">rm -rf ${_uploadPath}/ehcache</div>
+                                    <button class="cpBtn btn btn-xs btn-info"><i class="fa fa-copy"></i> 拷贝</button>
+                                </div>
                             </td>
                         </tr>
                     </table>

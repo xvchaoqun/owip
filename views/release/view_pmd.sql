@@ -51,12 +51,12 @@ group_concat(po_check.payer) as payer, group_concat(po_check.payername) as payer
 t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, po.create_time from
 (
 -- 本月正常缴费
-select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pmp.pay_time
+select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pmp.charge_party_id, pmp.charge_branch_id, pmp.pay_time
 from pmd_member pm, pmd_member_pay pmp, pmd_month m
 where  pm.month_id=m.id and pmp.member_id=pm.id and pm.is_online_pay=1 and pm.is_delay=0
 union all
 -- 往月延迟缴费
-select pmpv.order_no, m.id as pay_month_id, m.pay_month, pmpv.user_id, pmpv.order_user_id, pmpv.member_id, pmpv.real_pay, 1 as is_delay, pmpv.pay_time
+select pmpv.order_no, m.id as pay_month_id, m.pay_month, pmpv.user_id, pmpv.order_user_id, pmpv.member_id, pmpv.real_pay, 1 as is_delay, pmpv.charge_party_id, pmpv.charge_branch_id, pmpv.pay_time
 from pmd_member_pay_view pmpv, pmd_month m
 where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmpv.is_delay=1 and pmpv.is_online_pay=1
 ) t

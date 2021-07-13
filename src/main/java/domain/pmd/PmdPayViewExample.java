@@ -833,6 +833,126 @@ public class PmdPayViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andChargePartyIdIsNull() {
+            addCriterion("charge_party_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdIsNotNull() {
+            addCriterion("charge_party_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdEqualTo(Integer value) {
+            addCriterion("charge_party_id =", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdNotEqualTo(Integer value) {
+            addCriterion("charge_party_id <>", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdGreaterThan(Integer value) {
+            addCriterion("charge_party_id >", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("charge_party_id >=", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdLessThan(Integer value) {
+            addCriterion("charge_party_id <", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("charge_party_id <=", value, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdIn(List<Integer> values) {
+            addCriterion("charge_party_id in", values, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdNotIn(List<Integer> values) {
+            addCriterion("charge_party_id not in", values, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdBetween(Integer value1, Integer value2) {
+            addCriterion("charge_party_id between", value1, value2, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargePartyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("charge_party_id not between", value1, value2, "chargePartyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdIsNull() {
+            addCriterion("charge_branch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdIsNotNull() {
+            addCriterion("charge_branch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdEqualTo(Integer value) {
+            addCriterion("charge_branch_id =", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdNotEqualTo(Integer value) {
+            addCriterion("charge_branch_id <>", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdGreaterThan(Integer value) {
+            addCriterion("charge_branch_id >", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("charge_branch_id >=", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdLessThan(Integer value) {
+            addCriterion("charge_branch_id <", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("charge_branch_id <=", value, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdIn(List<Integer> values) {
+            addCriterion("charge_branch_id in", values, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdNotIn(List<Integer> values) {
+            addCriterion("charge_branch_id not in", values, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdBetween(Integer value1, Integer value2) {
+            addCriterion("charge_branch_id between", value1, value2, "chargeBranchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChargeBranchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("charge_branch_id not between", value1, value2, "chargeBranchId");
+            return (Criteria) this;
+        }
+
         public Criteria andPayTimeIsNull() {
             addCriterion("pay_time is null");
             return (Criteria) this;

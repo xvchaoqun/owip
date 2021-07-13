@@ -31,11 +31,11 @@
                domainObjectName="pmd.PmdOrder" mapperName="pmd.PmdOrderMapper">
              <columnOverride column="params" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="pmd_fee"
+        <!--<table tableName="pmd_fee"
                domainObjectName="pmd.PmdFee" mapperName="pmd.PmdFeeMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="pmd_order_item"
                domainObjectName="pmd.PmdOrderItem" mapperName="pmd.PmdOrderItemMapper">
         </table>-->
@@ -128,13 +128,16 @@
             <columnOverride column="delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="history_delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <!--<table tableName="pmd_pay_view"
+        <table tableName="pmd_pay_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="pmd.PmdPayView" mapperName="pmd.PmdPayViewMapper">
             <columnOverride column="is_delay"  javaType="Boolean"></columnOverride>
-        </table>-->
+            <columnOverride column="real_order_no" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="payer" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="payername" jdbcType="VARCHAR"></columnOverride>
+        </table>
 
     </context>
 </generatorConfiguration>

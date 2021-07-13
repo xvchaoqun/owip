@@ -13,6 +13,8 @@
     <result column="member_id" jdbcType="INTEGER" property="memberId" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="is_delay" jdbcType="BIGINT" property="isDelay" />
+    <result column="charge_party_id" jdbcType="INTEGER" property="chargePartyId" />
+    <result column="charge_branch_id" jdbcType="INTEGER" property="chargeBranchId" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -51,8 +53,8 @@
   </sql>
   <sql id="Base_Column_List">
     real_order_no, payer, payername, order_no, pay_month_id, pay_month, user_id, order_user_id, 
-    member_id, real_pay, is_delay, pay_time, code, realname, order_code, order_realname, 
-    create_time
+    member_id, real_pay, is_delay, charge_party_id, charge_branch_id, pay_time, code, 
+    realname, order_code, order_realname, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdPayViewExample" resultMap="BaseResultMap">
     select

@@ -17,7 +17,14 @@
 
     }, frozen:true},
     /*{ label: '报表',name: '_table', frozen: true},*/
-
+    { label: '线上缴费<br/>明细',name: '_table', width:90, frozen: true, formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.hasReport){
+        return ('<button class="downloadBtn btn btn-warning btn-xs" ' +
+        'data-url="${ctx}/pmd/pmdOw_pay_export?pmdBranchId={0}&monthId={1}"><i class="fa fa-file-excel-o"></i> 明细</button>')
+                .format(rowObject.id, rowObject.monthId);
+      }
+      return '--'
+    }},
     { label: '详情',name: '_members', width:80, formatter: function (cellvalue, options, rowObject) {
       <c:if test="${cls==1}">
       return ('<button class="openView btn btn-primary btn-xs" ' +

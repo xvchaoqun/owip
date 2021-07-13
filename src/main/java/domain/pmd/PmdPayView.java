@@ -27,6 +27,10 @@ public class PmdPayView implements Serializable {
 
     private Boolean isDelay;
 
+    private Integer chargePartyId;
+
+    private Integer chargeBranchId;
+
     private Date payTime;
 
     private String code;
@@ -127,6 +131,22 @@ public class PmdPayView implements Serializable {
 
     public void setIsDelay(Boolean isDelay) {
         this.isDelay = isDelay;
+    }
+
+    public Integer getChargePartyId() {
+        return chargePartyId;
+    }
+
+    public void setChargePartyId(Integer chargePartyId) {
+        this.chargePartyId = chargePartyId;
+    }
+
+    public Integer getChargeBranchId() {
+        return chargeBranchId;
+    }
+
+    public void setChargeBranchId(Integer chargeBranchId) {
+        this.chargeBranchId = chargeBranchId;
     }
 
     public Date getPayTime() {

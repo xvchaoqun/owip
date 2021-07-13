@@ -18,10 +18,12 @@
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/leaderInfo?status=${CADRE_STATUS_LEADER}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER)}</a>
                         </li>
+                        <shiro:lacksPermission name="hide:cadreLeave">
                         <li class="<c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">active</c:if>">
                             <a href="javascript:;" class="loadPage" data-url="${ctx}/leaderInfo?status=${CADRE_STATUS_LEADER_LEAVE}"><i
                                     class="fa fa-flag"></i> ${CADRE_STATUS_MAP.get(CADRE_STATUS_LEADER_LEAVE)}</a>
                         </li>
+                        </shiro:lacksPermission>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                             <a class="popupBtn btn btn-danger btn-sm"
                                data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
