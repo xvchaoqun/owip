@@ -1,0 +1,128 @@
+
+=== 清空党费收缴数据
+SET FOREIGN_KEY_CHECKS=0;
+truncate pmd_branch;
+-- truncate pmd_branch_admin;
+truncate pmd_member;
+truncate pmd_member_pay;
+truncate pmd_month;
+truncate pmd_party;
+-- truncate pmd_party_admin;
+truncate pmd_pay_branch;
+truncate pmd_pay_party;
+truncate pmd_config_member;
+SET FOREIGN_KEY_CHECKS=1;
+===
+
+-- 清空某月的党费收缴数据
+set @month = '201807';
+select id from pmd_month where date_format(pay_month, '%Y%m')=@month into @monthId;
+delete from pmd_branch where month_id=@monthId;
+delete pmp.* from pmd_member_pay pmp, pmd_member pm where pmp.member_id=pm.id and pm.month_id=@monthId ;
+delete from  pmd_member where month_id=@monthId;
+delete from pmd_party  where month_id=@monthId;
+delete from  pmd_pay_branch  where month_id=@monthId;
+delete from  pmd_pay_party  where month_id=@monthId;
+delete from  pmd_month where id=@monthId;
+
+
+== 清空党代会，除管理员、当前党代会设置两表外
+SET FOREIGN_KEY_CHECKS=0;
+
+truncate pcs_admin_report;
+truncate pcs_candidate;
+truncate pcs_candidate_chosen;
+truncate pcs_issue;
+truncate pcs_proposal;
+truncate pcs_pr_allocate;
+truncate pcs_pr_candidate;
+truncate pcs_pr_recommend;
+truncate pcs_recommend;
+
+SET FOREIGN_KEY_CHECKS=1;
+====
+
+== 清空三下三上===
+delete from pcs_pr_file;
+update pcs_pr_candidate set mobile=null,email=null,vote3=null,is_chosen=null,realname_sort_order=null;
+delete from pcs_pr_recommend where stage=3;
+============
+
+== 清空两委的三下三上数据（回退到下发三下名单前的状态）
+delete from pcs_candidate where config_id=1 and stage=3;
+delete from pcs_recommend where config_id=1 and stage=3;
+delete from pcs_admin_report where config_id=1 and stage=3;
+delete from pcs_candidate_chosen where config_id=1 and stage=2;
+delete from pcs_issue where config_id=1 and stage=2;
+==
+
+SET FOREIGN_KEY_CHECKS=0;
+truncate base_cadre;
+
+truncate base_dispatch;
+truncate base_dispatch_cadre;
+truncate base_dispatch_unit;
+truncate base_dispatch_unit_relate;
+truncate base_history_unit;
+truncate base_leader;
+truncate base_leader_unit;
+
+truncate base_table;
+truncate base_table_column;
+truncate base_unit;
+truncate base_unit_cadre_transfer;
+truncate base_unit_cadre_transfer_group;
+truncate base_unit_cadre_transfer_item;
+truncate base_unit_transfer;
+truncate base_unit_transfer_item;
+
+truncate ow_apply_log;
+truncate ow_apply_open_time;
+truncate ow_branch;
+truncate ow_branch_member;
+truncate ow_branch_member_group;
+truncate ow_member;
+truncate ow_member_apply;
+truncate ow_member_student;
+truncate ow_member_teacher;
+truncate ow_party;
+truncate ow_party_member;
+truncate ow_party_member_group;
+truncate ow_student;
+truncate ow_teacher;
+truncate sys_log;
+truncate sys_login_log;
+SET FOREIGN_KEY_CHECKS=1;
+
+
+#######清空因私出国境数据步骤：
+
+    TRUNCATE `abroad_passport_draw_file`;
+
+    delete from abroad_passport_draw;
+
+    delete from abroad_passport where apply_id >0;
+
+    delete from abroad_passport_apply;
+
+    TRUNCATE `abroad_approval_log`;
+
+    delete from abroad_apply_self;
+
+###############################
+
+-- 更正家庭成员排序
+select id,cadre_id from cadre_family where status=0 and sort_order is null;
+update cadre_family set sort_order=id where status=0 and sort_order is null;
+-- 查重
+select cadre_id, sort_order, count(*) from cadre_family where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1;
+
+-- 更正课程排序
+select id,cadre_id from cadre_course where status=0 and sort_order is null;
+update cadre_course set sort_order=id where status=0 and sort_order is null;
+select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1;
+
+update cadre_course c,
+(
+select cadre_id, sort_order, count(*) from cadre_course where status=0 and sort_order is not null group by cadre_id, sort_order having count(*)>1
+)t set c.sort_order=c.id where c.cadre_id=t.cadre_id and c.sort_order=t.sort_order and c.status=0;
